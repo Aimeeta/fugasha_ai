@@ -5,10 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>風雅舎 | 無駄をなくして、熱中を取り戻す。</title>
   <meta name="description" content="AI × デザイン × マーケティングで、あなたの会社の「詰まり」を取り除きます。Less friction. More you.">
+  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="風雅舎 | 無駄をなくして、熱中を取り戻す。">
+  <meta property="og:description" content="AI × デザイン × マーケティングで、あなたの会社の「詰まり」を取り除きます。Less friction. More you.">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/">
+  <meta property="og:site_name" content="風雅舎">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="風雅舎 | 無駄をなくして、熱中を取り戻す。">
+  <meta name="twitter:description" content="AI × デザイン × マーケティングで、あなたの会社の「詰まり」を取り除きます。">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23d97706'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='serif'>風</text></svg>">
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/tabler-icons.min.css">
   <style>
     :root {
       --bg: #f0ece4;
@@ -16,15 +28,21 @@
       --fg: #1c1917;
       --fg2: #44403c;
       --muted: #78716c;
-      --hint: #a8a29e;
+      --hint: #8c847e;        /* 旧 #a8a29e → コントラスト改善 */
       --amber: #d97706;
       --purple: #8b5cf6;
       --teal: #14b8a6;
       --rose: #f43f5e;
-      --glass: rgba(255,255,255,0.45);
-      --gb: rgba(255,255,255,0.72);
-      --font-sans: 'Inter', 'Noto Sans JP', sans-serif;
+      --glass: rgba(255,255,255,0.5);
+      --gb: rgba(28,25,23,0.1);   /* 旧 rgba(255,255,255,0.72) → 可視化 */
+      --font-sans: 'Noto Sans JP', 'Inter', sans-serif;   /* 日本語優先 */
+      --font-serif: 'Shippori Mincho', 'Georgia', serif;
       --font-mono: 'JetBrains Mono', monospace;
+      /* Radius tokens */
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 16px;
+      --r-pill: 99px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,7 +50,7 @@
 
     body {
       font-family: var(--font-sans);
-      background: var(--bg);
+      background: #e8e3db;   /* プレートが浮いて見えるよう少し暗く */
       color: var(--fg);
       overflow-x: hidden;
       cursor: none;
@@ -65,24 +83,34 @@
     /* ── Progress bar ── */
     .pb {
       position: fixed; top: 0; left: 0; height: 2px;
-      background: linear-gradient(90deg, var(--amber), var(--purple), var(--teal));
+      background: var(--teal);   /* アンバーをCTA専用に守る */
       z-index: 10001; width: 0%; transition: width .1s linear;
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+      html { scroll-behavior: auto; }
     }
 
     /* ── Navigation ── */
     .nav {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 15px 40px; position: sticky; top: 0; z-index: 1000;
-      background: rgba(240,236,228,.9); border-bottom: .5px solid rgba(28,25,23,.08);
+      padding: 14px 40px; position: sticky; top: 0; z-index: 1000;
+      background: rgba(240,236,228,.92); border-bottom: .5px solid rgba(28,25,23,.08);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       transition: box-shadow .3s;
     }
     .nav.sc { box-shadow: 0 1px 20px rgba(28,25,23,.07); }
-    .nav-logo { font-size: 15px; font-weight: 500; letter-spacing: .06em; cursor: pointer; }
+    .nav-logo { font-family: var(--font-serif); font-size: 16px; font-weight: 500; letter-spacing: .06em; cursor: pointer; }
     .nav-right { display: flex; align-items: center; gap: 24px; }
     .nav-link {
-      font-size: 12px; color: var(--muted); cursor: pointer; letter-spacing: .04em;
+      font-size: 13px; color: var(--muted); cursor: pointer; letter-spacing: .06em;
       transition: color .2s; position: relative; text-decoration: none;
+      padding: 6px 0; min-height: 44px; display: inline-flex; align-items: center;
     }
     .nav-link::after {
       content: ''; position: absolute; bottom: -2px; left: 0;
@@ -92,16 +120,17 @@
     .nav-link:hover::after { width: 100%; }
     .nav-langs { display: flex; gap: 4px; }
     .lang {
-      font-size: 11px; padding: 3px 8px; border-radius: 4px; color: var(--hint);
+      font-size: 11px; padding: 3px 8px; border-radius: var(--r-sm); color: var(--hint);
       cursor: pointer; transition: color .2s, background .2s;
     }
     .lang.active { color: var(--fg); background: rgba(28,25,23,.06); }
     .nav-cta {
-      font-size: 12px; padding: 8px 18px; border-radius: 6px;
+      font-size: 13px; padding: 8px 18px; border-radius: var(--r-sm);
       background: var(--amber); color: #fff; cursor: pointer; font-weight: 500;
       transition: transform .2s, box-shadow .2s; border: none;
     }
     .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(217,119,6,.35); }
+    .nav-cta:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
 
     /* ── Hero ── */
     .hero {
@@ -122,6 +151,13 @@
       width: 5px; height: 5px; border-radius: 50%; background: #dc2626;
       animation: pulse 1.2s infinite;
     }
+    .h-empathy {
+      font-size: clamp(14px, 1.8vw, 17px); color: var(--muted); line-height: 1.75;
+      margin-bottom: 20px; font-weight: 300; letter-spacing: .01em;
+      opacity: 0; transform: translateY(12px);
+      transition: all .75s cubic-bezier(.16,1,.3,1) .05s;
+      font-style: italic;
+    }
     .h-badge {
       display: inline-flex; align-items: center; gap: 7px; font-size: 11px;
       padding: 5px 15px; border-radius: 99px; background: var(--glass); color: var(--fg2);
@@ -137,12 +173,13 @@
       50% { opacity: .4; transform: scale(.7); }
     }
     .h-h1 {
-      font-size: 42px; font-weight: 500; line-height: 1.18; margin-bottom: 12px;
+      font-family: var(--font-serif);
+      font-size: clamp(34px, 5vw, 48px); font-weight: 600; line-height: 1.2; margin-bottom: 14px;
       opacity: 0; transform: translateY(20px);
       transition: all .9s cubic-bezier(.16,1,.3,1) .15s;
     }
     .h-en {
-      font-size: 18px; letter-spacing: .1em; color: var(--muted); margin-bottom: 28px;
+      font-size: clamp(13px, 1.6vw, 16px); letter-spacing: .12em; color: var(--hint); margin-bottom: 30px;
       opacity: 0; transition: all .6s ease .3s; font-weight: 400;
     }
     .h-actions {
@@ -150,16 +187,18 @@
       opacity: 0; transition: all .6s ease .45s; flex-wrap: wrap;
     }
     .btn-amber {
-      display: inline-flex; align-items: center; gap: 9px; font-size: 14px;
-      padding: 14px 28px; border-radius: 8px; background: var(--amber); color: #fff;
+      display: inline-flex; align-items: center; gap: 9px; font-size: 15px;
+      padding: 16px 32px; border-radius: var(--r-sm); background: var(--amber); color: #fff;
       cursor: pointer; font-weight: 600; border: none;
       transition: transform .2s, box-shadow .2s;
       box-shadow: 0 4px 16px rgba(217,119,6,.3);
+      min-height: 52px;
     }
     .btn-amber:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217,119,6,.4); }
+    .btn-amber:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
     .btn-amber .arr { transition: transform .2s; display: inline-block; }
     .btn-amber:hover .arr { transform: translateX(3px); }
-    .h-line-sub { font-size: 11px; color: var(--hint); margin-top: 10px; opacity: 0; transition: all .6s ease .6s; }
+    .h-line-sub { font-size: 12px; color: var(--hint); margin-top: 10px; opacity: 0; transition: all .6s ease .6s; }
 
     /* scroll hint */
     .scroll-hint {
@@ -176,6 +215,7 @@
       55% { opacity: .8; transform: scaleY(1); }
     }
     .scroll-hint-txt { font-size: 9px; letter-spacing: .12em; color: var(--hint); }
+    .scroll-hint { z-index: 3; }
 
     /* hero right */
     .hero-right {
@@ -199,9 +239,9 @@
     .hdy { width: 9px; height: 9px; border-radius: 50%; background: #f59e0b; opacity: .55; }
     .hdg { width: 9px; height: 9px; border-radius: 50%; background: #22c55e; opacity: .55; }
     .h-stream-body { padding: 13px 15px; }
-    .h-stxt { font-size: 11px; line-height: 1.9; color: var(--fg2); min-height: 88px; font-family: var(--font-mono); }
+    .h-stxt { font-size: 13px; line-height: 1.9; color: var(--fg2); min-height: 88px; font-family: var(--font-mono); }
     .cur {
-      display: inline-block; width: 2px; height: 12px; background: var(--amber);
+      display: inline-block; width: 2px; height: 13px; background: var(--amber);
       margin-left: 1px; animation: blink .75s infinite; vertical-align: text-bottom;
     }
     @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
@@ -216,9 +256,17 @@
 
     /* ── Tools ── */
     .sec-tools {
-      padding: 28px 40px; background: rgba(255,255,255,.55);
-      border-bottom: .5px solid rgba(255,255,255,.6); backdrop-filter: blur(10px);
+      padding: 28px 40px;
+      background: rgba(255,255,255,.75);
+      border-radius: 20px;
+      margin: 0 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 1px 24px rgba(28,25,23,.05);
+      opacity: 0;
+      transform: translateY(32px) scale(.99);
+      transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
     }
+    .sec-tools.visible { opacity: 1; transform: none; }
     .tools-lbl { font-size: 9px; letter-spacing: .18em; color: var(--hint); text-align: center; margin-bottom: 14px; }
     .tools-row { display: flex; align-items: center; justify-content: center; gap: 7px; flex-wrap: wrap; }
     .tp {
@@ -242,63 +290,110 @@
     .t-fi  { background: #f24e1e; color: #fff; }
 
     /* ── Sections ── */
-    .sec { padding: 76px 40px; position: relative; overflow: hidden; }
-    .sec-light { background: linear-gradient(160deg, var(--bg), var(--bg2)); }
-    .sec-white { background: rgba(255,255,255,.65); backdrop-filter: blur(8px); }
-    .sec-dark  { background: #1c1917; }
-    .topline { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,transparent,var(--amber) 30%,var(--purple) 60%,var(--teal) 80%,transparent); }
-    .s-lbl { font-size: 9px; letter-spacing: .18em; color: var(--hint); margin-bottom: 10px; opacity: 0; transform: translateY(8px); transition: all .6s ease; }
-    .s-h2 { font-size: 30px; font-weight: 500; line-height: 1.35; margin-bottom: 6px; color: var(--fg); opacity: 0; transform: translateY(12px); transition: all .75s cubic-bezier(.16,1,.3,1) .08s; }
-    .s-h2-l { color: var(--bg); }
-    .s-desc { font-size: 13px; color: var(--muted); margin-bottom: 36px; opacity: 0; transition: all .6s ease .16s; line-height: 1.75; max-width: 500px; }
+    /* セクション自体を角丸プレートとして扱う */
+    .sec {
+      padding: 96px 40px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      margin: 0 12px;
+      /* 初期状態：下にあって、少し小さく、奥にある */
+      opacity: 0;
+      transform: translateY(60px) scale(.98);
+      transition:
+        opacity .85s cubic-bezier(.16,1,.3,1),
+        transform .85s cubic-bezier(.16,1,.3,1);
+      will-change: transform, opacity;
+    }
+    .sec.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    /* Hero・darkセクションは角丸なし（全幅デザイン） */
+    .hero, .sec-dark { border-radius: 0; margin: 0; }
+    .sec-dark {
+      background: #1c1917;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
+    }
+    .sec-dark.visible { opacity: 1; transform: none; }
 
-    /* glass cards */
+    .sec-light { background: linear-gradient(160deg, var(--bg), var(--bg2)); }
+    .sec-white {
+      background: #fff;
+      box-shadow: 0 2px 40px rgba(28,25,23,.06), 0 1px 0 rgba(28,25,23,.05);
+    }
+    .topline { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,transparent,var(--teal) 40%,transparent); border-radius: 28px 28px 0 0; }
+    .s-lbl { font-size: 10px; letter-spacing: .12em; color: var(--hint); margin-bottom: 10px; opacity: 0; transform: translateY(8px); transition: all .6s ease; }
+    .s-h2 { font-family: var(--font-serif); font-size: clamp(24px, 3.5vw, 34px); font-weight: 500; line-height: 1.4; margin-bottom: 10px; color: var(--fg); opacity: 0; transform: translateY(12px); transition: all .75s cubic-bezier(.16,1,.3,1) .08s; }
+    .s-h2-l { color: var(--bg); }
+    .s-desc--em { font-style: italic; color: var(--fg2); }
+    .s-desc { font-size: 15px; color: var(--muted); margin-bottom: 36px; opacity: 0; transition: all .6s ease .16s; line-height: 1.85; }
+
+    /* ── Page layout: プレートのスタック感 ── */
+    .page-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px 0 40px;
+    }
+
+    /* page-stack内でdarkセクションを全幅に */
+    .page-stack .sec-dark {
+      margin-left: -12px;
+      margin-right: -12px;
+      border-radius: 0;
+    }
+    @media (max-width: 768px) {
+      .page-stack .sec-dark { margin-left: -6px; margin-right: -6px; }
+    }
     .glass-card { background: var(--glass); border: .5px solid var(--gb); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
 
     /* bento grid */
     .bento { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
     .bc {
-      border-radius: 18px; padding: 26px 22px; opacity: 0; transform: translateY(18px);
+      border-radius: var(--r-lg); padding: 26px 22px; opacity: 0; transform: translateY(18px);
       transition: all .65s cubic-bezier(.16,1,.3,1); position: relative; overflow: hidden; cursor: default;
     }
     .bc:hover { transform: translateY(-4px); }
     .bc-nb { font-size: 72px; font-weight: 500; position: absolute; bottom: -14px; right: 8px; line-height: 1; color: rgba(28,25,23,.04); font-family: var(--font-mono); pointer-events: none; }
-    .bc-lbl { font-size: 10px; letter-spacing: .1em; color: var(--hint); margin-bottom: 10px; font-family: var(--font-mono); }
-    .bc-t { font-size: 13px; font-weight: 500; color: var(--fg); line-height: 1.55; margin-bottom: 7px; }
-    .bc-b { font-size: 11px; color: var(--muted); line-height: 1.75; }
+    .bc-lbl { font-size: 10px; letter-spacing: .12em; color: var(--hint); margin-bottom: 10px; font-family: var(--font-mono); }
+    .bc-t { font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.55; margin-bottom: 8px; }
+    .bc-b { font-size: 13px; color: var(--muted); line-height: 1.85; }
 
     /* services */
     .svc-bento { display: grid; grid-template-columns: 1.2fr .8fr; gap: 12px; }
     .sv {
-      border-radius: 18px; padding: 26px 22px; opacity: 0; transform: translateY(14px);
+      border-radius: var(--r-lg); padding: 26px 22px; opacity: 0; transform: translateY(14px);
       transition: all .55s cubic-bezier(.16,1,.3,1); position: relative; overflow: hidden; cursor: default;
     }
     .sv:hover { transform: translateY(-4px); }
-    .sv-ln { position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+    .sv-ln { position: absolute; top: 0; left: 0; right: 0; height: 2px; border-radius: var(--r-lg) var(--r-lg) 0 0; }
     .sv1 .sv-ln { background: linear-gradient(90deg, var(--amber), #f59e0b); }
     .sv2 .sv-ln { background: linear-gradient(90deg, var(--purple), #a78bfa); }
     .sv3 .sv-ln { background: linear-gradient(90deg, var(--teal), #34d399); }
     .sv4 .sv-ln { background: linear-gradient(90deg, var(--rose), #fb7185); }
     .sv-wide { grid-column: 1 / -1; }
     .sv-ic { font-size: 20px; color: var(--muted); margin-bottom: 10px; margin-top: 6px; }
-    .sv-t { font-size: 13px; font-weight: 500; color: var(--fg); margin-bottom: 5px; }
-    .sv-b { font-size: 11px; color: var(--hint); line-height: 1.65; }
+    .sv-t { font-size: 14px; font-weight: 500; color: var(--fg); margin-bottom: 6px; }
+    .sv-b { font-size: 13px; color: var(--hint); line-height: 1.75; }
 
     /* cases */
     .cases { display: flex; flex-direction: column; gap: 12px; }
     .case {
-      padding: 22px 26px; border-radius: 16px; opacity: 0; transform: translateY(14px);
+      padding: 22px 26px; border-radius: var(--r-lg); opacity: 0; transform: translateY(14px);
       transition: all .6s cubic-bezier(.16,1,.3,1); cursor: default;
     }
-    .case:hover { transform: translateY(-3px); }
+    .case:hover { transform: translateY(-4px); }
     .case-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-    .case-tag { font-size: 10px; padding: 3px 10px; border-radius: 99px; font-weight: 500; }
+    .case-tag { font-size: 10px; padding: 3px 10px; border-radius: var(--r-pill); font-weight: 500; letter-spacing: .06em; }
     .tag-a { background: rgba(217,119,6,.1); color: #92400e; }
     .tag-p { background: rgba(139,92,246,.1); color: #6d28d9; }
     .tag-t { background: rgba(20,184,166,.1); color: #0f766e; }
-    .case-co { font-size: 11px; color: var(--hint); }
-    .case-body { font-size: 13px; color: var(--fg2); line-height: 1.7; margin-bottom: 10px; }
-    .case-result { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--fg); font-weight: 500; }
+    .case-co { font-size: 11px; color: var(--hint); letter-spacing: .06em; }
+    .case-body { font-size: 14px; color: var(--fg2); line-height: 1.8; margin-bottom: 12px; }
+    .case-result { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--fg); font-weight: 500; }
     .case-arrow { color: var(--teal); }
 
     /* vision */
@@ -309,59 +404,62 @@
     .vob3 { width: 180px; height: 180px; top: 35%; left: 35%; background: radial-gradient(circle,rgba(20,184,166,.08) 0%,transparent 65%); animation-delay: 1.2s; }
     @keyframes vorbanim { 0%,100% { transform: scale(1) translate(0,0); } 50% { transform: scale(1.1) translate(12px,-10px); } }
     .vis-c { position: relative; z-index: 2; text-align: center; }
-    .vtag { display: inline-block; font-size: 10px; letter-spacing: .12em; color: #57534e; border: .5px solid rgba(87,83,78,.3); padding: 4px 13px; border-radius: 4px; margin-bottom: 20px; font-family: var(--font-mono); opacity: 0; transform: translateY(8px); transition: all .6s ease; }
-    .vh2 { font-size: 30px; font-weight: 500; color: var(--bg); line-height: 1.55; max-width: 500px; margin: 0 auto 28px; opacity: 0; transform: translateY(14px); transition: all .75s cubic-bezier(.16,1,.3,1) .1s; }
+    .vtag { display: inline-block; font-size: 10px; letter-spacing: .12em; color: #57534e; border: .5px solid rgba(87,83,78,.3); padding: 4px 13px; border-radius: var(--r-sm); margin-bottom: 20px; font-family: var(--font-mono); opacity: 0; transform: translateY(8px); transition: all .6s ease; }
+    .vh2 { font-family: var(--font-serif); font-size: clamp(22px, 3vw, 32px); font-weight: 500; color: var(--bg); line-height: 1.6; max-width: 520px; margin: 0 auto 28px; opacity: 0; transform: translateY(14px); transition: all .75s cubic-bezier(.16,1,.3,1) .1s; }
     .vi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 520px; margin: 0 auto 32px; text-align: left; }
-    .vic { padding: 18px 20px; border-radius: 14px; opacity: 0; transform: translateY(12px); transition: all .55s cubic-bezier(.16,1,.3,1); cursor: default; }
-    .vic:hover { transform: translateY(-3px); }
-    .vic-n { font-size: 10px; color: #57534e; font-family: var(--font-mono); margin-bottom: 7px; }
-    .vic-t { font-size: 13px; color: rgba(240,236,228,.8); line-height: 1.65; }
+    .vic { padding: 18px 20px; border-radius: var(--r-md); opacity: 0; transform: translateY(12px); transition: all .55s cubic-bezier(.16,1,.3,1); cursor: default; }
+    .vic:hover { transform: translateY(-4px); }
+    .vic-n { font-size: 10px; color: #57534e; font-family: var(--font-mono); margin-bottom: 7px; letter-spacing: .12em; }
+    .vic-t { font-size: 15px; color: rgba(240,236,228,.92); line-height: 1.65; }
     .vic-bar { width: 26px; height: 2px; border-radius: 1px; margin-top: 10px; }
-    .vem { font-size: 20px; font-weight: 500; color: var(--bg); opacity: 0; transform: translateY(8px); transition: all .6s ease .4s; }
+    .vem { font-family: var(--font-serif); font-size: 22px; font-weight: 500; color: var(--bg); opacity: 0; transform: translateY(8px); transition: all .6s ease .4s; }
     .vis-cta { margin-top: 32px; opacity: 0; transition: opacity .6s ease .5s; }
     .vis-cta-btn {
-      display: inline-flex; align-items: center; gap: 9px; font-size: 13px;
-      padding: 13px 28px; border-radius: 8px; background: var(--amber); color: #fff;
-      cursor: pointer; font-weight: 600; border: none;
+      display: inline-flex; align-items: center; gap: 9px; font-size: 15px;
+      padding: 16px 32px; border-radius: var(--r-sm); background: var(--amber); color: #fff;
+      cursor: pointer; font-weight: 600; border: none; min-height: 52px;
       transition: transform .2s, box-shadow .2s; box-shadow: 0 4px 16px rgba(217,119,6,.3);
     }
     .vis-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217,119,6,.4); }
+    .vis-cta-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
 
     /* about */
     .ab-grid { display: grid; grid-template-columns: 1fr 1.7fr; gap: 44px; align-items: start; }
     .aph {
-      width: 100%; aspect-ratio: 3/4; border-radius: 18px; background: var(--glass);
+      width: 100%; aspect-ratio: 4/5; border-radius: var(--r-lg); background: var(--glass);
       border: .5px solid var(--gb); display: flex; align-items: center; justify-content: center;
       opacity: 0; transform: translateX(-14px); transition: all .8s cubic-bezier(.16,1,.3,1);
       backdrop-filter: blur(12px);
     }
-    .app { font-size: 10px; color: #c7c3bf; letter-spacing: .1em; }
+    .app { font-size: 10px; color: #c7c3bf; letter-spacing: .12em; }
     .ar { opacity: 0; transform: translateX(14px); transition: all .8s cubic-bezier(.16,1,.3,1) .15s; }
-    .albl { font-size: 9px; letter-spacing: .14em; color: var(--hint); margin-bottom: 12px; }
-    .ah2 { font-size: 22px; font-weight: 500; line-height: 1.5; margin-bottom: 13px; }
-    .ap { font-size: 13px; color: var(--muted); line-height: 1.9; margin-bottom: 9px; }
+    .albl { font-size: 10px; letter-spacing: .12em; color: var(--hint); margin-bottom: 12px; }
+    .ah2 { font-family: var(--font-serif); font-size: clamp(20px, 2.5vw, 26px); font-weight: 500; line-height: 1.55; margin-bottom: 16px; }
+    .ap { font-size: 15px; color: var(--muted); line-height: 1.95; margin-bottom: 12px; }
+    .ap--italic { color: var(--fg2); font-style: italic; }
     .crs { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 14px; }
-    .cr { font-size: 10px; padding: 3px 10px; border-radius: 5px; background: var(--glass); border: .5px solid var(--gb); color: var(--muted); backdrop-filter: blur(6px); transition: transform .2s; }
+    .cr { font-size: 11px; padding: 4px 12px; border-radius: var(--r-sm); background: var(--glass); border: .5px solid var(--gb); color: var(--muted); backdrop-filter: blur(6px); transition: transform .2s; }
     .cr:hover { transform: translateY(-2px); }
-    .ab-solo { margin-top: 16px; padding: 14px 18px; border-radius: 10px; background: rgba(217,119,6,.06); border: .5px solid rgba(217,119,6,.15); }
-    .ab-solo-title { font-size: 11px; font-weight: 500; color: var(--amber); margin-bottom: 6px; }
-    .ab-solo-body { font-size: 12px; color: var(--muted); line-height: 1.7; }
+    .ab-solo { margin-top: 20px; padding: 16px 20px; border-radius: var(--r-md); background: rgba(217,119,6,.06); border: .5px solid rgba(217,119,6,.18); }
+    .ab-solo-title { font-size: 12px; font-weight: 500; color: var(--amber); margin-bottom: 7px; }
+    .ab-solo-body { font-size: 14px; color: var(--muted); line-height: 1.85; }
 
     /* pricing */
-    .price-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .price-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
     .price-card {
-      padding: 28px 24px; border-radius: 18px; opacity: 0; transform: translateY(16px);
+      padding: 28px 24px; border-radius: var(--r-lg); opacity: 0; transform: translateY(16px);
       transition: all .6s cubic-bezier(.16,1,.3,1); position: relative; overflow: hidden; cursor: default;
     }
     .price-card:hover { transform: translateY(-4px); }
-    .price-card.featured { border: 1.5px solid var(--amber) !important; }
-    .price-badge { position: absolute; top: 14px; right: 14px; font-size: 9px; padding: 3px 8px; border-radius: 99px; background: rgba(217,119,6,.1); color: #92400e; letter-spacing: .06em; }
+    .price-card.featured { border: 2px solid var(--amber); background: rgba(217,119,6,.04); }
+    .price-badge { position: absolute; top: 14px; right: 14px; font-size: 10px; padding: 3px 10px; border-radius: var(--r-pill); letter-spacing: .06em; background: rgba(217,119,6,.1); color: #92400e; letter-spacing: .06em; }
     .price-label { font-size: 10px; letter-spacing: .12em; color: var(--hint); margin-bottom: 10px; }
-    .price-num { font-size: 26px; font-weight: 500; color: var(--fg); margin-bottom: 3px; line-height: 1; }
-    .price-unit { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
-    .price-desc { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 14px; }
-    .price-items { display: flex; flex-direction: column; gap: 6px; }
-    .pi { display: flex; align-items: flex-start; gap: 7px; font-size: 11px; color: var(--fg2); }
+    .price-num { font-size: 28px; font-weight: 500; color: var(--fg); margin-bottom: 4px; line-height: 1; }
+    .price-unit { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .price-suffix { font-size: 14px; color: var(--muted); font-weight: 400; }
+    .price-desc { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 14px; }
+    .price-items { display: flex; flex-direction: column; gap: 7px; }
+    .pi { display: flex; align-items: flex-start; gap: 7px; font-size: 13px; color: var(--fg2); }
     .pi-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 9px; }
     .pi-a { background: rgba(217,119,6,.12); color: var(--amber); }
     .pi-p { background: rgba(139,92,246,.12); color: var(--purple); }
@@ -369,16 +467,16 @@
 
     /* voices */
     .voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
-    .voice { padding: 22px 24px; border-radius: 16px; opacity: 0; transform: translateY(14px); transition: all .6s cubic-bezier(.16,1,.3,1); cursor: default; }
+    .voice { padding: 22px 24px; border-radius: var(--r-lg); opacity: 0; transform: translateY(14px); transition: all .6s cubic-bezier(.16,1,.3,1); cursor: default; }
     .voice:hover { transform: translateY(-3px); }
-    .voice-q { font-size: 18px; color: var(--amber); margin-bottom: 10px; }
-    .voice-txt { font-size: 13px; color: var(--fg2); line-height: 1.8; margin-bottom: 12px; }
-    .voice-from { font-size: 11px; color: var(--hint); display: flex; align-items: center; gap: 6px; }
+    .voice-q { font-size: 24px; color: var(--amber); margin-bottom: 10px; }
+    .voice-txt { font-size: 14px; color: var(--fg2); line-height: 1.85; margin-bottom: 14px; }
+    .voice-from { font-size: 12px; color: var(--hint); display: flex; align-items: center; gap: 6px; }
     .voice-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); }
 
     /* infog */
-    .ig-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 28px; }
-    .ig-card { padding: 26px 20px; border-radius: 18px; text-align: center; opacity: 0; transform: translateY(14px); transition: all .65s cubic-bezier(.16,1,.3,1); position: relative; overflow: hidden; cursor: default; }
+    .ig-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 28px; }
+    .ig-card { padding: 26px 20px; border-radius: var(--r-lg); text-align: center; opacity: 0; transform: translateY(14px); transition: all .65s cubic-bezier(.16,1,.3,1); position: relative; overflow: hidden; cursor: default; }
     .ig-card:hover { transform: translateY(-4px); }
     .ig-glow { position: absolute; top: -40px; left: 50%; transform: translateX(-50%); width: 130px; height: 130px; border-radius: 50%; pointer-events: none; }
     .ga { background: radial-gradient(circle,rgba(217,119,6,.16) 0%,transparent 70%); }
@@ -394,41 +492,73 @@
     .rf { fill: none; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 208; transition: stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1); }
     .ra { stroke: var(--amber); } .rp { stroke: var(--purple); } .rt { stroke: var(--teal); }
     .rc { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; }
-    .ig-note { font-size: 10px; color: var(--hint); margin-top: 16px; text-align: center; }
-    .ig-note em { font-style: normal; background: rgba(217,119,6,.09); color: #92400e; padding: 2px 6px; border-radius: 3px; font-family: var(--font-mono); font-size: 9px; }
+    .ig-note { font-size: 12px; color: var(--muted); margin-top: 20px; text-align: center; line-height: 1.8; }
 
     /* CTA */
     .cta-c { position: relative; z-index: 2; text-align: center; }
     .cta-star { font-size: 28px; display: block; margin-bottom: 14px; animation: float 3s ease-in-out infinite; color: var(--bg); opacity: .55; }
     @keyframes float { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-10px) rotate(15deg); } }
-    .ch2 { font-size: 34px; font-weight: 500; line-height: 1.45; color: var(--bg); margin-bottom: 12px; opacity: 0; transform: translateY(14px); transition: all .75s cubic-bezier(.16,1,.3,1); }
-    .csub { font-size: 14px; color: #78716c; margin-bottom: 8px; opacity: 0; transform: translateY(9px); transition: all .6s ease .15s; }
-    .cq { font-size: 13px; color: #57534e; font-style: italic; margin-bottom: 28px; opacity: 0; transition: opacity .6s ease .25s; }
+    .ch2 { font-family: var(--font-serif); font-size: clamp(26px, 4vw, 38px); font-weight: 500; line-height: 1.45; color: var(--bg); margin-bottom: 14px; opacity: 0; transform: translateY(14px); transition: all .75s cubic-bezier(.16,1,.3,1); }
+    .csub { font-size: 16px; color: #a8a29e; margin-bottom: 8px; opacity: 0; transform: translateY(9px); transition: all .6s ease .15s; }
+    .cq { font-size: 14px; color: #57534e; font-style: italic; margin-bottom: 30px; opacity: 0; transition: opacity .6s ease .25s; }
     .cta-wrap { opacity: 0; transition: opacity .6s ease .35s; }
     .cta-btn-amber {
-      display: inline-flex; align-items: center; gap: 9px; font-size: 14px;
-      padding: 15px 36px; border-radius: 8px; background: var(--amber); color: #fff;
+      display: inline-flex; align-items: center; gap: 9px; font-size: 16px;
+      padding: 16px 40px; border-radius: var(--r-sm); background: var(--amber); color: #fff;
       cursor: pointer; font-weight: 600; border: none;
       transition: transform .2s, box-shadow .2s; box-shadow: 0 6px 20px rgba(217,119,6,.4);
+      min-height: 56px;
     }
     .cta-btn-amber:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(217,119,6,.5); }
+    .cta-btn-amber:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
     .cta-btn-amber .arr { transition: transform .2s; display: inline-block; }
     .cta-btn-amber:hover .arr { transform: translateX(4px); }
     .cta-process { display: flex; align-items: center; justify-content: center; gap: 0; margin-top: 24px; opacity: 0; transition: opacity .6s ease .5s; }
     .cta-step { text-align: center; padding: 0 16px; }
     .cta-step-num { width: 24px; height: 24px; border-radius: 50%; background: rgba(240,236,228,.12); border: .5px solid rgba(240,236,228,.2); display: flex; align-items: center; justify-content: center; font-size: 10px; color: rgba(240,236,228,.6); margin: 0 auto 6px; font-family: var(--font-mono); }
-    .cta-step-txt { font-size: 11px; color: rgba(240,236,228,.5); line-height: 1.5; }
-    .cta-step-arrow { font-size: 14px; color: rgba(240,236,228,.2); margin-top: -16px; }
-    .cta-line-sub { font-size: 11px; color: rgba(240,236,228,.3); margin-top: 10px; opacity: 0; transition: opacity .6s ease .55s; }
-    .cta-note { font-size: 11px; color: #57534e; margin-top: 16px; opacity: 0; transition: opacity .6s ease .6s; }
+    .cta-step-txt { font-size: 12px; color: rgba(240,236,228,.55); line-height: 1.5; }
+    .cta-step-arrow { font-size: 16px; color: rgba(240,236,228,.2); margin-top: -16px; }
+    .cta-line-sub { font-size: 13px; color: rgba(240,236,228,.35); margin-top: 12px; opacity: 0; transition: opacity .6s ease .55s; }
+    .cta-note { font-size: 12px; color: #57534e; margin-top: 18px; opacity: 0; transition: opacity .6s ease .6s; }
 
     /* Footer */
-    .ft { padding: 20px 40px; background: #141210; border-top: .5px solid rgba(255,255,255,.05); display: flex; justify-content: space-between; align-items: center; }
-    .ftl { font-size: 12px; color: #57534e; letter-spacing: .06em; }
+    .ft { padding: 28px 40px; background: #141210; border-top: .5px solid rgba(255,255,255,.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .ftl { font-size: 13px; color: #78716c; letter-spacing: .06em; font-weight: 500; }
+    .ft-mid { display: flex; gap: 20px; align-items: center; }
+    .ft-link { font-size: 12px; color: #57534e; text-decoration: none; transition: color .2s; }
+    .ft-link:hover { color: #78716c; }
     .ftc { font-size: 11px; color: #3c3835; }
+    .ft-poem {
+      width: 100%; text-align: center; font-size: 11px; color: #2a2825;
+      letter-spacing: .06em; padding-top: 12px;
+      border-top: .5px solid rgba(255,255,255,.03);
+      font-style: italic; font-family: var(--font-sans);
+    }
+
+    /* ── Zen whisper ── */
+    .zen-whisper {
+      position: fixed; bottom: 28px; right: 32px; z-index: 9000;
+      font-size: 11px; color: var(--hint); letter-spacing: .06em;
+      font-style: italic; pointer-events: none;
+      opacity: 0; transition: opacity 1.8s ease;
+      max-width: 180px; text-align: right; line-height: 1.7;
+    }
+    .zen-whisper.show { opacity: 1; }
+
+    /* ── Cursor tip ── */
+    .cursor-tip {
+      position: fixed; z-index: 9998; pointer-events: none;
+      font-size: 10px; color: var(--muted); letter-spacing: .04em;
+      background: rgba(240,236,228,.92); border: .5px solid rgba(28,25,23,.08);
+      padding: 4px 10px; border-radius: 99px; backdrop-filter: blur(8px);
+      opacity: 0; transition: opacity .3s ease;
+      white-space: nowrap; transform: translate(18px, -50%);
+    }
+    .cursor-tip.show { opacity: 1; }
 
     /* ── Visibility (scroll animations) ── */
     .visible .h-scarcity,
+    .visible .h-empathy,
     .visible .h-badge,
     .visible .h-h1,
     .visible .h-en,
@@ -439,20 +569,10 @@
     .visible .s-lbl,
     .visible .s-h2,
     .visible .s-desc,
-    .visible .bc,
-    .visible .sv,
-    .visible .case,
-    .visible .vic,
-    .visible .voice,
-    .visible .ig-card,
-    .visible .price-card,
     .visible .vtag,
     .visible .vh2,
     .visible .vem,
     .visible .vis-cta,
-    .visible .aph,
-    .visible .ar,
-    .visible .ch2,
     .visible .csub,
     .visible .cq,
     .visible .cta-wrap,
@@ -460,45 +580,162 @@
     .visible .cta-note,
     .visible .cta-line-sub { opacity: 1; transform: none; }
 
-    .bc:nth-child(2) { transition-delay: .08s; }
-    .bc:nth-child(3) { transition-delay: .16s; }
-    .sv:nth-child(2) { transition-delay: .08s; }
-    .sv:nth-child(3) { transition-delay: .16s; }
-    .sv:nth-child(4) { transition-delay: .24s; }
-    .case:nth-child(2) { transition-delay: .08s; }
-    .case:nth-child(3) { transition-delay: .16s; }
-    .vic:nth-child(2) { transition-delay: .08s; }
-    .vic:nth-child(3) { transition-delay: .16s; }
-    .vic:nth-child(4) { transition-delay: .24s; }
-    .voice:nth-child(2) { transition-delay: .08s; }
-    .ig-card:nth-child(2) { transition-delay: .1s; }
-    .ig-card:nth-child(3) { transition-delay: .2s; }
-    .price-card:nth-child(2) { transition-delay: .1s; }
-    .price-card:nth-child(3) { transition-delay: .2s; }
+    /* ══════════════════════════════════════════
+       セクション別アニメーション
+    ══════════════════════════════════════════ */
+
+    /* ── Pain Points: ブラー解除 + フェードアップ ── */
+    #s-pain .bc {
+      opacity: 0;
+      transform: translateY(24px);
+      filter: blur(6px);
+      transition: opacity .7s cubic-bezier(.16,1,.3,1),
+                  transform .7s cubic-bezier(.16,1,.3,1),
+                  filter .7s cubic-bezier(.16,1,.3,1);
+    }
+    #s-pain.visible .bc { opacity: 1; transform: none; filter: blur(0); }
+    #s-pain .bc:nth-child(2) { transition-delay: .12s; }
+    #s-pain .bc:nth-child(3) { transition-delay: .24s; }
+
+    /* ── Services: 横からスライドイン（左右交互） ── */
+    #s-service .sv {
+      opacity: 0;
+      transition: opacity .65s cubic-bezier(.16,1,.3,1),
+                  transform .65s cubic-bezier(.16,1,.3,1);
+    }
+    #s-service .sv:nth-child(odd)  { transform: translateX(-36px); }
+    #s-service .sv:nth-child(even) { transform: translateX(36px); }
+    #s-service .sv.sv-wide          { transform: translateY(28px); }
+    #s-service.visible .sv { opacity: 1; transform: none; }
+    #s-service .sv:nth-child(2) { transition-delay: .1s; }
+    #s-service .sv:nth-child(3) { transition-delay: .2s; }
+    #s-service .sv:nth-child(4) { transition-delay: .3s; }
+
+    /* ── Cases: 下から浮き上がる（距離大きめ） ── */
+    #s-cases .case {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .7s cubic-bezier(.16,1,.3,1),
+                  transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    #s-cases.visible .case { opacity: 1; transform: none; }
+    #s-cases .case:nth-child(2) { transition-delay: .14s; }
+    #s-cases .case:nth-child(3) { transition-delay: .28s; }
+
+    /* ── Vision: 3D flip ── */
+    #s-vision { perspective: 1200px; }
+    #s-vision .vic {
+      opacity: 0;
+      transform: rotateX(-22deg) translateY(20px);
+      transform-origin: top center;
+      transition: opacity .7s cubic-bezier(.16,1,.3,1),
+                  transform .7s cubic-bezier(.16,1,.3,1);
+      backface-visibility: hidden;
+    }
+    #s-vision.visible .vic { opacity: 1; transform: rotateX(0) translateY(0); }
+    #s-vision .vic:nth-child(2) { transition-delay: .12s; }
+    #s-vision .vic:nth-child(3) { transition-delay: .24s; }
+    #s-vision .vic:nth-child(4) { transition-delay: .36s; }
+
+    /* ── Pricing: スケール + フェードアップ ── */
+    #s-price .price-card {
+      opacity: 0;
+      transform: translateY(20px) scale(.96);
+      transition: opacity .65s cubic-bezier(.16,1,.3,1),
+                  transform .65s cubic-bezier(.16,1,.3,1);
+    }
+    #s-price.visible .price-card { opacity: 1; transform: none; }
+    #s-price .price-card:nth-child(2) { transition-delay: .12s; }
+    #s-price .price-card:nth-child(3) { transition-delay: .24s; }
+
+    /* ── Voices: ブラー解除（声が聞こえてくる） ── */
+    #s-voice .voice {
+      opacity: 0;
+      filter: blur(8px);
+      transform: translateY(16px);
+      transition: opacity .75s cubic-bezier(.16,1,.3,1),
+                  transform .75s cubic-bezier(.16,1,.3,1),
+                  filter .75s cubic-bezier(.16,1,.3,1);
+    }
+    #s-voice.visible .voice { opacity: 1; transform: none; filter: blur(0); }
+    #s-voice .voice:nth-child(2) { transition-delay: .18s; }
+
+    /* ── Infog: 横スライド交互 ── */
+    #s-infog .ig-card {
+      opacity: 0;
+      transition: opacity .7s cubic-bezier(.16,1,.3,1),
+                  transform .7s cubic-bezier(.16,1,.3,1),
+                  filter .6s cubic-bezier(.16,1,.3,1);
+      filter: blur(4px);
+    }
+    #s-infog .ig-card:nth-child(1) { transform: translateX(-28px); }
+    #s-infog .ig-card:nth-child(2) { transform: translateY(28px); transition-delay: .14s; }
+    #s-infog .ig-card:nth-child(3) { transform: translateX(28px); transition-delay: .28s; }
+    #s-infog.visible .ig-card { opacity: 1; transform: none; filter: blur(0); }
+
+    /* ── CTA: 3D flip（ページのフィナーレ） ── */
+    #s-cta { perspective: 800px; }
+    #s-cta .ch2 {
+      opacity: 0;
+      transform: rotateX(-14deg) translateY(16px);
+      transform-origin: top center;
+      transition: opacity .8s cubic-bezier(.16,1,.3,1),
+                  transform .8s cubic-bezier(.16,1,.3,1);
+      backface-visibility: hidden;
+    }
+    #s-cta.visible .ch2 { opacity: 1; transform: none; }
+
+    /* ── About: 左右から（写真←、テキスト→） ── */
+    #s-about .aph {
+      opacity: 0; transform: translateX(-32px);
+      transition: opacity .75s cubic-bezier(.16,1,.3,1),
+                  transform .75s cubic-bezier(.16,1,.3,1);
+    }
+    #s-about .ar {
+      opacity: 0; transform: translateX(32px);
+      transition: opacity .75s cubic-bezier(.16,1,.3,1) .12s,
+                  transform .75s cubic-bezier(.16,1,.3,1) .12s;
+    }
+    #s-about.visible .aph,
+    #s-about.visible .ar { opacity: 1; transform: none; }
+
+    /* 汎用staggerはid別アニメーションで定義済み */
 
     /* ── Responsive ── */
     @media (max-width: 768px) {
       .nav { padding: 12px 20px; }
       .nav-links { display: none; }
       .hero { grid-template-columns: 1fr; padding: 48px 20px 60px; gap: 32px; min-height: auto; }
-      .h-h1 { font-size: 32px; }
+      .h-h1 { font-size: clamp(30px, 8vw, 40px); }
       .h-en { font-size: 14px; }
+      .h-actions { width: 100%; }
+      .btn-amber { width: 100%; justify-content: center; font-size: 16px; padding: 18px 24px; }
+      .vis-cta-btn { width: 100%; justify-content: center; }
+      .cta-btn-amber { width: 100%; justify-content: center; font-size: 16px; padding: 18px 24px; }
       .bento { grid-template-columns: 1fr; }
       .svc-bento { grid-template-columns: 1fr; }
       .sv-wide { grid-column: 1; }
       .vi-grid { grid-template-columns: 1fr; }
       .ab-grid { grid-template-columns: 1fr; }
-      .aph { aspect-ratio: 16/9; }
-      .price-grid { grid-template-columns: 1fr; }
+      .aph { aspect-ratio: 4/3; }
+      .price-grid { grid-template-columns: 1fr; gap: 12px; }
       .ig-grid { grid-template-columns: 1fr; }
       .voice-grid { grid-template-columns: 1fr; }
-      .sec { padding: 56px 20px; }
-      .sec-tools { padding: 20px; }
-      .ch2 { font-size: 26px; }
+      .sec { padding: 68px 20px; border-radius: 20px; margin: 0 6px; }
+      .sec-tools { padding: 20px; border-radius: 16px; margin: 0 6px; }
+      .ch2 { font-size: clamp(24px, 7vw, 32px); }
       .cta-process { flex-direction: column; gap: 8px; }
       .cta-step-arrow { transform: rotate(90deg); margin: 0; }
+      .ft { padding: 24px 20px; flex-direction: column; text-align: center; gap: 8px; }
+      .ft-mid { justify-content: center; flex-wrap: wrap; gap: 12px; }
+      .scroll-hint { z-index: 3; }
       body { cursor: auto; }
       .cursor { display: none; }
+      .zen-whisper { display: none; }
+      /* モバイル: ブラーは重いので無効化 */
+      #s-pain .bc,
+      #s-voice .voice,
+      #s-infog .ig-card { filter: none !important; }
     }
   </style>
 </head>
@@ -516,30 +753,30 @@
     <a href="#s-cases" class="nav-link">Cases</a>
     <a href="#s-about" class="nav-link">About</a>
     <div class="nav-langs">
-      <span class="lang active">JP</span>
-      <span class="lang">EN</span>
+      <span class="lang active" data-lang="ja">JP</span>
+      <span class="lang" data-lang="en">EN</span>
     </div>
-    <button class="nav-cta">無料相談</button>
+    <button class="nav-cta" data-nav="chat.html">無料相談</button>
   </div>
 </nav>
 
 <!-- ── Hero ── -->
 <section class="hero" id="s-hero">
-  <canvas id="wv"></canvas>
+  <canvas id="wv" aria-hidden="true"></canvas>
   <div class="hero-left">
     <div class="h-scarcity"><div class="h-scarcity-dot"></div>今月の無料相談枠 残3</div>
-    <div class="h-badge"><div class="hp"></div>AI × Design × Marketing</div>
+    <p class="h-empathy">また今日も、本当にやりたいことが<br>できなかった。</p>
     <h1 class="h-h1">無駄をなくして、<br>熱中を取り戻す。</h1>
     <p class="h-en">Less friction. More you.</p>
     <div class="h-actions">
-      <button class="btn-amber">無料で話してみる <span class="arr">→</span></button>
+      <button class="btn-amber" data-nav="chat.html">無料で話してみる <span class="arr" aria-hidden="true">→</span></button>
     </div>
     <p class="h-line-sub">LINEでの相談も受け付けています</p>
   </div>
   <div class="hero-right">
     <div class="h-stream">
       <div class="h-stream-bar">
-        <div class="stream-label"><div class="sld"></div>あなたの1日を、シミュレート中</div>
+        <div class="stream-label"><div class="sld"></div>あなたの1日を、シミュレート中 <span style="font-size:9px;color:var(--hint);opacity:.7;">(デモ表示)</span></div>
         <div class="h-dots"><div class="hdr"></div><div class="hdy"></div><div class="hdg"></div></div>
       </div>
       <div class="h-stream-body"><div class="h-stxt" id="stxt"><span class="cur"></span></div></div>
@@ -555,6 +792,8 @@
     <span class="scroll-hint-txt">SCROLL</span>
   </div>
 </section>
+
+<div class="page-stack">
 
 <!-- ── Tools ── -->
 <section class="sec-tools" id="s-tools">
@@ -612,7 +851,7 @@
 <!-- ── Vision ── -->
 <section class="sec sec-dark" id="s-vision">
   <div class="vis-orbs"><div class="vorb vob1"></div><div class="vorb vob2"></div><div class="vorb vob3"></div></div>
-  <canvas id="vc" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
+  <canvas id="vc" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
   <div class="vis-c">
     <div class="vtag">// その先にある景色</div>
     <h2 class="vh2">業務の詰まりが取れると、<br>時間が生まれます。<br>その時間で、あなたは何をしますか？</h2>
@@ -624,7 +863,7 @@
     </div>
     <p class="vem">「こなす毎日」を、「生きる毎日」へ。</p>
     <div class="vis-cta">
-      <button class="vis-cta-btn">無料で話してみる →</button>
+      <button class="vis-cta-btn" data-nav="chat.html">無料で話してみる →</button>
     </div>
   </div>
 </section>
@@ -636,18 +875,19 @@
     <div class="aph"><span class="app">PHOTO</span></div>
     <div class="ar">
       <div class="albl">ABOUT 風雅舎</div>
-      <h2 class="ah2">以前の私も、やりたいことより<br>こなすことに時間を使っていました。</h2>
-      <p class="ap">変わったきっかけは、AIでした。今まで数時間かかっていた作業が、あっという間に終わる。空いた時間に、思考が広がる。人生が、少し軽くなった気がしました。</p>
-      <p class="ap">あなたの会社の「詰まり」を取り除いて、あなたにも、時間の使い方が変わる瞬間を体験してほしい。それが、風雅舎をはじめた理由です。</p>
+      <h2 class="ah2">私自身が、「こなす毎日」から<br>抜け出した一人です。</h2>
+      <p class="ap">デザイン、PR、マーケティング——好きな仕事のはずなのに、気づけば締め切りと作業に追われていた時期がありました。やりたいことより、やらなければいけないことが常に先にある。そういう毎日でした。</p>
+      <p class="ap">変わったきっかけはAIでした。数時間かかっていた作業が、あっという間に終わる。空いた時間に、思考が広がる。「この感覚を、もっと多くの人に届けたい」——それが風雅舎をはじめた、唯一の理由です。</p>
+      <p class="ap" class="ap--italic">日本とタイを行き来しながら、少数の方と深く向き合う仕事をしています。</p>
       <div class="crs">
-        <span class="cr">慶應義塾大学卒</span>
+        <span class="cr">慶應義塾大学</span>
         <span class="cr">ケルン大学留学</span>
         <span class="cr">日本語・英語対応</span>
         <span class="cr">デジタルノマド</span>
       </div>
       <div class="ab-solo">
         <div class="ab-solo-title">個人だから、できること</div>
-        <p class="ab-solo-body">担当が変わらない。意思決定が速い。大手に比べてコストが抑えられる。「社長と直接話せる人に頼みたい」という方に選ばれています。</p>
+        <p class="ab-solo-body">担当が変わらない。意思決定が速い。あなたの会社のことを、毎回一から説明しなくていい。「社長と直接話せる人に頼みたい」という方に選ばれています。</p>
       </div>
     </div>
   </div>
@@ -661,7 +901,7 @@
   <div class="price-grid">
     <div class="price-card glass-card">
       <div class="price-label">AI WORKSHOP</div>
-      <div class="price-num">¥50,000<span style="font-size:14px;color:var(--muted)">〜</span></div>
+      <div class="price-num">¥50,000<span class="price-suffix">〜</span></div>
       <div class="price-unit">半日ワークショップ</div>
       <p class="price-desc">社員向けAI研修・導入ハンズオン。まずここから試せます。</p>
       <div class="price-items">
@@ -672,7 +912,7 @@
     <div class="price-card glass-card featured">
       <div class="price-badge">人気</div>
       <div class="price-label">MONTHLY RETAINER</div>
-      <div class="price-num">¥80,000<span style="font-size:14px;color:var(--muted)">〜/月</span></div>
+      <div class="price-num">¥80,000<span class="price-suffix">〜/月</span></div>
       <div class="price-unit">月額 / 伴走型</div>
       <p class="price-desc">マーケ・AI・デザインを横断してまるごと担当。</p>
       <div class="price-items">
@@ -683,7 +923,7 @@
     </div>
     <div class="price-card glass-card">
       <div class="price-label">SINGLE PROJECT</div>
-      <div class="price-num">¥150,000<span style="font-size:14px;color:var(--muted)">〜</span></div>
+      <div class="price-num">¥150,000<span class="price-suffix">〜</span></div>
       <div class="price-unit">単発 / プロジェクト単位</div>
       <p class="price-desc">LP制作、AI導入診断、広報文章制作など。</p>
       <div class="price-items">
@@ -699,8 +939,8 @@
   <div class="s-lbl">VOICE</div>
   <h2 class="s-h2">お客様の声</h2>
   <div class="voice-grid">
-    <div class="voice glass-card"><div class="voice-q">"</div><p class="voice-txt">AIって難しそうと思っていたけど、「うちの会社ならここから始めよう」と具体的に提示してもらえて、初めて動けた気がします。</p><div class="voice-from"><div class="voice-dot"></div>製造業・代表取締役 / 従業員15名</div></div>
-    <div class="voice glass-card"><div class="voice-q">"</div><p class="voice-txt">一人でこれだけ幅広くできるのかと最初は半信半疑でしたが、スピードと質に驚きました。担当が変わらないのも安心です。</p><div class="voice-from"><div class="voice-dot"></div>IT企業・COO / 従業員10名</div></div>
+    <div class="voice glass-card"><div class="voice-q">❝</div><p class="voice-txt">AIって難しそうと思っていたけど、「うちの会社ならここから始めよう」と具体的に提示してもらえて、初めて動けた気がします。</p><div class="voice-from"><div class="voice-dot"></div>製造業・代表取締役 / 従業員15名</div></div>
+    <div class="voice glass-card"><div class="voice-q">❝</div><p class="voice-txt">一人でこれだけ幅広くできるのかと最初は半信半疑でしたが、スピードと質に驚きました。担当が変わらないのも安心です。</p><div class="voice-from"><div class="voice-dot"></div>IT企業・COO / 従業員10名</div></div>
   </div>
 </section>
 
@@ -708,24 +948,25 @@
 <section class="sec sec-white" id="s-infog">
   <div class="s-lbl">IMPACT EXAMPLE</div>
   <h2 class="s-h2">数字で見る、変化のイメージ</h2>
+  <p class="s-desc s-desc--em">これはまだ実績ではなく、可能性の試算です。<br>一緒に、本物の数字を作りにいきましょう。</p>
   <div class="ig-grid">
-    <div class="ig-card glass-card"><div class="ig-glow ga"></div><div class="ig-num a">12.4<span class="ig-u">h</span></div><div class="ig-lbl">週あたりの解放される時間（例）</div><div class="ring"><svg viewBox="0 0 72 72" width="72" height="72"><circle class="rb" cx="36" cy="36" r="28"/><circle class="rf ra" cx="36" cy="36" r="28" id="r1" style="stroke-dashoffset:208"/></svg><div class="rc" id="rc1">0%</div></div></div>
-    <div class="ig-card glass-card"><div class="ig-glow gp"></div><div class="ig-num p">73<span class="ig-u">%</span></div><div class="ig-lbl">自動化できるルーティン業務（例）</div><div class="ring"><svg viewBox="0 0 72 72" width="72" height="72"><circle class="rb" cx="36" cy="36" r="28"/><circle class="rf rp" cx="36" cy="36" r="28" id="r2" style="stroke-dashoffset:208"/></svg><div class="rc" id="rc2">0%</div></div></div>
-    <div class="ig-card glass-card"><div class="ig-glow gt"></div><div class="ig-num t">3<span class="ig-u">x</span></div><div class="ig-lbl">クリエイティブ業務スピード向上（例）</div><div class="ring"><svg viewBox="0 0 72 72" width="72" height="72"><circle class="rb" cx="36" cy="36" r="28"/><circle class="rf rt" cx="36" cy="36" r="28" id="r3" style="stroke-dashoffset:208"/></svg><div class="rc" id="rc3">0%</div></div></div>
+    <div class="ig-card glass-card"><div class="ig-glow ga"></div><div class="ig-num a">12.4<span class="ig-u">h</span></div><div class="ig-lbl">週あたりの解放される時間（試算）</div><div class="ring"><svg viewBox="0 0 72 72" width="72" height="72"><circle class="rb" cx="36" cy="36" r="28"/><circle class="rf ra" cx="36" cy="36" r="28" id="r1" style="stroke-dashoffset:208"/></svg><div class="rc" id="rc1">0%</div></div></div>
+    <div class="ig-card glass-card"><div class="ig-glow gp"></div><div class="ig-num p">73<span class="ig-u">%</span></div><div class="ig-lbl">自動化できるルーティン業務（試算）</div><div class="ring"><svg viewBox="0 0 72 72" width="72" height="72"><circle class="rb" cx="36" cy="36" r="28"/><circle class="rf rp" cx="36" cy="36" r="28" id="r2" style="stroke-dashoffset:208"/></svg><div class="rc" id="rc2">0%</div></div></div>
+    <div class="ig-card glass-card"><div class="ig-glow gt"></div><div class="ig-num t">3<span class="ig-u">x</span></div><div class="ig-lbl">クリエイティブ業務スピード向上（試算）</div><div class="ring"><svg viewBox="0 0 72 72" width="72" height="72"><circle class="rb" cx="36" cy="36" r="28"/><circle class="rf rt" cx="36" cy="36" r="28" id="r3" style="stroke-dashoffset:208"/></svg><div class="rc" id="rc3">0%</div></div></div>
   </div>
-  <div class="ig-note"><em>※ EXAMPLE DATA</em>　参考値です。実際の効果はプロジェクトにより異なります。</div>
+  <div class="ig-note">実際の効果はプロジェクトにより異なります。数字ではなく、変化の方向性として受け取ってください。</div>
 </section>
 
 <!-- ── CTA ── -->
 <section class="sec sec-dark" id="s-cta">
-  <canvas id="cvc" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
+  <canvas id="cvc" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
   <div class="cta-c">
     <span class="cta-star">✦</span>
     <h2 class="ch2">仕事は、もっとスマートに。<br>人生の余白は、もっと豊かに。</h2>
     <p class="csub">まず、話すだけで構いません。</p>
     <p class="cq">「うちはどこから手をつければいい？」その一言から始めましょう。</p>
     <div class="cta-wrap">
-      <button class="cta-btn-amber">無料で話してみる <span class="arr">→</span></button>
+      <button class="cta-btn-amber" data-nav="chat.html">無料で話してみる <span class="arr" aria-hidden="true">→</span></button>
     </div>
     <div class="cta-process">
       <div class="cta-step"><div class="cta-step-num">1</div><div class="cta-step-txt">フォーム送信</div></div>
@@ -739,121 +980,368 @@
   </div>
 </section>
 
+</div><!-- /page-stack -->
+
 <!-- ── Footer ── -->
 <footer class="ft">
   <span class="ftl">風雅舎 FUGASHA</span>
+  <div class="ft-mid">
+    <a href="#s-service" class="ft-link">Services</a>
+    <a href="#s-price" class="ft-link">Pricing</a>
+    <a href="#s-about" class="ft-link">About</a>
+    <a href="contact.html" class="ft-link">お問い合わせ</a>
+  </div>
   <span class="ftc">© 2025 風雅舎</span>
+  <div class="ft-poem">ここまで読んでくれた人は、きっとまじめな人だ。</div>
 </footer>
 
-<script>
-  // ── Scroll observer ──
-  const ids = ['s-hero','s-tools','s-pain','s-service','s-cases','s-vision','s-about','s-price','s-voice','s-infog','s-cta'];
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.07 });
-  ids.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+<!-- ── Zen whisper（スクロール静止時のつぶやき） ── -->
+<div id="zen-whisper" class="zen-whisper"></div>
 
-  // ── Custom cursor ──
+<!-- ── Cursor tooltip（ホバー時のひとこと） ── -->
+<div id="cursor-tip" class="cursor-tip"></div>
+
+<script>
+  'use strict';
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // 定数
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const CURSOR_LERP     = 0.12;   // カーソル慣性
+  const WAVE_SPEED      = 0.011;  // 波の進行速度
+  const WAVE_FREQ_LO    = 0.009;  // 低周波
+  const WAVE_FREQ_HI    = 0.018;  // 高周波
+  const TYPE_CHAR_MS    = 38;     // タイピング速度(ms/文字)
+  const TYPE_LINE_MS    = 320;    // 行間ポーズ
+  const TYPE_LOOP_MS    = 2600;   // ループ前ポーズ
+  const IDLE_MS         = 180000; // 放置検知(3分)
+  const WHISPER_SHOW_MS = 3200;   // Zen whisper表示時間
+  const WHISPER_COOL_MS = 8000;   // Zen whisperクールダウン
+  const WHISPER_WAIT_MS = 2200;   // スクロール静止から表示までの待機
+  const RESIZE_DEBOUNCE = 200;    // resize debounce
+  const TIP_DELAY_MS    = 600;    // cursor tip 表示遅延
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // ユーティリティ
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  function debounce(fn, ms) {
+    let t;
+    return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+  }
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Scroll observer（unobserve で都度解放）
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const sectionIds = ['s-hero','s-tools','s-pain','s-service','s-cases','s-vision','s-about','s-price','s-voice','s-infog','s-cta'];
+  const obs = new IntersectionObserver((entries, observer) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target); // 一度表示されたら監視解除
+      }
+    });
+  }, { threshold: 0.1 });
+  sectionIds.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // data-nav ボタン → addEventListener（onclick排除）
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  document.querySelectorAll('[data-nav]').forEach(el => {
+    el.addEventListener('click', () => { location.href = el.dataset.nav; });
+  });
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Wave canvas（visibilitychange で停止/再開、mouseX反映、resize debounce）
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  let mouseX = 0.5; // mousemove統合ハンドラで更新
+
+  function wave(id, colors) {
+    const cv = document.getElementById(id);
+    if (!cv) return null;
+    const sec = cv.parentElement;
+    const resize = debounce(() => {
+      cv.width  = sec.offsetWidth;
+      cv.height = sec.offsetHeight;
+    }, RESIZE_DEBOUNCE);
+    resize();
+    const resizeObs = new ResizeObserver(resize);
+    resizeObs.observe(sec);
+    const ctx = cv.getContext('2d');
+    let t = 0, rafId = null;
+    const ws = colors.map((c, i) => ({
+      c,
+      off: i * Math.PI * 0.65,
+      amp: 52 * (0.65 + i * 0.2),
+      sp:  0.7 * (1 + i * 0.25),
+    }));
+    function draw() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      // mouseXで速度を微妙に変化させる（0.8〜1.2倍）
+      const mxFactor = 0.8 + mouseX * 0.4;
+      ws.forEach(w => {
+        ctx.beginPath();
+        ctx.moveTo(0, cv.height);
+        for (let x = 0; x <= cv.width; x += 4) {
+          const y = cv.height * 0.5
+            + Math.sin(x * WAVE_FREQ_LO + t * w.sp * mxFactor + w.off) * w.amp
+            + Math.sin(x * WAVE_FREQ_HI + t * w.sp * 1.3 * mxFactor + w.off) * w.amp * 0.35;
+          ctx.lineTo(x, y);
+        }
+        ctx.lineTo(cv.width, cv.height);
+        ctx.closePath();
+        ctx.fillStyle = w.c;
+        ctx.fill();
+      });
+      t += WAVE_SPEED;
+      rafId = requestAnimationFrame(draw);
+    }
+    draw();
+    return { pause: () => { cancelAnimationFrame(rafId); rafId = null; },
+             resume: () => { if (!rafId) draw(); } };
+  }
+
+  const waves = [
+    wave('wv',  ['rgba(217,119,6,.07)','rgba(139,92,246,.055)','rgba(20,184,166,.045)']),
+    wave('vc',  ['rgba(240,236,228,.03)','rgba(217,119,6,.055)','rgba(139,92,246,.04)']),
+    wave('cvc', ['rgba(217,119,6,.05)','rgba(139,92,246,.04)','rgba(20,184,166,.03)']),
+  ].filter(Boolean);
+
+  // ページ非表示時にwave停止
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) waves.forEach(w => w.pause());
+    else waves.forEach(w => w.resume());
+  });
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Custom cursor（rAF、visibilitychange で停止）
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   const cursor = document.getElementById('cur');
-  let cx = 0, cy = 0, tx = 0, ty = 0;
-  document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
-  (function animCursor() {
-    cx += (tx - cx) * 0.12; cy += (ty - cy) * 0.12;
+  let cx = 0, cy = 0, tx = 0, ty = 0, curRaf = null;
+
+  function animCursor() {
+    cx += (tx - cx) * CURSOR_LERP;
+    cy += (ty - cy) * CURSOR_LERP;
     if (cursor) cursor.style.transform = `translate(${cx - 17}px,${cy - 17}px)`;
-    requestAnimationFrame(animCursor);
-  })();
+    curRaf = requestAnimationFrame(animCursor);
+  }
+  curRaf = requestAnimationFrame(animCursor);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { cancelAnimationFrame(curRaf); curRaf = null; }
+    else curRaf = requestAnimationFrame(animCursor);
+  });
+
   document.querySelectorAll('.btn-amber,.vis-cta-btn,.cta-btn-amber,.nav-cta,.nav-link,.tp,.bc,.sv,.case,.vic,.voice,.price-card,.cr').forEach(el => {
     el.addEventListener('mouseenter', () => cursor && cursor.classList.add('hv'));
     el.addEventListener('mouseleave', () => cursor && cursor.classList.remove('hv'));
   });
 
-  // ── Progress bar + sticky nav ──
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // mousemove 統合ハンドラ（cursor + tip + mouseX を1本で処理）
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const tip = document.getElementById('cursor-tip');
+  document.addEventListener('mousemove', e => {
+    // カーソル追従
+    tx = e.clientX;
+    ty = e.clientY;
+    // mouseX（wave反映）
+    mouseX = e.clientX / window.innerWidth;
+    // cursor tip 位置
+    if (tip) { tip.style.left = e.clientX + 'px'; tip.style.top = e.clientY + 'px'; }
+  });
+
+  // cursor tip ホバー設定
+  const tipMap = new Map([
+    ['.btn-amber',           'まず話すだけで大丈夫'],
+    ['.cta-btn-amber',       '無理な営業は、しません'],
+    ['.vis-cta-btn',         'ここから変わった人がいます'],
+    ['.nav-cta',             '30分、時間をください'],
+    ['.price-card.featured', '一番選ばれています'],
+    ['.voice',               '実際の声です'],
+    ['.bc',                  'あなたの会社にも当てはまりますか？'],
+    ['.case',                '試算値ではなく、方向性です'],
+    ['.tp',                  '風雅舎が使っているツールです'],
+  ]);
+  let tipTimeout = null;
+  if (tip) {
+    tipMap.forEach((msg, sel) => {
+      document.querySelectorAll(sel).forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          clearTimeout(tipTimeout);
+          tipTimeout = setTimeout(() => { tip.textContent = msg; tip.classList.add('show'); }, TIP_DELAY_MS);
+        });
+        el.addEventListener('mouseleave', () => { clearTimeout(tipTimeout); tip.classList.remove('show'); });
+      });
+    });
+  }
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // scroll 統合ハンドラ（progress bar + nav + zen whisper）
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   const pb = document.getElementById('pb');
+  const whisper = document.getElementById('zen-whisper');
+  const zenLines = [
+    '余白は、怠惰ではない。',
+    '急ぐほど、遠くなる。',
+    'やらないことを、決める。',
+    '静かな朝が、一番の会議室。',
+    '道具は、目立たないほどいい。',
+    'ゆっくり考えることが、一番速い。',
+    '答えは、すでにあなたの中にある。',
+    '完璧より、動いていること。',
+  ];
+  let scrollTimer = null, whisperCooldown = false;
+
   window.addEventListener('scroll', () => {
     const d = document.documentElement;
+
+    // progress bar
     if (pb) pb.style.width = Math.min((d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100, 100) + '%';
+
+    // sticky nav
     document.getElementById('nav')?.classList.toggle('sc', d.scrollTop > 40);
+
+    // zen whisper
+    if (whisper) whisper.classList.remove('show');
+    clearTimeout(scrollTimer);
+    if (!whisperCooldown) {
+      scrollTimer = setTimeout(() => {
+        if (!whisper || whisperCooldown) return;
+        whisper.textContent = zenLines[Math.floor(Math.random() * zenLines.length)];
+        whisper.classList.add('show');
+        whisperCooldown = true;
+        setTimeout(() => { whisper.classList.remove('show'); }, WHISPER_SHOW_MS);
+        setTimeout(() => { whisperCooldown = false; }, WHISPER_COOL_MS);
+      }, WHISPER_WAIT_MS);
+    }
   }, { passive: true });
 
-  // ── Wave canvas ──
-  function wave(id, colors) {
-    const cv = document.getElementById(id);
-    if (!cv) return;
-    const sec = cv.parentElement;
-    const resize = () => { cv.width = sec.offsetWidth; cv.height = sec.offsetHeight; };
-    resize();
-    window.addEventListener('resize', resize);
-    const ctx = cv.getContext('2d');
-    let t = 0;
-    const ws = colors.map((c, i) => ({ c, off: i * Math.PI * 0.65, amp: 52 * (0.65 + i * 0.2), sp: 0.7 * (1 + i * 0.25) }));
-    (function draw() {
-      ctx.clearRect(0, 0, cv.width, cv.height);
-      ws.forEach(w => {
-        ctx.beginPath(); ctx.moveTo(0, cv.height);
-        for (let x = 0; x <= cv.width; x += 4) {
-          const y = cv.height * 0.5 + Math.sin(x * 0.009 + t * w.sp + w.off) * w.amp + Math.sin(x * 0.018 + t * w.sp * 1.3 + w.off) * w.amp * 0.35;
-          ctx.lineTo(x, y);
-        }
-        ctx.lineTo(cv.width, cv.height); ctx.closePath(); ctx.fillStyle = w.c; ctx.fill();
-      });
-      t += 0.011;
-      requestAnimationFrame(draw);
-    })();
-  }
-  wave('wv',  ['rgba(217,119,6,.07)','rgba(139,92,246,.055)','rgba(20,184,166,.045)']);
-  wave('vc',  ['rgba(240,236,228,.03)','rgba(217,119,6,.055)','rgba(139,92,246,.04)']);
-  wave('cvc', ['rgba(217,119,6,.05)','rgba(139,92,246,.04)','rgba(20,184,166,.03)']);
-
-  // ── AI Stream typing ──
-  const lines = [
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // AI Stream typing（pct計算修正・isTypingフラグでレースコンディション防止）
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const typeLines = [
     '> 現在の業務フローをスキャン中...',
     '> ルーティン作業を検出: 8件',
     '> 自動化できる工程: 73%',
     '> 推定削減時間: 週 12.4時間',
-    '> あなたの「やりたいこと」に、その時間を。'
+    '> あなたの「やりたいこと」に、その時間を。',
   ];
-  let li = 0, ci = 0, txt = '';
-  const stxt = document.getElementById('stxt');
+  const totalChars = typeLines.reduce((s, l) => s + l.length, 0); // 全文字数を事前計算
+  let typeLi = 0, typeCi = 0, typeTxt = '', isTyping = false;
+  const stxt  = document.getElementById('stxt');
   const sfill = document.getElementById('sfill');
-  const spct = document.getElementById('spct');
+  const spct  = document.getElementById('spct');
+
   function type() {
     if (!stxt) return;
-    if (li >= lines.length) {
-      setTimeout(() => { li = 0; ci = 0; txt = ''; stxt.innerHTML = '<span class="cur"></span>'; if (sfill) sfill.style.width = '0%'; if (spct) spct.textContent = '0%'; setTimeout(type, 500); }, 2600);
+    isTyping = true;
+    if (typeLi >= typeLines.length) {
+      isTyping = false;
+      setTimeout(() => {
+        typeLi = 0; typeCi = 0; typeTxt = '';
+        if (stxt)  stxt.innerHTML = '<span class="cur"></span>';
+        if (sfill) sfill.style.width = '0%';
+        if (spct)  spct.textContent = '0%';
+        setTimeout(type, 500);
+      }, TYPE_LOOP_MS);
       return;
     }
-    const line = lines[li];
-    if (ci < line.length) {
-      txt += line[ci];
-      stxt.innerHTML = txt.replace(/\n/g, '<br>') + '<span class="cur"></span>';
-      ci++;
-      const pct = Math.round(((li * line.length + ci) / (lines.length * line.length)) * 100);
+    const line = typeLines[typeLi];
+    if (typeCi < line.length) {
+      typeTxt += line[typeCi];
+      stxt.innerHTML = typeTxt.replace(/\n/g, '<br>') + '<span class="cur"></span>';
+      typeCi++;
+      // 全文字数ベースで正確なpct計算
+      const charsTyped = typeLines.slice(0, typeLi).reduce((s, l) => s + l.length, 0) + typeCi;
+      const pct = Math.round((charsTyped / totalChars) * 100);
       if (sfill) sfill.style.width = pct + '%';
-      if (spct) spct.textContent = pct + '%';
-      setTimeout(type, 38);
-    } else { txt += '\n'; li++; ci = 0; setTimeout(type, 320); }
+      if (spct)  spct.textContent = pct + '%';
+      setTimeout(type, TYPE_CHAR_MS);
+    } else {
+      typeTxt += '\n';
+      typeLi++; typeCi = 0;
+      setTimeout(type, TYPE_LINE_MS);
+    }
   }
   setTimeout(type, 800);
 
-  // ── Ring animation ──
-  const rd = [{ id: 'r1', pct: 74, rc: 'rc1' }, { id: 'r2', pct: 73, rc: 'rc2' }, { id: 'r3', pct: 88, rc: 'rc3' }];
-  const ro = new IntersectionObserver(entries => {
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Ring animation（infog）
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const ringDefs = [
+    { id: 'r1', pct: 74, rc: 'rc1' },
+    { id: 'r2', pct: 73, rc: 'rc2' },
+    { id: 'r3', pct: 88, rc: 'rc3' },
+  ];
+  const ro = new IntersectionObserver((entries, observer) => {
     entries.forEach(x => {
-      if (x.isIntersecting) {
-        rd.forEach(({ id, pct, rc }) => {
-          const r = document.getElementById(id), c = document.getElementById(rc);
-          if (!r || !c) return;
-          r.style.strokeDashoffset = 208 - (208 * pct / 100);
-          let n = 0;
-          const s = () => { if (n < pct) { n++; c.textContent = n + '%'; setTimeout(s, 16); } };
-          s();
-        });
-        ro.disconnect();
-      }
+      if (!x.isIntersecting) return;
+      ringDefs.forEach(({ id, pct, rc }) => {
+        const r = document.getElementById(id);
+        const c = document.getElementById(rc);
+        if (!r || !c) return;
+        r.style.strokeDashoffset = 208 - (208 * pct / 100);
+        let n = 0;
+        const tick = () => { if (n < pct) { n++; c.textContent = n + '%'; setTimeout(tick, 16); } };
+        tick();
+      });
+      observer.disconnect();
     });
   }, { threshold: 0.3 });
   const ig = document.getElementById('s-infog');
   if (ig) ro.observe(ig);
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // 放置検知（isTypingフラグで干渉防止）
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const idleLines = [
+    '> …まだいますか？',
+    '> ちなみに、無料相談は30分です。',
+    '> 考えすぎも、ひとつの習慣かもしれません。',
+    '> 風雅舎は、急かしません。',
+  ];
+  let idleTimer = null, idleIdx = 0;
+
+  function resetIdle() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      if (!stxt || isTyping) { resetIdle(); return; } // タイピング中は待機
+      const msg = idleLines[idleIdx % idleLines.length];
+      idleIdx++;
+      let i = 0;
+      stxt.innerHTML = '<span class="cur"></span>';
+      function typeIdle() {
+        if (i <= msg.length) {
+          stxt.innerHTML = msg.slice(0, i) + '<span class="cur"></span>';
+          i++;
+          setTimeout(typeIdle, 48);
+        } else {
+          setTimeout(resetIdle, 12000);
+        }
+      }
+      typeIdle();
+    }, IDLE_MS);
+  }
+
+  // idle リスナーを named function で登録（重複防止）
+  function onUserActivity() { resetIdle(); }
+  ['mousemove','keydown','scroll','click'].forEach(ev =>
+    window.addEventListener(ev, onUserActivity, { passive: true })
+  );
+  resetIdle();
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // 言語切り替え（lang属性を更新）
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  document.querySelectorAll('.lang').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.lang').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const lang = btn.dataset.lang || (btn.textContent.trim() === 'EN' ? 'en' : 'ja');
+      document.documentElement.lang = lang;
+    });
+  });
+
 </script>
 </body>
 </html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お問い合わせ | 風雅舎</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23d97706'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='serif'>風</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f0ece4;
+      --body-bg: #e8e3db;
+      --fg: #1c1917;
+      --fg2: #44403c;
+      --muted: #78716c;
+      --hint: #8c847e;
+      --amber: #d97706;
+      --amber-hover: #b45309;
+      --amber-light: rgba(217,119,6,.09);
+      --amber-mid: rgba(217,119,6,.2);
+      --teal: #14b8a6;
+      --glass: rgba(255,255,255,.65);
+      --border: rgba(28,25,23,.1);
+      --border-focus: rgba(217,119,6,.5);
+      --success: #3b6d11;
+      --font-serif: 'Shippori Mincho', serif;
+      --font-sans: 'Noto Sans JP', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --r-sm: 6px;
+      --r-md: 12px;
+      --r-lg: 18px;
+      --r-xl: 24px;
+      --r-pill: 99px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--body-bg);
+      color: var(--fg);
+      min-height: 100vh;
+      padding: 20px 16px 60px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+    }
+
+    .wrap { width: 100%; max-width: 560px; position: relative; z-index: 1; }
+
+    /* ── Header ── */
+    .hdr { display: flex; align-items: center; justify-content: space-between; padding: 0 2px; margin-bottom: 20px; }
+    .logo { font-family: var(--font-serif); font-size: 16px; font-weight: 500; color: var(--fg2); letter-spacing: .06em; text-decoration: none; }
+    .back { font-size: 12px; color: var(--hint); text-decoration: none; transition: color .2s; }
+    .back:hover { color: var(--fg); }
+
+    /* ── Step indicator ── */
+    .steps { display: flex; align-items: center; gap: 0; margin-bottom: 24px; }
+    .step-item { display: flex; align-items: center; gap: 7px; }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 500; font-family: var(--font-mono);
+      border: 1px solid var(--border); background: var(--glass);
+      color: var(--hint); transition: all .4s;
+    }
+    .step-num.active { background: var(--amber); border-color: var(--amber); color: #fff; }
+    .step-num.done { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .step-label { font-size: 12px; color: var(--hint); transition: color .3s; }
+    .step-label.active { color: var(--fg); font-weight: 500; }
+    .step-line { flex: 1; height: 1px; background: var(--border); margin: 0 10px; }
+
+    /* ── Card ── */
+    .card {
+      background: var(--glass);
+      border: .5px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 36px 40px 32px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .card-lbl { font-size: 10px; letter-spacing: .12em; color: var(--hint); font-family: var(--font-mono); margin-bottom: 10px; }
+    .card-title { font-family: var(--font-serif); font-size: clamp(20px, 4vw, 26px); font-weight: 500; line-height: 1.5; color: var(--fg); margin-bottom: 6px; }
+    .card-sub { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 28px; }
+
+    /* ── Checkbox group ── */
+    .check-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .check-item {
+      display: flex; align-items: flex-start; gap: 13px;
+      padding: 14px 18px; border-radius: var(--r-lg);
+      border: .5px solid var(--border);
+      background: rgba(255,255,255,.5);
+      cursor: pointer;
+      transition: border-color .2s, background .2s, transform .15s;
+      user-select: none;
+    }
+    .check-item:hover { border-color: rgba(28,25,23,.2); background: rgba(255,255,255,.75); transform: translateY(-1px); }
+    .check-item.selected { border-color: var(--amber); background: var(--amber-light); }
+    .check-box {
+      width: 20px; height: 20px; border-radius: 5px;
+      border: 1.5px solid var(--border); background: rgba(255,255,255,.7);
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      transition: all .2s; margin-top: 1px;
+    }
+    .check-item.selected .check-box { background: var(--amber); border-color: var(--amber); }
+    .check-mark { color: #fff; font-size: 12px; opacity: 0; transition: opacity .15s; }
+    .check-item.selected .check-mark { opacity: 1; }
+    .check-text { flex: 1; }
+    .check-title { font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.4; margin-bottom: 3px; }
+    .check-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* ── Input fields ── */
+    .fields { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-label { font-size: 12px; font-weight: 500; color: var(--fg2); display: flex; align-items: center; gap: 6px; }
+    .field-req { font-size: 10px; color: #fff; background: var(--amber); padding: 1px 6px; border-radius: 3px; font-family: var(--font-mono); }
+    .field-opt { font-size: 10px; color: var(--hint); }
+    input[type=text], input[type=email], textarea {
+      width: 100%; padding: 11px 14px;
+      border: .5px solid var(--border); border-radius: var(--r-md);
+      font-size: 14px; font-family: var(--font-sans);
+      color: var(--fg); background: rgba(255,255,255,.85);
+      outline: none; transition: border-color .2s, box-shadow .2s;
+      -webkit-appearance: none;
+    }
+    input[type=text]:focus, input[type=email]:focus, textarea:focus {
+      border-color: var(--amber); box-shadow: 0 0 0 3px var(--amber-light);
+    }
+    input::placeholder, textarea::placeholder { color: var(--hint); }
+    textarea { resize: vertical; min-height: 90px; line-height: 1.7; }
+    .field-hint { font-size: 11px; color: var(--hint); }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      width: 100%; padding: 16px; border-radius: var(--r-sm);
+      background: var(--amber); color: #fff; border: none;
+      font-size: 15px; font-weight: 600; font-family: var(--font-sans);
+      cursor: pointer; transition: background .2s, transform .15s, box-shadow .2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 52px;
+    }
+    .btn-primary:hover { background: var(--amber-hover); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(217,119,6,.35); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+    .btn-primary:disabled { background: rgba(28,25,23,.2); cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-secondary {
+      width: 100%; padding: 13px; border-radius: var(--r-sm);
+      background: transparent; color: var(--muted);
+      border: .5px solid var(--border); font-size: 14px;
+      font-family: var(--font-sans); cursor: pointer;
+      transition: border-color .2s, color .2s;
+      min-height: 46px;
+    }
+    .btn-secondary:hover { border-color: rgba(28,25,23,.25); color: var(--fg); }
+    .btns { display: flex; flex-direction: column; gap: 10px; }
+    .btn-note { text-align: center; font-size: 11px; color: var(--hint); margin-top: 4px; }
+
+    /* ── Confirm view ── */
+    .confirm-section { margin-bottom: 22px; }
+    .confirm-lbl { font-size: 10px; letter-spacing: .1em; color: var(--hint); font-family: var(--font-mono); margin-bottom: 10px; }
+    .confirm-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .confirm-tag {
+      font-size: 12px; padding: 5px 13px; border-radius: var(--r-pill);
+      background: var(--amber-light); border: .5px solid var(--amber-mid);
+      color: #92400e; font-weight: 500;
+    }
+    .confirm-row { display: flex; align-items: baseline; gap: 12px; padding: 10px 0; border-bottom: .5px solid var(--border); }
+    .confirm-row:last-child { border-bottom: none; }
+    .confirm-key { font-size: 12px; color: var(--hint); min-width: 64px; flex-shrink: 0; }
+    .confirm-val { font-size: 14px; color: var(--fg); line-height: 1.65; }
+    .confirm-note {
+      background: var(--amber-light); border: .5px solid var(--amber-mid);
+      border-radius: var(--r-md); padding: 14px 16px; margin-top: 20px;
+      font-size: 13px; color: var(--fg2); line-height: 1.75;
+    }
+
+    /* ── Done view ── */
+    .done-icon {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(59,109,17,.1); border: 1px solid rgba(59,109,17,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; margin: 0 auto 20px;
+    }
+    .done-title { font-family: var(--font-serif); font-size: 22px; font-weight: 500; text-align: center; margin-bottom: 10px; }
+    .done-body { font-size: 14px; color: var(--muted); text-align: center; line-height: 1.85; margin-bottom: 28px; }
+    .done-cta-card {
+      background: var(--amber-light); border: 1px solid var(--amber-mid);
+      border-radius: var(--r-lg); padding: 22px 24px; margin-bottom: 20px; text-align: center;
+    }
+    .done-cta-title { font-size: 14px; font-weight: 500; color: var(--fg); margin-bottom: 6px; }
+    .done-cta-sub { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+    .done-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+    .done-divider-line { flex: 1; height: .5px; background: var(--border); }
+    .done-divider-txt { font-size: 11px; color: var(--hint); }
+
+    /* ── Validation ── */
+    .err { font-size: 12px; color: #a32d2d; margin-top: 4px; display: none; }
+    input.invalid, textarea.invalid { border-color: #a32d2d; }
+
+    /* ── Anim ── */
+    .screen { display: none; animation: fadeUp .45s cubic-bezier(.16,1,.3,1); }
+    .screen.active { display: block; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+
+    @media(max-width:560px){
+      .card { padding: 28px 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="hdr">
+    <a class="logo" href="index.html">風雅舎</a>
+    <a class="back" href="index.html">← サイトに戻る</a>
+  </div>
+
+  <!-- Step indicator -->
+  <div class="steps" id="stepIndicator">
+    <div class="step-item">
+      <div class="step-num active" id="sn1">1</div>
+      <span class="step-label active" id="sl1">お悩みを選ぶ</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item">
+      <div class="step-num" id="sn2">2</div>
+      <span class="step-label" id="sl2">連絡先を入力</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item">
+      <div class="step-num" id="sn3">3</div>
+      <span class="step-label" id="sl3">内容を確認</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: チェックボックス -->
+  <div class="card screen active" id="screen1">
+    <div class="card-lbl">STEP 01 / 03</div>
+    <h1 class="card-title">いちばん気になっていることは<br>どれですか？</h1>
+    <p class="card-sub">当てはまるものをすべて選んでください。一つでも大丈夫です。</p>
+
+    <div class="check-group" id="checkGroup">
+      <div class="check-item" onclick="toggleCheck(this, '時間が足りない——やるべきことが積み残しになっている')">
+        <div class="check-box"><span class="check-mark">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">⏱ 時間が足りない</div>
+          <div class="check-desc">やるべきことはわかっている。でも今日も、作業で終わった。</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, '発信・デザインがずっと後回しになっている')">
+        <div class="check-box"><span class="check-mark">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">✏️ 発信・デザインが後回し</div>
+          <div class="check-desc">会社の顔となるべき部分が、なんとなくのまま放置されている。</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, 'AIが使えそうなのはわかるが、何から始めればいいかわからない')">
+        <div class="check-box"><span class="check-mark">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">🤖 AIを導入したいけど、何から？</div>
+          <div class="check-desc">興味はある。でも、誰かに整理して持ってきてほしい。</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, '自分がいないと業務が回らない——属人化が進んでいる')">
+        <div class="check-box"><span class="check-mark">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">⚙️ 自分がいないと回らない</div>
+          <div class="check-desc">仕組みがなく、全部自分に集まってしまっている。</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this, 'まだ具体的に決まっていないが、話を聞いてみたい')">
+        <div class="check-box"><span class="check-mark">✓</span></div>
+        <div class="check-text">
+          <div class="check-title">💬 まだよくわからないけど、話を聞いてみたい</div>
+          <div class="check-desc">それで十分です。一緒に整理しましょう。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btns">
+      <button class="btn-primary" id="step1Next" onclick="goStep2()" disabled>
+        次へ：連絡先を入力する <span>→</span>
+      </button>
+    </div>
+    <p class="btn-note">🔒 入力内容は安全に送信されます</p>
+  </div>
+
+  <!-- STEP 2: 連絡先入力 -->
+  <div class="card screen" id="screen2">
+    <div class="card-lbl">STEP 02 / 03</div>
+    <h2 class="card-title">連絡先を教えてください</h2>
+    <p class="card-sub">必要最小限だけお聞きします。営業目的では使いません。</p>
+
+    <div class="fields">
+      <div class="field-group">
+        <label class="field-label">お名前 <span class="field-req">必須</span></label>
+        <input type="text" id="fname" placeholder="例：山田 太郎">
+        <span class="err" id="fnameErr">お名前を入力してください</span>
+      </div>
+      <div class="field-group">
+        <label class="field-label">会社名 <span class="field-opt">任意</span></label>
+        <input type="text" id="fcompany" placeholder="例：株式会社〇〇">
+      </div>
+      <div class="field-group">
+        <label class="field-label">メールアドレス <span class="field-req">必須</span></label>
+        <input type="email" id="femail" placeholder="例：hello@example.com">
+        <span class="err" id="femailErr">正しいメールアドレスを入力してください</span>
+      </div>
+      <div class="field-group">
+        <label class="field-label">ひとこと <span class="field-opt">任意</span></label>
+        <textarea id="fmessage" placeholder="「うちはここが一番きつい」でも「とりあえず話を聞いてみたい」でも、なんでも。" rows="3"></textarea>
+        <span class="field-hint">書けることだけで大丈夫です。</span>
+      </div>
+    </div>
+
+    <div class="btns">
+      <button class="btn-primary" onclick="goStep3()">確認画面へ <span>→</span></button>
+      <button class="btn-secondary" onclick="goStep1()">← 戻る</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: 確認 -->
+  <div class="card screen" id="screen3">
+    <div class="card-lbl">STEP 03 / 03 — 確認</div>
+    <h2 class="card-title">内容を確認してください</h2>
+    <p class="card-sub">まだ送信していません。内容を確認してから送信できます。</p>
+
+    <div class="confirm-section">
+      <div class="confirm-lbl">選んだお悩み</div>
+      <div class="confirm-tags" id="confirmTags"></div>
+    </div>
+
+    <div class="confirm-section">
+      <div class="confirm-lbl">連絡先</div>
+      <div class="confirm-row"><span class="confirm-key">お名前</span><span class="confirm-val" id="cName"></span></div>
+      <div class="confirm-row" id="cCompanyRow"><span class="confirm-key">会社名</span><span class="confirm-val" id="cCompany"></span></div>
+      <div class="confirm-row"><span class="confirm-key">メール</span><span class="confirm-val" id="cEmail"></span></div>
+      <div class="confirm-row" id="cMsgRow"><span class="confirm-key">ひとこと</span><span class="confirm-val" id="cMsg"></span></div>
+    </div>
+
+    <div class="confirm-note">
+      送信後、<strong>24時間以内</strong>にご入力のメールアドレス宛にご連絡します。<br>
+      無理な営業は一切しません。まず状況を聞かせてもらうだけで大丈夫です。
+    </div>
+
+    <div class="btns" style="margin-top:24px">
+      <button class="btn-primary" onclick="submit()" id="submitBtn">この内容で送信する ✓</button>
+      <button class="btn-secondary" onclick="goStep2Edit()">← 修正する</button>
+    </div>
+  </div>
+
+  <!-- 完了 -->
+  <div class="card screen" id="screenDone">
+    <div class="done-icon">✓</div>
+    <h2 class="done-title">送信が完了しました</h2>
+    <p class="done-body">ありがとうございます。<br>24時間以内にご連絡いたします。<br>少し、楽しみにしていてください。</p>
+
+    <div class="done-cta-card">
+      <div class="done-cta-title">今すぐ日程を確保したい方へ</div>
+      <div class="done-cta-sub">メールを待たずに、カレンダーから直接30分の無料相談枠を予約できます。</div>
+      <button class="btn-primary" style="max-width:320px;margin:0 auto" onclick="window.open('https://calendly.com/fuugasha/consultation','_blank')">
+        無料相談を予約する →
+      </button>
+      <p style="font-size:11px;color:var(--hint);margin-top:10px;">キャンセルはいつでも可能です</p>
+    </div>
+
+    <div class="done-divider">
+      <div class="done-divider-line"></div>
+      <span class="done-divider-txt">または</span>
+      <div class="done-divider-line"></div>
+    </div>
+
+    <button class="btn-secondary" onclick="location.href='index.html'">← サイトに戻る</button>
+  </div>
+
+</div>
+
+<script>
+  const selected = new Set();
+
+  function toggleCheck(el, value) {
+    el.classList.toggle('selected');
+    if (selected.has(value)) selected.delete(value);
+    else selected.add(value);
+    document.getElementById('step1Next').disabled = selected.size === 0;
+  }
+
+  function setStep(n) {
+    ['screen1','screen2','screen3','screenDone'].forEach((id,i) => {
+      document.getElementById(id).classList.toggle('active', i === n-1);
+    });
+    for (let i=1; i<=3; i++) {
+      const num = document.getElementById('sn'+i);
+      const lbl = document.getElementById('sl'+i);
+      if (!num) continue;
+      num.classList.remove('active','done');
+      lbl.classList.remove('active');
+      if (i < n) { num.classList.add('done'); num.textContent = '✓'; }
+      else if (i === n) { num.classList.add('active'); num.textContent = i; lbl.classList.add('active'); }
+      else { num.textContent = i; }
+    }
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function goStep1() { setStep(1); }
+  function goStep2() { setStep(2); }
+
+  function goStep3() {
+    const name = document.getElementById('fname').value.trim();
+    const email = document.getElementById('femail').value.trim();
+    let ok = true;
+
+    document.getElementById('fname').classList.remove('invalid');
+    document.getElementById('femail').classList.remove('invalid');
+    document.getElementById('fnameErr').style.display = 'none';
+    document.getElementById('femailErr').style.display = 'none';
+
+    if (!name) {
+      document.getElementById('fname').classList.add('invalid');
+      document.getElementById('fnameErr').style.display = 'block';
+      ok = false;
+    }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      document.getElementById('femail').classList.add('invalid');
+      document.getElementById('femailErr').style.display = 'block';
+      ok = false;
+    }
+    if (!ok) return;
+
+    // 確認画面を組み立てる
+    const tags = document.getElementById('confirmTags');
+    tags.innerHTML = '';
+    selected.forEach(v => {
+      const t = document.createElement('span');
+      t.className = 'confirm-tag';
+      t.textContent = v;
+      tags.appendChild(t);
+    });
+
+    document.getElementById('cName').textContent = name;
+
+    const company = document.getElementById('fcompany').value.trim();
+    const companyRow = document.getElementById('cCompanyRow');
+    if (company) { document.getElementById('cCompany').textContent = company; companyRow.style.display='flex'; }
+    else { companyRow.style.display = 'none'; }
+
+    document.getElementById('cEmail').textContent = email;
+
+    const msg = document.getElementById('fmessage').value.trim();
+    const msgRow = document.getElementById('cMsgRow');
+    if (msg) { document.getElementById('cMsg').textContent = msg; msgRow.style.display='flex'; }
+    else { msgRow.style.display = 'none'; }
+
+    setStep(3);
+  }
+
+  function goStep2Edit() { setStep(2); }
+
+  function submit() {
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+
+    // 実際はここでフォーム送信処理（Formspree / Netlify Forms 等）
+    // 今はモック：1.5秒後に完了画面へ
+    setTimeout(() => {
+      document.getElementById('stepIndicator').style.display = 'none';
+      ['screen1','screen2','screen3'].forEach(id => {
+        document.getElementById(id).classList.remove('active');
+      });
+      document.getElementById('screenDone').classList.add('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }, 1500);
+  }
+</script>
+</body>
+</html>
