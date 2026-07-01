@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <!-- TODO: reCAPTCHA v3のサイトキーを取得後、YOUR_RECAPTCHA_SITE_KEY を置き換えてください -->
+  <script src="https://www.google.com/recaptcha/api.js?render=YOUR_RECAPTCHA_SITE_KEY"></script>
   <style>
     :root {
       --bg: #f0ece4;
@@ -88,8 +90,25 @@
     .card-title { font-family: var(--font-serif); font-size: clamp(20px, 4vw, 26px); font-weight: 500; line-height: 1.5; color: var(--fg); margin-bottom: 6px; }
     .card-sub { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 28px; }
 
-    /* ── Checkbox group ── */
-    .check-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    /* ── Conversational Q&A ── */
+    .q-bubble { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 22px; }
+    .q-avatar {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      background: var(--amber); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif); font-size: 15px; font-weight: 500;
+    }
+    .q-bubble-text {
+      background: rgba(255,255,255,.55); border: .5px solid var(--border);
+      border-radius: 4px 16px 16px 16px; padding: 16px 20px; flex: 1;
+    }
+    .q-label { font-size: 10px; letter-spacing: .12em; color: var(--hint); font-family: var(--font-mono); margin-bottom: 8px; }
+    .q-title { font-family: var(--font-serif); font-size: clamp(18px, 3.6vw, 23px); font-weight: 500; line-height: 1.55; color: var(--fg); }
+    .q-sub { font-size: 13px; color: var(--muted); line-height: 1.75; margin-top: 8px; }
+    .q-nav { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; margin-bottom: 20px; }
+
+    /* ── Checkbox / choice group ── */
+    .check-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
     .check-item {
       display: flex; align-items: flex-start; gap: 13px;
       padding: 14px 18px; border-radius: var(--r-lg);
@@ -155,10 +174,13 @@
       font-family: var(--font-sans); cursor: pointer;
       transition: border-color .2s, color .2s;
       min-height: 46px;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
     }
     .btn-secondary:hover { border-color: rgba(28,25,23,.25); color: var(--fg); }
     .btns { display: flex; flex-direction: column; gap: 10px; }
     .btn-note { text-align: center; font-size: 11px; color: var(--hint); margin-top: 4px; }
+    .btn-note a { color: var(--amber); text-decoration: underline; }
 
     /* ── Confirm view ── */
     .confirm-section { margin-bottom: 22px; }
@@ -178,6 +200,10 @@
       border-radius: var(--r-md); padding: 14px 16px; margin-top: 20px;
       font-size: 13px; color: var(--fg2); line-height: 1.75;
     }
+    .submit-err {
+      font-size: 12px; color: #a32d2d; text-align: center;
+      margin-top: 12px; line-height: 1.6; display: none;
+    }
 
     /* ── Done view ── */
     .done-icon {
@@ -188,15 +214,6 @@
     }
     .done-title { font-family: var(--font-serif); font-size: 22px; font-weight: 500; text-align: center; margin-bottom: 10px; }
     .done-body { font-size: 14px; color: var(--muted); text-align: center; line-height: 1.85; margin-bottom: 28px; }
-    .done-cta-card {
-      background: var(--amber-light); border: 1px solid var(--amber-mid);
-      border-radius: var(--r-lg); padding: 22px 24px; margin-bottom: 20px; text-align: center;
-    }
-    .done-cta-title { font-size: 14px; font-weight: 500; color: var(--fg); margin-bottom: 6px; }
-    .done-cta-sub { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
-    .done-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
-    .done-divider-line { flex: 1; height: .5px; background: var(--border); }
-    .done-divider-txt { font-size: 11px; color: var(--hint); }
 
     /* ── Validation ── */
     .err { font-size: 12px; color: #a32d2d; margin-top: 4px; display: none; }
@@ -225,7 +242,7 @@
   <div class="steps" id="stepIndicator">
     <div class="step-item">
       <div class="step-num active" id="sn1">1</div>
-      <span class="step-label active" id="sl1">お悩みを選ぶ</span>
+      <span class="step-label active" id="sl1">質問に答える</span>
     </div>
     <div class="step-line"></div>
     <div class="step-item">
@@ -239,56 +256,14 @@
     </div>
   </div>
 
-  <!-- STEP 1: チェックボックス -->
+  <!-- STEP 1: 会話風の質問（スクリプト制御・API不使用） -->
   <div class="card screen active" id="screen1">
-    <div class="card-lbl">STEP 01 / 03</div>
-    <h1 class="card-title">いちばん気になっていることは<br>どれですか？</h1>
-    <p class="card-sub">当てはまるものをすべて選んでください。一つでも大丈夫です。</p>
-
-    <div class="check-group" id="checkGroup">
-      <div class="check-item" onclick="toggleCheck(this, '時間が足りない——やるべきことが積み残しになっている')">
-        <div class="check-box"><span class="check-mark">✓</span></div>
-        <div class="check-text">
-          <div class="check-title">⏱ 時間が足りない</div>
-          <div class="check-desc">やるべきことはわかっている。でも今日も、作業で終わった。</div>
-        </div>
-      </div>
-      <div class="check-item" onclick="toggleCheck(this, '発信・デザインがずっと後回しになっている')">
-        <div class="check-box"><span class="check-mark">✓</span></div>
-        <div class="check-text">
-          <div class="check-title">✏️ 発信・デザインが後回し</div>
-          <div class="check-desc">会社の顔となるべき部分が、なんとなくのまま放置されている。</div>
-        </div>
-      </div>
-      <div class="check-item" onclick="toggleCheck(this, 'AIが使えそうなのはわかるが、何から始めればいいかわからない')">
-        <div class="check-box"><span class="check-mark">✓</span></div>
-        <div class="check-text">
-          <div class="check-title">🤖 AIを導入したいけど、何から？</div>
-          <div class="check-desc">興味はある。でも、誰かに整理して持ってきてほしい。</div>
-        </div>
-      </div>
-      <div class="check-item" onclick="toggleCheck(this, '自分がいないと業務が回らない——属人化が進んでいる')">
-        <div class="check-box"><span class="check-mark">✓</span></div>
-        <div class="check-text">
-          <div class="check-title">⚙️ 自分がいないと回らない</div>
-          <div class="check-desc">仕組みがなく、全部自分に集まってしまっている。</div>
-        </div>
-      </div>
-      <div class="check-item" onclick="toggleCheck(this, 'まだ具体的に決まっていないが、話を聞いてみたい')">
-        <div class="check-box"><span class="check-mark">✓</span></div>
-        <div class="check-text">
-          <div class="check-title">💬 まだよくわからないけど、話を聞いてみたい</div>
-          <div class="check-desc">それで十分です。一緒に整理しましょう。</div>
-        </div>
-      </div>
+    <div id="qArea"></div>
+    <div class="q-nav">
+      <button class="btn-primary" id="qNextBtn">次へ <span>→</span></button>
+      <button class="btn-secondary" id="qBackBtn">← 前の質問へ</button>
     </div>
-
-    <div class="btns">
-      <button class="btn-primary" id="step1Next" onclick="goStep2()" disabled>
-        次へ：連絡先を入力する <span>→</span>
-      </button>
-    </div>
-    <p class="btn-note">🔒 入力内容は安全に送信されます</p>
+    <p class="btn-note">🔒 通信は暗号化(HTTPS)されており、reCAPTCHAでスパムも防止しています。入力内容は営業目的以外に使用しません。</p>
   </div>
 
   <!-- STEP 2: 連絡先入力 -->
@@ -320,8 +295,8 @@
     </div>
 
     <div class="btns">
-      <button class="btn-primary" onclick="goStep3()">確認画面へ <span>→</span></button>
-      <button class="btn-secondary" onclick="goStep1()">← 戻る</button>
+      <button class="btn-primary" id="toStep3Btn">確認画面へ <span>→</span></button>
+      <button class="btn-secondary" id="toStep1Btn">← 戻る</button>
     </div>
   </div>
 
@@ -337,6 +312,11 @@
     </div>
 
     <div class="confirm-section">
+      <div class="confirm-row"><span class="confirm-key">会社規模</span><span class="confirm-val" id="cSize"></span></div>
+      <div class="confirm-row"><span class="confirm-key">検討状況</span><span class="confirm-val" id="cUrgency"></span></div>
+    </div>
+
+    <div class="confirm-section">
       <div class="confirm-lbl">連絡先</div>
       <div class="confirm-row"><span class="confirm-key">お名前</span><span class="confirm-val" id="cName"></span></div>
       <div class="confirm-row" id="cCompanyRow"><span class="confirm-key">会社名</span><span class="confirm-val" id="cCompany"></span></div>
@@ -349,10 +329,12 @@
       無理な営業は一切しません。まず状況を聞かせてもらうだけで大丈夫です。
     </div>
 
-    <div class="btns" style="margin-top:24px">
-      <button class="btn-primary" onclick="submit()" id="submitBtn">この内容で送信する ✓</button>
-      <button class="btn-secondary" onclick="goStep2Edit()">← 修正する</button>
+    <div class="btns" id="submitBtns">
+      <button class="btn-primary" id="submitBtn">この内容で送信する ✓</button>
+      <button class="btn-secondary" id="editBtn">← 修正する</button>
     </div>
+    <p class="submit-err" id="submitErr"></p>
+    <p class="btn-note">このサイトはreCAPTCHAによって保護されており、Googleの<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">プライバシーポリシー</a>と<a href="https://policies.google.com/terms" target="_blank" rel="noopener">利用規約</a>が適用されます。</p>
   </div>
 
   <!-- 完了 -->
@@ -360,56 +342,197 @@
     <div class="done-icon">✓</div>
     <h2 class="done-title">送信が完了しました</h2>
     <p class="done-body">ありがとうございます。<br>24時間以内にご連絡いたします。<br>少し、楽しみにしていてください。</p>
-
-    <div class="done-cta-card">
-      <div class="done-cta-title">今すぐ日程を確保したい方へ</div>
-      <div class="done-cta-sub">メールを待たずに、カレンダーから直接30分の無料相談枠を予約できます。</div>
-      <button class="btn-primary" style="max-width:320px;margin:0 auto" onclick="window.open('https://calendly.com/fuugasha/consultation','_blank')">
-        無料相談を予約する →
-      </button>
-      <p style="font-size:11px;color:var(--hint);margin-top:10px;">キャンセルはいつでも可能です</p>
-    </div>
-
-    <div class="done-divider">
-      <div class="done-divider-line"></div>
-      <span class="done-divider-txt">または</span>
-      <div class="done-divider-line"></div>
-    </div>
-
-    <button class="btn-secondary" onclick="location.href='index.html'">← サイトに戻る</button>
+    <a class="btn-secondary" href="index.html">← サイトに戻る</a>
   </div>
 
 </div>
 
 <script>
-  const selected = new Set();
+  const questions = [
+    {
+      id: 'pain', type: 'multi',
+      qlabel: 'Q1 / 3',
+      title: 'いちばん気になっていることは、どれですか？',
+      sub: '当てはまるものをすべて選んでください。一つでも大丈夫です。',
+      options: [
+        { title: '⏱ 時間が足りない', desc: 'やるべきことはわかっている。でも今日も、作業で終わった。', value: '時間が足りない——やるべきことが積み残しになっている' },
+        { title: '✏️ 発信・デザインが後回し', desc: '会社の顔となるべき部分が、なんとなくのまま放置されている。', value: '発信・デザインがずっと後回しになっている' },
+        { title: '🤖 AIを導入したいけど、何から？', desc: '興味はある。でも、誰かに整理して持ってきてほしい。', value: 'AIが使えそうなのはわかるが、何から始めればいいかわからない' },
+        { title: '⚙️ 自分がいないと回らない', desc: '仕組みがなく、全部自分に集まってしまっている。', value: '自分がいないと業務が回らない——属人化が進んでいる' },
+        { title: '💬 まだよくわからないけど、話を聞いてみたい', desc: 'それで十分です。一緒に整理しましょう。', value: 'まだ具体的に決まっていないが、話を聞いてみたい' }
+      ]
+    },
+    {
+      id: 'size', type: 'single',
+      qlabel: 'Q2 / 3',
+      title: '会社の規模を教えてください',
+      sub: 'だいたいで大丈夫です。',
+      options: [
+        { title: '個人事業主・フリーランス', value: '個人事業主・フリーランス' },
+        { title: '従業員 1〜9名', value: '従業員1〜9名' },
+        { title: '従業員 10〜49名', value: '従業員10〜49名' },
+        { title: '従業員 50名以上', value: '従業員50名以上' }
+      ]
+    },
+    {
+      id: 'urgency', type: 'single',
+      qlabel: 'Q3 / 3',
+      title: '今のご検討状況を教えてください',
+      sub: '',
+      options: [
+        { title: 'すぐにでも相談したい', value: 'すぐにでも相談したい' },
+        { title: '情報収集中——まずは話を聞いてみたい', value: '情報収集中' },
+        { title: '具体的な予算感を知りたい', value: '予算感を知りたい' },
+        { title: 'まだ漠然としている', value: 'まだ漠然としている' }
+      ]
+    }
+  ];
 
-  function toggleCheck(el, value) {
-    el.classList.toggle('selected');
-    if (selected.has(value)) selected.delete(value);
-    else selected.add(value);
-    document.getElementById('step1Next').disabled = selected.size === 0;
+  const answers = { pain: new Set(), size: '', urgency: '' };
+  let qIndex = 0;
+
+  function renderQuestion() {
+    const q = questions[qIndex];
+    const area = document.getElementById('qArea');
+    area.innerHTML = '';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'q-bubble';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'q-avatar';
+    avatar.textContent = '風';
+
+    const bubbleText = document.createElement('div');
+    bubbleText.className = 'q-bubble-text';
+
+    const label = document.createElement('div');
+    label.className = 'q-label';
+    label.textContent = q.qlabel;
+
+    const title = document.createElement('div');
+    title.className = 'q-title';
+    title.textContent = q.title;
+
+    bubbleText.appendChild(label);
+    bubbleText.appendChild(title);
+
+    if (q.sub) {
+      const sub = document.createElement('div');
+      sub.className = 'q-sub';
+      sub.textContent = q.sub;
+      bubbleText.appendChild(sub);
+    }
+
+    bubble.appendChild(avatar);
+    bubble.appendChild(bubbleText);
+    area.appendChild(bubble);
+
+    const group = document.createElement('div');
+    group.className = 'check-group';
+
+    q.options.forEach(opt => {
+      const item = document.createElement('div');
+      item.className = 'check-item';
+      if (q.type === 'multi' && answers.pain.has(opt.value)) item.classList.add('selected');
+      if (q.type === 'single' && answers[q.id] === opt.value) item.classList.add('selected');
+
+      const box = document.createElement('div');
+      box.className = 'check-box';
+      const mark = document.createElement('span');
+      mark.className = 'check-mark';
+      mark.textContent = '✓';
+      box.appendChild(mark);
+
+      const text = document.createElement('div');
+      text.className = 'check-text';
+      const t = document.createElement('div');
+      t.className = 'check-title';
+      t.textContent = opt.title;
+      text.appendChild(t);
+      if (opt.desc) {
+        const d = document.createElement('div');
+        d.className = 'check-desc';
+        d.textContent = opt.desc;
+        text.appendChild(d);
+      }
+
+      item.appendChild(box);
+      item.appendChild(text);
+
+      item.addEventListener('click', () => {
+        if (q.type === 'multi') {
+          item.classList.toggle('selected');
+          if (answers.pain.has(opt.value)) answers.pain.delete(opt.value);
+          else answers.pain.add(opt.value);
+          document.getElementById('qNextBtn').disabled = answers.pain.size === 0;
+        } else {
+          answers[q.id] = opt.value;
+          Array.from(group.children).forEach(c => c.classList.remove('selected'));
+          item.classList.add('selected');
+          setTimeout(advanceQuestion, 380);
+        }
+      });
+
+      group.appendChild(item);
+    });
+
+    area.appendChild(group);
+
+    const nextBtn = document.getElementById('qNextBtn');
+    const backBtn = document.getElementById('qBackBtn');
+
+    if (q.type === 'multi') {
+      nextBtn.style.display = 'flex';
+      nextBtn.disabled = answers.pain.size === 0;
+    } else {
+      nextBtn.style.display = 'none';
+    }
+    backBtn.style.display = qIndex === 0 ? 'none' : 'flex';
+  }
+
+  function advanceQuestion() {
+    if (qIndex < questions.length - 1) {
+      qIndex++;
+      renderQuestion();
+    } else {
+      goStep2();
+    }
+  }
+
+  function backQuestion() {
+    if (qIndex > 0) {
+      qIndex--;
+      renderQuestion();
+    }
   }
 
   function setStep(n) {
-    ['screen1','screen2','screen3','screenDone'].forEach((id,i) => {
-      document.getElementById(id).classList.toggle('active', i === n-1);
+    ['screen1', 'screen2', 'screen3', 'screenDone'].forEach((id, i) => {
+      document.getElementById(id).classList.toggle('active', i === n - 1);
     });
-    for (let i=1; i<=3; i++) {
-      const num = document.getElementById('sn'+i);
-      const lbl = document.getElementById('sl'+i);
+    for (let i = 1; i <= 3; i++) {
+      const num = document.getElementById('sn' + i);
+      const lbl = document.getElementById('sl' + i);
       if (!num) continue;
-      num.classList.remove('active','done');
+      num.classList.remove('active', 'done');
       lbl.classList.remove('active');
       if (i < n) { num.classList.add('done'); num.textContent = '✓'; }
       else if (i === n) { num.classList.add('active'); num.textContent = i; lbl.classList.add('active'); }
       else { num.textContent = i; }
     }
-    window.scrollTo({top:0, behavior:'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function goStep1() { setStep(1); }
-  function goStep2() { setStep(2); }
+  function goStep1() {
+    qIndex = questions.length - 1;
+    renderQuestion();
+    setStep(1);
+  }
+
+  function goStep2() {
+    setStep(2);
+  }
 
   function goStep3() {
     const name = document.getElementById('fname').value.trim();
@@ -433,51 +556,109 @@
     }
     if (!ok) return;
 
-    // 確認画面を組み立てる
+    buildConfirm(name, email);
+    setStep(3);
+  }
+
+  function buildConfirm(name, email) {
     const tags = document.getElementById('confirmTags');
     tags.innerHTML = '';
-    selected.forEach(v => {
+    answers.pain.forEach(v => {
       const t = document.createElement('span');
       t.className = 'confirm-tag';
       t.textContent = v;
       tags.appendChild(t);
     });
 
+    document.getElementById('cSize').textContent = answers.size;
+    document.getElementById('cUrgency').textContent = answers.urgency;
     document.getElementById('cName').textContent = name;
+    document.getElementById('cEmail').textContent = email;
 
     const company = document.getElementById('fcompany').value.trim();
     const companyRow = document.getElementById('cCompanyRow');
-    if (company) { document.getElementById('cCompany').textContent = company; companyRow.style.display='flex'; }
+    if (company) { document.getElementById('cCompany').textContent = company; companyRow.style.display = 'flex'; }
     else { companyRow.style.display = 'none'; }
-
-    document.getElementById('cEmail').textContent = email;
 
     const msg = document.getElementById('fmessage').value.trim();
     const msgRow = document.getElementById('cMsgRow');
-    if (msg) { document.getElementById('cMsg').textContent = msg; msgRow.style.display='flex'; }
+    if (msg) { document.getElementById('cMsg').textContent = msg; msgRow.style.display = 'flex'; }
     else { msgRow.style.display = 'none'; }
-
-    setStep(3);
   }
 
-  function goStep2Edit() { setStep(2); }
+  function goStep2Edit() {
+    setStep(2);
+  }
+
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+  const RECAPTCHA_SITE_KEY = 'YOUR_RECAPTCHA_SITE_KEY';
 
   function submit() {
     const btn = document.getElementById('submitBtn');
+    const errBox = document.getElementById('submitErr');
     btn.disabled = true;
     btn.textContent = '送信中...';
+    errBox.style.display = 'none';
 
-    // 実際はここでフォーム送信処理（Formspree / Netlify Forms 等）
-    // 今はモック：1.5秒後に完了画面へ
-    setTimeout(() => {
-      document.getElementById('stepIndicator').style.display = 'none';
-      ['screen1','screen2','screen3'].forEach(id => {
-        document.getElementById(id).classList.remove('active');
+    const sendPayload = (token) => {
+      const payload = {
+        pain_points: Array.from(answers.pain).join(' / '),
+        company_size: answers.size,
+        urgency: answers.urgency,
+        name: document.getElementById('fname').value.trim(),
+        company: document.getElementById('fcompany').value.trim(),
+        email: document.getElementById('femail').value.trim(),
+        message: document.getElementById('fmessage').value.trim(),
+        _subject: '【風雅舎サイト】お問い合わせがありました'
+      };
+      if (token) payload['g-recaptcha-response'] = token;
+
+      fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(res => {
+          if (res.ok) {
+            document.getElementById('stepIndicator').style.display = 'none';
+            ['screen1', 'screen2', 'screen3'].forEach(id => {
+              document.getElementById(id).classList.remove('active');
+            });
+            document.getElementById('screenDone').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            return res.json().then(data => {
+              const msg = (data && data.errors) ? data.errors.map(e => e.message).join(' / ') : '送信に失敗しました';
+              throw new Error(msg);
+            });
+          }
+        })
+        .catch(() => {
+          errBox.textContent = '送信に失敗しました。時間をおいて再度お試しいただくか、直接メールにてご連絡ください。';
+          errBox.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'この内容で送信する ✓';
+        });
+    };
+
+    // reCAPTCHA v3が読み込まれていればトークンを取得してから送信、なければそのまま送信
+    if (typeof grecaptcha !== 'undefined' && RECAPTCHA_SITE_KEY.indexOf('YOUR_') !== 0) {
+      grecaptcha.ready(() => {
+        grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' }).then(sendPayload).catch(() => sendPayload(null));
       });
-      document.getElementById('screenDone').classList.add('active');
-      window.scrollTo({top:0, behavior:'smooth'});
-    }, 1500);
+    } else {
+      sendPayload(null);
+    }
   }
+
+  document.getElementById('qNextBtn').addEventListener('click', advanceQuestion);
+  document.getElementById('qBackBtn').addEventListener('click', backQuestion);
+  document.getElementById('toStep3Btn').addEventListener('click', goStep3);
+  document.getElementById('toStep1Btn').addEventListener('click', goStep1);
+  document.getElementById('submitBtn').addEventListener('click', submit);
+  document.getElementById('editBtn').addEventListener('click', goStep2Edit);
+
+  renderQuestion();
 </script>
 </body>
 </html>
