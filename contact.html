@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/tabler-icons.min.css">
   <!-- TODO: reCAPTCHA v3のサイトキーを取得後、YOUR_RECAPTCHA_SITE_KEY を置き換えてください -->
   <script src="https://www.google.com/recaptcha/api.js?render=YOUR_RECAPTCHA_SITE_KEY"></script>
   <style>
@@ -54,6 +55,9 @@
     }
 
     .wrap { width: 100%; max-width: 560px; position: relative; z-index: 1; }
+    .ft-mini { max-width: 480px; margin: 36px auto 0; text-align: center; padding-top: 22px; border-top: 1px solid var(--border); }
+    .ft-mini-tagline { font-family: var(--font-serif); font-size: 13px; letter-spacing: .03em; color: var(--fg2); margin-bottom: 6px; }
+    .ft-mini-copy { font-family: var(--font-mono); font-size: 10px; color: var(--hint); letter-spacing: .08em; text-transform: uppercase; }
 
     /* ── Header ── */
     .hdr { display: flex; align-items: center; justify-content: space-between; padding: 0 2px; margin-bottom: 20px; }
@@ -131,6 +135,8 @@
     .check-item.selected .check-mark { opacity: 1; }
     .check-text { flex: 1; }
     .check-title { font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.4; margin-bottom: 3px; }
+    .check-icon { font-size: 15px; color: var(--muted); margin-right: 7px; vertical-align: -2px; }
+    .check-item.selected .check-icon { color: var(--amber-hover); }
     .check-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
 
     /* ── Input fields ── */
@@ -345,6 +351,11 @@
     <a class="btn-secondary" href="index.html">← サイトに戻る</a>
   </div>
 
+  <footer class="ft-mini">
+    <p class="ft-mini-tagline">Less friction. More you.</p>
+    <p class="ft-mini-copy">© <span id="yr"></span> 風雅舎 FUGASHA</p>
+  </footer>
+
 </div>
 
 <script>
@@ -355,11 +366,11 @@
       title: 'いちばん気になっていることは、どれですか？',
       sub: '当てはまるものをすべて選んでください。一つでも大丈夫です。',
       options: [
-        { title: '⏱ 時間が足りない', desc: 'やるべきことはわかっている。でも今日も、作業で終わった。', value: '時間が足りない——やるべきことが積み残しになっている' },
-        { title: '✏️ 発信・デザインが後回し', desc: '会社の顔となるべき部分が、なんとなくのまま放置されている。', value: '発信・デザインがずっと後回しになっている' },
-        { title: '🤖 AIを導入したいけど、何から？', desc: '興味はある。でも、誰かに整理して持ってきてほしい。', value: 'AIが使えそうなのはわかるが、何から始めればいいかわからない' },
-        { title: '⚙️ 自分がいないと回らない', desc: '仕組みがなく、全部自分に集まってしまっている。', value: '自分がいないと業務が回らない——属人化が進んでいる' },
-        { title: '💬 まだよくわからないけど、話を聞いてみたい', desc: 'それで十分です。一緒に整理しましょう。', value: 'まだ具体的に決まっていないが、話を聞いてみたい' }
+        { icon: 'clock', title: '時間が足りない', desc: 'やるべきことはわかっている。でも今日も、作業で終わった。', value: '時間が足りない——やるべきことが積み残しになっている' },
+        { icon: 'pencil', title: '発信・デザインが後回し', desc: '会社の顔となるべき部分が、なんとなくのまま放置されている。', value: '発信・デザインがずっと後回しになっている' },
+        { icon: 'robot', title: 'AIを導入したいけど、何から？', desc: '興味はある。でも、誰かに整理して持ってきてほしい。', value: 'AIが使えそうなのはわかるが、何から始めればいいかわからない' },
+        { icon: 'settings', title: '自分がいないと回らない', desc: '仕組みがなく、全部自分に集まってしまっている。', value: '自分がいないと業務が回らない——属人化が進んでいる' },
+        { icon: 'message-circle', title: 'まだよくわからないけど、話を聞いてみたい', desc: 'それで十分です。一緒に整理しましょう。', value: 'まだ具体的に決まっていないが、話を聞いてみたい' }
       ]
     },
     {
@@ -448,7 +459,15 @@
       text.className = 'check-text';
       const t = document.createElement('div');
       t.className = 'check-title';
-      t.textContent = opt.title;
+      if (opt.icon) {
+        const ic = document.createElement('i');
+        ic.className = 'ti ti-' + opt.icon + ' check-icon';
+        ic.setAttribute('aria-hidden', 'true');
+        t.appendChild(ic);
+      }
+      const titleSpan = document.createElement('span');
+      titleSpan.textContent = opt.title;
+      t.appendChild(titleSpan);
       text.appendChild(t);
       if (opt.desc) {
         const d = document.createElement('div');
@@ -659,6 +678,9 @@
   document.getElementById('editBtn').addEventListener('click', goStep2Edit);
 
   renderQuestion();
+
+  const yrEl = document.getElementById('yr');
+  if (yrEl) yrEl.textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
