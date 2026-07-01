@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ブログ | 風雅舎</title>
+  <meta name="description" content="AI導入・セキュリティ・デザイン・経営について、中小企業の経営者に向けて風雅舎が発信するブログです。">
+  <meta property="og:title" content="ブログ | 風雅舎">
+  <meta property="og:description" content="AI導入・セキュリティ・デザイン・経営について、中小企業の経営者に向けて風雅舎が発信するブログです。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/blog/">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/blog/">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="/fugasha_ai/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/fugasha_ai/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/fugasha_ai/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/fugasha_ai/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/tabler-icons.min.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": "https://aimeeta.github.io/fugasha_ai/blog/#collection",
+        "name": "ブログ | 風雅舎",
+        "url": "https://aimeeta.github.io/fugasha_ai/blog/",
+        "isPartOf": { "@id": "https://aimeeta.github.io/fugasha_ai/#website" },
+        "about": { "@id": "https://aimeeta.github.io/fugasha_ai/#organization" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://aimeeta.github.io/fugasha_ai/" },
+          { "@type": "ListItem", "position": 2, "name": "ブログ", "item": "https://aimeeta.github.io/fugasha_ai/blog/" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      --bg:      #f0e6d6;
+      --bg2:     #e8dcc8;
+      --fg:      #0d2030;
+      --fg2:     #1e3a50;
+      --muted:   #4a6a80;
+      --hint:    #5e7f96;
+      --accent:  #e8866a;
+      --slate:   #6e8fa6;
+      --line:    rgba(13,32,48,.1);
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono:  'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); }
+    a { color: inherit; }
+
+    /* ── Navigation (shared pattern) ── */
+    .nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px; position: sticky; top: 0; z-index: 1000;
+      background: rgba(240,230,214,.92);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: .5px solid var(--line);
+    }
+    .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--fg); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 32px; }
+    .nav-link { font-size: 11px; color: var(--hint); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; }
+    .nav-link:hover { color: var(--fg); }
+    .nav-link.active { color: var(--fg); }
+    .nav-cta {
+      display: inline-block; font-size: 11px; padding: 9px 20px; border-radius: 2px;
+      background: var(--accent); color: #fff; font-weight: 500;
+      transition: opacity .2s; border: none; letter-spacing: .08em; text-decoration: none;
+    }
+    .nav-cta:hover { opacity: .8; }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-ham span { display: block; width: 20px; height: 1.5px; background: var(--fg); border-radius: 1px; transition: all .25s; }
+    .nav-ham.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
+    .nav-ham.open span:nth-child(2) { opacity: 0; }
+    .nav-ham.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
+    .nav-drawer {
+      display: none; position: fixed; inset: 0;
+      background: rgba(240,230,214,.97); backdrop-filter: blur(20px);
+      z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a { font-size: 22px; font-weight: 500; color: var(--fg); text-decoration: none; letter-spacing: .04em; }
+    .nav-drawer-close { position: absolute; top: 18px; right: 20px; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1; background: none; border: none; }
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .nav-right > .nav-link, .nav-right > .nav-cta { display: none; }
+      .nav-ham { display: flex; }
+    }
+
+    /* ── Header ── */
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+    .blog-head { padding: 64px 0 40px; border-bottom: 1px solid var(--line); margin-bottom: 48px; }
+    .blog-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; }
+    .blog-h1 { font-family: var(--font-serif); font-weight: 600; font-size: clamp(30px, 5vw, 44px); margin-bottom: 14px; }
+    .blog-intro { font-size: 15px; color: var(--hint); line-height: 1.8; max-width: 560px; }
+
+    .cat-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+    .cat-tag {
+      font-size: 11px; letter-spacing: .04em; color: var(--muted);
+      border: 1px solid var(--line); border-radius: 100px; padding: 6px 14px;
+    }
+
+    /* ── Grid ── */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; padding-bottom: 100px; }
+    .card {
+      display: flex; flex-direction: column; background: var(--bg2);
+      border-radius: 10px; padding: 28px; text-decoration: none; color: inherit;
+      border: 1px solid transparent; transition: border-color .2s, transform .2s;
+    }
+    .card:hover { border-color: rgba(232,134,106,.35); transform: translateY(-2px); }
+    .card-badge {
+      display: inline-block; align-self: flex-start; font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid rgba(232,134,106,.4); border-radius: 100px;
+      padding: 4px 12px; font-weight: 600; margin-bottom: 16px;
+    }
+    .card-title { font-family: var(--font-serif); font-weight: 600; font-size: 19px; line-height: 1.5; color: var(--fg); margin-bottom: 12px; }
+    .card-excerpt { font-size: 13px; line-height: 1.8; color: var(--hint); margin-bottom: 20px; flex-grow: 1; }
+    .card-meta { display: flex; gap: 12px; font-size: 11px; color: var(--slate); align-items: center; }
+    .card-meta span { display: inline-flex; align-items: center; gap: 4px; }
+    .card-arrow { margin-top: 16px; font-size: 12px; color: var(--fg); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+    .card:hover .card-arrow .arr { transform: translateX(4px); }
+    .card-arrow .arr { transition: transform .2s; display: inline-block; }
+
+    .empty-note {
+      grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: var(--hint); font-size: 13px; line-height: 1.9;
+    }
+
+    /* ── Footer ── */
+    .ft { padding: 24px 48px; background: var(--fg); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .ftl { font-size: 10px; color: rgba(240,230,214,.3); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
+    .ftc { font-size: 10px; color: rgba(240,230,214,.2); letter-spacing: .08em; }
+    .ft-links { display: flex; gap: 20px; align-items: center; }
+    .ft-link { font-size: 10px; color: rgba(240,230,214,.3); text-decoration: none; }
+    .ft-link:hover { color: rgba(240,230,214,.7); }
+    @media (max-width: 768px) {
+      .ft { flex-direction: column; text-align: center; padding: 20px; }
+      .blog-head { padding: 44px 0 32px; }
+    }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="/fugasha_ai/index.html" class="nav-logo">風雅舎</a>
+  <div class="nav-right">
+    <a href="/fugasha_ai/index.html#s-service" class="nav-link">Services</a>
+    <a href="/fugasha_ai/blog/" class="nav-link active">Blog</a>
+    <a href="/fugasha_ai/index.html#s-about" class="nav-link">About</a>
+    <a href="/fugasha_ai/contact.html" class="nav-cta">無料相談</a>
+    <div class="nav-ham" id="navHam" aria-label="メニュー"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+  <button class="nav-drawer-close" id="navClose" aria-label="閉じる">✕</button>
+  <a href="/fugasha_ai/index.html#s-service">Services</a>
+  <a href="/fugasha_ai/blog/">Blog</a>
+  <a href="/fugasha_ai/index.html#s-about">About</a>
+  <a href="/fugasha_ai/contact.html">無料相談 →</a>
+</div>
+
+<main class="wrap">
+  <div class="blog-head">
+    <div class="blog-eyebrow">Blog</div>
+    <h1 class="blog-h1">AIとセキュリティ、経営の話。</h1>
+    <p class="blog-intro">AI導入・業務効率化・セキュリティ・デザイン・働き方について、中小企業の経営者に向けて、専門用語をなるべく使わずに発信していきます。</p>
+    <div class="cat-tags">
+      <span class="cat-tag">AI導入・業務効率化</span>
+      <span class="cat-tag">セキュリティ</span>
+      <span class="cat-tag">デザイン・ブランディング</span>
+      <span class="cat-tag">経営・働き方</span>
+    </div>
+  </div>
+
+  <div class="grid">
+    <a href="/fugasha_ai/blog/ai-security-checkpoints/" class="card">
+      <span class="card-badge">セキュリティ</span>
+      <h2 class="card-title">AI導入とセキュリティは両立できるか？確認すべき5つのポイント</h2>
+      <p class="card-excerpt">AI導入は本当にセキュリティリスクなのか。中小企業の経営者が導入前に最低限確認すべき5つのポイントを、サイバーセキュリティ執筆歴3年の視点から整理します。</p>
+      <div class="card-meta">
+        <span><i class="ti ti-calendar"></i> 2026.07.01</span>
+        <span><i class="ti ti-clock"></i> 約4分</span>
+      </div>
+      <span class="card-arrow">続きを読む <span class="arr">→</span></span>
+    </a>
+  </div>
+</main>
+
+<footer class="ft">
+  <span class="ftl">風雅舎 FUGASHA</span>
+  <div class="ft-links">
+    <a href="/fugasha_ai/contact.html" class="ft-link">お問い合わせ</a>
+    <a href="/fugasha_ai/index.html" class="ft-link">サイトに戻る</a>
+  </div>
+  <span class="ftc">© <span id="yr"></span> 風雅舎</span>
+</footer>
+
+<script>
+  'use strict';
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const navHam = document.getElementById('navHam');
+  const navDrawer = document.getElementById('navDrawer');
+  const navClose = document.getElementById('navClose');
+  function toggleDrawer() {
+    navHam.classList.toggle('open');
+    navDrawer.classList.toggle('open');
+  }
+  navHam.addEventListener('click', toggleDrawer);
+  navClose.addEventListener('click', toggleDrawer);
+  navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navHam.classList.remove('open');
+    navDrawer.classList.remove('open');
+  }));
+</script>
+
+</body>
+</html>

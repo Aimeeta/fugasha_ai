@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI導入とセキュリティは両立できるか？確認すべき5つのポイント | 風雅舎</title>
+  <meta name="description" content="AI導入は本当にセキュリティリスクなのか。中小企業の経営者が導入前に最低限確認すべき5つのポイントを、サイバーセキュリティ執筆歴3年の視点から整理します。">
+  <meta property="og:title" content="AI導入とセキュリティは両立できるか？確認すべき5つのポイント">
+  <meta property="og:description" content="AI導入は本当にセキュリティリスクなのか。中小企業の経営者が導入前に最低限確認すべき5つのポイントを整理します。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/blog/ai-security-checkpoints/">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/blog/ai-security-checkpoints/">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="/fugasha_ai/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/fugasha_ai/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/fugasha_ai/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/fugasha_ai/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/tabler-icons.min.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": "https://aimeeta.github.io/fugasha_ai/blog/ai-security-checkpoints/#article",
+        "headline": "AI導入とセキュリティは両立できるか？確認すべき5つのポイント",
+        "description": "AI導入は本当にセキュリティリスクなのか。中小企業の経営者が導入前に最低限確認すべき5つのポイントを、サイバーセキュリティ執筆歴3年の視点から整理します。",
+        "image": "https://aimeeta.github.io/fugasha_ai/ogp.jpg",
+        "datePublished": "2026-07-01",
+        "dateModified": "2026-07-01",
+        "articleSection": "セキュリティ",
+        "inLanguage": "ja",
+        "author": { "@id": "https://aimeeta.github.io/fugasha_ai/#person" },
+        "publisher": { "@id": "https://aimeeta.github.io/fugasha_ai/#organization" },
+        "mainEntityOfPage": "https://aimeeta.github.io/fugasha_ai/blog/ai-security-checkpoints/"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://aimeeta.github.io/fugasha_ai/" },
+          { "@type": "ListItem", "position": 2, "name": "ブログ", "item": "https://aimeeta.github.io/fugasha_ai/blog/" },
+          { "@type": "ListItem", "position": 3, "name": "AI導入とセキュリティは両立できるか？確認すべき5つのポイント" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      --bg:      #f0e6d6;
+      --bg2:     #e8dcc8;
+      --fg:      #0d2030;
+      --fg2:     #1e3a50;
+      --muted:   #4a6a80;
+      --hint:    #5e7f96;
+      --accent:  #e8866a;
+      --accent2: #f0a882;
+      --line:    rgba(13,32,48,.1);
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono:  'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); }
+    a { color: inherit; }
+
+    /* reading progress */
+    .pb { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 1001; width: 0%; }
+
+    /* ── Navigation (shared pattern) ── */
+    .nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px; position: sticky; top: 0; z-index: 1000;
+      background: rgba(240,230,214,.92);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: .5px solid var(--line);
+    }
+    .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--fg); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 32px; }
+    .nav-link { font-size: 11px; color: var(--hint); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; }
+    .nav-link:hover { color: var(--fg); }
+    .nav-link.active { color: var(--fg); }
+    .nav-cta {
+      display: inline-block; font-size: 11px; padding: 9px 20px; border-radius: 2px;
+      background: var(--accent); color: #fff; font-weight: 500;
+      transition: opacity .2s; border: none; letter-spacing: .08em; text-decoration: none;
+    }
+    .nav-cta:hover { opacity: .8; }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-ham span { display: block; width: 20px; height: 1.5px; background: var(--fg); border-radius: 1px; transition: all .25s; }
+    .nav-ham.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
+    .nav-ham.open span:nth-child(2) { opacity: 0; }
+    .nav-ham.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
+    .nav-drawer {
+      display: none; position: fixed; inset: 0;
+      background: rgba(240,230,214,.97); backdrop-filter: blur(20px);
+      z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a { font-size: 22px; font-weight: 500; color: var(--fg); text-decoration: none; letter-spacing: .04em; }
+    .nav-drawer-close { position: absolute; top: 18px; right: 20px; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1; background: none; border: none; }
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .nav-right > .nav-link, .nav-right > .nav-cta { display: none; }
+      .nav-ham { display: flex; }
+    }
+
+    /* ── Article shell ── */
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+    .crumb { display: flex; gap: 6px; align-items: center; font-size: 11px; color: var(--hint); letter-spacing: .04em; margin: 40px 0 28px; flex-wrap: wrap; }
+    .crumb a { color: var(--hint); text-decoration: none; }
+    .crumb a:hover { color: var(--fg); }
+    .crumb span.sep { opacity: .5; }
+    .crumb span.cur { color: var(--fg2); }
+
+    .art-badge {
+      display: inline-block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid rgba(232,134,106,.4); border-radius: 100px;
+      padding: 5px 14px; font-weight: 600; margin-bottom: 18px;
+    }
+    .art-h1 {
+      font-family: var(--font-serif); font-weight: 600;
+      font-size: clamp(26px, 4.2vw, 38px); line-height: 1.45; color: var(--fg);
+      margin-bottom: 20px;
+    }
+    .art-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--hint); margin-bottom: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+    .art-meta span { display: inline-flex; align-items: center; gap: 5px; }
+
+    .art-lead {
+      font-family: var(--font-serif); font-size: 17px; line-height: 1.9; color: var(--fg2);
+      background: var(--bg2); border-left: 3px solid var(--accent);
+      padding: 22px 24px; border-radius: 4px; margin-bottom: 44px;
+    }
+
+    .art-body h2 {
+      font-family: var(--font-serif); font-weight: 600; font-size: 23px; color: var(--fg);
+      margin: 52px 0 20px; line-height: 1.5;
+    }
+    .art-body h3 {
+      font-size: 16px; font-weight: 700; color: var(--fg); margin: 32px 0 12px;
+      display: flex; align-items: baseline; gap: 10px;
+    }
+    .art-body h3 .num { font-family: var(--font-mono); font-size: 12px; color: var(--accent); font-weight: 400; }
+    .art-body p { font-size: 15px; line-height: 2; color: var(--fg2); margin-bottom: 18px; }
+    .art-body strong { color: var(--fg); font-weight: 700; }
+
+    .cta-box {
+      margin: 56px 0; padding: 32px; background: var(--fg); border-radius: 8px; text-align: center;
+    }
+    .cta-box p { color: rgba(240,230,214,.85); font-size: 14px; margin-bottom: 18px; line-height: 1.8; }
+    .cta-box .btn-amber {
+      display: inline-flex; align-items: center; gap: 10px; font-size: 12px;
+      padding: 14px 28px; border-radius: 2px; background: var(--accent); color: #fff;
+      font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none; transition: opacity .25s;
+    }
+    .cta-box .btn-amber:hover { opacity: .8; }
+
+    .art-foot-nav { display: flex; justify-content: space-between; align-items: center; margin: 48px 0 80px; padding-top: 24px; border-top: 1px solid var(--line); }
+    .back-blog { font-size: 12px; color: var(--hint); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .back-blog:hover { color: var(--fg); }
+
+    /* ── Footer ── */
+    .ft { padding: 24px 48px; background: var(--fg); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .ftl { font-size: 10px; color: rgba(240,230,214,.3); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
+    .ftc { font-size: 10px; color: rgba(240,230,214,.2); letter-spacing: .08em; }
+    .ft-links { display: flex; gap: 20px; align-items: center; }
+    .ft-link { font-size: 10px; color: rgba(240,230,214,.3); text-decoration: none; }
+    .ft-link:hover { color: rgba(240,230,214,.7); }
+    @media (max-width: 768px) {
+      .ft { flex-direction: column; text-align: center; padding: 20px; }
+      .wrap { padding: 0 20px; }
+    }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+<div class="pb" id="pb"></div>
+
+<nav class="nav" id="nav">
+  <a href="/fugasha_ai/index.html" class="nav-logo">風雅舎</a>
+  <div class="nav-right">
+    <a href="/fugasha_ai/index.html#s-service" class="nav-link">Services</a>
+    <a href="/fugasha_ai/blog/" class="nav-link active">Blog</a>
+    <a href="/fugasha_ai/index.html#s-about" class="nav-link">About</a>
+    <a href="/fugasha_ai/contact.html" class="nav-cta">無料相談</a>
+    <div class="nav-ham" id="navHam" aria-label="メニュー"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+  <button class="nav-drawer-close" id="navClose" aria-label="閉じる">✕</button>
+  <a href="/fugasha_ai/index.html#s-service">Services</a>
+  <a href="/fugasha_ai/blog/">Blog</a>
+  <a href="/fugasha_ai/index.html#s-about">About</a>
+  <a href="/fugasha_ai/contact.html">無料相談 →</a>
+</div>
+
+<main class="wrap">
+  <nav class="crumb" aria-label="パンくずリスト">
+    <a href="/fugasha_ai/index.html">ホーム</a>
+    <span class="sep">/</span>
+    <a href="/fugasha_ai/blog/">ブログ</a>
+    <span class="sep">/</span>
+    <span class="cur">AI導入とセキュリティは両立できるか</span>
+  </nav>
+
+  <article>
+    <div class="art-badge">セキュリティ</div>
+    <h1 class="art-h1">AI導入とセキュリティは両立できるか？<br>確認すべき5つのポイント</h1>
+    <div class="art-meta">
+      <span><i class="ti ti-calendar"></i> 2026年7月1日</span>
+      <span><i class="ti ti-clock"></i> 約4分で読めます</span>
+      <span><i class="ti ti-user"></i> Aimee(Aimee) — 風雅舎代表</span>
+    </div>
+
+    <p class="art-lead">
+      結論から言うと、AI導入とセキュリティは対立するものではありません。多くの中小企業がつまずくのは「AIを使うかどうか」ではなく、「何を確認せずに使い始めてしまうか」です。この記事では、AI導入前に最低限チェックしておきたい5つのポイントを、実務目線で整理します。
+    </p>
+
+    <div class="art-body">
+      <h2>なぜ「AI導入 = セキュリティリスク」と思われがちなのか</h2>
+      <p>
+        ChatGPTなどの生成AIツールが急速に普及する中、「情報漏洩が怖いから導入をためらっている」という中小企業の経営者の声をよく聞きます。大手企業がセキュリティ上の理由で社内利用のルールを見直したというニュースも報じられており、不安を感じるのは自然なことです。
+      </p>
+      <p>
+        ただし、それは「AIそのものが危険」という意味ではありません。危険なのは、確認すべき点を確認しないまま、なんとなく使い始めてしまうことです。同じツールでも、使い方次第でリスクは大きく変わります。サイバーセキュリティ関連の記事執筆に3年携わってきた立場から見ても、AI導入で実際に問題化するケースの多くは<strong>「技術的な欠陥」ではなく「運用上の見落とし」</strong>に起因しています。
+      </p>
+
+      <h2>導入前に確認すべき5つのポイント</h2>
+
+      <h3><span class="num">01</span> 入力したデータがどう扱われるか</h3>
+      <p>
+        無料版の生成AIツールの多くは、入力内容をモデルの学習に利用する設定がデフォルトになっている場合があります。顧客情報や見積もり金額など、社外に出したくない情報を入力する前に、そのツールの利用規約やプライバシー設定で「学習への利用をオフにできるか」を確認しましょう。多くの主要サービスは法人向けプランやAPI利用時に学習オプトアウトを標準としていますが、無料の個人アカウントではオプトインになっているケースもあります。
+      </p>
+
+      <h3><span class="num">02</span> 誰が・どのアカウントで使っているか</h3>
+      <p>
+        社員それぞれが個人のメールアドレスで無料アカウントを作り、バラバラに使っている状態は要注意です。退職時にアカウントを回収できない、利用状況を把握できない、といった問題につながります。可能であれば法人契約・管理者アカウントに一本化し、誰が何を使っているか把握できる状態を作ることが最初の一歩です。
+      </p>
+
+      <h3><span class="num">03</span> 無料版・有料版・法人版で何が違うか</h3>
+      <p>
+        同じサービス名でも、プランによってデータの扱いやセキュリティ機能は大きく異なります。「使ってみて良かったから」という理由で無料版のまま業務利用を続けるのではなく、本格導入する際は法人向けプラン(データ保持期間の指定、SSO連携、監査ログなど)への切り替えを検討する価値があります。
+      </p>
+
+      <h3><span class="num">04</span> 何を入力していいか、社内でルールが決まっているか</h3>
+      <p>
+        技術的な対策と同じくらい重要なのが、社内ルールです。「個人情報・契約書・未公開の財務情報はAIに入力しない」といった最低限のルールを、口頭ではなく明文化しておくこと。ルールは1ページのメモで十分です。詳細な規定よりも、全員が読んで理解できる短さの方が、実際に機能します。
+      </p>
+
+      <h3><span class="num">05</span> ツールを提供する会社のセキュリティ体制</h3>
+      <p>
+        どの会社のAIサービスを使うかも判断材料になります。第三者機関によるセキュリティ認証(ISO27001など)を取得しているか、インシデント発生時の対応方針を公開しているか、といった点は、公式サイトのセキュリティページやTrust Centerで確認できます。数分で確認できる情報なので、導入前に一度は目を通しておくと安心です。
+      </p>
+
+      <h2>「両立できるか」への答え</h2>
+      <p>
+        5つのポイントに共通するのは、どれも特別な技術知識がなくても確認できる、という点です。AI導入とセキュリティは、天秤にかけて選ぶものではなく、順番に確認していけば両立できるものです。むしろ、何も確認せずに「なんとなく」使い続けている状態の方が、リスクは高いといえます。
+      </p>
+      <p>
+        風雅舎では、AI導入支援とあわせて、こうした基本的な確認作業も一緒に整理しています。「何から確認すればいいかわからない」という段階からで大丈夫です。
+      </p>
+    </div>
+
+    <div class="cta-box">
+      <p>導入前に確認しておきたいことがあれば、話してみませんか。<br>専門用語なしで、今の状況から一緒に整理します。</p>
+      <a href="/fugasha_ai/contact.html" class="btn-amber">無料で話してみる <span>→</span></a>
+    </div>
+
+    <div class="art-foot-nav">
+      <a href="/fugasha_ai/blog/" class="back-blog"><i class="ti ti-arrow-left"></i> ブログ一覧に戻る</a>
+    </div>
+  </article>
+</main>
+
+<footer class="ft">
+  <span class="ftl">風雅舎 FUGASHA</span>
+  <div class="ft-links">
+    <a href="/fugasha_ai/contact.html" class="ft-link">お問い合わせ</a>
+    <a href="/fugasha_ai/blog/" class="ft-link">ブログ</a>
+  </div>
+  <span class="ftc">© <span id="yr"></span> 風雅舎</span>
+</footer>
+
+<script>
+  'use strict';
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const navHam = document.getElementById('navHam');
+  const navDrawer = document.getElementById('navDrawer');
+  const navClose = document.getElementById('navClose');
+  function toggleDrawer() {
+    navHam.classList.toggle('open');
+    navDrawer.classList.toggle('open');
+  }
+  navHam.addEventListener('click', toggleDrawer);
+  navClose.addEventListener('click', toggleDrawer);
+  navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navHam.classList.remove('open');
+    navDrawer.classList.remove('open');
+  }));
+
+  const pb = document.getElementById('pb');
+  function updateProgress() {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const height = h.scrollHeight - h.clientHeight;
+    pb.style.width = (height > 0 ? (scrolled / height) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>
+
+</body>
+</html>
