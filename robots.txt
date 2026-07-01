@@ -1,0 +1,61 @@
+# 風雅舎 / Fugasha — robots.txt
+# 最終更新: 2026-07-01
+
+# 標準検索エンジン
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Google 生成AI学習（検索インデックスとは独立してON/OFF可能）
+User-agent: Google-Extended
+Allow: /
+
+# OpenAI（学習・検索・ユーザー即時取得の3種）
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic（学習・検索・ユーザー即時取得の3種）
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Common Crawl（多くのLLMの学習データ基盤）
+User-agent: CCBot
+Allow: /
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Amazon
+User-agent: Amazonbot
+Allow: /
+
+# その他すべて
+User-agent: *
+Allow: /
+
+Sitemap: https://aimeeta.github.io/fugasha_ai/sitemap.xml
