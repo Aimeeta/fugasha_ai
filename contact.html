@@ -4,32 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>お問い合わせ | 風雅舎</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23d97706'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='serif'>風</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/tabler-icons.min.css">
-  <!-- TODO: reCAPTCHA v3のサイトキーを取得後、YOUR_RECAPTCHA_SITE_KEY を置き換えてください -->
-  <script src="https://www.google.com/recaptcha/api.js?render=YOUR_RECAPTCHA_SITE_KEY"></script>
   <style>
     :root {
-      --bg: #f0ece4;
-      --body-bg: #e8e3db;
-      --fg: #1c1917;
-      --fg2: #44403c;
-      --muted: #78716c;
-      --hint: #8c847e;
-      --amber: #d97706;
-      --amber-hover: #b45309;
-      --amber-light: rgba(217,119,6,.09);
-      --amber-mid: rgba(217,119,6,.2);
-      --teal: #14b8a6;
+      --bg: #f0e6d6;
+      --body-bg: #e8dcc8;
+      --fg: #0d2030;
+      --fg2: #1e3a50;
+      --muted: #4a6a80;
+      --hint: #5e7f96;
+      --amber: #e8866a;
+      --amber-hover: #d76f54;
+      --amber-light: rgba(232,134,106,.11);
+      --amber-mid: rgba(232,134,106,.24);
+      --teal: #6e8fa6;
       --glass: rgba(255,255,255,.65);
-      --border: rgba(28,25,23,.1);
-      --border-focus: rgba(217,119,6,.5);
-      --success: #3b6d11;
-      --font-serif: 'Shippori Mincho', serif;
-      --font-sans: 'Noto Sans JP', sans-serif;
+      --border: rgba(13,32,48,.1);
+      --border-focus: rgba(232,134,106,.55);
+      --success: #3f6f5a;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-sans: 'Zen Kaku Gothic New', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
       --r-sm: 6px;
       --r-md: 12px;
@@ -55,6 +56,7 @@
     }
 
     .wrap { width: 100%; max-width: 560px; position: relative; z-index: 1; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
     .ft-mini { max-width: 480px; margin: 36px auto 0; text-align: center; padding-top: 22px; border-top: 1px solid var(--border); }
     .ft-mini-tagline { font-family: var(--font-serif); font-size: 13px; letter-spacing: .03em; color: var(--fg2); margin-bottom: 6px; }
     .ft-mini-copy { font-family: var(--font-mono); font-size: 10px; color: var(--hint); letter-spacing: .08em; text-transform: uppercase; }
@@ -236,6 +238,7 @@
   </style>
 </head>
 <body>
+<h1 class="sr-only">お問い合わせ</h1>
 <div class="wrap">
 
   <!-- Header -->
@@ -269,7 +272,7 @@
       <button class="btn-primary" id="qNextBtn">次へ <span>→</span></button>
       <button class="btn-secondary" id="qBackBtn">← 前の質問へ</button>
     </div>
-    <p class="btn-note">🔒 通信は暗号化(HTTPS)されており、reCAPTCHAでスパムも防止しています。入力内容は営業目的以外に使用しません。</p>
+    <p class="btn-note">🔒 通信は暗号化(HTTPS)されており、入力内容は営業目的以外に使用しません。</p>
   </div>
 
   <!-- STEP 2: 連絡先入力 -->
@@ -280,21 +283,21 @@
 
     <div class="fields">
       <div class="field-group">
-        <label class="field-label">お名前 <span class="field-req">必須</span></label>
+        <label class="field-label" for="fname">お名前 <span class="field-req">必須</span></label>
         <input type="text" id="fname" placeholder="例：山田 太郎">
         <span class="err" id="fnameErr">お名前を入力してください</span>
       </div>
       <div class="field-group">
-        <label class="field-label">会社名 <span class="field-opt">任意</span></label>
+        <label class="field-label" for="fcompany">会社名 <span class="field-opt">任意</span></label>
         <input type="text" id="fcompany" placeholder="例：株式会社〇〇">
       </div>
       <div class="field-group">
-        <label class="field-label">メールアドレス <span class="field-req">必須</span></label>
+        <label class="field-label" for="femail">メールアドレス <span class="field-req">必須</span></label>
         <input type="email" id="femail" placeholder="例：hello@example.com">
         <span class="err" id="femailErr">正しいメールアドレスを入力してください</span>
       </div>
       <div class="field-group">
-        <label class="field-label">ひとこと <span class="field-opt">任意</span></label>
+        <label class="field-label" for="fmessage">ひとこと <span class="field-opt">任意</span></label>
         <textarea id="fmessage" placeholder="「うちはここが一番きつい」でも「とりあえず話を聞いてみたい」でも、なんでも。" rows="3"></textarea>
         <span class="field-hint">書けることだけで大丈夫です。</span>
       </div>
@@ -340,7 +343,7 @@
       <button class="btn-secondary" id="editBtn">← 修正する</button>
     </div>
     <p class="submit-err" id="submitErr"></p>
-    <p class="btn-note">このサイトはreCAPTCHAによって保護されており、Googleの<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">プライバシーポリシー</a>と<a href="https://policies.google.com/terms" target="_blank" rel="noopener">利用規約</a>が適用されます。</p>
+    <p class="btn-note">送信内容はお問い合わせ対応のためにのみ使用します。</p>
   </div>
 
   <!-- 完了 -->
@@ -610,7 +613,25 @@
   }
 
   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mnjkgdgj';
-  const RECAPTCHA_SITE_KEY = 'YOUR_RECAPTCHA_SITE_KEY';
+  // reCAPTCHA v3を使う場合は、ここにサイトキーを設定する
+  const RECAPTCHA_SITE_KEY = '';
+  let recaptchaLoading = null;
+
+  function loadRecaptcha() {
+    if (!RECAPTCHA_SITE_KEY) return Promise.resolve(false);
+    if (typeof grecaptcha !== 'undefined') return Promise.resolve(true);
+    if (recaptchaLoading) return recaptchaLoading;
+
+    recaptchaLoading = new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://www.google.com/recaptcha/api.js?render=' + encodeURIComponent(RECAPTCHA_SITE_KEY);
+      script.async = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.head.appendChild(script);
+    });
+    return recaptchaLoading;
+  }
 
   function submit() {
     const btn = document.getElementById('submitBtn');
@@ -660,14 +681,16 @@
         });
     };
 
-    // reCAPTCHA v3が読み込まれていればトークンを取得してから送信、なければそのまま送信
-    if (typeof grecaptcha !== 'undefined' && RECAPTCHA_SITE_KEY.indexOf('YOUR_') !== 0) {
+    // reCAPTCHA v3のサイトキーが設定されていればトークンを取得し、未設定なら通常送信する
+    loadRecaptcha().then((enabled) => {
+      if (!enabled || typeof grecaptcha === 'undefined') {
+        sendPayload(null);
+        return;
+      }
       grecaptcha.ready(() => {
         grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' }).then(sendPayload).catch(() => sendPayload(null));
       });
-    } else {
-      sendPayload(null);
-    }
+    });
   }
 
   document.getElementById('qNextBtn').addEventListener('click', advanceQuestion);

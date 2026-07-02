@@ -13,10 +13,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/">
   <meta name="robots" content="index, follow">
-  <link rel="icon" type="image/svg+xml" href="/fugasha_ai/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/fugasha_ai/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/fugasha_ai/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/fugasha_ai/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
@@ -753,30 +753,6 @@
     .ab-tw-cur.on { opacity: 1; animation: twblink .8s ease-in-out infinite; }
     .ab-solo-title { font-size: 11px; font-weight: 500; color: var(--accent); margin-bottom: 6px; }
 
-    /* ── More about me (carousel) ── */
-    .facts-carousel { max-width: 740px; }
-    .facts-track {
-      display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
-      padding-bottom: 6px; scrollbar-width: none; -ms-overflow-style: none;
-    }
-    .facts-track::-webkit-scrollbar { display: none; }
-    .fact-card {
-      flex: 0 0 auto; scroll-snap-align: start; width: min(300px, 78vw);
-      background: var(--bg2); border-radius: 12px; padding: 28px;
-    }
-    .fact-card i { font-size: 22px; color: var(--muted); margin-bottom: 16px; display: block; }
-    .fact-card p { font-size: 14px; line-height: 1.85; color: var(--fg2); }
-    .facts-nav { display: flex; align-items: center; gap: 16px; margin-top: 22px; }
-    .facts-arrow {
-      width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line);
-      background: transparent; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; color: var(--fg2); transition: border-color .2s, color .2s; flex-shrink: 0;
-    }
-    .facts-arrow:hover { border-color: var(--muted); color: var(--fg); }
-    .facts-dots { display: flex; gap: 6px; }
-    .facts-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--line); transition: background .2s, width .2s; }
-    .facts-dot.active { background: var(--muted); width: 18px; border-radius: 3px; }
-
     /* ── Reading section ── */
     .read-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; max-width: 900px; }
     .shelf { display: flex; flex-direction: column; }
@@ -826,8 +802,8 @@
     }
 
     /* ── Facts slider ── */
-    .facts-slider { max-width: 640px; }
-    .facts-track { display: flex; overflow: hidden; border-radius: 14px; }
+    .facts-slider { max-width: 640px; overflow: hidden; }
+    .facts-track { display: flex; border-radius: 14px; transition: transform .45s cubic-bezier(.16,1,.3,1); }
     .facts-track > .fact-card { flex: 0 0 100%; }
     .fact-card {
       display: flex; flex-direction: column; align-items: center; text-align: center;
@@ -1479,7 +1455,7 @@
   <a href="blog/">Blog</a>
   <a href="#s-price">Pricing</a>
   <a href="#s-faq">FAQ</a>
-  <div class="nav-drawer-cta"><button class="btn-amber nav-cta-drawer">無料で話してみる →</button></div>
+  <div class="nav-drawer-cta"><a href="contact.html" class="btn-amber nav-cta-drawer">無料で話してみる →</a></div>
 </div>
 
 <!-- ── Hero ── -->
@@ -2198,15 +2174,43 @@
     if (!el || el.dataset.split) return;
     el.dataset.split = '1';
     el.classList.add('is-split');
-    const html = el.innerHTML;
     let wordIndex = 0;
-    el.innerHTML = html.split(/(<br\s*\/?>)/gi).map(part => {
-      if (/^<br/i.test(part)) return part;
-      return part.split(' ').filter(w => w).map((word) => {
-        const wi = wordIndex++;
-        return `<span class="split-word" data-wi="${wi}"><span>${word}</span></span> `;
-      }).join('').trimEnd();
-    }).join('');
+
+    function wrapTextNode(node) {
+      const text = node.nodeValue;
+      if (!text || !text.trim()) return;
+
+      const fragment = document.createDocumentFragment();
+      text.split(/(\s+)/).forEach(part => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) {
+          fragment.appendChild(document.createTextNode(part));
+          return;
+        }
+
+        const outer = document.createElement('span');
+        const inner = document.createElement('span');
+        outer.className = 'split-word';
+        outer.dataset.wi = wordIndex++;
+        inner.textContent = part;
+        outer.appendChild(inner);
+        fragment.appendChild(outer);
+      });
+
+      node.parentNode.replaceChild(fragment, node);
+    }
+
+    function walk(node) {
+      Array.from(node.childNodes).forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          wrapTextNode(child);
+        } else if (child.nodeType === Node.ELEMENT_NODE && child.tagName !== 'BR') {
+          walk(child);
+        }
+      });
+    }
+
+    walk(el);
   }
 
   // Apply split to key headings — runs before hero becomes visible
@@ -2709,14 +2713,6 @@
         navDrawer.classList.remove('open');
       });
     });
-    const drawerCta = navDrawer.querySelector('.nav-cta-drawer');
-    if (drawerCta) {
-      drawerCta.addEventListener('click', () => {
-        navHam.classList.remove('open');
-        navDrawer.classList.remove('open');
-        window.location.href = 'contact.html';
-      });
-    }
   }
 
   // ── Hero typewriter: rotating industry pain points ──
@@ -2951,48 +2947,6 @@
         window.scrollTo({ top: target, behavior: 'smooth' });
       });
     });
-  })();
-
-  // ── Facts carousel ──
-  (function(){
-    const track = document.getElementById('factsTrack');
-    const prevBtn = document.getElementById('factsPrev');
-    const nextBtn = document.getElementById('factsNext');
-    const dotsWrap = document.getElementById('factsDots');
-    if (!track || !prevBtn || !nextBtn || !dotsWrap) return;
-
-    const cards = Array.from(track.children);
-    cards.forEach((_, i) => {
-      const dot = document.createElement('span');
-      dot.className = 'facts-dot' + (i === 0 ? ' active' : '');
-      dot.addEventListener('click', () => scrollToCard(i));
-      dotsWrap.appendChild(dot);
-    });
-    const dots = Array.from(dotsWrap.children);
-
-    function scrollToCard(i) {
-      cards[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-    }
-    function activeIndex() {
-      const idx = dots.findIndex(d => d.classList.contains('active'));
-      return idx === -1 ? 0 : idx;
-    }
-    function updateActive() {
-      const trackRect = track.getBoundingClientRect();
-      let closest = 0, closestDist = Infinity;
-      cards.forEach((c, i) => {
-        const d = Math.abs(c.getBoundingClientRect().left - trackRect.left);
-        if (d < closestDist) { closestDist = d; closest = i; }
-      });
-      dots.forEach((d, i) => d.classList.toggle('active', i === closest));
-    }
-    let rafId = null;
-    track.addEventListener('scroll', () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(updateActive);
-    }, { passive: true });
-    prevBtn.addEventListener('click', () => scrollToCard(Math.max(0, activeIndex() - 1)));
-    nextBtn.addEventListener('click', () => scrollToCard(Math.min(cards.length - 1, activeIndex() + 1)));
   })();
 
   // ── Facts slider ──
