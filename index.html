@@ -69,14 +69,6 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "どんな規模の会社が対象ですか？",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "個人事業主から従業員50名程度までの中小企業を中心に対応しています。AI活用の入り口に立ったばかりの方も歓迎です。"
-            }
-          },
-          {
-            "@type": "Question",
             "name": "AIの知識がまったくなくても相談できますか？",
             "acceptedAnswer": {
               "@type": "Answer",
@@ -89,22 +81,6 @@
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "単発プロジェクトに契約期間の縛りはありません。月額の伴走プランも3ヶ月から。まずは半日ワークショップからお試しいただくことも可能です。"
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "お問い合わせ後、しつこく営業されませんか？",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "いたしません。まず状況をお伺いし、必要な提案だけをお伝えします。ご不要であれば、その場でおっしゃってください。"
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "フォームに入力した内容のセキュリティは大丈夫ですか？",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "サイバーセキュリティ関連の記事を3年執筆してきた立場として、情報の取り扱いには特に注意しています。通信は暗号化（HTTPS）されており、入力内容は営業目的以外には使用しません。"
             }
           },
           {
@@ -312,7 +288,6 @@
     .btn-amber:hover { opacity: .8; }
     .btn-amber .arr { transition: transform .25s; display: inline-block; }
     .btn-amber:hover .arr { transform: translateX(4px); }
-    .h-line-sub { font-size: 11px; color: var(--hint); margin-top: 10px; opacity: 0; transition: all .6s ease .6s; }
 
     /* scroll hint */
     .scroll-hint {
@@ -396,33 +371,34 @@
 
     /* ── Tools ── */
     .sec-tools {
-      padding: 28px 0; background: rgba(255,255,255,.55);
+      padding: 34px 0; background: rgba(255,255,255,.55);
       border-bottom: .5px solid rgba(255,255,255,.6); backdrop-filter: blur(10px);
       overflow: hidden;
     }
-    .tools-lbl { font-size: 9px; letter-spacing: .18em; color: var(--hint); text-align: center; margin-bottom: 14px; }
-    .tools-marquee { display: grid; gap: 8px; overflow: hidden; }
+    .tools-lbl { font-size: 10px; letter-spacing: .18em; color: var(--hint); text-align: center; margin-bottom: 18px; }
+    .tools-marquee { display: grid; gap: 14px; overflow: hidden; }
     .tools-row {
-      display: flex; align-items: center; gap: 7px; flex-wrap: nowrap; width: max-content;
-      animation: toolsMarquee 34s linear infinite; will-change: transform;
+      display: flex; align-items: center; gap: 14px; flex-wrap: nowrap; width: max-content;
+      animation: toolsMarquee 68s linear infinite; will-change: transform;
     }
-    .tools-row-alt { animation-duration: 42s; animation-direction: reverse; }
+    .tools-row-alt { animation-duration: 84s; animation-direction: reverse; }
+    .tools-row-third { animation-duration: 76s; }
     .tools-marquee:hover .tools-row { animation-play-state: paused; }
     @keyframes toolsMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .tp {
-      display: flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 99px;
-      border: .5px solid var(--gb); background: var(--glass); font-size: 11px; color: var(--fg2);
+      display: flex; align-items: center; gap: 12px; padding: 10px 24px; border-radius: 99px;
+      border: .5px solid var(--gb); background: var(--glass); font-size: 22px; color: var(--fg2);
       font-weight: 500; backdrop-filter: blur(8px); cursor: default;
       transition: transform .2s, box-shadow .2s;
     }
-    .tp:hover { transform: translateY(-3px); box-shadow: 0 5px 16px rgba(28,25,23,.08); }
+    .tp:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(28,25,23,.08); }
     .ti {
-      width: 17px; height: 17px; border-radius: 4px;
+      width: 34px; height: 34px; border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 9px; font-weight: 700; flex-shrink: 0;
+      font-size: 18px; font-weight: 700; flex-shrink: 0;
       position: relative; overflow: hidden;
     }
-    .ti img { width: 12px; height: 12px; object-fit: contain; display: block; }
+    .ti img { width: 24px; height: 24px; object-fit: contain; display: block; }
     .ti.has-logo span { display: none; }
     .t-oai { background: #000; color: #fff; }
     .t-cl  { background: #d97706; color: #fff; }
@@ -453,7 +429,14 @@
     .sec-white { background: #f8f3ea; }
     .sec-dark  { background: var(--fg); }
     .topline { display: none; }
-    .s-lbl { font-size: 9px; letter-spacing: .16em; color: var(--hint); margin-bottom: 14px; opacity: 0; transform: translateY(8px); transition: all .6s ease; text-transform: uppercase; font-family: var(--font-mono); }
+    .s-lbl {
+      display: inline-flex; align-items: center; width: fit-content;
+      font-size: 9px; letter-spacing: .16em; color: var(--accent-ink);
+      margin-bottom: 14px; opacity: 0; transform: translateY(8px);
+      transition: all .6s ease; text-transform: uppercase; font-family: var(--font-mono);
+      padding: 4px 9px; border-radius: 999px; background: rgba(232,134,106,.1);
+      border: .5px solid rgba(232,134,106,.2);
+    }
     .s-h2 { font-size: 38px; font-weight: 300; line-height: 1.42; margin-bottom: 16px; color: var(--fg); opacity: 0; transform: translateY(12px); transition: all .8s cubic-bezier(.16,1,.3,1) .08s; font-family: var(--font-serif); letter-spacing: -.02em; }
     .s-h2-l { color: rgba(240,230,214,.9); }
     .s-desc { font-size: 14px; color: var(--muted); margin-bottom: 48px; opacity: 0; transition: all .6s ease .16s; line-height: 1.85; max-width: 440px; font-weight: 300; }
@@ -472,6 +455,23 @@
     .blog-prev-more { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--fg); font-weight: 500; text-decoration: none; letter-spacing: .04em; }
     .blog-prev-more .arr { transition: transform .2s; display: inline-block; }
     .blog-prev-more:hover .arr { transform: translateX(4px); }
+    #s-blog {
+      background: linear-gradient(135deg, #1b3447 0%, #0d2030 72%);
+      color: rgba(240,230,214,.9);
+    }
+    #s-blog .s-lbl {
+      color: var(--accent2); background: rgba(232,134,106,.12);
+      border-color: rgba(232,134,106,.26);
+    }
+    #s-blog .s-h2 { color: rgba(240,230,214,.94); }
+    #s-blog .s-desc { color: rgba(240,230,214,.62); }
+    #s-blog .blog-prev-grid { max-width: 860px; }
+    #s-blog .blog-prev-card {
+      background: rgba(240,230,214,.93); color: var(--fg);
+      border-color: rgba(240,230,214,.18); box-shadow: 0 20px 46px rgba(0,0,0,.18);
+    }
+    #s-blog .blog-prev-title { color: var(--fg); }
+    #s-blog .blog-prev-more { color: rgba(240,230,214,.9); }
 
     /* bento grid */
     .bento { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
@@ -490,7 +490,12 @@
     }
     .bc:hover { transform: translateY(-4px); }
     .bc-nb { font-size: 72px; font-weight: 500; position: absolute; bottom: -14px; right: 8px; line-height: 1; color: rgba(28,25,23,.04); font-family: var(--font-mono); pointer-events: none; }
-    .bc-lbl { font-size: 10px; letter-spacing: .1em; color: var(--hint); margin-bottom: 10px; font-family: var(--font-mono); }
+    .bc-lbl {
+      display: inline-flex; width: fit-content; font-size: 10px; letter-spacing: .1em;
+      color: var(--accent-ink); margin-bottom: 12px; font-family: var(--font-mono);
+      padding: 3px 8px; border-radius: 999px; background: rgba(232,134,106,.11);
+      border: .5px solid rgba(232,134,106,.18);
+    }
     .bc-t { font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.55; margin-bottom: 8px; }
     .bc-b { font-size: 13px; color: var(--fg2); line-height: 1.8; }
     .bc-num { font-family: var(--font-serif); font-size: 38px; font-weight: 300; color: var(--fg); line-height: 1; margin: 2px 0 10px; letter-spacing: -.01em; }
@@ -526,16 +531,16 @@
     .sv-ic {
       width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
       border-radius: 50%; background: rgba(13,32,48,.06); color: var(--fg);
-      font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; font-weight: 700;
+      font-size: 18px; font-weight: 500;
     }
     .sv-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; color: var(--hint); padding-top: 4px; }
     .sv-t { font-family: var(--font-serif); font-size: 20px; font-weight: 600; color: var(--fg); line-height: 1.35; margin-bottom: 8px; }
     .sv-b { font-size: 13px; color: var(--muted); line-height: 1.8; max-width: 360px; }
     .sv-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; }
     .sv-tags span {
-      display: inline-flex; align-items: center; min-height: 26px; padding: 5px 9px;
-      border-radius: 7px; background: rgba(255,255,255,.52); border: .5px solid rgba(13,32,48,.08);
-      font-size: 10px; color: var(--fg2);
+      display: inline-flex; align-items: center; min-height: 28px; padding: 5px 10px;
+      border-radius: 999px; background: rgba(232,134,106,.12); border: .5px solid rgba(232,134,106,.2);
+      font-size: 10px; color: var(--accent-ink); font-weight: 500;
     }
     .svc-visual {
       position: relative; z-index: 1; margin-top: 20px; min-height: 118px;
@@ -796,7 +801,7 @@
     /* ── text side (right 55%) ── */
     .sst-right {
       flex: 1;
-      display: flex; align-items: center;
+      display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
       padding: 0 60px 0 56px;
       position: relative;
       min-width: 0;
@@ -900,7 +905,7 @@
       color: rgba(240,230,214,.75); cursor: pointer; font-weight: 400;
       border: .5px solid rgba(240,230,214,.25);
       transition: background .25s, color .25s; letter-spacing: .1em; text-transform: uppercase;
-      font-family: var(--font-sans); text-decoration: none;
+      font-family: var(--font-sans); text-decoration: none; white-space: nowrap; writing-mode: horizontal-tb;
     }
     .vis-cta-btn:hover { background: rgba(240,230,214,.1); color: rgba(240,230,214,.95); }
 
@@ -917,6 +922,7 @@
     }
     .ab-img-main {
       width: 100%; height: 100%; object-fit: cover; border-radius: 18px; display: block;
+      object-position: center 24%;
       filter: grayscale(1) contrast(1.05);
       transition: filter .6s cubic-bezier(.16,1,.3,1);
     }
@@ -968,7 +974,11 @@
       background: rgba(13,32,48,.18); transition: width .2s, background .2s;
     }
     .about-mini-dot.active { width: 18px; background: var(--accent); }
-    .ab-solo { margin-top: 16px; padding: 14px 18px; border-radius: 10px; background: rgba(13,32,48,.04); border: .5px solid rgba(13,32,48,.1); }
+    .about-catch {
+      margin: 18px 0 12px; font-family: var(--font-serif); font-size: clamp(30px, 5vw, 54px);
+      line-height: .98; letter-spacing: 0; color: var(--fg); text-transform: uppercase;
+    }
+    .about-catch span { display: block; color: var(--accent-ink); }
     .ab-typewriter {
       font-family: var(--font-mono); font-size: 13px; color: var(--muted);
       min-height: 1.8em; margin-bottom: 20px; line-height: 1.8;
@@ -979,9 +989,6 @@
       margin-left: 2px; vertical-align: text-bottom; opacity: 0;
     }
     .ab-tw-cur.on { opacity: 1; animation: twblink .8s ease-in-out infinite; }
-    .ab-solo-title { font-size: 11px; font-weight: 500; color: var(--accent-ink); margin-bottom: 6px; }
-
-    .ab-solo-body { font-size: 12px; color: var(--muted); line-height: 1.7; }
     .ab-cred { display: flex; align-items: center; gap: 0; margin-top: 16px; padding: 16px 20px; border-radius: 10px; background: rgba(13,32,48,.03); border: .5px solid var(--line); }
     .ab-cred-item { flex: 1; }
     .ab-cred-divider { width: .5px; height: 36px; background: var(--line); margin: 0 20px; flex-shrink: 0; }
@@ -1013,29 +1020,6 @@
     .pi-p { background: rgba(232,134,106,.1); color: var(--accent-ink); }
     .pi-t { background: rgba(232,134,106,.1); color: var(--accent-ink); }
 
-    /* voices */
-    .voice-slider { max-width: 760px; overflow: hidden; margin-top: 8px; }
-    .voice-track { display: flex; transition: transform .45s cubic-bezier(.16,1,.3,1); }
-    .voice { flex: 0 0 100%; padding: 28px 30px; border-radius: 16px; opacity: 0; transform: translateY(18px) scale(.98); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); cursor: default; }
-    .voice:hover { transform: translateY(-3px); }
-    .voice-q { font-size: 28px; color: var(--accent-ink); margin-bottom: 8px; line-height: 1; font-family: Georgia, serif; opacity: .6; }
-    .voice-txt { font-size: 14px; color: var(--fg); line-height: 1.9; margin-bottom: 16px; }
-    .voice-from { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-    .voice-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); opacity: .5; }
-    .voice-nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 18px; }
-    .voice-btn {
-      width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: transparent;
-      display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--fg2);
-      transition: border-color .2s, color .2s, background .2s; font-size: 16px; padding: 0;
-    }
-    .voice-btn:hover { border-color: var(--muted); color: var(--fg); background: rgba(255,255,255,.45); }
-    .voice-dots { display: flex; gap: 8px; }
-    .voice-slide-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--line); cursor: pointer;
-      transition: background .2s, transform .2s; border: none; padding: 0;
-    }
-    .voice-slide-dot.active { background: var(--fg2); transform: scale(1.4); }
-
     /* FAQ */
     .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
     .faq-item { border-radius: 4px; overflow: hidden; transition: border-color .2s; }
@@ -1061,19 +1045,20 @@
     .cq { font-size: 13px; color: rgba(240,230,214,.5); font-style: italic; margin-bottom: 36px; opacity: 0; transition: opacity .6s ease .25s; font-family: var(--font-serif); }
     .cta-manifesto {
       display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;
-      max-width: 760px; margin: -12px auto 34px; opacity: 0; transform: translateY(10px);
+      max-width: 900px; margin: -4px auto 36px; opacity: 0; transform: translateY(10px);
       transition: opacity .6s ease .28s, transform .6s ease .28s;
     }
     .cta-manifesto-line {
-      min-height: 74px; padding: 16px 18px; border-radius: 10px;
-      border: .5px solid rgba(240,230,214,.14); background: rgba(240,230,214,.055);
-      text-align: left;
+      min-height: 118px; padding: 24px 22px; border-radius: 8px;
+      border: .5px solid rgba(240,230,214,.18);
+      background: linear-gradient(160deg, rgba(240,230,214,.11), rgba(232,134,106,.08));
+      text-align: left; box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
     }
     .cta-manifesto-k {
-      display: block; font-family: var(--font-mono); font-size: 9px; letter-spacing: .14em;
-      color: rgba(240,230,214,.35); text-transform: uppercase; margin-bottom: 8px;
+      display: block; font-family: var(--font-serif); font-size: clamp(28px, 4vw, 48px);
+      letter-spacing: 0; line-height: .9; color: var(--accent2); text-transform: uppercase; margin-bottom: 16px;
     }
-    .cta-manifesto-t { display: block; font-size: 13px; line-height: 1.75; color: rgba(240,230,214,.78); }
+    .cta-manifesto-t { display: block; font-size: 13px; line-height: 1.85; color: rgba(240,230,214,.78); }
     .cta-wrap { opacity: 0; transition: opacity .6s ease .35s; }
     .cta-btn-amber {
       display: inline-flex; align-items: center; gap: 12px; font-size: 12px;
@@ -1085,37 +1070,19 @@
     .cta-btn-amber:hover { opacity: .85; }
     .cta-btn-amber .arr { transition: transform .25s; display: inline-block; }
     .cta-btn-amber:hover .arr { transform: translateX(4px); }
-    .cta-process { display: flex; align-items: center; justify-content: center; gap: 0; margin-top: 28px; opacity: 0; transition: opacity .6s ease .5s; }
-    .cta-step { text-align: center; padding: 0 20px; }
-    .cta-step-num { width: 22px; height: 22px; border-radius: 50%; background: rgba(240,230,214,.08); border: .5px solid rgba(240,230,214,.15); display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(240,230,214,.4); margin: 0 auto 6px; font-family: var(--font-mono); }
-    .cta-step-txt { font-size: 12px; color: rgba(240,230,214,.65); line-height: 1.5; }
-    .cta-step-arrow { font-size: 14px; color: rgba(240,230,214,.2); margin-top: -16px; }
-    .cta-line-sub { font-size: 11px; color: rgba(240,230,214,.3); margin-top: 10px; opacity: 0; transition: opacity .6s ease .55s; }
-    .cta-note { font-size: 12px; color: rgba(240,230,214,.45); margin-top: 16px; opacity: 0; transition: opacity .6s ease .6s; }
-    .cta-takeaways {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;
-      max-width: 720px; margin: 26px auto 0; opacity: 0; transform: translateY(10px);
-      transition: opacity .6s ease .48s, transform .6s ease .48s;
-    }
-    .cta-takeaway {
-      padding: 12px 14px; border-radius: 8px; border: .5px solid rgba(240,230,214,.18);
-      background: rgba(240,230,214,.07); color: rgba(240,230,214,.78);
-      font-size: 12px; line-height: 1.65; text-align: left;
-    }
 
     /* Footer */
-    .ft { padding: 56px 48px 24px; background: var(--fg); border-top: none; display: flex; flex-direction: column; gap: 28px; }
+    .ft { padding: 56px 48px 24px; background: var(--fg); border-top: none; display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center; }
     .ft-tagline-big {
       font-family: var(--font-serif); font-weight: 600; text-transform: uppercase;
-      font-size: clamp(30px, 5.2vw, 68px); line-height: 1.08; letter-spacing: -.01em;
-      color: rgba(240,230,214,.94); width: 100%;
+      font-size: clamp(48px, 11vw, 160px); line-height: .9; letter-spacing: 0;
+      color: rgba(240,230,214,.94); width: 100%; text-align: center;
     }
     .ft-tw-cur {
       display: inline-block; width: .05em; height: .85em; background: rgba(240,230,214,.85);
       margin-left: .04em; vertical-align: text-bottom; opacity: 0;
     }
     .ft-tw-cur.on { animation: twblink .8s ease-in-out infinite; opacity: 1; }
-    .ft-reading { font-size: 11px; color: rgba(240,230,214,.4); letter-spacing: .02em; margin-top: 14px; display: flex; align-items: center; gap: 6px; }
     .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 22px; border-top: 1px solid rgba(240,230,214,.1); }
     .ftl { font-size: 10px; color: rgba(240,230,214,.3); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
     .ftc { font-size: 10px; color: rgba(240,230,214,.2); letter-spacing: .08em; }
@@ -1129,7 +1096,6 @@
     .visible .h-subcopy,
     .visible .h-typewriter,
     .visible .h-actions,
-    .visible .h-line-sub,
     .visible .scroll-hint,
     .visible .hero-right,
     .visible .s-lbl,
@@ -1140,7 +1106,6 @@
     .visible .sv,
     .visible .case,
     .visible .vic,
-    .visible .voice,
     .visible .price-card,
     .visible .vtag,
     .visible .vh2,
@@ -1151,11 +1116,7 @@
     .visible .csub,
     .visible .cq,
     .visible .cta-wrap,
-    .visible .cta-manifesto,
-    .visible .cta-process,
-    .visible .cta-takeaways,
-    .visible .cta-note,
-    .visible .cta-line-sub { opacity: 1; transform: none; }
+    .visible .cta-manifesto { opacity: 1; transform: none; }
 
     .bc:nth-child(2) { transition-delay: .08s; }
     .bc:nth-child(3) { transition-delay: .16s; }
@@ -1169,7 +1130,6 @@
     .vic:nth-child(2) { transition-delay: .08s; }
     .vic:nth-child(3) { transition-delay: .16s; }
     .vic:nth-child(4) { transition-delay: .24s; }
-    .voice:nth-child(2) { transition-delay: .08s; }
     .price-card:nth-child(2) { transition-delay: .1s; }
     .price-card:nth-child(3) { transition-delay: .2s; }
 
@@ -1211,9 +1171,6 @@
     .ft-social { font-size: 14px; color: rgba(240,230,214,.3); text-decoration: none; transition: color .2s; }
     .ft-social:hover { color: rgba(240,230,214,.7); }
 
-    /* h-line-sub repositioned */
-    .h-line-sub { font-size: 11px; color: var(--hint); margin-left: 6px; opacity: 0; transition: all .6s ease .6s; display: inline-flex; align-items: center; }
-
     /* ═══════════════════════════════════════
        RESPONSIVE — 768px以下
     ═══════════════════════════════════════ */
@@ -1239,10 +1196,8 @@
       .h-h1 { font-size: 32px; line-height: 1.28; margin-bottom: 16px; }
       .h-en { font-size: 11px; margin-bottom: 14px; }
       .h-subcopy { font-size: 13px; margin: -2px 0 14px; }
-      .h-typewriter { font-size: 13px; margin-bottom: 24px; }
       .h-actions { gap: 8px; }
       .btn-amber { font-size: 11px; padding: 13px 22px; }
-      .h-line-sub { font-size: 10px; }
       .scroll-hint { display: none; }
       /* Checker */
       .hero-right { opacity: 1; transform: none; }
@@ -1253,15 +1208,17 @@
 
       /* ── Sections ── */
       .sec { padding: 52px 20px; }
-      .sec-tools { padding: 16px 20px; }
       .s-h2 { font-size: 28px; }
       .s-desc { font-size: 12px; margin-bottom: 28px; }
 
       /* ── Tools ── */
-      .tools-row { gap: 5px; }
-      .tp { font-size: 10px; padding: 4px 10px; gap: 5px; }
-      .sec-tools { padding: 18px 0; }
-      .tools-marquee { gap: 6px; }
+      .tools-lbl { font-size: 9px; margin-bottom: 12px; }
+      .tools-row { gap: 10px; }
+      .tp { font-size: 16px; padding: 8px 18px; gap: 9px; }
+      .ti { width: 28px; height: 28px; border-radius: 7px; font-size: 15px; }
+      .ti img { width: 20px; height: 20px; }
+      .sec-tools { padding: 24px 0; }
+      .tools-marquee { gap: 10px; }
 
       /* ── Pain / Bento ── */
       .bento { grid-template-columns: 1fr; gap: 10px; }
@@ -1281,12 +1238,13 @@
       .case { border-radius: 14px; }
 
       /* ── SCENE (Vision) ── */
-      .sst-sticky { flex-direction: column; height: auto; min-height: 100vh; }
-      .sst-left { flex: 0 0 48vw; width: 100%; min-height: 48vw; }
+      .sst-sticky { flex-direction: column; min-height: 100vh; }
+      .sst-left { flex: 0 0 46vh; width: 100%; min-height: 280px; }
       .sst-right {
         flex: 1; padding: 32px 24px 40px;
-        align-items: flex-start;
+        align-items: flex-start; justify-content: center;
       }
+      .sst-text { width: 100%; }
       .sst-h2 { font-size: 26px; letter-spacing: -.01em; }
       .sst-p { font-size: 13px; }
       .sst-stat { margin-top: 20px; padding: 12px 16px; }
@@ -1294,11 +1252,15 @@
       .sst-dots { margin-top: 24px; }
       .sst-outer { height: 320vh; }
       .sst-photo-num { font-size: 40px; bottom: 16px; left: 20px; }
-      .sst-scenes-text { min-height: 280px; }
+      .sst-scenes-text { min-height: 250px; }
+      .vis-cta { width: 100%; display: flex; justify-content: center; }
+      .vis-cta-btn { width: auto; max-width: 260px; justify-content: center; white-space: nowrap; }
 
       /* ── About ── */
       .ab-grid { grid-template-columns: 1fr; gap: 28px; }
-      .aph { aspect-ratio: 4/3; max-height: 260px; border-radius: 14px; }
+      .aph { aspect-ratio: 1/1; max-height: 340px; border-radius: 14px; }
+      .ab-img-main { object-position: center 18%; }
+      .about-catch { font-size: 34px; }
       .ah2 { font-size: 24px; }
       .ap { font-size: 13px; }
       .ab-cred { flex-direction: column; gap: 16px; }
@@ -1315,23 +1277,16 @@
       .price-card { padding: 22px 20px; }
       .price-num { font-size: 28px; }
 
-      /* ── Voices ── */
-      .voice { padding: 24px 22px; border-radius: 14px; }
-      .voice:hover { transform: none; }
-
       /* ── Infog ── */
       /* ── CTA ── */
       .ch2 { font-size: 26px; }
-      .cta-process { flex-direction: column; gap: 10px; align-items: center; }
-      .cta-step-arrow { transform: rotate(90deg); margin: 0; }
-      .cta-takeaways { grid-template-columns: 1fr; gap: 8px; margin-top: 22px; }
       .cta-manifesto { grid-template-columns: 1fr; gap: 8px; margin: -8px auto 28px; }
-      .cta-manifesto-line { min-height: auto; padding: 13px 15px; }
+      .cta-manifesto-line { min-height: auto; padding: 18px 18px; }
       .cta-btn-amber { padding: 14px 28px; font-size: 11px; }
 
       /* ── Footer ── */
       .ft { gap: 20px; padding: 40px 20px 20px; }
-      .ft-tagline-big { font-size: 28px; }
+      .ft-tagline-big { font-size: clamp(44px, 17vw, 86px); }
       .ft-bottom { flex-direction: column; text-align: center; gap: 12px; padding-top: 18px; }
       .ft-links { flex-wrap: wrap; justify-content: center; gap: 12px; }
 
@@ -1339,7 +1294,7 @@
       .cursor { display: none; }
 
       /* ── Hover effects off (touch) ── */
-      .bc:hover, .sv:hover, .vic:hover, .voice:hover, .tp:hover { transform: none; box-shadow: none; }
+      .bc:hover, .sv:hover, .vic:hover, .tp:hover { transform: none; box-shadow: none; }
     }
 
     /* ═══════════════════════════════════════
@@ -1554,12 +1509,8 @@
     <h1 class="h-h1">無駄をなくして、<br><span class="h-h1-word" id="heroWordText">熱中</span><span class="h-h1-cur" id="heroWordCur"></span>を取り戻す。</h1>
     <p class="h-en">Less friction. More you.</p>
     <p class="h-subcopy">AI導入・デザイン・マーケティング・業務改善を横断して、小さな会社の「やりたいのに進まない」を、実務で動く形に整えます。</p>
-    <div class="h-typewriter" id="hTypewriter">
-      <span class="h-tw-text" id="hTwText"></span><span class="h-tw-cur"></span>
-    </div>
     <div class="h-actions">
       <a href="contact.html" class="btn-amber">無料で相談する <span class="arr">→</span></a>
-      <span class="h-line-sub">30分オンライン / 無理な営業なし</span>
     </div>
   </div>
   <div class="hero-right">
@@ -1659,6 +1610,28 @@
       <div class="tp"><div class="ti t-wp"><img src="https://cdn.simpleicons.org/wordpress/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>W</span></div>WordPress</div>
       <div class="tp"><div class="ti t-gh"><img src="https://cdn.simpleicons.org/github/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>GitHub</div>
     </div>
+    <div class="tools-row tools-row-third">
+      <div class="tp"><div class="ti t-oai"><img src="https://cdn.simpleicons.org/openai/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>○</span></div>ChatGPT</div>
+      <div class="tp"><div class="ti t-n8"><img src="https://cdn.simpleicons.org/n8n/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>n</span></div>n8n</div>
+      <div class="tp"><div class="ti t-fi"><img src="https://cdn.simpleicons.org/figma/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>F</span></div>Figma</div>
+      <div class="tp"><div class="ti t-sl"><img src="https://cdn.simpleicons.org/slack/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>S</span></div>Slack</div>
+      <div class="tp"><div class="ti t-ca"><img src="https://cdn.simpleicons.org/canva/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Canva</div>
+      <div class="tp"><div class="ti t-cu"><img src="https://cdn.simpleicons.org/cursor/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Cursor</div>
+      <div class="tp"><div class="ti t-gw"><img src="https://cdn.simpleicons.org/googleworkspace/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Google Workspace</div>
+      <div class="tp"><div class="ti t-wp"><img src="https://cdn.simpleicons.org/wordpress/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>W</span></div>WordPress</div>
+      <div class="tp"><div class="ti t-cl"><img src="https://cdn.simpleicons.org/anthropic/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Claude</div>
+      <div class="tp"><div class="ti t-ma"><img src="https://cdn.simpleicons.org/make/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>M</span></div>Make</div>
+      <div class="tp"><div class="ti t-oai"><img src="https://cdn.simpleicons.org/openai/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>○</span></div>ChatGPT</div>
+      <div class="tp"><div class="ti t-n8"><img src="https://cdn.simpleicons.org/n8n/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>n</span></div>n8n</div>
+      <div class="tp"><div class="ti t-fi"><img src="https://cdn.simpleicons.org/figma/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>F</span></div>Figma</div>
+      <div class="tp"><div class="ti t-sl"><img src="https://cdn.simpleicons.org/slack/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>S</span></div>Slack</div>
+      <div class="tp"><div class="ti t-ca"><img src="https://cdn.simpleicons.org/canva/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Canva</div>
+      <div class="tp"><div class="ti t-cu"><img src="https://cdn.simpleicons.org/cursor/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Cursor</div>
+      <div class="tp"><div class="ti t-gw"><img src="https://cdn.simpleicons.org/googleworkspace/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Google Workspace</div>
+      <div class="tp"><div class="ti t-wp"><img src="https://cdn.simpleicons.org/wordpress/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>W</span></div>WordPress</div>
+      <div class="tp"><div class="ti t-cl"><img src="https://cdn.simpleicons.org/anthropic/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Claude</div>
+      <div class="tp"><div class="ti t-ma"><img src="https://cdn.simpleicons.org/make/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>M</span></div>Make</div>
+    </div>
   </div>
 </section>
 
@@ -1702,7 +1675,7 @@
     <div class="sv sv1 glass-card">
       <div class="sv-ln"></div>
       <div class="sv-top">
-        <div class="sv-head"><div class="sv-ic" aria-hidden="true">D</div><span class="sv-num">01 / DESIGN & MESSAGE</span></div>
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><i class="ti ti-palette"></i></div><span class="sv-num">01 / デザイン・発信</span></div>
         <h3 class="sv-t">伝わる見た目と、言葉を整える。</h3>
         <div class="sv-b">LP、営業資料、SNS、広報文。きれいにするだけでなく、初見で「何の会社か」が伝わる順番に組み直します。</div>
         <div class="sv-tags"><span>LP</span><span>営業資料</span><span>発信設計</span></div>
@@ -1715,7 +1688,7 @@
     <div class="sv sv2 glass-card">
       <div class="sv-ln"></div>
       <div class="sv-top">
-        <div class="sv-head"><div class="sv-ic" aria-hidden="true">AI</div><span class="sv-num">02 / AI</span></div>
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><i class="ti ti-sparkles"></i></div><span class="sv-num">02 / AI活用</span></div>
         <h3 class="sv-t">AIを、現場で使える形にする。</h3>
         <div class="sv-b">「何から始める？」の棚卸しから、プロンプト、運用ルール、定着まで。無理のない小さな導入から始めます。</div>
         <div class="sv-tags"><span>業務棚卸し</span><span>生成AI</span><span>社内ルール</span></div>
@@ -1729,7 +1702,7 @@
     <div class="sv sv4 glass-card sv-wide">
       <div class="sv-ln"></div>
       <div class="sv-top">
-        <div class="sv-head"><div class="sv-ic" aria-hidden="true">OPS</div><span class="sv-num">03 / OPS</span></div>
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><i class="ti ti-settings-automation"></i></div><span class="sv-num">03 / 業務整理</span></div>
         <h3 class="sv-t">手放せる仕事を、自然に回る仕組みへ。</h3>
         <div class="sv-b">日々の作業を見える化し、人が集中すること・AIや外部に任せることを整理します。無理なく続く運用へ。</div>
         <div class="sv-tags"><span>業務整理</span><span>自動化</span><span>運用改善</span></div>
@@ -1754,14 +1727,6 @@
     <div class="case glass-card"><div class="case-head"><span class="case-tag tag-t">業務効率化コンサル</span><span class="case-co">飲食・小売・店舗運営</span></div><p class="case-body">SNS投稿、シフト共有、発注・請求まわりの流れを整理。人がやる仕事と仕組みに任せる仕事を分ける。</p><div class="case-result"><span class="case-arrow">→</span>想定効果: オーナーが判断業務に戻れる時間をつくる。</div></div>
   </div>
   <p class="case-note">※ 上記は相談内容をもとにしたモデルケースです。成果は業種・体制・既存ツール・運用状況により異なります。</p>
-  <div class="cases-hint">
-    <div class="cases-hint-dots">
-      <div class="cases-hint-dot active"></div>
-      <div class="cases-hint-dot"></div>
-      <div class="cases-hint-dot"></div>
-    </div>
-    <span>スワイプで続きを見る</span>
-  </div>
 </section>
 <section id="s-vision" style="position:relative;background:var(--fg);padding:0;">
   <div class="sst-outer">
@@ -1849,7 +1814,7 @@
           <span class="sst-dot-label" id="sst-dot-lbl">01 / 03</span>
         </div>
 
-        <div style="margin-top:40px;">
+        <div class="vis-cta">
           <a href="contact.html" class="vis-cta-btn">無料で相談する →</a>
         </div>
       </div><!-- /sst-right -->
@@ -1875,6 +1840,7 @@
       <p class="ap">変わったきっかけは、AIでした。それまで数時間かかっていた資料作成が、30分で終わった。空いた時間にふと窓の外を見て、「あれ、今日まだ明るい」と気づいた。その感覚が忘れられなくて、風雅舎をはじめました。</p>
       <p class="ap">慶應・ケルン大を経て、デザイン・PR・マーケティング・サイバーセキュリティの記事制作に関わってきました。AIはツール単体よりも、業務の文脈に合わせて使える形にすることが大切です。</p>
       <p class="ap">だから風雅舎では、いきなりツールを入れるのではなく、まず「どこから整えると一番効くか」を一緒に見極めます。</p>
+      <div class="about-catch">Less friction.<span>More curiosity.</span></div>
       <div class="crs">
         <span class="cr">慶應義塾大学卒</span>
         <span class="cr">日・英・独 対応</span>
@@ -1915,10 +1881,6 @@
       <div class="ab-typewriter" id="abTypewriter">
         <span class="ab-tw-prefix">//</span> <span class="ab-tw-text" id="abTwText"></span><span class="ab-tw-cur" id="abTwCur"></span>
       </div>
-      <div class="ab-solo">
-        <div class="ab-solo-title">個人だから、できること</div>
-        <p class="ab-solo-body">担当が変わらない。意思決定が速い。大手に比べてコストが抑えられる。「社長と直接話せる人に頼みたい」という方に選ばれています。</p>
-      </div>
       <div class="ab-cred" id="ab-cred">
         <div class="ab-cred-item">
           <div class="ab-cred-num"><span id="ab-n1">0</span><span class="ab-cred-unit">本以上</span></div>
@@ -1926,13 +1888,13 @@
         </div>
         <div class="ab-cred-divider"></div>
         <div class="ab-cred-item">
-          <div class="ab-cred-num">月<span id="ab-n2">0</span><span class="ab-cred-unit">本以上</span></div>
-          <div class="ab-cred-lbl">専門メディアへの<br>継続的な寄稿</div>
+          <div class="ab-cred-num"><span id="ab-n2">0</span><span class="ab-cred-unit">年以上</span></div>
+          <div class="ab-cred-lbl">マーケティング・広報・<br>デザイン経験</div>
         </div>
         <div class="ab-cred-divider"></div>
         <div class="ab-cred-item">
-          <div class="ab-cred-num">30<span class="ab-cred-unit">社以上</span></div>
-          <div class="ab-cred-lbl">AI・デザイン・PR・セキュリティ<br>領域の支援実績（累計）</div>
+          <div class="ab-cred-num">50<span class="ab-cred-unit">社以上</span></div>
+          <div class="ab-cred-lbl">マーケティング・広報・デザイン<br>領域の支援実績</div>
         </div>
       </div>
     </div>
@@ -1983,38 +1945,12 @@
   </div>
 </section>
 
-<!-- ── Voices ── -->
-<section class="sec sec-light" id="s-voice">
-  <div class="s-lbl">// VOICE</div>
-  <h2 class="s-h2">お客様の声</h2>
-  <div class="voice-slider" id="voiceSlider">
-  <div class="voice-track" id="voiceTrack">
-    <div class="voice glass-card"><div class="voice-q">"</div><p class="voice-txt">AIって難しそうと思っていたけど、「うちの会社ならここから始めよう」と具体的に提示してもらえて、初めて動けた気がします。</p><div class="voice-from"><div class="voice-dot"></div>製造業・代表取締役 / 従業員15名</div></div>
-    <div class="voice glass-card"><div class="voice-q">"</div><p class="voice-txt">一人でこれだけ幅広くできるのかと最初は半信半疑でしたが、スピードと質に驚きました。担当が変わらないのも安心です。</p><div class="voice-from"><div class="voice-dot"></div>IT企業・COO / 従業員10名</div></div>
-    <div class="voice glass-card"><div class="voice-q">"</div><p class="voice-txt">「こういう人に頼みたかった」というのが正直な感想です。提案が的確で、余計な説明がない。自分でやるより、圧倒的に速かった。</p><div class="voice-from"><div class="voice-dot"></div>小売業・代表 / 従業員6名</div></div>
-    <div class="voice glass-card"><div class="voice-q">"</div><p class="voice-txt">業務改善の話を聞いてもらって、「ここだけ変えれば全体が変わる」という視点をもらいました。半年後、社員から「楽になった」という言葉が出ました。</p><div class="voice-from"><div class="voice-dot"></div>飲食業・オーナー / 3店舗</div></div>
-  </div>
-  <div class="voice-nav">
-    <button class="voice-btn" id="voicePrev" type="button" aria-label="前のお客様の声"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
-    <div class="voice-dots" id="voiceDots"></div>
-    <button class="voice-btn" id="voiceNext" type="button" aria-label="次のお客様の声"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
-  </div>
-  </div>
-</section>
-
 <!-- ── FAQ ── -->
 <section class="sec sec-white" id="s-faq">
   <div class="s-lbl">// FAQ</div>
   <h2 class="s-h2">よくある質問</h2>
   <p class="s-desc">お問い合わせ前に気になることを、先にお答えします。</p>
   <div class="faq-list">
-    <div class="faq-item glass-card">
-      <button class="faq-q" type="button" aria-expanded="false">
-        <span>どんな規模の会社が対象ですか？</span>
-        <i class="ti ti-chevron-down faq-icon" aria-hidden="true"></i>
-      </button>
-      <div class="faq-a"><p>個人事業主から従業員50名程度までの中小企業を中心に対応しています。AI活用の入り口に立ったばかりの方も歓迎です。</p></div>
-    </div>
     <div class="faq-item glass-card">
       <button class="faq-q" type="button" aria-expanded="false">
         <span>AIの知識がまったくなくても相談できますか？</span>
@@ -2028,20 +1964,6 @@
         <i class="ti ti-chevron-down faq-icon" aria-hidden="true"></i>
       </button>
       <div class="faq-a"><p>単発プロジェクトに契約期間の縛りはありません。月額の伴走プランも3ヶ月から。まずは半日ワークショップからお試しいただくことも可能です。</p></div>
-    </div>
-    <div class="faq-item glass-card">
-      <button class="faq-q" type="button" aria-expanded="false">
-        <span>お問い合わせ後、しつこく営業されませんか？</span>
-        <i class="ti ti-chevron-down faq-icon" aria-hidden="true"></i>
-      </button>
-      <div class="faq-a"><p>いたしません。まず状況をお伺いし、必要な提案だけをお伝えします。ご不要であれば、その場でおっしゃってください。</p></div>
-    </div>
-    <div class="faq-item glass-card">
-      <button class="faq-q" type="button" aria-expanded="false">
-        <span>フォームに入力した内容のセキュリティは大丈夫ですか？</span>
-        <i class="ti ti-chevron-down faq-icon" aria-hidden="true"></i>
-      </button>
-      <div class="faq-a"><p>サイバーセキュリティ関連の記事を3年執筆してきた立場として、情報の取り扱いには特に注意しています。通信は暗号化（HTTPS）されており、入力内容は営業目的以外には使用しません。</p></div>
     </div>
     <div class="faq-item glass-card">
       <button class="faq-q" type="button" aria-expanded="false">
@@ -2102,29 +2024,13 @@
     </div>
     <div class="cta-wrap">
       <a href="contact.html" class="cta-btn-amber">無料で相談する <span class="arr">→</span></a>
-      <p class="cta-line-sub">またはメールで直接: <a href="mailto:hello@fugasha.jp" style="color:var(--accent2);text-decoration:none;letter-spacing:.04em;">hello@fugasha.jp</a></p>
     </div>
-    <div class="cta-takeaways" aria-label="無料相談でわかること">
-      <div class="cta-takeaway">どの業務からAI化・外注化すべきか</div>
-      <div class="cta-takeaway">サイト・資料・発信の優先改善点</div>
-      <div class="cta-takeaway">予算内で始める現実的な進め方</div>
-    </div>
-    <div class="cta-process">
-      <div class="cta-step"><div class="cta-step-num">1</div><div class="cta-step-txt">フォーム送信</div></div>
-      <div class="cta-step-arrow">›</div>
-      <div class="cta-step"><div class="cta-step-num">2</div><div class="cta-step-txt">24h以内に返信</div></div>
-      <div class="cta-step-arrow">›</div>
-      <div class="cta-step"><div class="cta-step-num">3</div><div class="cta-step-txt">30分オンライン通話</div></div>
-    </div>
-    <p class="cta-note">無理な営業は一切しません　·　返信は通常24時間以内</p>
   </div>
 </section>
 
 <!-- ── Footer ── -->
 <footer class="ft">
   <div class="ft-tagline-big" id="ftTypewriter"><span id="ftTwText">Less friction. More you.</span><span class="ft-tw-cur" id="ftTwCur"></span></div>
-  <!-- ここは手動で定期更新する「今読んでいる本」欄です。更新のたびに書き換えてください -->
-  <p class="ft-reading"><i class="ti ti-book-2" aria-hidden="true"></i> 今読んでいるのは『自省録』です</p>
   <div class="ft-bottom">
     <span class="ftl">風雅舎 FUGASHA</span>
     <div class="ft-links">
@@ -2239,7 +2145,7 @@
   });
 
   // ── Scroll observer (sections) ──
-  const sectionIds = ['s-hero','s-tools','s-pain','s-service','s-cases','s-vision','s-about','s-price','s-voice','s-faq','s-blog','s-cta'];
+  const sectionIds = ['s-hero','s-tools','s-pain','s-service','s-cases','s-vision','s-about','s-price','s-faq','s-blog','s-cta'];
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -2320,10 +2226,6 @@
   });
   document.querySelectorAll('.case').forEach(el => {
     el.addEventListener('mouseenter', () => setCursorLabel('READ'));
-    el.addEventListener('mouseleave', () => setCursorLabel(''));
-  });
-  document.querySelectorAll('.voice').forEach(el => {
-    el.addEventListener('mouseenter', () => setCursorLabel('VOICE'));
     el.addEventListener('mouseleave', () => setCursorLabel(''));
   });
   document.querySelectorAll('.nav-link').forEach(el => {
@@ -2632,7 +2534,7 @@
         const p = Math.min((now - start) / dur, 1);
         const e = p < 1 ? 1 - Math.pow(2, -10 * p) : 1;
         n1.textContent = Math.round(144 * e);
-        n2.textContent = Math.round(4 * e);
+        n2.textContent = Math.round(6 * e);
         if (p < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
@@ -2698,73 +2600,6 @@
       });
     });
   }
-
-  // ── Hero typewriter: rotating industry pain points ──
-  (function(){
-    const el   = document.getElementById('hTwText');
-    const wrap = document.getElementById('hTypewriter');
-    if (!el || !wrap) return;
-
-    const LINES = [
-      'AIで減らせる作業を、まず一緒に見つけます。',
-      '資料・発信・サイトの伝わり方を整えます。',
-      '手元に残っている細かな作業を、任せられる形に整えます。',
-      '小さく試して、続けられる形に落とし込みます。',
-      '初回相談では、着手順まで整理します。',
-    ];
-
-    const TYPE_SPEED_MIN = 42;
-    const TYPE_SPEED_MAX = 80;
-    const PAUSE_AFTER    = 2400;
-    const ERASE_SPEED    = 22;
-    const PAUSE_BEFORE   = 320;
-
-    let idx = 0, charIdx = 0, erasing = false, timer = null;
-
-    function randomSpeed(min, max) {
-      return min + Math.random() * (max - min);
-    }
-
-    function tick() {
-      const line = LINES[idx];
-
-      if (!erasing) {
-        if (charIdx <= line.length) {
-          el.textContent = line.slice(0, charIdx);
-          charIdx++;
-          if (charIdx <= line.length) {
-            timer = setTimeout(tick, randomSpeed(TYPE_SPEED_MIN, TYPE_SPEED_MAX));
-          } else {
-            // finished typing — pause then erase
-            timer = setTimeout(() => { erasing = true; tick(); }, PAUSE_AFTER);
-          }
-        }
-      } else {
-        if (charIdx > 0) {
-          charIdx--;
-          el.textContent = line.slice(0, charIdx);
-          timer = setTimeout(tick, ERASE_SPEED);
-        } else {
-          // finished erasing — move to next line
-          erasing = false;
-          idx = (idx + 1) % LINES.length;
-          timer = setTimeout(tick, PAUSE_BEFORE);
-        }
-      }
-    }
-
-    // Start after hero becomes visible
-    const observer = new MutationObserver(() => {
-      const hero = document.getElementById('s-hero');
-      if (hero && hero.classList.contains('visible')) {
-        observer.disconnect();
-        wrap.classList.add('ready');
-        setTimeout(tick, 900);
-      }
-    });
-    const hero = document.getElementById('s-hero');
-    if (hero) observer.observe(hero, { attributes: true, attributeFilter: ['class'] });
-  })();
 
   // ── Hero mad-lib: rotating headline word ──
   (function(){
@@ -2852,7 +2687,7 @@
 
     function start() {
       if (reduceMotion || slides.length < 2) return;
-      timer = window.setInterval(() => go(idx + 1), 3200);
+      timer = window.setInterval(() => go(idx + 1), 6400);
     }
 
     function restart() {
@@ -2869,28 +2704,18 @@
     start();
   })();
 
-  // ── About typewriter: rotating personal facts ──
+  // ── About typewriter: rotating working style ──
   (function(){
     const el  = document.getElementById('abTwText');
     const cur = document.getElementById('abTwCur');
     if (!el || !cur) return;
 
     const LINES = [
-      '移動中の飛行機では、だいたい哲学書を読んでいます。',
-      '『サピエンス全史』と『ファクトフルネス』は、つい人にすすめてしまいます。',
-      'ゲーテやドストエフスキーの物語にも、静かに引き込まれます。',
-      'ストア派の格言を、ふとした瞬間に思い出すタイプです。',
-      '東洋哲学と人類の進化論、気づくとどちらかを調べています。',
-      'セキュリティ記事を書きながら、なぜか自省録も読んでいます。',
-      '国内最大級のAIコミュニティでデザインを担当しつつ、AI受託開発の現場にも関わっています。',
-      'チェンマイを拠点に、ムエタイの練習とデジタルノマド生活を両立中です。',
-      '『三体』『ブレードランナー』『PSYCHO-PASS』のような、少し先の未来を描く物語に弱いです。',
-      '日本語・英語・ドイツ語、仕事も雑談も一通りこなします。',
-      '最近は筋トレにもハマっていて、密かにハイロックス出場を妄想しています。',
-      '空手は幼稚園から20年以上続けていて、今は黒帯を2つ持つ武道一家育ちです。',
-      'ベルリンでは、ドイツ政府の奨学金を得て語学留学をしていました。',
-      '学生時代は全国大会レベルのチアリーディングをしていたこともあります。',
-      'ピアノはヤマハの指導グレードまで進んだ経験があります。'
+      'AIで減らせる作業を、まず一緒に見つけます。',
+      '資料・発信・サイトの伝わり方を整えます。',
+      '手元に残っている細かな作業を、任せられる形に整えます。',
+      '小さく試して、続けられる形に落とし込みます。',
+      '初回相談では、着手順まで整理します。'
     ];
 
     const TYPE_SPEED_MIN = 32, TYPE_SPEED_MAX = 62;
@@ -2994,43 +2819,6 @@
         window.scrollTo({ top: target, behavior: 'smooth' });
       });
     });
-  })();
-
-  // ── Voice slider ──
-  (function(){
-    const track = document.getElementById('voiceTrack');
-    const dotsWrap = document.getElementById('voiceDots');
-    const prevBtn = document.getElementById('voicePrev');
-    const nextBtn = document.getElementById('voiceNext');
-    if (!track || !dotsWrap || !prevBtn || !nextBtn) return;
-
-    const n = track.children.length;
-    let idx = 0;
-
-    for (let i = 0; i < n; i++) {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'voice-slide-dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('aria-label', (i + 1) + '件目のお客様の声へ');
-      dot.addEventListener('click', () => go(i));
-      dotsWrap.appendChild(dot);
-    }
-
-    function update() {
-      track.style.transform = 'translateX(-' + (idx * 100) + '%)';
-      Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle('active', i === idx));
-    }
-    function go(i) { idx = (i + n) % n; update(); }
-
-    prevBtn.addEventListener('click', () => go(idx - 1));
-    nextBtn.addEventListener('click', () => go(idx + 1));
-
-    let startX = 0;
-    track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].clientX - startX;
-      if (Math.abs(dx) > 40) go(idx + (dx < 0 ? 1 : -1));
-    }, { passive: true });
   })();
 
   // ── Konami code easter egg ──
