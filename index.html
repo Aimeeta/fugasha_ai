@@ -2214,7 +2214,7 @@
   }
 
   // Apply split to key headings — runs before hero becomes visible
-  const splitTargets = ['.h-h1', '.ah2', '.vh2', '.ch2'];
+  const splitTargets = ['.ah2', '.vh2', '.ch2'];
   splitTargets.forEach(sel => {
     document.querySelectorAll(sel).forEach(el => splitTextIntoWords(el));
   });
