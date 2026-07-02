@@ -149,7 +149,7 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 86px; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -161,6 +161,7 @@
       color: var(--fg);
       overflow-x: hidden;
     }
+    section[id], .sec-tools { scroll-margin-top: 86px; }
     /* Custom cursor only on devices that support hover (not touch) */
     @media (hover: hover) and (pointer: fine) {
       body { cursor: none; }
@@ -279,6 +280,11 @@
       font-size: 11px; letter-spacing: .14em; color: var(--hint); margin-bottom: 20px;
       opacity: 0; transition: all .7s ease .3s; font-weight: 400; text-transform: uppercase;
     }
+    .h-subcopy {
+      max-width: 520px; font-size: 15px; line-height: 1.9; color: var(--fg2);
+      margin: -8px 0 20px; opacity: 0; transform: translateY(10px);
+      transition: opacity .7s ease .38s, transform .7s ease .38s;
+    }
     .h-typewriter {
       font-size: 16px; color: var(--fg2); line-height: 1.75; margin-bottom: 32px;
       font-family: var(--font-serif); font-weight: 300; min-height: 1.75em;
@@ -382,6 +388,10 @@
       text-align: center; text-decoration: none; box-sizing: border-box;
     }
     .hck-cta:hover { opacity: .8; }
+    .stream-note {
+      font-size: 10px; color: var(--hint); line-height: 1.65;
+      padding: 8px 18px 12px; border-top: .5px solid rgba(13,32,48,.06);
+    }
 
     /* ── Tools ── */
     .sec-tools {
@@ -458,49 +468,96 @@
     .bc-b { font-size: 13px; color: var(--fg2); line-height: 1.8; }
 
     /* services */
-    .svc-bento { display: grid; grid-template-columns: 1.2fr .8fr; gap: 12px; }
-    .sv {
-      border-radius: 18px; padding: 26px 22px; opacity: 0; transform: translateX(20px);
-      transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1); position: relative; overflow: hidden; cursor: default;
+    .svc-bento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .service-entry {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;
+      margin: -10px 0 18px; max-width: 960px;
     }
-    .sv:hover { transform: translateY(-4px); }
+    .entry-card {
+      padding: 16px 18px; border-radius: 12px; background: rgba(255,255,255,.5);
+      border: .5px solid rgba(13,32,48,.08); opacity: 0; transform: translateY(16px);
+      transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1), border-color .2s, background .2s;
+    }
+    .entry-card:hover { background: var(--bg2); border-color: rgba(232,134,106,.24); transform: translateY(-2px); }
+    .entry-kicker { display: block; font-size: 9px; letter-spacing: .12em; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px; text-transform: uppercase; }
+    .entry-title { font-size: 14px; color: var(--fg); font-weight: 500; line-height: 1.55; margin-bottom: 6px; }
+    .entry-body { font-size: 12px; color: var(--muted); line-height: 1.7; }
+    .sv {
+      min-height: 310px; border-radius: 18px; padding: 24px; opacity: 0; transform: translateX(20px);
+      transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1), border-color .2s;
+      position: relative; overflow: hidden; cursor: default;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .sv:hover { transform: translateY(-4px); border-color: rgba(232,134,106,.24); }
     .sv-ln { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--accent); opacity: .4; }
     .sv1 .sv-ln, .sv2 .sv-ln, .sv3 .sv-ln, .sv4 .sv-ln { background: var(--accent); opacity: .5; }
-    .sv-wide { grid-column: 1 / -1; }
-    .sv-ic { font-size: 20px; color: var(--muted); margin-bottom: 10px; margin-top: 6px; }
-    .sv-t { font-size: 14px; font-weight: 500; color: var(--fg); margin-bottom: 6px; }
-    .sv-b { font-size: 13px; color: var(--muted); line-height: 1.75; }
-
-    /* service mini demos */
-    .sv-demo { margin-top: 16px; padding-top: 14px; border-top: .5px solid rgba(13,32,48,.08); display: flex; align-items: center; gap: 10px; }
-    .sv-demo-arrow { font-size: 14px; color: #6e8fa6; flex-shrink: 0; }
-
-    .sv-demo-design .dsg-before, .sv-demo-design .dsg-after { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
-    .dsg-ln { display: block; height: 5px; border-radius: 2px; background: rgba(13,32,48,.14); }
-    .dsg-ln1 { width: 90%; } .dsg-ln2 { width: 65%; } .dsg-ln3 { width: 75%; }
-    .dsg-chip { display: block; width: 28px; height: 8px; border-radius: 4px; background: #6e8fa6; margin-bottom: 4px; }
-    .dsg-bar { display: block; height: 6px; width: 100%; border-radius: 3px; background: var(--fg); opacity: .85; }
-
-    .sv-demo-chat { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .chat-line { font-size: 11px; padding: 6px 12px; max-width: 85%; line-height: 1.5; }
-    .chat-line-q { align-self: flex-end; background: rgba(13,32,48,.08); color: var(--fg); border-radius: 12px 12px 2px 12px; }
-    .chat-line-a { align-self: flex-start; background: var(--fg); border-radius: 12px 12px 12px 2px; display: flex; gap: 3px; padding: 9px 12px; }
-    .chat-dot { width: 4px; height: 4px; border-radius: 50%; background: #fff; opacity: .5; animation: chatDot 1.2s infinite ease-in-out; }
-    .chat-dot:nth-child(2) { animation-delay: .15s; }
-    .chat-dot:nth-child(3) { animation-delay: .3s; }
+    .sv-wide { grid-column: auto; }
+    .sv-top { position: relative; z-index: 2; }
+    .sv-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+    .sv-ic {
+      width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%; background: rgba(13,32,48,.06); color: var(--fg);
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; font-weight: 700;
+    }
+    .sv-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; color: var(--hint); padding-top: 4px; }
+    .sv-t { font-family: var(--font-serif); font-size: 20px; font-weight: 600; color: var(--fg); line-height: 1.35; margin-bottom: 8px; }
+    .sv-b { font-size: 13px; color: var(--muted); line-height: 1.8; max-width: 360px; }
+    .sv-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; }
+    .sv-tags span {
+      display: inline-flex; align-items: center; min-height: 26px; padding: 5px 9px;
+      border-radius: 7px; background: rgba(255,255,255,.52); border: .5px solid rgba(13,32,48,.08);
+      font-size: 10px; color: var(--fg2);
+    }
+    .svc-visual {
+      position: relative; z-index: 1; margin-top: 20px; min-height: 118px;
+      border-radius: 14px; overflow: hidden; background: linear-gradient(135deg, rgba(255,255,255,.62), rgba(238,235,226,.42));
+      border: .5px solid rgba(13,32,48,.08);
+    }
+    .svc-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 18% 24%, rgba(232,134,106,.18), transparent 28%), radial-gradient(circle at 86% 74%, rgba(110,143,166,.16), transparent 32%);
+      pointer-events: none;
+    }
+    .svc-artboard { position: absolute; inset: 18px 42px 18px 18px; border-radius: 10px; background: rgba(255,255,255,.7); border: .5px solid rgba(13,32,48,.12); box-shadow: 10px 10px 0 rgba(13,32,48,.05); }
+    .svc-artbar { position: absolute; left: 16px; right: 54px; height: 7px; border-radius: 4px; background: rgba(13,32,48,.16); }
+    .svc-artbar:nth-child(1) { top: 18px; width: 58%; background: var(--fg); opacity: .86; }
+    .svc-artbar:nth-child(2) { top: 38px; width: 82%; }
+    .svc-artbar:nth-child(3) { top: 56px; width: 46%; }
+    .svc-swatch { position: absolute; right: 14px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,.8); }
+    .svc-swatch-a { top: 16px; background: var(--accent); }
+    .svc-swatch-b { top: 42px; background: #6e8fa6; }
+    .svc-swatch-c { top: 68px; background: var(--fg); }
+    .svc-node { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: var(--fg); box-shadow: 0 0 0 8px rgba(13,32,48,.07); }
+    .svc-node-a { left: 22%; top: 32%; }
+    .svc-node-b { left: 50%; top: 58%; background: var(--accent); animation: nodePulse 2.3s ease-in-out infinite; }
+    .svc-node-c { right: 20%; top: 28%; background: #6e8fa6; }
+    .svc-link { position: absolute; height: 1px; background: rgba(13,32,48,.2); transform-origin: left center; }
+    .svc-link-a { left: 26%; top: 39%; width: 30%; transform: rotate(29deg); }
+    .svc-link-b { left: 53%; top: 57%; width: 30%; transform: rotate(-34deg); }
+    .svc-prompt { position: absolute; left: 22px; right: 22px; bottom: 18px; display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--fg2); }
+    .svc-prompt span { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: chatDot 1.2s infinite ease-in-out; }
+    @keyframes nodePulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 8px rgba(232,134,106,.11); } 50% { transform: scale(1.18); box-shadow: 0 0 0 15px rgba(232,134,106,.04); } }
     @keyframes chatDot { 0%, 60%, 100% { opacity: .35; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-2px); } }
+    .svc-pr-arc { position: absolute; left: 24px; top: 24px; width: 70px; height: 70px; border: 1px solid rgba(13,32,48,.16); border-radius: 50%; border-left-color: transparent; border-bottom-color: transparent; transform: rotate(-18deg); }
+    .svc-pr-arc:nth-child(2) { width: 98px; height: 98px; opacity: .6; animation: signalSweep 3s ease-in-out infinite; }
+    .svc-pr-copy { position: absolute; right: 20px; top: 24px; width: 46%; display: grid; gap: 9px; }
+    .svc-pr-copy span { height: 7px; border-radius: 4px; background: rgba(13,32,48,.16); }
+    .svc-pr-copy span:first-child { width: 86%; background: var(--fg); opacity: .86; }
+    .svc-pr-copy span:nth-child(2) { width: 100%; }
+    .svc-pr-copy span:nth-child(3) { width: 60%; background: var(--accent); opacity: .7; }
+    .svc-pr-burst { position: absolute; left: 62px; bottom: 24px; color: var(--accent); font-size: 26px; transform: rotate(-12deg); }
+    @keyframes signalSweep { 0%, 100% { transform: rotate(-18deg) scale(.96); opacity: .38; } 50% { transform: rotate(-8deg) scale(1.04); opacity: .72; } }
+    .svc-flow-line { position: absolute; left: 20px; right: 20px; height: 1px; background: rgba(13,32,48,.14); }
+    .svc-flow-line:nth-child(1) { top: 34px; }
+    .svc-flow-line:nth-child(2) { top: 60px; }
+    .svc-flow-line:nth-child(3) { top: 86px; }
+    .svc-flow-dot { position: absolute; left: 28px; top: 53px; width: 15px; height: 15px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 8px rgba(232,134,106,.12); animation: flowMove 3.4s ease-in-out infinite; }
+    .svc-flow-card { position: absolute; right: 22px; top: 28px; width: 82px; height: 64px; border-radius: 10px; background: rgba(13,32,48,.86); color: rgba(240,230,214,.9); display: grid; place-items: center; font-size: 24px; }
+    @keyframes flowMove { 0% { transform: translateX(0) translateY(-20px); } 38% { transform: translateX(42px) translateY(6px); } 72%, 100% { transform: translateX(118px) translateY(32px); } }
 
-    .sv-demo-gen { flex-direction: column; align-items: stretch; gap: 6px; }
-    .gen-ln { display: block; height: 5px; border-radius: 2px; background: rgba(13,32,48,.14); }
-    .gen-ln1 { width: 100%; } .gen-ln2 { width: 82%; } .gen-ln3 { width: 46%; position: relative; }
-    .gen-cursor::after { content: ''; position: absolute; right: -2px; top: -3px; width: 2px; height: 11px; background: #6e8fa6; animation: genBlink 1s step-end infinite; }
-    @keyframes genBlink { 50% { opacity: 0; } }
-
-    .sv-demo-flow .flow-col { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-    .flow-lbl { font-size: 9px; letter-spacing: .08em; color: var(--hint); font-family: var(--font-mono); text-transform: uppercase; }
-    .flow-bar { display: block; height: 6px; border-radius: 3px; background: rgba(13,32,48,.14); }
-    .flow-bar-before { width: 100%; }
-    .flow-bar-after { width: 38%; background: var(--fg); }
+    @media (prefers-reduced-motion: reduce) {
+      .svc-node-b, .svc-pr-arc:nth-child(2), .svc-flow-dot, .svc-prompt span { animation: none; }
+    }
 
     /* cases — layout now handled by .cases-track */
     .case {
@@ -517,6 +574,7 @@
     .case-body { font-size: 13px; color: var(--fg2); line-height: 1.85; margin-bottom: 14px; }
     .case-result { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--fg); font-weight: 500; padding-top: 10px; border-top: .5px solid rgba(13,32,48,.08); }
     .case-arrow { color: var(--accent); }
+    .case-note { font-size: 10px; color: var(--hint); margin-top: 12px; line-height: 1.7; }
 
     /* vision */
     /* ── Scroll Storytelling ── */
@@ -702,9 +760,9 @@
     .vis-cta-btn:hover { background: rgba(240,230,214,.1); color: rgba(240,230,214,.95); }
 
     /* about */
-    .ab-grid { display: grid; grid-template-columns: 1fr 1.7fr; gap: 44px; align-items: start; }
+    .ab-grid { display: grid; grid-template-columns: minmax(220px, 320px) minmax(0, 1fr); gap: 44px; align-items: start; }
     .aph {
-      width: 100%; aspect-ratio: 3/4; border-radius: 18px;
+      width: 100%; max-width: 320px; aspect-ratio: 4/5; border-radius: 18px; justify-self: center;
       clip-path: inset(0 100% 0 0); opacity: 1; transform: none;
       transition: clip-path .9s cubic-bezier(.16,1,.3,1);
       position: relative; overflow: hidden;
@@ -753,83 +811,99 @@
     .ab-tw-cur.on { opacity: 1; animation: twblink .8s ease-in-out infinite; }
     .ab-solo-title { font-size: 11px; font-weight: 500; color: var(--accent); margin-bottom: 6px; }
 
-    /* ── Reading section ── */
-    .read-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; max-width: 900px; }
-    .shelf { display: flex; flex-direction: column; }
-    .shelf-books { display: flex; align-items: flex-end; gap: 7px; height: 220px; padding: 0 6px; }
-    .book {
-      position: relative; width: 46px; height: 90%; border-radius: 3px 3px 0 0;
-      display: flex; align-items: flex-end; justify-content: center; padding-bottom: 14px;
-      cursor: default; transition: transform .2s;
+    /* ── Compact personality sections ── */
+    #s-facts, #s-reading { padding-top: 56px; padding-bottom: 56px; }
+    .mini-profile { max-width: 860px; }
+    .mini-profile-title {
+      font-family: var(--font-serif); font-size: 32px; font-weight: 600;
+      color: var(--fg); line-height: 1.35; margin-bottom: 20px;
     }
-    .book:hover, .book:focus-visible { transform: translateY(-8px); outline: none; }
-    .book-1 { background: var(--fg2); height: 94%; }
-    .book-2 { background: var(--muted); height: 100%; }
-    .book-3 { background: var(--hint); height: 78%; }
-    .book-4 { background: var(--fg); height: 88%; }
-    .book-spine {
-      writing-mode: vertical-rl; text-orientation: mixed; font-size: 11px;
-      color: rgba(240,230,214,.92); letter-spacing: .04em; font-weight: 500;
+    .mini-profile-shell { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; align-items: start; }
+    .mini-profile-grid { display: flex; flex-wrap: wrap; gap: 10px; max-width: 620px; }
+    .mini-chip {
+      display: inline-flex; align-items: center; gap: 9px; min-height: 42px;
+      padding: 10px 14px; border-radius: 999px; background: rgba(255,255,255,.62);
+      border: .5px solid rgba(13,32,48,.09); color: var(--fg2);
+      font-size: 13px; line-height: 1.5; opacity: 0; transform: translateY(12px);
+      transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1), background .2s, border-color .2s;
     }
-    .book-note {
-      position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-8px);
-      width: 170px; background: var(--fg); color: rgba(240,230,214,.92); font-size: 11px; line-height: 1.7;
-      padding: 12px 14px; border-radius: 8px; opacity: 0; pointer-events: none;
-      transition: opacity .2s, transform .2s; z-index: 5;
+    .mini-chip i { color: var(--accent); font-size: 17px; flex-shrink: 0; }
+    .mini-chip:hover { background: var(--bg2); border-color: rgba(232,134,106,.28); transform: translateY(-2px) rotate(-1deg); }
+    .mini-chip-wide { border-radius: 14px; }
+    .mini-chip-accent { background: rgba(232,134,106,.09); border-color: rgba(232,134,106,.2); }
+    .mini-chip-dark { background: rgba(13,32,48,.88); color: rgba(240,230,214,.9); }
+    .mini-chip-dark i { color: rgba(240,230,214,.8); }
+    .mini-chip-tilt { transform: translateY(12px) rotate(-2deg); }
+    .visible .mini-chip { opacity: 1; transform: none; }
+    .mini-chip:nth-child(2) { transition-delay: .06s; }
+    .mini-chip:nth-child(3) { transition-delay: .12s; }
+    .mini-chip:nth-child(4) { transition-delay: .18s; }
+    .mini-chip:nth-child(5) { transition-delay: .24s; }
+    .mini-chip:nth-child(6) { transition-delay: .3s; }
+    .mini-now {
+      position: relative; min-height: 154px; border-radius: 16px; padding: 18px;
+      background: var(--fg); color: rgba(240,230,214,.9); overflow: hidden;
+      opacity: 0; transform: translateY(12px); transition: opacity .55s cubic-bezier(.16,1,.3,1) .18s, transform .55s cubic-bezier(.16,1,.3,1) .18s;
     }
-    .book:hover .book-note, .book:focus-visible .book-note { opacity: 1; transform: translateX(-50%) translateY(-14px); }
-    .shelf-board { height: 10px; background: var(--fg2); border-radius: 2px; margin-top: 2px; }
+    .visible .mini-now { opacity: 1; transform: none; }
+    .mini-now::before {
+      content: ''; position: absolute; width: 130px; height: 130px; border: 1px solid rgba(240,230,214,.12);
+      border-radius: 50%; right: -42px; top: -34px;
+    }
+    .mini-now-k { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; color: rgba(240,230,214,.45); text-transform: uppercase; margin-bottom: 28px; }
+    .mini-now-line { display: flex; align-items: center; gap: 10px; position: relative; z-index: 1; }
+    .mini-now-line i { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(240,230,214,.1); color: var(--accent); font-size: 18px; flex-shrink: 0; }
+    .mini-now-text { font-size: 15px; line-height: 1.65; font-weight: 500; }
 
-    .quote-box { background: var(--bg2); border-radius: 12px; padding: 32px; }
-    .quote-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--hint); margin-bottom: 18px; }
-    .quote-text { font-family: var(--font-serif); font-size: 17px; line-height: 1.9; color: var(--fg); margin-bottom: 12px; min-height: 3.8em; }
-    .quote-author { font-size: 12px; color: var(--muted); margin-bottom: 24px; }
-    .quote-btn {
-      display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--fg2);
-      background: transparent; border: 1px solid var(--line); border-radius: 100px;
-      padding: 10px 18px; cursor: pointer; transition: border-color .2s, color .2s;
-      font-family: var(--font-sans);
+    .reading-compact {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+      gap: 28px; align-items: stretch; max-width: 920px;
     }
-    .quote-btn:hover { border-color: var(--muted); color: var(--fg); }
-    .quote-btn i { font-size: 14px; transition: transform .4s; }
-    .quote-btn.spin i { transform: rotate(180deg); }
+    .reading-title {
+      font-family: var(--font-serif); font-size: 28px; font-weight: 600;
+      color: var(--fg); line-height: 1.45; margin-bottom: 12px;
+    }
+    .reading-desc { font-size: 14px; color: var(--muted); line-height: 1.9; max-width: 480px; margin-bottom: 18px; }
+    .reading-books { display: flex; flex-wrap: wrap; gap: 8px; }
+    .reading-books span {
+      display: inline-flex; align-items: center; min-height: 30px; padding: 6px 11px;
+      border-radius: 6px; background: var(--bg); border: .5px solid var(--line);
+      font-size: 11px; color: var(--fg2);
+    }
+
+    .hobby-card {
+      position: relative; min-height: 100%; border-radius: 16px; padding: 26px;
+      background: var(--bg2); border: .5px solid rgba(13,32,48,.08); overflow: hidden;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+    .hobby-card::before {
+      content: ''; position: absolute; inset: 16px; border: 1px solid rgba(13,32,48,.08);
+      border-radius: 50%; transform: translateX(34%); pointer-events: none;
+    }
+    .hobby-card.switching { opacity: .42; transform: translateY(4px); }
+    .hobby-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--hint); margin-bottom: 22px; }
+    .hobby-icon { width: 48px; height: 48px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--fg); color: rgba(240,230,214,.92); font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; font-weight: 700; margin-bottom: 20px; position: relative; z-index: 1; }
+    .hobby-name { font-family: var(--font-serif); font-size: 27px; color: var(--fg); line-height: 1.35; margin-bottom: 10px; position: relative; z-index: 1; }
+    .hobby-desc { font-size: 13px; color: var(--muted); line-height: 1.8; min-height: 4.8em; position: relative; z-index: 1; }
+    .hobby-meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; color: var(--accent); margin-top: 18px; text-transform: uppercase; position: relative; z-index: 1; }
+    .hobby-dots { display: flex; gap: 7px; margin-top: 22px; position: relative; z-index: 1; }
+    .hobby-dot { width: 7px; height: 7px; border-radius: 50%; border: 0; background: rgba(13,32,48,.18); padding: 0; cursor: pointer; }
+    .hobby-dot.active { background: var(--accent); }
 
     @media (max-width: 768px) {
-      .read-grid { grid-template-columns: 1fr; gap: 32px; }
-      .shelf-books { height: 170px; }
-      .quote-box { padding: 24px; }
-      .quote-text { font-size: 15px; min-height: auto; }
-    }
-
-    /* ── Facts slider ── */
-    .facts-slider { max-width: 640px; overflow: hidden; }
-    .facts-track { display: flex; border-radius: 14px; transition: transform .45s cubic-bezier(.16,1,.3,1); }
-    .facts-track > .fact-card { flex: 0 0 100%; }
-    .fact-card {
-      display: flex; flex-direction: column; align-items: center; text-align: center;
-      padding: 48px 40px; background: var(--bg2);
-    }
-    .fact-icon {
-      width: 52px; height: 52px; border-radius: 50%; background: var(--fg); color: var(--bg);
-      display: flex; align-items: center; justify-content: center; margin-bottom: 22px; font-size: 22px;
-    }
-    .fact-title { font-family: var(--font-serif); font-size: 19px; font-weight: 600; color: var(--fg); margin-bottom: 12px; }
-    .fact-desc { font-size: 13px; color: var(--muted); line-height: 1.85; max-width: 380px; }
-    .facts-nav { display: flex; align-items: center; justify-content: center; gap: 22px; margin-top: 24px; }
-    .facts-btn {
-      width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: transparent;
-      display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--fg2);
-      transition: border-color .2s, color .2s; font-size: 16px; padding: 0;
-    }
-    .facts-btn:hover { border-color: var(--muted); color: var(--fg); }
-    .facts-dots { display: flex; gap: 8px; }
-    .facts-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--line); cursor: pointer;
-      transition: background .2s, transform .2s; border: none; padding: 0;
-    }
-    .facts-dot.active { background: var(--fg2); transform: scale(1.4); }
-    @media (max-width: 768px) {
-      .fact-card { padding: 36px 24px; }
+      #s-facts, #s-reading { padding-top: 42px; padding-bottom: 42px; }
+      .mini-profile-title { font-size: 26px; margin-bottom: 16px; }
+      .mini-profile-shell { grid-template-columns: 1fr; gap: 14px; }
+      .mini-profile-grid { gap: 8px; }
+      .mini-chip { font-size: 12px; padding: 9px 12px; min-height: 38px; }
+      .mini-chip-wide { width: 100%; }
+      .mini-now { min-height: 118px; padding: 16px; }
+      .reading-compact { grid-template-columns: 1fr; gap: 18px; }
+      .reading-title { font-size: 23px; }
+      .reading-desc { font-size: 13px; margin-bottom: 14px; }
+      .hobby-card { padding: 22px; }
+      .hobby-name { font-size: 24px; }
+      .hobby-desc { min-height: auto; }
     }
     .ab-solo-body { font-size: 12px; color: var(--muted); line-height: 1.7; }
     .ab-cred { display: flex; align-items: center; gap: 0; margin-top: 16px; padding: 16px 20px; border-radius: 10px; background: rgba(13,32,48,.03); border: .5px solid var(--line); }
@@ -864,13 +938,27 @@
     .pi-t { background: rgba(232,134,106,.1); color: var(--accent); }
 
     /* voices */
-    .voice-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 8px; }
-    .voice { padding: 22px 24px; border-radius: 16px; opacity: 0; transform: translateY(18px) scale(.98); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); cursor: default; }
+    .voice-slider { max-width: 760px; overflow: hidden; margin-top: 8px; }
+    .voice-track { display: flex; transition: transform .45s cubic-bezier(.16,1,.3,1); }
+    .voice { flex: 0 0 100%; padding: 28px 30px; border-radius: 16px; opacity: 0; transform: translateY(18px) scale(.98); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); cursor: default; }
     .voice:hover { transform: translateY(-3px); }
     .voice-q { font-size: 28px; color: var(--accent); margin-bottom: 8px; line-height: 1; font-family: Georgia, serif; opacity: .6; }
     .voice-txt { font-size: 14px; color: var(--fg); line-height: 1.9; margin-bottom: 16px; }
     .voice-from { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
     .voice-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); opacity: .5; }
+    .voice-nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 18px; }
+    .voice-btn {
+      width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: transparent;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--fg2);
+      transition: border-color .2s, color .2s, background .2s; font-size: 16px; padding: 0;
+    }
+    .voice-btn:hover { border-color: var(--muted); color: var(--fg); background: rgba(255,255,255,.45); }
+    .voice-dots { display: flex; gap: 8px; }
+    .voice-slide-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--line); cursor: pointer;
+      transition: background .2s, transform .2s; border: none; padding: 0;
+    }
+    .voice-slide-dot.active { background: var(--fg2); transform: scale(1.4); }
 
     /* infog — redesigned */
     .ig-wrap { margin-top: 48px; }
@@ -888,19 +976,10 @@
     .ig-bar-wrap { height: 2px; background: rgba(240,230,214,.08); border-radius: 1px; overflow: hidden; }
     .ig-bar { height: 100%; width: 0%; background: var(--accent); border-radius: 1px; transition: width 1.6s cubic-bezier(.4,0,.2,1); }
     .ig-bar-pct { font-size: 10px; color: rgba(240,230,214,.3); font-family: var(--font-mono); margin-top: 6px; letter-spacing: .06em; }
-    .ig-sub { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
-    .ig-sub-card { background: rgba(255,255,255,.55); border: .5px solid rgba(13,32,48,.07); border-radius: 14px; padding: 20px 22px; display: flex; align-items: flex-start; gap: 14px; opacity: 0; transform: translateY(12px); transition: all .6s cubic-bezier(.16,1,.3,1); }
-    .ig-sub-card:nth-child(2) { transition-delay: .1s; }
-    .ig-sub-card-ic { font-size: 20px; color: var(--accent); opacity: .7; flex-shrink: 0; margin-top: 2px; }
-    .ig-sub-card-body { flex: 1; min-width: 0; }
-    .ig-sub-card-num { font-size: 28px; font-weight: 300; color: var(--fg); font-family: var(--font-serif); line-height: 1; margin-bottom: 4px; }
-    .ig-sub-card-unit { font-size: 14px; font-weight: 400; color: var(--muted); }
-    .ig-sub-card-lbl { font-size: 13px; color: var(--muted); line-height: 1.65; }
     .ig-note { font-size: 10px; color: var(--hint); margin-top: 16px; text-align: right; }
     .ig-note em { font-style: normal; background: rgba(232,134,106,.1); color: var(--accent); padding: 2px 6px; border-radius: 3px; font-family: var(--font-mono); font-size: 9px; }
     .visible .ig-stat-num { /* handled by JS counter */ }
     .visible .ig-bar { /* handled by JS */ }
-    .visible .ig-sub-card { opacity: 1; transform: none; }
 
     /* FAQ */
     .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
@@ -925,6 +1004,21 @@
     .ch2 { font-size: 42px; font-weight: 300; line-height: 1.42; color: rgba(240,230,214,.95); margin-bottom: 22px; opacity: 0; transform: translateY(14px); transition: all .8s cubic-bezier(.16,1,.3,1); font-family: var(--font-serif); letter-spacing: -.02em; }
     .csub { font-size: 14px; color: rgba(240,230,214,.6); margin-bottom: 12px; opacity: 0; transform: translateY(9px); transition: all .6s ease .15s; font-weight: 300; }
     .cq { font-size: 13px; color: rgba(240,230,214,.5); font-style: italic; margin-bottom: 36px; opacity: 0; transition: opacity .6s ease .25s; font-family: var(--font-serif); }
+    .cta-manifesto {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;
+      max-width: 760px; margin: -12px auto 34px; opacity: 0; transform: translateY(10px);
+      transition: opacity .6s ease .28s, transform .6s ease .28s;
+    }
+    .cta-manifesto-line {
+      min-height: 74px; padding: 16px 18px; border-radius: 10px;
+      border: .5px solid rgba(240,230,214,.14); background: rgba(240,230,214,.055);
+      text-align: left;
+    }
+    .cta-manifesto-k {
+      display: block; font-family: var(--font-mono); font-size: 9px; letter-spacing: .14em;
+      color: rgba(240,230,214,.35); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .cta-manifesto-t { display: block; font-size: 13px; line-height: 1.75; color: rgba(240,230,214,.78); }
     .cta-wrap { opacity: 0; transition: opacity .6s ease .35s; }
     .cta-btn-amber {
       display: inline-flex; align-items: center; gap: 12px; font-size: 12px;
@@ -943,6 +1037,16 @@
     .cta-step-arrow { font-size: 14px; color: rgba(240,230,214,.2); margin-top: -16px; }
     .cta-line-sub { font-size: 11px; color: rgba(240,230,214,.3); margin-top: 10px; opacity: 0; transition: opacity .6s ease .55s; }
     .cta-note { font-size: 12px; color: rgba(240,230,214,.45); margin-top: 16px; opacity: 0; transition: opacity .6s ease .6s; }
+    .cta-takeaways {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;
+      max-width: 720px; margin: 26px auto 0; opacity: 0; transform: translateY(10px);
+      transition: opacity .6s ease .48s, transform .6s ease .48s;
+    }
+    .cta-takeaway {
+      padding: 12px 14px; border-radius: 8px; border: .5px solid rgba(240,230,214,.18);
+      background: rgba(240,230,214,.07); color: rgba(240,230,214,.78);
+      font-size: 12px; line-height: 1.65; text-align: left;
+    }
 
     /* Footer */
     .ft { padding: 56px 48px 24px; background: var(--fg); border-top: none; display: flex; flex-direction: column; gap: 28px; }
@@ -967,6 +1071,7 @@
     .visible .h-badge,
     .visible .h-h1,
     .visible .h-en,
+    .visible .h-subcopy,
     .visible .h-typewriter,
     .visible .h-actions,
     .visible .h-line-sub,
@@ -976,6 +1081,7 @@
     .visible .s-h2,
     .visible .s-desc,
     .visible .bc,
+    .visible .entry-card,
     .visible .sv,
     .visible .case,
     .visible .vic,
@@ -986,19 +1092,21 @@
     .visible .vh2,
     .visible .vem,
     .visible .vis-cta,
-    .visible .thorn-chart,
-    .visible .tl-item,
     .visible .ar,
     .visible .ch2,
     .visible .csub,
     .visible .cq,
     .visible .cta-wrap,
+    .visible .cta-manifesto,
     .visible .cta-process,
+    .visible .cta-takeaways,
     .visible .cta-note,
     .visible .cta-line-sub { opacity: 1; transform: none; }
 
     .bc:nth-child(2) { transition-delay: .08s; }
     .bc:nth-child(3) { transition-delay: .16s; }
+    .entry-card:nth-child(2) { transition-delay: .08s; }
+    .entry-card:nth-child(3) { transition-delay: .16s; }
     .sv:nth-child(2) { transition-delay: .08s; }
     .sv:nth-child(3) { transition-delay: .16s; }
     .sv:nth-child(4) { transition-delay: .24s; }
@@ -1060,6 +1168,7 @@
     @media (max-width: 768px) {
 
       /* ── Nav ── */
+      html { scroll-padding-top: 64px; }
       .nav { padding: 14px 20px; }
       .nav-right > .nav-link { display: none; }
       .nav-langs { display: none; }
@@ -1077,6 +1186,7 @@
       .h-scarcity { margin-bottom: 14px; }
       .h-h1 { font-size: 32px; line-height: 1.28; margin-bottom: 16px; }
       .h-en { font-size: 11px; margin-bottom: 14px; }
+      .h-subcopy { font-size: 13px; margin: -2px 0 14px; }
       .h-typewriter { font-size: 13px; margin-bottom: 24px; }
       .h-actions { gap: 8px; }
       .btn-amber { font-size: 11px; padding: 13px 22px; }
@@ -1105,6 +1215,8 @@
       .bc:hover { transform: none; }
 
       /* ── Services ── */
+      .service-entry { grid-template-columns: 1fr; gap: 8px; margin: -4px 0 14px; }
+      .entry-card { padding: 14px 16px; }
       .svc-bento { grid-template-columns: 1fr; gap: 10px; }
       .sv-wide { grid-column: 1; }
       .sv { border-radius: 14px; padding: 22px 18px; }
@@ -1150,8 +1262,7 @@
       .price-num { font-size: 28px; }
 
       /* ── Voices ── */
-      .voice-grid { grid-template-columns: 1fr; }
-      .voice { border-radius: 14px; }
+      .voice { padding: 24px 22px; border-radius: 14px; }
       .voice:hover { transform: none; }
 
       /* ── Infog ── */
@@ -1160,13 +1271,13 @@
       .ig-stat { padding: 0; border-right: none; border-bottom: .5px solid rgba(240,230,214,.08); padding-bottom: 20px; }
       .ig-stat:last-child { border-bottom: none; padding-bottom: 0; }
       .ig-stat-num { font-size: 40px; }
-      .ig-sub { grid-template-columns: 1fr; gap: 8px; }
-      .ig-sub-card { padding: 16px 18px; }
-
       /* ── CTA ── */
       .ch2 { font-size: 26px; }
       .cta-process { flex-direction: column; gap: 10px; align-items: center; }
       .cta-step-arrow { transform: rotate(90deg); margin: 0; }
+      .cta-takeaways { grid-template-columns: 1fr; gap: 8px; margin-top: 22px; }
+      .cta-manifesto { grid-template-columns: 1fr; gap: 8px; margin: -8px auto 28px; }
+      .cta-manifesto-line { min-height: auto; padding: 13px 15px; }
       .cta-btn-amber { padding: 14px 28px; font-size: 11px; }
 
       /* ── Footer ── */
@@ -1339,78 +1450,6 @@
     }
 
     /* .aph curtain override removed — consolidated above */
-    /* ── Thorn: 社長の1日 ── */
-    .thorn-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-      margin-top: 48px;
-    }
-    .thorn-chart { position: relative; opacity: 0; transform: translateX(-20px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
-    .thorn-svg { width: 100%; max-width: 340px; display: block; margin: 0 auto; }
-    /* 各セグメント */
-    .th-seg {
-      transition: opacity .3s, filter .3s;
-      cursor: default;
-    }
-    .th-seg:hover { opacity: .9; filter: brightness(1.12); }
-    /* 凡例リスト */
-    .thorn-legend {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .tl-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 0;
-      border-bottom: .5px solid var(--line);
-      opacity: 0;
-      transform: translateX(20px);
-      transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
-    }
-    .tl-item:first-child { border-top: .5px solid var(--line); }
-    .visible .tl-item { opacity: 1; transform: none; }
-    .tl-item:nth-child(1) { transition-delay: .05s; }
-    .tl-item:nth-child(2) { transition-delay: .12s; }
-    .tl-item:nth-child(3) { transition-delay: .19s; }
-    .tl-item:nth-child(4) { transition-delay: .26s; }
-    .tl-item:nth-child(5) { transition-delay: .33s; }
-    .tl-dot {
-      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-    }
-    .tl-pct {
-      font-size: 22px; font-weight: 300; font-family: var(--font-serif);
-      color: var(--fg); min-width: 52px; line-height: 1;
-    }
-    .tl-body { flex: 1; }
-    .tl-label { font-size: 13px; font-weight: 500; color: var(--fg); line-height: 1.4; }
-    .tl-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-    /* 中央テキスト */
-    .thorn-center {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center; pointer-events: none;
-      width: 100px;
-    }
-    .thorn-center-num {
-      font-size: 13px; font-weight: 300; color: var(--muted);
-      font-family: var(--font-mono); letter-spacing: .04em;
-    }
-    .thorn-center-lbl {
-      font-size: 10px; color: var(--hint);
-      letter-spacing: .08em; margin-top: 2px;
-    }
-    .thorn-note {
-      font-size: 10px; color: var(--hint); margin-top: 20px;
-      text-align: right; font-style: italic;
-    }
-    @media (max-width: 768px) {
-      .thorn-grid { grid-template-columns: 1fr; gap: 32px; }
-      .thorn-svg { max-width: 260px; }
-    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 </head>
@@ -1436,13 +1475,14 @@
   <div class="nav-right">
     <a href="#s-service" class="nav-link">Services</a>
     <a href="#s-cases" class="nav-link">Cases</a>
+    <a href="#s-price" class="nav-link">Price</a>
     <a href="#s-about" class="nav-link">About</a>
     <a href="blog/" class="nav-link">Blog</a>
     <div class="nav-langs">
       <span class="lang active">JP</span>
       <span class="lang">EN</span>
     </div>
-    <a href="contact.html" class="nav-cta">無料相談</a>
+    <a href="contact.html" class="nav-cta">無料で相談する</a>
     <div class="nav-ham" id="navHam" aria-label="メニュー"><span></span><span></span><span></span></div>
   </div>
 </nav>
@@ -1455,7 +1495,7 @@
   <a href="blog/">Blog</a>
   <a href="#s-price">Pricing</a>
   <a href="#s-faq">FAQ</a>
-  <div class="nav-drawer-cta"><a href="contact.html" class="btn-amber nav-cta-drawer">無料で話してみる →</a></div>
+  <div class="nav-drawer-cta"><a href="contact.html" class="btn-amber nav-cta-drawer">無料で相談する →</a></div>
 </div>
 
 <!-- ── Hero ── -->
@@ -1463,15 +1503,16 @@
   <canvas id="heroBg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
   <div class="hero-left">
     <div class="h-clock"><div class="h-clock-dot"></div><span id="liveClock">--:--:--</span>&nbsp;JST</div>
-    <div class="h-scarcity"><div class="h-scarcity-dot"></div>今月の無料相談枠 残3</div>
+    <div class="h-scarcity"><div class="h-scarcity-dot"></div>初回相談 受付中</div>
     <h1 class="h-h1">無駄をなくして、<br><span class="h-h1-word" id="heroWordText">熱中</span><span class="h-h1-cur" id="heroWordCur"></span>を取り戻す。</h1>
     <p class="h-en">Less friction. More you.</p>
+    <p class="h-subcopy">AI導入・デザイン・マーケティング・業務改善を横断して、小さな会社の「やりたいのに進まない」を実務まで整えます。</p>
     <div class="h-typewriter" id="hTypewriter">
       <span class="h-tw-text" id="hTwText"></span><span class="h-tw-cur"></span>
     </div>
     <div class="h-actions">
-      <a href="contact.html" class="btn-amber">まず話してみる <span class="arr">→</span></a>
-      <span class="h-line-sub">LINEでの相談も受付中</span>
+      <a href="contact.html" class="btn-amber">無料で相談する <span class="arr">→</span></a>
+      <span class="h-line-sub">30分オンライン / 無理な営業なし</span>
     </div>
   </div>
   <div class="hero-right">
@@ -1508,9 +1549,9 @@
           </div>
           <div class="hck-message" id="hckMsg">その時間で、何ができますか。</div>
         </div>
-        <a href="contact.html" class="hck-cta" id="hckCta">この時間を取り戻す相談をする →</a>
+        <a href="contact.html" class="hck-cta" id="hckCta">無料で相談する →</a>
       </div>
-      <div class="stream-note">※ 削減率はAI活用の平均的な参考値（約73%）をもとにした試算値です</div>
+      <div class="stream-note">※ 入力時間に対する概算です。削減幅は業務内容・ツール環境により変わります。</div>
     </div>
   </div>
   <div class="scroll-hint">
@@ -1546,129 +1587,84 @@
     <div class="bc glass-card"><div class="bc-nb">03</div><div class="bc-lbl">03 / AI</div><div class="bc-t">AIが使えそうなのはわかるけど、調べる時間すらない</div><div class="bc-b">興味はある。でも、誰かに整理して持ってきてほしい。</div></div>
   </div>
 
-<!-- ── Thorn: 社長の1日 ── -->
-<section class="sec sec-white" id="s-thorn">
-  <div class="s-lbl">// THE REALITY</div>
-  <h2 class="s-h2">社長の1日は、<br>なぜ消えるのか。</h2>
-  <p class="s-desc">「本当にやりたい仕事」は、何%ありますか。</p>
-  <div class="thorn-grid">
-    <div class="thorn-chart">
-      <svg class="thorn-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-label="社長の1日の内訳円グラフ">
-        <!-- donut chart: r=110, cx=150, cy=150, circumference=691 -->
-        <!-- 本業 20% → 138.2 -->
-        <circle cx="150" cy="150" r="110" fill="none" stroke="#0d2030" stroke-width="40"
-          stroke-dasharray="138.2 553.8" stroke-dashoffset="0"
-          class="th-seg" style="transform-origin:150px 150px;transform:rotate(-90deg)"/>
-        <!-- 確認・承認 25% → 172.8 -->
-        <circle cx="150" cy="150" r="110" fill="none" stroke="#6e8fa6" stroke-width="40"
-          stroke-dasharray="172.8 519.2" stroke-dashoffset="-138.2"
-          class="th-seg" style="transform-origin:150px 150px;transform:rotate(-90deg)"/>
-        <!-- 探し物 15% → 103.7 -->
-        <circle cx="150" cy="150" r="110" fill="none" stroke="#9eb8cc" stroke-width="40"
-          stroke-dasharray="103.7 588.3" stroke-dashoffset="-311"
-          class="th-seg" style="transform-origin:150px 150px;transform:rotate(-90deg)"/>
-        <!-- 手入力・転記 20% → 138.2 -->
-        <circle cx="150" cy="150" r="110" fill="none" stroke="#c8d8e2" stroke-width="40"
-          stroke-dasharray="138.2 553.8" stroke-dashoffset="-414.7"
-          class="th-seg" style="transform-origin:150px 150px;transform:rotate(-90deg)"/>
-        <!-- なぜか自分 20% → 138.2 -->
-        <circle cx="150" cy="150" r="110" fill="none" stroke="#e8866a" stroke-width="40"
-          stroke-dasharray="138.2 553.8" stroke-dashoffset="-552.9"
-          class="th-seg" style="transform-origin:150px 150px;transform:rotate(-90deg)"/>
-        <!-- inner white -->
-        <circle cx="150" cy="150" r="88" fill="var(--bg2,#e8dcc8)"/>
-      </svg>
-      <div class="thorn-center">
-        <div class="thorn-center-num">本業</div>
-        <div class="thorn-center-lbl">20%</div>
-      </div>
-      <p class="thorn-note">※ 風雅舎調べ・試算値</p>
-    </div>
-    <div class="thorn-legend">
-      <div class="tl-item">
-        <div class="tl-dot" style="background:#0d2030"></div>
-        <div class="tl-pct">20%</div>
-        <div class="tl-body">
-          <div class="tl-label">本業・経営判断</div>
-          <div class="tl-sub">本来ここに時間を使いたい</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:#6e8fa6"></div>
-        <div class="tl-pct">25%</div>
-        <div class="tl-body">
-          <div class="tl-label">確認・承認・返信</div>
-          <div class="tl-sub">メール、Slack、稟議、報告書</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:#9eb8cc"></div>
-        <div class="tl-pct">15%</div>
-        <div class="tl-body">
-          <div class="tl-label">探し物・情報収集</div>
-          <div class="tl-sub">あのPDF、あの数字、あのファイル</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:#c8d8e2"></div>
-        <div class="tl-pct">20%</div>
-        <div class="tl-body">
-          <div class="tl-label">手入力・転記作業</div>
-          <div class="tl-sub">見積もり、請求書、議事録</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="background:#e8866a"></div>
-        <div class="tl-pct">20%</div>
-        <div class="tl-body">
-          <div class="tl-label">なぜか自分がやる雑務</div>
-          <div class="tl-sub">他の誰もやらないから、結局自分</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 </section>
 
 <!-- ── Services ── -->
 <section class="sec sec-white" id="s-service">
   <div class="s-lbl">// SERVICES</div>
   <h2 class="s-h2">風雅舎にできること</h2>
-  <p class="s-desc">デザイン・マーケ・AI導入——全部バラバラに頼んでいませんか？まるごと引き受けます。</p>
+  <p class="s-desc">デザイン・マーケ・AI導入——全部バラバラに頼む前に、まず「何から直すべきか」を一緒に整理します。</p>
+  <div class="service-entry" aria-label="よくある相談内容">
+    <div class="entry-card">
+      <span class="entry-kicker">START 01</span>
+      <div class="entry-title">AIで何を効率化できるか知りたい</div>
+      <p class="entry-body">業務を棚卸しして、すぐ試せる自動化・文章生成・資料作成の入口を決めます。</p>
+    </div>
+    <div class="entry-card">
+      <span class="entry-kicker">START 02</span>
+      <div class="entry-title">サイト・資料・発信を整えたい</div>
+      <p class="entry-body">見た目だけでなく、伝わる順番・言葉・導線までまとめて改善します。</p>
+    </div>
+    <div class="entry-card">
+      <span class="entry-kicker">START 03</span>
+      <div class="entry-title">一人で抱えている作業を減らしたい</div>
+      <p class="entry-body">現場の詰まりを見つけて、外注・AI・仕組み化のどれで解くかを切り分けます。</p>
+    </div>
+  </div>
   <div class="svc-bento">
-    <div class="sv sv1 glass-card"><div class="sv-ln"></div><div class="sv-ic"><i class="ti ti-palette"></i></div><h3 class="sv-t">デザイン</h3><div class="sv-b">資料、LP、ブランドビジュアル。会社の「見た目」を整えます。</div>
-      <div class="sv-demo sv-demo-design" aria-hidden="true">
-        <div class="dsg-before">
-          <span class="dsg-ln dsg-ln1"></span>
-          <span class="dsg-ln dsg-ln2"></span>
-          <span class="dsg-ln dsg-ln3"></span>
-        </div>
-        <i class="ti ti-arrow-right sv-demo-arrow"></i>
-        <div class="dsg-after">
-          <span class="dsg-chip"></span>
-          <span class="dsg-bar"></span>
-        </div>
+    <div class="sv sv1 glass-card">
+      <div class="sv-ln"></div>
+      <div class="sv-top">
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true">D</div><span class="sv-num">01 / DESIGN</span></div>
+        <h3 class="sv-t">伝わる見た目を、言葉ごと整える。</h3>
+        <div class="sv-b">資料、LP、ブランドビジュアル。きれいにするだけでなく、初見で「何の会社か」が伝わる順番に組み直します。</div>
+        <div class="sv-tags"><span>LP</span><span>営業資料</span><span>ブランド整理</span></div>
+      </div>
+      <div class="svc-visual svc-visual-design" aria-hidden="true">
+        <div class="svc-artboard"><span class="svc-artbar"></span><span class="svc-artbar"></span><span class="svc-artbar"></span></div>
+        <span class="svc-swatch svc-swatch-a"></span><span class="svc-swatch svc-swatch-b"></span><span class="svc-swatch svc-swatch-c"></span>
       </div>
     </div>
-    <div class="sv sv2 glass-card"><div class="sv-ln"></div><div class="sv-ic"><i class="ti ti-robot"></i></div><h3 class="sv-t">AI導入支援</h3><div class="sv-b">何から始めるかの整理から、導入・定着まで伴走します。</div>
-      <div class="sv-demo sv-demo-chat" aria-hidden="true">
-        <span class="chat-line chat-line-q">何から始めれば？</span>
-        <span class="chat-line chat-line-a"><span class="chat-dot"></span><span class="chat-dot"></span><span class="chat-dot"></span></span>
+    <div class="sv sv2 glass-card">
+      <div class="sv-ln"></div>
+      <div class="sv-top">
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true">AI</div><span class="sv-num">02 / AI</span></div>
+        <h3 class="sv-t">AIを、現場で使える形にする。</h3>
+        <div class="sv-b">「何から始める？」の棚卸しから、プロンプト、運用ルール、定着まで。怖くない小さな導入から始めます。</div>
+        <div class="sv-tags"><span>業務棚卸し</span><span>生成AI</span><span>社内ルール</span></div>
+      </div>
+      <div class="svc-visual svc-visual-ai" aria-hidden="true">
+        <span class="svc-link svc-link-a"></span><span class="svc-link svc-link-b"></span>
+        <span class="svc-node svc-node-a"></span><span class="svc-node svc-node-b"></span><span class="svc-node svc-node-c"></span>
+        <div class="svc-prompt"><span></span><span></span><span></span>thinking with your team</div>
       </div>
     </div>
-    <div class="sv sv3 glass-card"><div class="sv-ln"></div><div class="sv-ic"><i class="ti ti-speakerphone"></i></div><h3 class="sv-t">マーケティング・広報</h3><div class="sv-b">発信の戦略から文章制作まで。「なんとなく」を「ちゃんと」に。</div>
-      <div class="sv-demo sv-demo-gen" aria-hidden="true">
-        <span class="gen-ln gen-ln1"></span>
-        <span class="gen-ln gen-ln2"></span>
-        <span class="gen-ln gen-ln3 gen-cursor"></span>
+    <div class="sv sv3 glass-card">
+      <div class="sv-ln"></div>
+      <div class="sv-top">
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true">PR</div><span class="sv-num">03 / PR</span></div>
+        <h3 class="sv-t">発信を、続けられる資産に変える。</h3>
+        <div class="sv-b">広報・SNS・記事・メルマガまで、書く内容と出す順番を整理。単発の投稿ではなく、信頼が積み上がる設計にします。</div>
+        <div class="sv-tags"><span>広報設計</span><span>記事制作</span><span>SNS</span></div>
+      </div>
+      <div class="svc-visual svc-visual-pr" aria-hidden="true">
+        <span class="svc-pr-arc"></span><span class="svc-pr-arc"></span>
+        <div class="svc-pr-copy"><span></span><span></span><span></span></div>
+        <i class="ti ti-sparkles svc-pr-burst" aria-hidden="true"></i>
       </div>
     </div>
-    <div class="sv sv4 glass-card sv-wide"><div class="sv-ln"></div><div class="sv-ic"><i class="ti ti-settings"></i></div><h3 class="sv-t">業務効率化コンサル</h3><div class="sv-b">現場に入って「ここが詰まっている」を見つけ、解消します。単発でも伴走型でも。</div>
-      <div class="sv-demo sv-demo-flow" aria-hidden="true">
-        <div class="flow-col"><span class="flow-lbl">Before</span><span class="flow-bar flow-bar-before"></span></div>
-        <i class="ti ti-arrow-right sv-demo-arrow"></i>
-        <div class="flow-col"><span class="flow-lbl">After</span><span class="flow-bar flow-bar-after"></span></div>
+    <div class="sv sv4 glass-card sv-wide">
+      <div class="sv-ln"></div>
+      <div class="sv-top">
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true">OPS</div><span class="sv-num">04 / OPS</span></div>
+        <h3 class="sv-t">詰まりを見つけ、仕組みに逃がす。</h3>
+        <div class="sv-b">現場の作業を見える化して、人がやる仕事・AIに任せる仕事・外に出す仕事を切り分けます。単発でも伴走型でも。</div>
+        <div class="sv-tags"><span>導線整理</span><span>自動化</span><span>運用改善</span></div>
+      </div>
+      <div class="svc-visual svc-visual-ops" aria-hidden="true">
+        <span class="svc-flow-line"></span><span class="svc-flow-line"></span><span class="svc-flow-line"></span>
+        <span class="svc-flow-dot"></span>
+        <div class="svc-flow-card"><i class="ti ti-check" aria-hidden="true"></i></div>
       </div>
     </div>
   </div>
@@ -1677,13 +1673,14 @@
 <!-- ── Cases ── -->
 <section class="sec sec-light" id="s-cases">
   <div class="s-lbl">// CASES</div>
-  <h2 class="s-h2">支援事例</h2>
-  <p class="s-desc">実際にどんな変化が生まれたか。</p>
+  <h2 class="s-h2">よくある支援イメージ</h2>
+  <p class="s-desc">実際の相談で多いテーマをもとにしたモデルケースです。数字は効果を保証するものではありません。</p>
   <div class="cases-track">
-    <div class="case glass-card"><div class="case-head"><span class="case-tag tag-a">AI導入支援</span><span class="case-co">製造業・従業員20名</span></div><p class="case-body">毎日2〜3時間かかっていた見積もり書作成をAIで自動化。担当者が営業活動に集中できるようになった。</p><div class="case-result"><span class="case-arrow">→</span>週あたり約8時間の削減。受注率が1.4倍に改善。</div></div>
-    <div class="case glass-card"><div class="case-head"><span class="case-tag tag-p">ブランディング + 広報</span><span class="case-co">IT系スタートアップ・従業員8名</span></div><p class="case-body">採用サイトのリニューアルと採用広報の文章を整備。「どんな会社かわかった」という声が増加。</p><div class="case-result"><span class="case-arrow">→</span>応募数が3ヶ月で2.3倍。採用コストを60%削減。</div></div>
-    <div class="case glass-card"><div class="case-head"><span class="case-tag tag-t">業務効率化コンサル</span><span class="case-co">飲食チェーン・3店舗経営</span></div><p class="case-body">SNS投稿・シフト管理・発注業務のフローをAIツールで再設計。オーナーが現場作業から抜け出せるように。</p><div class="case-result"><span class="case-arrow">→</span>オーナーの実働時間が週18時間→9時間に半減。</div></div>
+    <div class="case glass-card"><div class="case-head"><span class="case-tag tag-a">AI導入支援</span><span class="case-co">製造業・従業員20名</span></div><p class="case-body">見積もり書作成、問い合わせ返信、議事録作成など、毎週繰り返す作業を棚卸し。AIで置き換えやすい部分から小さく導入。</p><div class="case-result"><span class="case-arrow">→</span>モデル効果: 週あたり数時間の作業削減を目指す設計。</div></div>
+    <div class="case glass-card"><div class="case-head"><span class="case-tag tag-p">ブランディング + 広報</span><span class="case-co">IT系スタートアップ・従業員8名</span></div><p class="case-body">採用サイト、会社紹介資料、SNS発信の言葉を整理。「何をしている会社か」が一目で伝わる状態へ。</p><div class="case-result"><span class="case-arrow">→</span>モデル効果: 問い合わせ・応募前の理解度を上げる。</div></div>
+    <div class="case glass-card"><div class="case-head"><span class="case-tag tag-t">業務効率化コンサル</span><span class="case-co">飲食・小売・店舗運営</span></div><p class="case-body">SNS投稿、シフト共有、発注・請求まわりの流れを整理。人がやる仕事と仕組みに任せる仕事を分ける。</p><div class="case-result"><span class="case-arrow">→</span>モデル効果: オーナーが判断業務に戻れる時間をつくる。</div></div>
   </div>
+  <p class="case-note">※ 上記は相談内容をもとにしたモデルケースです。成果は業種・体制・既存ツール・運用状況により異なります。</p>
   <div class="cases-hint">
     <div class="cases-hint-dots">
       <div class="cases-hint-dot active"></div>
@@ -1768,7 +1765,7 @@
         </div>
 
         <div style="margin-top:40px;">
-          <a href="contact.html" class="vis-cta-btn">時間を取り戻す第一歩を →</a>
+          <a href="contact.html" class="vis-cta-btn">無料で相談する →</a>
         </div>
       </div><!-- /sst-right -->
 
@@ -1816,73 +1813,60 @@
           <div class="ab-cred-num">月<span id="ab-n2">0</span><span class="ab-cred-unit">本以上</span></div>
           <div class="ab-cred-lbl">専門メディアへの<br>継続的な寄稿</div>
         </div>
+        <div class="ab-cred-divider"></div>
+        <div class="ab-cred-item">
+          <div class="ab-cred-num">30<span class="ab-cred-unit">社以上</span></div>
+          <div class="ab-cred-lbl">AI・デザイン・マーケ領域の<br>支援実績（累計）</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── More about me (slider) ── -->
+<!-- ── More about me (compact) ── -->
 <section class="sec sec-white" id="s-facts">
   <div class="s-lbl">// MORE ABOUT ME</div>
-  <h2 class="s-h2">こんな人です。</h2>
-  <div class="facts-slider">
-    <div class="facts-track" id="factsTrack">
-      <div class="fact-card">
-        <div class="fact-icon"><i class="ti ti-map-2" aria-hidden="true"></i></div>
-        <h3 class="fact-title">世界中を旅しながら仕事しています</h3>
-        <p class="fact-desc">今どこにいるかは、そのときの気分次第です。デジタルノマド歴、それなりに長いです。</p>
+  <div class="mini-profile">
+    <h2 class="mini-profile-title">こんな人です。</h2>
+    <div class="mini-profile-shell">
+      <div class="mini-profile-grid">
+        <div class="mini-chip mini-chip-accent"><i class="ti ti-map-2" aria-hidden="true"></i><span>旅しながら働く</span></div>
+        <div class="mini-chip"><i class="ti ti-shield-lock" aria-hidden="true"></i><span>セキュリティに細かい</span></div>
+        <div class="mini-chip mini-chip-tilt"><i class="ti ti-palette" aria-hidden="true"></i><span>伝わり方にうるさい</span></div>
+        <div class="mini-chip"><i class="ti ti-language" aria-hidden="true"></i><span>日本語・英語OK</span></div>
+        <div class="mini-chip mini-chip-dark"><i class="ti ti-chess" aria-hidden="true"></i><span>読む・打つ・考えるのが好き</span></div>
+        <div class="mini-chip mini-chip-wide"><i class="ti ti-bulb" aria-hidden="true"></i><span>哲学書を読んで、たまに仕事に持ち込みます</span></div>
       </div>
-      <div class="fact-card">
-        <div class="fact-icon"><i class="ti ti-shield-lock" aria-hidden="true"></i></div>
-        <h3 class="fact-title">サイバーセキュリティ記事を3年書いています</h3>
-        <p class="fact-desc">AI導入の話をしながら、セキュリティにやたら厳しいのはこれが理由です。</p>
+      <div class="mini-now" aria-label="風雅舎の仕事モード">
+        <div class="mini-now-k">CURRENT MODE</div>
+        <div class="mini-now-line"><i class="ti ti-radar" aria-hidden="true"></i><span class="mini-now-text">違和感を見つけて、言葉と導線に直すタイプです。</span></div>
       </div>
-      <div class="fact-card">
-        <div class="fact-icon"><i class="ti ti-palette" aria-hidden="true"></i></div>
-        <h3 class="fact-title">前職はデザイン・PR・マーケ畑でした</h3>
-        <p class="fact-desc">「伝わるかどうか」を、技術と同じくらい大事にしています。</p>
-      </div>
-      <div class="fact-card">
-        <div class="fact-icon"><i class="ti ti-language" aria-hidden="true"></i></div>
-        <h3 class="fact-title">日本語でも英語でも、対応できます</h3>
-        <p class="fact-desc">慶應とケルン大、両方で学んだので、どちらも母語感覚に近いです。</p>
-      </div>
-      <div class="fact-card">
-        <div class="fact-icon"><i class="ti ti-bulb" aria-hidden="true"></i></div>
-        <h3 class="fact-title">哲学書と人類の進化論が好きです</h3>
-        <p class="fact-desc">仕事と関係あるようで、実はあまりない趣味です。詳しくは下のReadingセクションで。</p>
-      </div>
-    </div>
-    <div class="facts-nav">
-      <button class="facts-btn" id="factsPrev" type="button" aria-label="前へ"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
-      <div class="facts-dots" id="factsDots"></div>
-      <button class="facts-btn" id="factsNext" type="button" aria-label="次へ"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
     </div>
   </div>
 </section>
 
 <!-- ── Reading ── -->
 <section class="sec sec-light" id="s-reading">
-  <div class="s-lbl">// READING</div>
-  <h2 class="s-h2">仕事の合間は、だいたい本を読んでいます。</h2>
-  <p class="s-desc">東洋哲学、ストア哲学、人類の進化論。役に立つかはさておき、好きで読んでいるものです。</p>
-
-  <div class="read-grid">
-    <div class="shelf" aria-hidden="true">
-      <div class="shelf-books">
-        <div class="book book-1" tabindex="0"><span class="book-spine">サピエンス全史</span><span class="book-note">人類はなぜここまで来たのか、をずっと考えている</span></div>
-        <div class="book book-2" tabindex="0"><span class="book-spine">ファクトフルネス</span><span class="book-note">事実ベースで物事を見る、を合言葉にしています</span></div>
-        <div class="book book-3" tabindex="0"><span class="book-spine">自省録</span><span class="book-note">マルクス・アウレリウス。2000年前の自己啓発書</span></div>
-        <div class="book book-4" tabindex="0"><span class="book-spine">東洋哲学</span><span class="book-note">禅・老荘思想あたりを行ったり来たり</span></div>
+  <div class="s-lbl">// OFF HOURS</div>
+  <div class="reading-compact">
+    <div>
+      <h2 class="reading-title">仕事の合間は、本と格闘技と頭脳戦です。</h2>
+      <p class="reading-desc">読書、ムエタイ、チェス、ポーカー。ばらばらに見えて、どれも「観察して、次の一手を決める」練習になっています。</p>
+      <div class="reading-books" aria-label="好きなもの">
+        <span>東洋哲学</span>
+        <span>ムエタイ</span>
+        <span>チェス</span>
+        <span>ポーカー</span>
+        <span>旅先の散歩</span>
       </div>
-      <div class="shelf-board"></div>
     </div>
-
-    <div class="quote-box">
-      <div class="quote-eyebrow">ストア哲学の言葉</div>
-      <p class="quote-text" id="quoteText">君の心が乱れるのは、物事のせいではなく、それについての判断のせいだ。</p>
-      <p class="quote-author" id="quoteAuthor">— マルクス・アウレリウス</p>
-      <button class="quote-btn" id="quoteBtn" type="button">別の言葉を見る <i class="ti ti-refresh" aria-hidden="true"></i></button>
+    <div class="hobby-card" id="hobbyCard">
+      <div class="hobby-eyebrow">now rotating</div>
+      <div class="hobby-icon" id="hobbyMark" aria-hidden="true">BOOK</div>
+      <h3 class="hobby-name" id="hobbyName">読書</h3>
+      <p class="hobby-desc" id="hobbyDesc">東洋哲学、ストア哲学、人類史。すぐ役に立つというより、判断の軸を太くしてくれる時間です。</p>
+      <div class="hobby-meta" id="hobbyMeta">philosophy / history / thinking</div>
+      <div class="hobby-dots" id="hobbyDots" aria-label="趣味を切り替える"></div>
     </div>
   </div>
 </section>
@@ -1935,11 +1919,18 @@
 <section class="sec sec-light" id="s-voice">
   <div class="s-lbl">// VOICE</div>
   <h2 class="s-h2">お客様の声</h2>
-  <div class="voice-grid">
+  <div class="voice-slider" id="voiceSlider">
+  <div class="voice-track" id="voiceTrack">
     <div class="voice glass-card"><div class="voice-q">"</div><p class="voice-txt">AIって難しそうと思っていたけど、「うちの会社ならここから始めよう」と具体的に提示してもらえて、初めて動けた気がします。</p><div class="voice-from"><div class="voice-dot"></div>製造業・代表取締役 / 従業員15名</div></div>
     <div class="voice glass-card"><div class="voice-q">"</div><p class="voice-txt">一人でこれだけ幅広くできるのかと最初は半信半疑でしたが、スピードと質に驚きました。担当が変わらないのも安心です。</p><div class="voice-from"><div class="voice-dot"></div>IT企業・COO / 従業員10名</div></div>
     <div class="voice glass-card"><div class="voice-q">"</div><p class="voice-txt">「こういう人に頼みたかった」というのが正直な感想です。提案が的確で、余計な説明がない。自分でやるより、圧倒的に速かった。</p><div class="voice-from"><div class="voice-dot"></div>小売業・代表 / 従業員6名</div></div>
     <div class="voice glass-card"><div class="voice-q">"</div><p class="voice-txt">業務改善の話を聞いてもらって、「ここだけ変えれば全体が変わる」という視点をもらいました。半年後、社員から「楽になった」という言葉が出ました。</p><div class="voice-from"><div class="voice-dot"></div>飲食業・オーナー / 3店舗</div></div>
+  </div>
+  <div class="voice-nav">
+    <button class="voice-btn" id="voicePrev" type="button" aria-label="前のお客様の声"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
+    <div class="voice-dots" id="voiceDots"></div>
+    <button class="voice-btn" id="voiceNext" type="button" aria-label="次のお客様の声"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
+  </div>
   </div>
 </section>
 
@@ -1956,43 +1947,27 @@
         <div class="ig-stat">
           <div class="ig-stat-icon"><i class="ti ti-clock" aria-hidden="true"></i></div>
           <div class="ig-stat-num" id="ig-n1">0<span class="ig-stat-unit">h</span></div>
-          <div class="ig-stat-lbl">週あたり解放される<br>作業時間（参考値）</div>
+          <div class="ig-stat-lbl">週あたり解放できる可能性のある<br>作業時間（参考値）</div>
           <div class="ig-bar-wrap"><div class="ig-bar" id="ig-b1" data-pct="74"></div></div>
           <div class="ig-bar-pct" id="ig-p1">0%</div>
         </div>
         <div class="ig-stat">
           <div class="ig-stat-icon"><i class="ti ti-robot" aria-hidden="true"></i></div>
           <div class="ig-stat-num" id="ig-n2">0<span class="ig-stat-unit">%</span></div>
-          <div class="ig-stat-lbl">自動化できる<br>ルーティン業務の割合</div>
+          <div class="ig-stat-lbl">AIに任せられる可能性のある<br>ルーティン業務の割合</div>
           <div class="ig-bar-wrap"><div class="ig-bar" id="ig-b2" data-pct="73"></div></div>
           <div class="ig-bar-pct" id="ig-p2">0%</div>
         </div>
         <div class="ig-stat">
           <div class="ig-stat-icon"><i class="ti ti-bolt" aria-hidden="true"></i></div>
           <div class="ig-stat-num" id="ig-n3">0<span class="ig-stat-unit">x</span></div>
-          <div class="ig-stat-lbl">クリエイティブ業務<br>スピード向上の目安</div>
+          <div class="ig-stat-lbl">下書き・たたき台制作の<br>スピード向上目安</div>
           <div class="ig-bar-wrap"><div class="ig-bar" id="ig-b3" data-pct="88"></div></div>
           <div class="ig-bar-pct" id="ig-p3">0%</div>
         </div>
       </div>
     </div>
-    <div class="ig-sub">
-      <div class="ig-sub-card">
-        <i class="ti ti-certificate ig-sub-card-ic" aria-hidden="true"></i>
-        <div class="ig-sub-card-body">
-          <div class="ig-sub-card-num">144<span class="ig-sub-card-unit">本以上</span></div>
-          <div class="ig-sub-card-lbl">サイバーセキュリティ記事の執筆実績<br>月4本以上、3年継続中</div>
-        </div>
-      </div>
-      <div class="ig-sub-card">
-        <i class="ti ti-users ig-sub-card-ic" aria-hidden="true"></i>
-        <div class="ig-sub-card-body">
-          <div class="ig-sub-card-num">30<span class="ig-sub-card-unit">社以上</span></div>
-          <div class="ig-sub-card-lbl">AI・デザイン・マーケ領域での<br>支援実績（累計）</div>
-        </div>
-      </div>
-    </div>
-    <div class="ig-note"><em>※ EXAMPLE DATA</em>　主要3項目は参考値。効果はプロジェクトにより異なります。</div>
+    <div class="ig-note"><em>※ 参考値</em>　業務内容・社内体制・利用ツールにより効果は変動します。</div>
   </div>
 </section>
 
@@ -2068,10 +2043,14 @@
   <div class="ticker-track">
     <span class="ticker-item">LESS FRICTION</span><span class="ticker-dot">•</span>
     <span class="ticker-item">MORE YOU</span><span class="ticker-dot">•</span>
+    <span class="ticker-item">時間を取り戻す</span><span class="ticker-dot">•</span>
+    <span class="ticker-item">余白が戻ると、事業は進む</span><span class="ticker-dot">•</span>
     <span class="ticker-item">AUTOMATE THE BORING PARTS</span><span class="ticker-dot">•</span>
     <span class="ticker-item">AI THAT ACTUALLY HELPS</span><span class="ticker-dot">•</span>
     <span class="ticker-item">LESS FRICTION</span><span class="ticker-dot">•</span>
     <span class="ticker-item">MORE YOU</span><span class="ticker-dot">•</span>
+    <span class="ticker-item">時間を取り戻す</span><span class="ticker-dot">•</span>
+    <span class="ticker-item">余白が戻ると、事業は進む</span><span class="ticker-dot">•</span>
     <span class="ticker-item">AUTOMATE THE BORING PARTS</span><span class="ticker-dot">•</span>
     <span class="ticker-item">AI THAT ACTUALLY HELPS</span><span class="ticker-dot">•</span>
   </div>
@@ -2082,12 +2061,22 @@
   <canvas id="cvc" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
   <div class="cta-c">
     <span class="cta-star">✦</span>
-    <h2 class="ch2">仕事は、もっとスマートに。<br>人生の余白は、もっと豊かに。</h2>
-    <p class="csub">まず、話すだけで構いません。</p>
-    <p class="cq">「うちはどこから手をつければいい？」その一言から始めましょう。</p>
+    <h2 class="ch2">まず30分、<br>詰まりを一緒にほどきます。</h2>
+    <p class="csub">無料相談で、すぐ着手できる順番まで整理します。</p>
+    <p class="cq">取り戻すのは、時間だけではありません。考える余白と、選べる毎日です。</p>
+    <div class="cta-manifesto" aria-label="風雅舎が取り戻したいもの">
+      <div class="cta-manifesto-line"><span class="cta-manifesto-k">TIME</span><span class="cta-manifesto-t">同じ作業に追われる時間を、未来を考える時間へ。</span></div>
+      <div class="cta-manifesto-line"><span class="cta-manifesto-k">MARGIN</span><span class="cta-manifesto-t">余白が戻ると、判断は速く、仕事はやさしくなります。</span></div>
+      <div class="cta-manifesto-line"><span class="cta-manifesto-k">LIFE</span><span class="cta-manifesto-t">事業も暮らしも、ちゃんと自分の手に戻していく。</span></div>
+    </div>
     <div class="cta-wrap">
-      <a href="contact.html" class="cta-btn-amber">無料で話してみる <span class="arr">→</span></a>
+      <a href="contact.html" class="cta-btn-amber">無料で相談する <span class="arr">→</span></a>
       <p class="cta-line-sub">またはメールで直接: <a href="mailto:hello@fugasha.jp" style="color:var(--accent2);text-decoration:none;letter-spacing:.04em;">hello@fugasha.jp</a></p>
+    </div>
+    <div class="cta-takeaways" aria-label="無料相談でわかること">
+      <div class="cta-takeaway">どの業務からAI化・外注化すべきか</div>
+      <div class="cta-takeaway">サイト・資料・発信の優先改善点</div>
+      <div class="cta-takeaway">予算内で始める現実的な進め方</div>
     </div>
     <div class="cta-process">
       <div class="cta-step"><div class="cta-step-num">1</div><div class="cta-step-txt">フォーム送信</div></div>
@@ -2096,8 +2085,7 @@
       <div class="cta-step-arrow">›</div>
       <div class="cta-step"><div class="cta-step-num">3</div><div class="cta-step-txt">30分オンライン通話</div></div>
     </div>
-    <p class="cta-line-sub">LINEでの相談も受け付けています</p>
-    <p class="cta-note">🔒 無理な営業は一切しません　·　返信は通常24時間以内</p>
+    <p class="cta-note">無理な営業は一切しません　·　返信は通常24時間以内</p>
   </div>
 </section>
 
@@ -2220,7 +2208,7 @@
   });
 
   // ── Scroll observer (sections) ──
-  const sectionIds = ['s-hero','s-tools','s-pain','s-thorn','s-service','s-cases','s-vision','s-about','s-facts','s-reading','s-price','s-voice','s-infog','s-faq','s-blog','s-cta'];
+  const sectionIds = ['s-hero','s-tools','s-pain','s-service','s-cases','s-vision','s-about','s-facts','s-reading','s-price','s-voice','s-infog','s-faq','s-blog','s-cta'];
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -2722,11 +2710,11 @@
     if (!el || !wrap) return;
 
     const LINES = [
-      '毎朝2時間、同じ資料を作っていませんか。',
-      '会議の議事録に、1時間かけていませんか。',
-      'メールの返信で、午前中が終わっていませんか。',
-      '請求書の処理を、月末に丸一日使っていませんか。',
-      '本当にやりたい仕事を、後回しにしていませんか。',
+      'AIで減らせる作業を、まず一緒に見つけます。',
+      '資料・発信・サイトの伝わり方を整えます。',
+      '社長が抱えている細かな作業を仕組みに逃がします。',
+      '小さく試して、続けられる形に落とし込みます。',
+      '初回相談では、着手順まで整理します。',
     ];
 
     const TYPE_SPEED_MIN = 42;
@@ -2949,12 +2937,12 @@
     });
   })();
 
-  // ── Facts slider ──
+  // ── Voice slider ──
   (function(){
-    const track = document.getElementById('factsTrack');
-    const dotsWrap = document.getElementById('factsDots');
-    const prevBtn = document.getElementById('factsPrev');
-    const nextBtn = document.getElementById('factsNext');
+    const track = document.getElementById('voiceTrack');
+    const dotsWrap = document.getElementById('voiceDots');
+    const prevBtn = document.getElementById('voicePrev');
+    const nextBtn = document.getElementById('voiceNext');
     if (!track || !dotsWrap || !prevBtn || !nextBtn) return;
 
     const n = track.children.length;
@@ -2963,8 +2951,8 @@
     for (let i = 0; i < n; i++) {
       const dot = document.createElement('button');
       dot.type = 'button';
-      dot.className = 'facts-dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('aria-label', (i + 1) + '枚目へ');
+      dot.className = 'voice-slide-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', (i + 1) + '件目のお客様の声へ');
       dot.addEventListener('click', () => go(i));
       dotsWrap.appendChild(dot);
     }
@@ -3006,6 +2994,76 @@
         pos = (key === SEQ[0]) ? 1 : 0;
       }
     });
+  })();
+
+  // ── Off-hours hobby rotator ──
+  (function(){
+    const card = document.getElementById('hobbyCard');
+    const mark = document.getElementById('hobbyMark');
+    const name = document.getElementById('hobbyName');
+    const desc = document.getElementById('hobbyDesc');
+    const meta = document.getElementById('hobbyMeta');
+    const dotsWrap = document.getElementById('hobbyDots');
+    if (!card || !mark || !name || !desc || !meta || !dotsWrap) return;
+
+    const hobbies = [
+      {
+        mark: 'BOOK',
+        name: '読書',
+        desc: '東洋哲学、ストア哲学、人類史。すぐ役に立つというより、判断の軸を太くしてくれる時間です。',
+        meta: 'philosophy / history / thinking'
+      },
+      {
+        mark: 'MT',
+        name: 'ムエタイ',
+        desc: '体を動かしながら、距離感と反応速度を整える時間。仕事の集中力も、だいたいここで回復します。',
+        meta: 'focus / timing / reset'
+      },
+      {
+        mark: 'CH',
+        name: 'チェス',
+        desc: '盤面を見て、先を読む。サイト設計も業務整理も、意外と同じ筋肉を使っています。',
+        meta: 'strategy / pattern / patience'
+      },
+      {
+        mark: 'PK',
+        name: 'ポーカー',
+        desc: '情報が足りない中で、確率と人間を読む遊び。意思決定の雑味まで含めて面白いです。',
+        meta: 'odds / psychology / decision'
+      }
+    ];
+
+    let idx = 0;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    hobbies.forEach((item, dotIdx) => {
+      const dot = document.createElement('button');
+      dot.className = 'hobby-dot' + (dotIdx === 0 ? ' active' : '');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', item.name + 'に切り替える');
+      dot.addEventListener('click', () => render(dotIdx));
+      dotsWrap.appendChild(dot);
+    });
+
+    function render(nextIdx) {
+      idx = nextIdx;
+      card.classList.add('switching');
+      window.setTimeout(() => {
+        const item = hobbies[idx];
+        mark.textContent = item.mark;
+        name.textContent = item.name;
+        desc.textContent = item.desc;
+        meta.textContent = item.meta;
+        dotsWrap.querySelectorAll('.hobby-dot').forEach((dot, dotIdx) => {
+          dot.classList.toggle('active', dotIdx === idx);
+        });
+        card.classList.remove('switching');
+      }, reduceMotion ? 0 : 160);
+    }
+
+    if (!reduceMotion) {
+      window.setInterval(() => render((idx + 1) % hobbies.length), 3600);
+    }
   })();
 
   // ── Stoic quote generator ──
