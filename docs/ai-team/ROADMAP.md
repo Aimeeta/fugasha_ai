@@ -1,6 +1,22 @@
 # ROADMAP — 優先順位つき残タスク
 
-最終更新: 2026-07-03（LP裁定・トップ改善 Phase 1+2 実装時点）
+最終更新: 2026-07-04（英語版トップ /en/ 公開時点）
+
+## 英語版 /en/ — Phase 2（公開後すぐ）
+1. **LinkedIn URL 受領次第**: /en/ フッターのコメント位置にリンク追加＋Person JSON-LD に sameAs（日本語側にも）
+2. 英語版 OGP 画像 `/en/ogp.jpg`（ogp-source.html 複製で生成 → og:image 差替。現在はルート ogp.jpg 暫定）
+3. Cases 英語版（"Model cases based on typical engagements with Japanese SMEs" 明示・brand-copywriter 起案→レビュー）
+4. 英語 FAQPage JSON-LD（/en/#faq・inLanguage:"en" — 可視FAQは実装済みなので追加可能）
+5. フォームの実送信テスト（本番 Formspree・TEST明記で1件、source:"en" の識別確認）
+
+## 英語版 /en/ — Phase 3
+- Vision 静的3段圧縮版の英語化 / 英語ブログ記事→Blog帯復活 / 相談メモ英語化→ヒーローチップ復活
+- 予約システム導入時のみ CTA を "Book a call" に変更可（文言と実体の一致）
+
+## a11y 残課題（日英共通の parity 項目・a11y-auditor 2026-07-04 監査）
+1. FAQ 閉パネルが SR に露出（max-height:0 のみ）→ aria-controls＋transitionend で hidden 付与（日英両方）
+2. ツールマーキーの停止手段がホバーのみ → focus-within 停止＋停止ボタン検討
+3. CTA の ✦ に aria-hidden なし / .cta-manifesto の無効ARIA / nav-logo の誤アフォーダンス / ドロワーリンク後のフォーカス喪失 / nav-ham 実効22px / prefersReducedMotion の change 監視なし（すべて日英共通）
 
 ## トップ改善 Phase 1+2 — 実装済み（2026-07-03・未push）
 1. ~~entry-card 3枚の chat.html?t= リンク化~~ ✅（旧「次の波」2を吸収）

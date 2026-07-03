@@ -1,6 +1,25 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-03（トップ改善 Phase 1+2 時点）
+最終検証: 2026-07-04（英語版トップ /en/ 公開時点）
+
+## 英語版トップ /en/（2026-07-04）
+変更: en/index.html 新規（1684行・単一ファイル） / index.html（hreflang・og:locale:alternate・ナビ/ドロワーEnglishリンク・areaServed→Worldwide・FAQフォーカスリング修正） / sitemap.xml（xhtml namespace・/en/ エントリ・双方向alternate）
+※実装エージェントがプロセス中断で停止したため、検証はオーケストレーターが全項目再実施
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| inline JS / JSON-LD | node --check・json.loads | ✅ OK（@graph: WebPage+ProfessionalService+Person、WebSite再定義なし・OfferCatalog再掲なし） |
+| タグ整合 | 主要15タグの開閉カウント | ✅ 全一致 |
+| head | canonical自己参照・hreflang 3行の日英バイト一致・og:locale=en_US・favicon ../相対 | ✅ grep 突合 |
+| コピー忠実性 | 決定稿15フレーズの逐語スポット＋a11y-auditor の全文突合 | ✅ 差異ゼロ |
+| 禁止事項 | Book a call / USD / chat.html導線 / entry-card / チェッカー | ✅ 全て不検出 |
+| sitemap | xmllint | ✅ 整形式 |
+| 表示 | ヘッドレスChrome（1280 / 500 / iframe実測375px）全ページスクリーンショット | ✅ 崩れなし・**375pxで docScrollW=375（横はみ出しゼロ）を実測** |
+| a11yクロスレビュー | a11y-auditor（コード読解＋輝度計算） | 重大1・中4・軽微8 検出 → 重大1＋中3件（FAQリング6.6:1化・成功時フォーカス・入力境界3.2:1・フッター文字）を公開前修正。残りは ROADMAP に記録 |
+| lang属性 | html lang="en"＋日本語断片8箇所の lang="ja" | ✅ 監査合格 |
+| ドロワー/フォーム | dialog+inert移植・label/for/aria-describedby/role="status" | ✅ 監査合格 |
+
+未検証（開示）: Formspree実送信（source:"en" 識別は未実測 — ROADMAP Phase 2-5）/ 実機モバイル・VoiceOver / View Transition の目視 / hreflang の Search Console 認識（公開後）。
 
 ## トップ改善 Phase 1+2（2026-07-03・未push）
 変更: index.html（entry-cardリンク化・無料1行・FAQ7問・JSON-LD拡張）/ contact.html（head SEO・Tabler全廃・文言3件・フォントウェイト）/ chat.html（OGP）/ sitemap.xml（chat追記・lastmod更新）

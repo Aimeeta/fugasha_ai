@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fugasha — Less friction. More you.</title>
+  <meta name="description" content="A one-person studio helping small businesses work with Japan and clear away busywork — design, clear writing, and practical AI. In English, German, or Japanese, remote.">
+  <meta property="og:title" content="Fugasha — Less friction. More you.">
+  <meta property="og:description" content="A one-person studio helping small businesses work with Japan and clear away busywork — design, clear writing, and practical AI. In English, German, or Japanese, remote.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/en/">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
+  <meta property="og:image:alt" content="Fugasha — Less friction. More you.">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:site_name" content="Fugasha">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#f0e6d6">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/en/">
+  <link rel="alternate" hreflang="ja" href="https://aimeeta.github.io/fugasha_ai/">
+  <link rel="alternate" hreflang="en" href="https://aimeeta.github.io/fugasha_ai/en/">
+  <link rel="alternate" hreflang="x-default" href="https://aimeeta.github.io/fugasha_ai/">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://aimeeta.github.io/fugasha_ai/en/#webpage",
+        "url": "https://aimeeta.github.io/fugasha_ai/en/",
+        "name": "Fugasha — Less friction. More you.",
+        "inLanguage": "en",
+        "isPartOf": { "@id": "https://aimeeta.github.io/fugasha_ai/#website" },
+        "about": { "@id": "https://aimeeta.github.io/fugasha_ai/#organization" },
+        "description": "A one-person studio helping small businesses work with Japan and clear away busywork — design, clear writing, and practical AI. In English, German, or Japanese, remote."
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://aimeeta.github.io/fugasha_ai/#organization",
+        "name": "Fugasha",
+        "alternateName": "風雅舎",
+        "description": "A one-person consulting studio for small businesses: practical AI, clear communication, and lighter operations — working remotely in English, Japanese, and German."
+      },
+      {
+        "@type": "Person",
+        "@id": "https://aimeeta.github.io/fugasha_ai/#person",
+        "name": "Aimee",
+        "description": "Founder of Fugasha. Works across practical AI, communication design, and lighter operations, with three years of writing on cybersecurity."
+      }
+    ]
+  }
+  </script>
+  <!-- TODO: LinkedIn URL提供後、Personノードに "sameAs" を追加 -->
+  <style>
+    :root {
+      --bg:      #f0e6d6;
+      --bg2:     #e8dcc8;
+      --fg:      #0d2030;
+      --fg2:     #1e3a50;
+      --muted:   #5a5f66;       /* 少し暗めに — 読みやすさ向上 */
+      --hint:    #5f646c;       /* クリーム上で約4.6:1 — WCAG AA準拠 */
+      --accent:  #e8866a;
+      --accent2: #f0a882;
+      --accent-ink: #7a4025;   /* 小さな文字やアイコン用の濃いサーモン */
+      --line:    rgba(13,32,48,.1);
+      --glass:   rgba(240,230,214,0.7);
+      --gb:      rgba(255,255,255,0.6);
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono:  'JetBrains Mono', monospace;
+      /* タイポスケール */
+      --text-xs:   10px;
+      --text-sm:   12px;
+      --text-base: 15px;
+      --text-md:   16px;
+      --text-lg:   20px;
+      --text-xl:   28px;
+      --text-2xl:  36px;
+      --text-3xl:  48px;
+      --text-4xl:  60px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* 見出しのみ約物を詰める（本文は読み速度優先で全角のまま） */
+    .h-h1, .s-h2, .ch2, .ah2, .sv-t, .phi-t { font-feature-settings: 'palt' 1; }
+    html { scroll-behavior: smooth; scroll-padding-top: 86px; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--fg);
+      overflow-x: hidden;
+    }
+    ::selection { background: rgba(232,134,106,.3); color: var(--fg); }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: fixed; top: -48px; left: 16px; z-index: 10005;
+      background: var(--fg); color: var(--bg); padding: 10px 18px; border-radius: 4px;
+      font-size: 12px; letter-spacing: .06em; text-decoration: none;
+      transition: top .2s ease;
+    }
+    .skip-link:focus-visible { top: 12px; outline: 2px solid var(--accent); outline-offset: 2px; }
+    section[id], .sec-tools { scroll-margin-top: 86px; }
+
+    /* ── Noise overlay ── */
+    .noise {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.032;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
+
+
+    /* ── Progress bar ── */
+    .pb {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: var(--accent);
+      z-index: 10001; width: 0%; transition: width .1s linear;
+    }
+
+    /* ── Navigation ── */
+    .nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px; position: sticky; top: 0; z-index: 1000;
+      background: rgba(240,230,214,.92);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      transition: border-color .3s;
+      border-bottom: .5px solid transparent;
+    }
+    .nav.sc { border-bottom-color: var(--line); }
+    .nav-logo {
+      font-size: 13px; font-weight: 700; letter-spacing: .18em;
+      cursor: pointer; text-transform: uppercase; color: var(--fg);
+      font-family: var(--font-sans);
+    }
+    .nav-right { display: flex; align-items: center; gap: 32px; }
+    .nav-link {
+      font-size: 11px; color: var(--hint); cursor: pointer; letter-spacing: .1em;
+      transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500;
+      position: relative;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 1px;
+      background: var(--accent-ink); transform: scaleX(0); transform-origin: left;
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
+    }
+    .nav-link:hover { color: var(--fg); }
+    .nav-link.active { color: var(--fg); }
+    .nav-link.active::after { transform: scaleX(1); }
+    .nav-cta {
+      display: inline-block; font-size: 11px; padding: 9px 20px; border-radius: 2px;
+      background: var(--accent); color: var(--fg); cursor: pointer; font-weight: 500;
+      transition: opacity .2s; border: none; letter-spacing: .08em; text-decoration: none;
+    }
+    .nav-cta:hover { opacity: .8; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 72px 40px 80px; position: relative; overflow: hidden;
+      min-height: 500px; display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: center;
+    }
+    .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .hero-left { position: relative; z-index: 2; }
+
+    .h-h1 {
+      font-size: clamp(34px, 4.4vw, 56px); font-weight: 300; line-height: 1.22; margin-bottom: 24px;
+      font-family: var(--font-serif); letter-spacing: -.02em;
+      opacity: 0; transform: translateY(20px);
+      transition: all 1s cubic-bezier(.16,1,.3,1) .1s;
+    }
+    .h-subcopy {
+      max-width: 520px; font-size: 16px; line-height: 2; color: var(--fg2);
+      margin: -8px 0 20px; opacity: 0; transform: translateY(10px);
+      transition: opacity .7s ease .38s, transform .7s ease .38s;
+    }
+    .h-actions {
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0; transition: all .6s ease .45s; flex-wrap: wrap;
+    }
+    .btn-amber {
+      display: inline-flex; align-items: center; gap: 12px; font-size: 12px;
+      padding: 14px 28px; border-radius: 2px; background: var(--accent); color: var(--fg);
+      cursor: pointer; font-weight: 500; border: none; letter-spacing: .1em;
+      transition: opacity .25s; text-transform: uppercase;
+      font-family: var(--font-sans); text-decoration: none;
+    }
+    .btn-amber:hover { opacity: .8; }
+    .btn-amber .arr { transition: transform .25s; display: inline-block; }
+    .btn-amber:hover .arr { transform: translateX(4px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; font-size: 12px;
+      padding: 13px 27px; /* btn-amber(14px 28px)と同高 — 1px borderぶん相殺 */
+      border-radius: 2px; background: transparent; color: var(--fg);
+      border: 1px solid var(--line); cursor: pointer; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      font-family: var(--font-sans); text-decoration: none;
+      transition: border-color .2s;
+    }
+    .btn-ghost:hover { border-color: rgba(13,32,48,.32); }
+    .h-actions-note {
+      font-size: 11px; color: var(--hint); line-height: 1.7; margin-top: 12px;
+      opacity: 0; transition: all .6s ease .5s;
+    }
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      opacity: 0; transition: opacity .8s ease 1s; z-index: 2;
+    }
+    .scroll-hint-line {
+      width: .5px; height: 36px; background: var(--line);
+      animation: scrollline 2s ease-in-out infinite;
+    }
+    @keyframes scrollline {
+      0%,100% { opacity: .2; transform: scaleY(.4) translateY(-6px); }
+      55% { opacity: .8; transform: scaleY(1); }
+    }
+    .scroll-hint-txt { font-size: 9px; letter-spacing: .12em; color: var(--hint); }
+
+    /* ── Hero right: profile card ── */
+    .hero-right {
+      position: relative; z-index: 2;
+      opacity: 0; transform: translateX(22px);
+      transition: all .85s cubic-bezier(.16,1,.3,1) .2s;
+    }
+    .h-checker {
+      background: var(--glass); border: .5px solid var(--gb);
+      border-radius: 16px; overflow: hidden; backdrop-filter: blur(20px);
+    }
+    .h-checker-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 15px; background: rgba(255,255,255,.25);
+      border-bottom: .5px solid rgba(255,255,255,.5);
+    }
+    /* ── Tools ── */
+    .sec-tools {
+      padding: 34px 0; background: rgba(255,255,255,.55);
+      border-bottom: .5px solid rgba(255,255,255,.6); backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+    .tools-lbl { font-size: 10px; letter-spacing: .18em; color: var(--hint); text-align: center; margin-bottom: 18px; }
+    .tools-marquee { display: grid; gap: 14px; overflow: hidden; }
+    .tools-row {
+      display: flex; align-items: center; gap: 14px; flex-wrap: nowrap; width: max-content;
+      animation: toolsMarquee 110s linear infinite; will-change: transform;
+    }
+    .tools-marquee:hover .tools-row { animation-play-state: paused; }
+    @keyframes toolsMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .tp {
+      display: flex; align-items: center; gap: 12px; padding: 10px 24px; border-radius: 99px;
+      border: .5px solid var(--gb); background: var(--glass); font-size: 22px; color: var(--fg2);
+      font-weight: 500; backdrop-filter: blur(8px); cursor: default;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .tp:hover { box-shadow: 0 8px 22px rgba(28,25,23,.08); }
+    /* ツールアイコンはモノクロ統一（ブランドカラー不使用 — 静けさ優先＋商標ガイドライン対策） */
+    .ti {
+      width: 34px; height: 34px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 700; flex-shrink: 0;
+      position: relative; overflow: hidden;
+      background: var(--fg); color: rgba(240,230,214,.92);
+    }
+    .ti img { width: 24px; height: 24px; object-fit: contain; display: block; }
+    .ti.has-logo span { display: none; }
+
+    /* ── Sections ── */
+    .sec { padding: clamp(80px, 9vw, 120px) 48px; position: relative; overflow: hidden; }
+    .sec-light { background: var(--bg); }
+    .sec-white { background: #f8f3ea; }
+    .sec-dark  { background: var(--fg); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    .s-lbl {
+      display: inline-flex; align-items: center; width: fit-content;
+      font-size: 9px; letter-spacing: .16em; color: var(--accent-ink);
+      margin-bottom: 14px; opacity: 0; transform: translateY(8px);
+      transition: all .6s ease; text-transform: uppercase; font-family: var(--font-mono);
+      padding: 4px 9px; border-radius: 999px; background: rgba(232,134,106,.1);
+      border: .5px solid rgba(232,134,106,.2);
+    }
+    .s-h2 { font-size: 38px; font-weight: 300; line-height: 1.42; margin-bottom: 16px; color: var(--fg); opacity: 0; transform: translateY(12px); transition: all .8s cubic-bezier(.16,1,.3,1) .08s; font-family: var(--font-serif); letter-spacing: -.02em; }
+    .s-h2-l { color: rgba(240,230,214,.9); }
+    .s-desc { font-size: 15px; color: var(--muted); margin-bottom: 48px; opacity: 0; transition: all .6s ease .16s; line-height: 2; max-width: 480px; font-weight: 300; }
+
+    /* glass cards */
+    .glass-card { background: rgba(255,255,255,.6); border: .5px solid rgba(13,32,48,.08); }
+
+    /* bento grid */
+    .bento { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+    .bc {
+      border-radius: 18px; padding: 26px 22px;
+      opacity: 0; transform: translateX(-18px);
+      transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1);
+      position: relative; overflow: hidden; cursor: default;
+    }
+    .bc:hover { border-color: rgba(232,134,106,.24); }
+    .bc-nb { font-size: 72px; font-weight: 500; position: absolute; bottom: -14px; right: 8px; line-height: 1; color: rgba(28,25,23,.04); font-family: var(--font-mono); pointer-events: none; }
+    .bc-lbl {
+      display: inline-flex; width: fit-content; font-size: 10px; letter-spacing: .1em;
+      color: var(--accent-ink); margin-bottom: 12px; font-family: var(--font-mono);
+      padding: 3px 8px; border-radius: 999px; background: rgba(232,134,106,.11);
+      border: .5px solid rgba(232,134,106,.18);
+    }
+    .bc-t { font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.55; margin-bottom: 8px; }
+    .bc-b { font-size: 14px; color: var(--fg2); line-height: 1.9; }
+    .bc-num { font-family: var(--font-serif); font-size: 38px; font-weight: 300; color: var(--fg); line-height: 1; margin: 2px 0 10px; letter-spacing: -.01em; }
+    .bc-src { font-size: 10px; color: var(--hint); margin-top: 12px; line-height: 1.6; }
+
+    /* services */
+    .svc-bento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+
+    .sv {
+      min-height: 310px; border-radius: 18px; padding: 24px; opacity: 0; transform: translateX(20px);
+      transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1), border-color .2s;
+      position: relative; overflow: hidden; cursor: default;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .sv:hover { border-color: rgba(232,134,106,.24); }
+    .sv-ln { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--accent); opacity: .4; }
+    .sv1 .sv-ln, .sv2 .sv-ln, .sv3 .sv-ln, .sv4 .sv-ln { background: var(--accent); opacity: .5; }
+    .sv-wide { grid-column: 1 / -1; }
+    .sv-top { position: relative; z-index: 2; }
+    .sv-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+    .sv-ic {
+      width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%; background: rgba(13,32,48,.06); color: var(--fg);
+      font-size: 18px; font-weight: 500;
+    }
+    .sv-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; color: var(--hint); padding-top: 4px; }
+    .sv-t { font-family: var(--font-serif); font-size: 20px; font-weight: 500; color: var(--fg); line-height: 1.35; margin-bottom: 8px; }
+    .sv-b { font-size: 14px; color: var(--muted); line-height: 1.9; max-width: 380px; }
+    .sv-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; }
+    .sv-tags span {
+      display: inline-flex; align-items: center; min-height: 28px; padding: 5px 10px;
+      border-radius: 999px; background: rgba(232,134,106,.12); border: .5px solid rgba(232,134,106,.2);
+      font-size: 10px; color: var(--accent-ink); font-weight: 500;
+    }
+    .svc-visual {
+      position: relative; z-index: 1; margin-top: 20px; min-height: 118px;
+      border-radius: 14px; overflow: hidden; background: linear-gradient(135deg, rgba(255,255,255,.62), rgba(238,235,226,.42));
+      border: .5px solid rgba(13,32,48,.08);
+    }
+    .svc-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 18% 24%, rgba(232,134,106,.18), transparent 28%), radial-gradient(circle at 86% 74%, rgba(110,143,166,.16), transparent 32%);
+      pointer-events: none;
+    }
+    .svc-artboard { position: absolute; inset: 18px 42px 18px 18px; border-radius: 10px; background: rgba(255,255,255,.7); border: .5px solid rgba(13,32,48,.12); box-shadow: 10px 10px 0 rgba(13,32,48,.05); }
+    .svc-artbar { position: absolute; left: 16px; right: 54px; height: 7px; border-radius: 4px; background: rgba(13,32,48,.16); }
+    .svc-artbar:nth-child(1) { top: 18px; width: 58%; background: var(--fg); opacity: .86; }
+    .svc-artbar:nth-child(2) { top: 38px; width: 82%; }
+    .svc-artbar:nth-child(3) { top: 56px; width: 46%; }
+    .svc-swatch { position: absolute; right: 14px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,.8); }
+    .svc-swatch-a { top: 16px; background: var(--accent); }
+    .svc-swatch-b { top: 42px; background: #8b9098; }
+    .svc-swatch-c { top: 68px; background: var(--fg); }
+    .svc-node { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: var(--fg); box-shadow: 0 0 0 8px rgba(13,32,48,.07); }
+    .svc-node-a { left: 22%; top: 32%; }
+    .svc-node-b { left: 50%; top: 58%; background: var(--accent); }
+    .svc-node-c { right: 20%; top: 28%; background: #8b9098; }
+    .svc-link { position: absolute; height: 1px; background: rgba(13,32,48,.2); transform-origin: left center; }
+    .svc-link-a { left: 26%; top: 39%; width: 30%; transform: rotate(29deg); }
+    .svc-link-b { left: 53%; top: 57%; width: 30%; transform: rotate(-34deg); }
+    .svc-prompt { position: absolute; left: 22px; right: 22px; bottom: 18px; display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--fg2); }
+    .svc-prompt span { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+    .svc-pr-arc { position: absolute; left: 24px; top: 24px; width: 70px; height: 70px; border: 1px solid rgba(13,32,48,.16); border-radius: 50%; border-left-color: transparent; border-bottom-color: transparent; transform: rotate(-18deg); }
+    .svc-pr-arc:nth-child(2) { width: 98px; height: 98px; opacity: .6; }
+    .svc-pr-copy { position: absolute; right: 20px; top: 24px; width: 46%; display: grid; gap: 9px; }
+    .svc-pr-copy span { height: 7px; border-radius: 4px; background: rgba(13,32,48,.16); }
+    .svc-pr-copy span:first-child { width: 86%; background: var(--fg); opacity: .86; }
+    .svc-pr-copy span:nth-child(2) { width: 100%; }
+    .svc-pr-copy span:nth-child(3) { width: 60%; background: var(--accent); opacity: .7; }
+    .svc-pr-burst { position: absolute; left: 62px; bottom: 24px; color: var(--accent-ink); font-size: 26px; transform: rotate(-12deg); }
+    .svc-flow-line { position: absolute; left: 20px; right: 20px; height: 1px; background: rgba(13,32,48,.14); }
+    .svc-flow-line:nth-child(1) { top: 34px; }
+    .svc-flow-line:nth-child(2) { top: 60px; }
+    .svc-flow-line:nth-child(3) { top: 86px; }
+    .svc-flow-dot { position: absolute; left: 28px; top: 53px; width: 15px; height: 15px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 8px rgba(232,134,106,.12); }
+    .svc-flow-card { position: absolute; right: 22px; top: 28px; width: 82px; height: 64px; border-radius: 10px; background: rgba(13,32,48,.86); color: rgba(240,230,214,.9); display: grid; place-items: center; font-size: 24px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tools-row { animation: none; }
+    }
+
+    /* philosophy */
+    .phi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; max-width: 980px; }
+    .phi-item {
+      padding-top: 22px; border-top: 1px solid rgba(13,32,48,.14);
+      opacity: 0; transform: translateY(12px);
+      transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .phi-item:nth-child(2) { transition-delay: .1s; }
+    .phi-item:nth-child(3) { transition-delay: .2s; }
+    .visible .phi-item { opacity: 1; transform: none; }
+    .phi-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--accent-ink); display: block; margin-bottom: 14px; }
+    .phi-t { font-family: var(--font-serif); font-size: 21px; font-weight: 500; color: var(--fg); line-height: 1.5; margin-bottom: 12px; letter-spacing: -.01em; }
+    .phi-b { font-size: 14.5px; color: var(--muted); line-height: 2; font-weight: 300; }
+    .phi-quote {
+      margin: 72px auto 0; max-width: 640px; text-align: center;
+      opacity: 0; transition: opacity 1s ease .3s;
+    }
+    .visible .phi-quote { opacity: 1; }
+    .phi-quote blockquote {
+      font-family: var(--font-serif); font-weight: 300; font-style: italic;
+      font-size: 20px; line-height: 2; color: var(--fg2); letter-spacing: .04em;
+    }
+    .phi-quote figcaption { margin-top: 14px; font-size: 11px; color: var(--hint); letter-spacing: .1em; }
+
+    /* about */
+    .ab-grid { display: grid; grid-template-columns: minmax(220px, 320px) minmax(0, 1fr); gap: 44px; align-items: start; }
+    .aph {
+      width: 100%; max-width: 320px; aspect-ratio: 4/5; border-radius: 18px; justify-self: center;
+      clip-path: inset(0 100% 0 0); opacity: 1; transform: none;
+      transition: clip-path .9s cubic-bezier(.16,1,.3,1);
+      position: relative; overflow: hidden;
+    }
+    .visible .aph {
+      clip-path: inset(0 0% 0 0);
+    }
+    .ab-img-main {
+      width: 100%; height: 100%; object-fit: cover; border-radius: 18px; display: block;
+      object-position: center 24%;
+      filter: grayscale(1) contrast(1.05);
+      transition: filter .6s cubic-bezier(.16,1,.3,1);
+    }
+    .aph:hover .ab-img-main {
+      filter: grayscale(0) contrast(1);
+    }
+    .app { font-size: 10px; color: var(--hint); letter-spacing: .1em; }
+    .ar { opacity: 0; transform: translateX(14px); transition: all .8s cubic-bezier(.16,1,.3,1) .15s; }
+    .albl { font-size: 9px; letter-spacing: .14em; color: var(--hint); margin-bottom: 12px; }
+    .ah2 { font-size: 28px; font-weight: 300; line-height: 1.55; margin-bottom: 18px; font-family: var(--font-serif); color: var(--fg); letter-spacing: -.01em; }
+    .ap { font-size: 15px; color: var(--muted); line-height: 2.05; margin-bottom: 14px; }
+    .crs { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 14px; }
+    .cr { font-size: 10px; padding: 3px 10px; border-radius: 5px; background: var(--glass); border: .5px solid var(--gb); color: var(--muted); backdrop-filter: blur(6px); }
+
+    .about-catch {
+      margin: 18px 0 12px; font-family: var(--font-serif); font-size: clamp(30px, 5vw, 54px);
+      line-height: .98; letter-spacing: 0; color: var(--fg); text-transform: uppercase;
+    }
+    .about-catch span { display: block; color: var(--accent-ink); }
+    /* pricing */
+    .price-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .price-card {
+      padding: 28px 24px; border-radius: 18px;
+      opacity: 0; transform: translateY(22px) scale(.97);
+      transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+      position: relative; overflow: hidden; cursor: default;
+    }
+    .price-card:hover { border-color: rgba(232,134,106,.24); }
+    .price-card.featured { border: 1.5px solid var(--accent); }
+    .price-label { font-size: 10px; letter-spacing: .12em; color: var(--hint); margin-bottom: 10px; }
+    .price-num { font-size: 30px; font-weight: 300; color: var(--fg); margin-bottom: 4px; line-height: 1; font-family: var(--font-serif); }
+    .price-num-sub { font-size: 14px; color: var(--muted); }
+    .pi-icon { width: 8px; height: 8px; }
+    .price-unit { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+    .price-desc { font-size: 13px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; }
+    .price-items { display: flex; flex-direction: column; gap: 6px; }
+    .pi { display: flex; align-items: flex-start; gap: 7px; font-size: 12px; color: var(--fg2); }
+    .pi-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 9px; }
+    .pi-a { background: rgba(232,134,106,.1); color: var(--accent-ink); }
+    .pi-p { background: rgba(232,134,106,.1); color: var(--accent-ink); }
+    .pi-t { background: rgba(232,134,106,.1); color: var(--accent-ink); }
+
+    /* FAQ */
+    .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
+    .faq-item { border-radius: 4px; overflow: hidden; transition: border-color .2s; }
+    .faq-item:hover, .faq-item.open { border-color: rgba(232,134,106,.4); }
+    .faq-q {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      padding: 20px 24px; background: none; border: none; cursor: pointer; text-align: left;
+      font-family: var(--font-sans); font-size: var(--text-md); font-weight: 500; color: var(--fg);
+    }
+    .faq-q:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: -2px; }
+    .faq-icon { flex-shrink: 0; font-size: 18px; color: var(--accent-ink); transition: transform .3s cubic-bezier(.16,1,.3,1); }
+    .faq-item.open .faq-icon { transform: rotate(180deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .4s cubic-bezier(.16,1,.3,1); }
+    .faq-a p { font-size: var(--text-base); color: var(--muted); line-height: 1.9; font-weight: 300; padding: 0 24px 22px; }
+
+    /* CTA */
+    .cta-c { position: relative; z-index: 2; text-align: center; }
+    .cta-star { font-size: 28px; display: block; margin-bottom: 14px; color: var(--bg); opacity: .55; }
+    .ch2 { font-size: 42px; font-weight: 300; line-height: 1.42; color: rgba(240,230,214,.95); margin-bottom: 22px; opacity: 0; transform: translateY(14px); transition: all .8s cubic-bezier(.16,1,.3,1); font-family: var(--font-serif); letter-spacing: -.02em; }
+    .csub { font-size: 14px; color: rgba(240,230,214,.6); margin-bottom: 12px; opacity: 0; transform: translateY(9px); transition: all .6s ease .15s; font-weight: 300; }
+    .cq { font-size: 13px; color: rgba(240,230,214,.62); font-style: italic; margin-bottom: 36px; opacity: 0; transition: opacity .6s ease .25s; font-family: var(--font-serif); }
+    .cta-manifesto {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;
+      max-width: 900px; margin: -4px auto 36px; opacity: 0; transform: translateY(10px);
+      transition: opacity .6s ease .28s, transform .6s ease .28s;
+    }
+    .cta-manifesto-line {
+      min-height: 118px; padding: 24px 22px; border-radius: 8px;
+      border: .5px solid rgba(240,230,214,.18);
+      background: linear-gradient(160deg, rgba(240,230,214,.11), rgba(232,134,106,.08));
+      text-align: left; box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .cta-manifesto-k {
+      display: block; font-family: var(--font-serif); font-size: clamp(28px, 4vw, 48px);
+      letter-spacing: 0; line-height: .9; color: var(--accent2); text-transform: uppercase; margin-bottom: 16px;
+    }
+    .cta-manifesto-t { display: block; font-size: 13px; line-height: 1.85; color: rgba(240,230,214,.78); }
+    .cta-wrap { opacity: 0; transition: opacity .6s ease .35s; }
+    .cta-btn-amber {
+      display: inline-flex; align-items: center; gap: 12px; font-size: 12px;
+      padding: 16px 40px; border-radius: 2px; background: var(--accent2); color: var(--fg);
+      cursor: pointer; font-weight: 500; border: none; letter-spacing: .12em;
+      transition: opacity .25s; text-transform: uppercase; font-family: var(--font-sans);
+      text-decoration: none;
+    }
+    .cta-btn-amber:hover { opacity: .85; }
+    .cta-btn-amber .arr { transition: transform .25s; display: inline-block; }
+    .cta-btn-amber:hover .arr { transform: translateX(4px); }
+    .cta-sub { margin-top: 18px; }
+    .cta-sub-link {
+      display: inline-block; padding: 8px 4px; /* タップ領域確保 */
+      font-size: 12px; color: rgba(240,230,214,.62); text-decoration: none;
+      border-bottom: 1px solid rgba(240,230,214,.25); transition: color .2s, border-color .2s;
+    }
+    .cta-sub-link:hover { color: rgba(240,230,214,.9); border-color: rgba(240,230,214,.5); }
+
+    /* Footer */
+    .ft { padding: 56px 48px 24px; background: var(--fg); border-top: none; display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center; }
+    .ft-tagline-big {
+      font-family: var(--font-serif); font-weight: 500; text-transform: uppercase;
+      font-size: clamp(48px, 11vw, 160px); line-height: .9; letter-spacing: 0;
+      color: rgba(240,230,214,.94); width: 100%; text-align: center;
+    }
+    .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 22px; border-top: 1px solid rgba(240,230,214,.1); }
+    .ftl { font-size: 10px; color: rgba(240,230,214,.62); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
+    .ftc { font-size: 10px; color: rgba(240,230,214,.62); letter-spacing: .08em; }
+
+    /* ── Visibility (scroll animations) ── */
+    .visible .h-h1,
+    .visible .h-ja,
+    .visible .h-kicker,
+    .visible .h-subcopy,
+    .visible .h-actions,
+    .visible .h-actions-note,
+    .visible .scroll-hint,
+    .visible .hero-right,
+    .visible .s-lbl,
+    .visible .s-h2,
+    .visible .s-desc,
+    .visible .bc,
+    .visible .sv,
+    .visible .price-card,
+    .visible .ar,
+    .visible .ch2,
+    .visible .csub,
+    .visible .cq,
+    .visible .cta-wrap,
+    .visible .cta-manifesto { opacity: 1; transform: none; }
+
+    .bc:nth-child(2) { transition-delay: .08s; }
+    .bc:nth-child(3) { transition-delay: .16s; }
+    .sv:nth-child(2) { transition-delay: .08s; }
+    .sv:nth-child(3) { transition-delay: .16s; }
+    .sv:nth-child(4) { transition-delay: .24s; }
+    .phi-item:nth-child(4) { transition-delay: .3s; }
+    .phi-item:nth-child(5) { transition-delay: .4s; }
+    .price-card:nth-child(2) { transition-delay: .1s; }
+    .price-card:nth-child(3) { transition-delay: .2s; }
+
+    /* Price card CTA link */
+    .price-cta { display: block; margin-top: 14px; font-size: 11px; color: var(--accent-ink); font-weight: 500; cursor: pointer; letter-spacing: .03em; text-decoration: none; }
+    .price-cta:hover { text-decoration: underline; }
+
+    /* Hamburger menu */
+    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: 0; }
+    .nav-ham span { display: block; width: 20px; height: 1.5px; background: var(--fg); border-radius: 1px; transition: all .25s; }
+    .nav-ham.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
+    .nav-ham.open span:nth-child(2) { opacity: 0; }
+    .nav-ham.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
+
+    /* Mobile nav drawer */
+    .nav-drawer {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(240,230,214,.97); backdrop-filter: blur(20px);
+      z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a { font-size: 22px; font-weight: 500; color: var(--fg); text-decoration: none; letter-spacing: .04em; }
+    .nav-drawer-cta { margin-top: 8px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .nav-drawer-close { position: absolute; top: 18px; right: 20px; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1; background: none; border: 0; padding: 4px; }
+
+    /* Footer improvements */
+    .ft-links { display: flex; gap: 20px; align-items: center; }
+    .ft-link { font-size: 11px; color: rgba(240,230,214,.62); text-decoration: none; transition: color .2s; letter-spacing: .08em; }
+    .ft-link:hover { color: rgba(240,230,214,.9); }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE — 768px以下
+    ═══════════════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* ── Nav ── */
+      html { scroll-padding-top: 64px; }
+      .nav { padding: 14px 20px; }
+      .nav-right > .nav-link { display: none; }
+      .nav-ham { display: flex; }
+      .nav-cta { display: none; } /* ドロワー内CTAに統合 */
+
+      /* ── Hero ── */
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 40px 20px 48px;
+        gap: 28px;
+        min-height: auto;
+      }
+      .h-h1 { font-size: 32px; line-height: 1.28; margin-bottom: 16px; }
+      .h-subcopy { font-size: 14px; margin: -2px 0 14px; }
+      .h-actions { gap: 8px; }
+      .btn-amber { font-size: 11px; padding: 13px 22px; }
+      .btn-ghost { font-size: 11px; padding: 12px 21px; }
+      .scroll-hint { display: none; }
+      /* Profile card */
+      .hero-right { opacity: 1; transform: none; }
+      .h-checker { border-radius: 12px; }
+
+      /* ── Sections ── */
+      .sec { padding: 52px 20px; }
+      .s-h2 { font-size: 28px; }
+      .s-desc { font-size: 13px; margin-bottom: 28px; }
+
+      /* ── Tools ── */
+      .tools-lbl { font-size: 9px; margin-bottom: 12px; }
+      .tools-row { gap: 10px; }
+      .tp { font-size: 16px; padding: 8px 18px; gap: 9px; }
+      .ti { width: 28px; height: 28px; border-radius: 7px; font-size: 15px; }
+      .ti img { width: 20px; height: 20px; }
+      .sec-tools { padding: 24px 0; }
+      .tools-marquee { gap: 10px; }
+
+      /* ── Pain / Bento ── */
+      .bento { grid-template-columns: 1fr; gap: 10px; }
+      .bc { border-radius: 14px; padding: 22px 18px; }
+      .bc:hover { transform: none; }
+
+      /* ── Services ── */
+      .svc-bento { grid-template-columns: 1fr; gap: 10px; }
+      .sv-wide { grid-column: 1; }
+      .sv { border-radius: 14px; padding: 22px 18px; }
+      .sv:hover { transform: none; }
+
+      /* ── Philosophy ── */
+      .phi-grid { grid-template-columns: 1fr; gap: 26px; }
+      .phi-quote { margin-top: 48px; }
+      .phi-quote blockquote { font-size: 17px; }
+
+      /* ── About ── */
+      .ab-grid { grid-template-columns: 1fr; gap: 28px; }
+      .aph { aspect-ratio: 1/1; max-height: 340px; border-radius: 14px; }
+      .ab-img-main { object-position: center 18%; }
+      .about-catch { font-size: 34px; }
+      .ah2 { font-size: 24px; }
+      .ap { font-size: 14px; }
+      /* ── Pricing ── */
+      .price-grid { grid-template-columns: 1fr; gap: 10px; }
+      .price-card { padding: 22px 20px; }
+      .price-num { font-size: 28px; }
+
+      /* ── Infog ── */
+      /* ── CTA ── */
+      .ch2 { font-size: 26px; }
+      .cta-manifesto { grid-template-columns: 1fr; gap: 8px; margin: -8px auto 28px; }
+      .cta-manifesto-line { min-height: auto; padding: 18px 18px; }
+      .cta-btn-amber { padding: 14px 28px; font-size: 11px; }
+
+      /* ── Footer ── */
+      .ft { gap: 20px; padding: 40px 20px 20px; }
+      .ft-tagline-big { font-size: clamp(44px, 17vw, 86px); }
+      .ft-bottom { flex-direction: column; text-align: center; gap: 12px; padding-top: 18px; }
+      .ft-links { flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+      /* ── Hover effects off (touch) ── */
+      .bc:hover, .sv:hover, .tp:hover { transform: none; box-shadow: none; }
+    }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE — 480px以下（小型スマホ）
+    ═══════════════════════════════════════ */
+    @media (max-width: 480px) {
+      .h-h1 { font-size: 28px; }
+      .s-h2 { font-size: 25px; }
+      .sec { padding: 44px 16px; }
+      .bento, .svc-bento, .price-grid { gap: 8px; }
+      .ch2 { font-size: 23px; }
+      .aph { max-height: 220px; }
+    }
+
+    /* ① CSS Scroll-Driven Animations — removed (conflicts with JS IntersectionObserver + content-visibility) */
+
+    /* ══════════════════════════════════════════
+       ② Text Split Reveal — word-by-word
+    ══════════════════════════════════════════ */
+    .split-word {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+    }
+    .split-word span {
+      display: inline-block;
+      transform: translateY(110%);
+      transition: transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    /* Stagger via nth-of-type on parent - JS sets data-word-index */
+    .split-word[data-wi="1"] span { transition-delay: .06s; }
+    .split-word[data-wi="2"] span { transition-delay: .12s; }
+    .split-word[data-wi="3"] span { transition-delay: .18s; }
+    .split-word[data-wi="4"] span { transition-delay: .24s; }
+    .split-word[data-wi="5"] span { transition-delay: .30s; }
+    .split-word[data-wi="6"] span { transition-delay: .36s; }
+    .split-word[data-wi="7"] span { transition-delay: .42s; }
+    .split-word[data-wi="8"] span { transition-delay: .48s; }
+    .split-word[data-wi="9"] span { transition-delay: .54s; }
+    .split-word[data-wi="10"] span { transition-delay: .60s; }
+    .split-word[data-wi="11"] span { transition-delay: .66s; }
+    .split-word[data-wi="12"] span { transition-delay: .72s; }
+    .visible .split-word span,
+    .split-reveal-done .split-word span {
+      transform: translateY(0);
+    }
+    /* Elements with split reveal: opacity/transform handled by child spans, not the parent */
+    .h-h1.is-split,
+    .ch2.is-split { opacity: 1; transform: none; }
+
+
+    /* ⑤ Curtain Reveal — consolidated into .aph base rule above */
+
+    /* ── ⑬ Lenis smooth scroll placeholder styles ── */
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+
+    .btn-amber:focus-visible,
+    .btn-ghost:focus-visible,
+    .cta-sub-link:focus-visible,
+    .nav-cta:focus-visible,
+    .cta-btn-amber:focus-visible,
+    .price-cta:focus-visible,
+    .nav-link:focus-visible,
+    .hp-more:focus-visible,
+    .cf-note a:focus-visible {
+      outline: 2px solid var(--accent-ink); /* 明所背景でWCAG 1.4.11の3:1を満たす */
+      outline-offset: 3px;
+    }
+    .cta-btn-amber:focus-visible,
+    .cta-sub-link:focus-visible {
+      outline-color: var(--accent); /* ダーク面（#s-cta）ではaccentが6.36:1 */
+    }
+
+    /* ── /en/ additions ── */
+    .h-ja {
+      font-family: var(--font-sans); font-size: 13px; letter-spacing: .1em; color: var(--hint);
+      margin-bottom: 12px; font-weight: 400;
+      opacity: 0; transition: all .7s ease .3s;
+    }
+    .h-kicker {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; color: var(--accent-ink);
+      text-transform: uppercase; margin-bottom: 20px;
+      opacity: 0; transition: all .7s ease .35s;
+    }
+
+    /* hero profile card — reuses the .h-checker glass shell */
+    .stream-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: .14em; color: var(--hint);
+      font-family: var(--font-mono); text-transform: uppercase;
+    }
+    .sld { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .hp-body { padding: 20px 20px 18px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+    .hp-top { display: flex; align-items: center; gap: 16px; }
+    .hp-photo {
+      width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: center 24%;
+      border: 2px solid rgba(255,255,255,.7); box-shadow: 0 6px 18px rgba(13,32,48,.12); flex-shrink: 0;
+    }
+    .hp-name { font-family: var(--font-serif); font-size: 18px; font-weight: 500; color: var(--fg); line-height: 1.3; }
+    .hp-role { font-size: 11px; color: var(--hint); letter-spacing: .06em; margin-top: 3px; }
+    .hp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .hp-chips .cr { font-size: 11px; padding: 5px 12px; }
+    .hp-more {
+      display: inline-block; padding: 6px 2px; font-size: 12px; color: var(--fg); font-weight: 500;
+      text-decoration: none; letter-spacing: .04em; border-bottom: 1px solid rgba(13,32,48,.25);
+      transition: border-color .2s;
+    }
+    .hp-more:hover { border-color: var(--accent-ink); }
+
+    /* contact form */
+    .cform { max-width: 560px; }
+    .cf-fields { display: flex; flex-direction: column; gap: 18px; margin-bottom: 24px; }
+    .cf-group { display: flex; flex-direction: column; gap: 6px; }
+    .cf-label { font-size: 12px; font-weight: 500; color: var(--fg2); letter-spacing: .04em; }
+    .cf-req { font-size: 9px; color: var(--accent-ink); font-family: var(--font-mono); letter-spacing: .08em; margin-left: 8px; }
+    .cf-input, .cf-textarea {
+      width: 100%; padding: 12px 14px;
+      border: 1px solid rgba(13,32,48,.45); border-radius: 8px;
+      font-size: 14px; font-family: var(--font-sans);
+      color: var(--fg); background: rgba(255,255,255,.85);
+      outline: none; transition: border-color .2s, box-shadow .2s;
+      -webkit-appearance: none;
+    }
+    .cf-input:focus-visible, .cf-textarea:focus-visible { border-color: var(--accent-ink); box-shadow: 0 0 0 3px rgba(232,134,106,.22); }
+    .cf-input::placeholder, .cf-textarea::placeholder { color: var(--hint); }
+    .cf-textarea { resize: vertical; min-height: 120px; line-height: 1.7; }
+    .cf-input.invalid, .cf-textarea.invalid { border-color: #a32d2d; }
+    .cf-err { font-size: 12px; color: #a32d2d; display: none; }
+    .cf-submit-err { font-size: 13px; color: #a32d2d; margin-top: 14px; line-height: 1.7; display: none; max-width: 480px; }
+    .cf-submit-err a { color: inherit; }
+    .cf-note { font-size: 12px; color: var(--hint); margin-top: 18px; }
+    .cf-note a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }
+    .cf-success {
+      max-width: 560px; padding: 24px 26px; border-radius: 12px;
+      background: rgba(255,255,255,.6); border: .5px solid rgba(13,32,48,.08);
+      font-size: 15px; line-height: 1.9; color: var(--fg2);
+    }
+    .cf-success[hidden] { display: none; }
+    .btn-amber:disabled { opacity: .55; cursor: not-allowed; }
+
+    /* ── Inline icons ── */
+    .icn { display: inline-block; vertical-align: -0.125em; flex-shrink: 0; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+</head>
+<body>
+<!--
+  Thanks for reading the source. People who look this far usually enjoy
+  removing friction as much as I do. We would probably get along.
+  — Aimee / Fugasha
+-->
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="noise"></div>
+<div class="pb" id="pb"></div>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="nav-logo" lang="ja">風雅舎</div>
+  <div class="nav-right">
+    <a href="#s-about" class="nav-link">About</a>
+    <a href="#s-service" class="nav-link">Services</a>
+    <a href="#s-borders" class="nav-link">Working together</a>
+    <a href="#s-price" class="nav-link">Pricing</a>
+    <a href="#s-faq" class="nav-link">FAQ</a>
+    <a href="../" class="nav-link" lang="ja" hreflang="ja">日本語</a>
+    <a href="#contact" class="nav-cta">Write to me</a>
+    <button type="button" class="nav-ham" id="navHam" aria-label="Open menu" aria-expanded="false" aria-controls="navDrawer"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="nav-drawer" id="navDrawer" role="dialog" aria-modal="true" aria-label="Menu">
+  <button type="button" class="nav-drawer-close" id="navClose" aria-label="Close menu">✕</button>
+  <a href="#s-about">About</a>
+  <a href="#s-service">Services</a>
+  <a href="#s-borders">Working together</a>
+  <a href="#s-price">Pricing</a>
+  <a href="#s-faq">FAQ</a>
+  <a href="../" lang="ja" hreflang="ja">日本語</a>
+  <div class="nav-drawer-cta">
+    <a href="#contact" class="btn-amber">Write to me <span class="arr">→</span></a>
+  </div>
+</div>
+
+<main id="main">
+<!-- ── Hero ── -->
+<section class="hero" id="s-hero">
+  <canvas id="heroBg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
+  <div class="hero-left">
+    <h1 class="h-h1">Less friction.<br>More you.</h1>
+    <p class="h-ja" lang="ja">無駄をなくして、熱中を取り戻す。</p>
+    <p class="h-kicker">EN · DE · JA — WORK IN ANY OF THE THREE</p>
+    <p class="h-subcopy">Most of my work is with small businesses in Japan, and it happens in Japanese. If your business needs a way into that market — or simply a lighter week — the means are design, clear writing, and practical AI. The aim is one: room for the work you actually care about.</p>
+    <div class="h-actions">
+      <a href="#contact" class="btn-amber">Write to me <span class="arr">→</span></a>
+      <a href="mailto:hello@fugasha.jp" class="btn-ghost">hello@fugasha.jp</a>
+    </div>
+    <p class="h-actions-note">No preparation needed. No pitch at the other end.</p>
+  </div>
+  <div class="hero-right">
+    <div class="h-checker">
+      <div class="h-checker-bar">
+        <div class="stream-label"><div class="sld"></div>WHO YOU'D WORK WITH</div>
+      </div>
+      <div class="hp-body">
+        <div class="hp-top">
+          <img src="../aimee-portrait.jpg" alt="Aimee, founder of Fugasha" class="hp-photo" width="600" height="771" loading="eager" decoding="async">
+          <div>
+            <div class="hp-name">Aimee</div>
+            <div class="hp-role">Founder, Fugasha</div>
+          </div>
+        </div>
+        <div class="hp-chips">
+          <span class="cr">English · German · Japanese</span>
+          <span class="cr">Chiang Mai (UTC+7) — working worldwide</span>
+          <span class="cr">Keio University / University of Cologne</span>
+          <span class="cr">3 years writing on cybersecurity</span>
+        </div>
+        <a href="#s-about" class="hp-more">More about me ↓</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-hint-line"></div>
+    <span class="scroll-hint-txt">SCROLL</span>
+  </div>
+</section>
+
+<!-- ── Tools ── -->
+<section class="sec-tools" id="s-tools">
+  <div class="tools-lbl">TOOLS WE THINK WITH</div>
+  <p class="sr-only">Tools we regularly work with include ChatGPT, Claude, Gemini, Perplexity, Canva, Google Workspace, Figma, Midjourney, Adobe Express, and Notion.</p>
+  <div class="tools-marquee" aria-hidden="true">
+    <div class="tools-row">
+      <div class="tp"><div class="ti t-oai"><img src="https://cdn.simpleicons.org/openai/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>○</span></div>ChatGPT</div>
+      <div class="tp"><div class="ti t-cl"><img src="https://cdn.simpleicons.org/anthropic/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Claude</div>
+      <div class="tp"><div class="ti t-gm"><img src="https://cdn.simpleicons.org/googlegemini/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Gemini</div>
+      <div class="tp"><div class="ti t-pe"><img src="https://cdn.simpleicons.org/perplexity/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>P</span></div>Perplexity</div>
+      <div class="tp"><div class="ti t-ca"><img src="https://cdn.simpleicons.org/canva/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Canva</div>
+      <div class="tp"><div class="ti t-gw"><img src="https://cdn.simpleicons.org/googleworkspace/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Google Workspace</div>
+      <div class="tp"><div class="ti t-fi"><img src="https://cdn.simpleicons.org/figma/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>F</span></div>Figma</div>
+      <div class="tp"><div class="ti t-mj"><img src="https://cdn.simpleicons.org/midjourney/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>M</span></div>Midjourney</div>
+      <div class="tp"><div class="ti t-ad"><img src="https://cdn.simpleicons.org/adobe/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>A</span></div>Adobe Express</div>
+      <div class="tp"><div class="ti t-no"><img src="https://cdn.simpleicons.org/notion/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>N</span></div>Notion</div>
+      <div class="tp"><div class="ti t-oai"><img src="https://cdn.simpleicons.org/openai/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>○</span></div>ChatGPT</div>
+      <div class="tp"><div class="ti t-cl"><img src="https://cdn.simpleicons.org/anthropic/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Claude</div>
+      <div class="tp"><div class="ti t-gm"><img src="https://cdn.simpleicons.org/googlegemini/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Gemini</div>
+      <div class="tp"><div class="ti t-pe"><img src="https://cdn.simpleicons.org/perplexity/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>P</span></div>Perplexity</div>
+      <div class="tp"><div class="ti t-ca"><img src="https://cdn.simpleicons.org/canva/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Canva</div>
+      <div class="tp"><div class="ti t-gw"><img src="https://cdn.simpleicons.org/googleworkspace/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Google Workspace</div>
+      <div class="tp"><div class="ti t-fi"><img src="https://cdn.simpleicons.org/figma/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>F</span></div>Figma</div>
+      <div class="tp"><div class="ti t-mj"><img src="https://cdn.simpleicons.org/midjourney/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>M</span></div>Midjourney</div>
+      <div class="tp"><div class="ti t-ad"><img src="https://cdn.simpleicons.org/adobe/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>A</span></div>Adobe Express</div>
+      <div class="tp"><div class="ti t-no"><img src="https://cdn.simpleicons.org/notion/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>N</span></div>Notion</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── About ── -->
+<section class="sec sec-light" id="s-about">
+  <div class="s-lbl">// ABOUT</div>
+  <div class="ab-grid">
+    <div class="aph">
+      <img src="../aimee-portrait.jpg" alt="Aimee, founder of Fugasha" class="ab-img-main" width="600" height="771" loading="lazy" decoding="async">
+    </div>
+    <div class="ar">
+      <div class="albl">ABOUT FUGASHA</div>
+      <h2 class="ah2">I used to spend my days on getting through, not on the work I cared about.</h2>
+      <p class="ap">What changed things was AI — a report that used to take hours was done in thirty minutes. I looked up from my desk and noticed it was still light outside. I couldn’t forget that feeling, so I built Fugasha around it.</p>
+      <p class="ap">I studied at Keio University in Tokyo and the University of Cologne, then spent years across design, PR, and marketing, alongside three years writing about cybersecurity. What that work taught me: a tool left on the shelf changes nothing. The job is shaping it to fit the way a business actually runs.</p>
+      <p class="ap">So Fugasha never starts with tools. It starts with one question — where would a change earn the most?</p>
+      <div class="about-catch">Less friction.<span>More curiosity.</span></div>
+      <div class="crs">
+        <span class="cr">Keio University / University of Cologne</span>
+        <span class="cr">Japanese · English · German</span>
+        <span class="cr">3 years writing on cybersecurity</span>
+        <span class="cr">Based in Chiang Mai, working worldwide</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Signs ── -->
+<section class="sec sec-light" id="s-pain">
+  <div class="s-lbl">// SIGNS</div>
+  <h2 class="s-h2">When did busy become the default?</h2>
+  <p class="s-desc">Talking with business owners, the same three states keep coming up. Before solving anything, it helps to give them names.</p>
+  <div class="bento">
+    <div class="bc glass-card"><div class="bc-nb">01</div><div class="bc-lbl">01 / TIME</div><div class="bc-t">Running the business leaves no time to think about the business.</div><div class="bc-b">“I know what matters. But today went to the tasks again.”</div></div>
+    <div class="bc glass-card"><div class="bc-nb">02</div><div class="bc-lbl">02 / BRAND</div><div class="bc-t">The public face of the company keeps sliding to “later.”</div><div class="bc-b">“The part people see first has been ‘good enough for now’ — for years.”</div></div>
+    <div class="bc glass-card"><div class="bc-nb">03</div><div class="bc-lbl">03 / AI</div><div class="bc-t">AI could probably help. Finding out is one more task on the pile.</div><div class="bc-b">“I’m curious. I just want someone to sort it out and bring it to me.”</div></div>
+  </div>
+</section>
+
+<!-- ── Services ── -->
+<section class="sec sec-white" id="s-service">
+  <div class="s-lbl">// SERVICES</div>
+  <h2 class="s-h2">What we sort out isn’t your operations.<br>It’s where your time goes.</h2>
+  <p class="s-desc">AI, communication, workload — before treating them as separate problems, we find the one place where a change earns the most.</p>
+  <div class="svc-bento">
+    <div class="sv sv1 glass-card">
+      <div class="sv-ln"></div>
+      <div class="sv-top">
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><svg class="icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25"/><path d="M8.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/></svg></div><span class="sv-num">01 / Design &amp; Communication</span></div>
+        <h3 class="sv-t">Make what you do clear at first glance.</h3>
+        <div class="sv-b">Websites, decks, the words you open with. Not just polish — we reorder things so a stranger understands your company in one reading.</div>
+        <div class="sv-tags"><span>Landing pages</span><span>Sales decks</span><span>Voice &amp; messaging</span></div>
+      </div>
+      <div class="svc-visual svc-visual-design" aria-hidden="true">
+        <div class="svc-artboard"><span class="svc-artbar"></span><span class="svc-artbar"></span><span class="svc-artbar"></span></div>
+        <span class="svc-swatch svc-swatch-a"></span><span class="svc-swatch svc-swatch-b"></span><span class="svc-swatch svc-swatch-c"></span>
+      </div>
+    </div>
+    <div class="sv sv2 glass-card">
+      <div class="sv-ln"></div>
+      <div class="sv-top">
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><svg class="icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z"/></svg></div><span class="sv-num">02 / Practical AI</span></div>
+        <h3 class="sv-t">AI that fits the way you already work.</h3>
+        <div class="sv-b">We start by writing down what fills your days, then hand over one task at a time — prompts, ground rules, and the habit of using them. Small steps, nothing on faith.</div>
+        <div class="sv-tags"><span>Task mapping</span><span>Generative AI</span><span>House rules</span></div>
+      </div>
+      <div class="svc-visual svc-visual-ai" aria-hidden="true">
+        <span class="svc-link svc-link-a"></span><span class="svc-link svc-link-b"></span>
+        <span class="svc-node svc-node-a"></span><span class="svc-node svc-node-b"></span><span class="svc-node svc-node-c"></span>
+        <div class="svc-prompt"><span></span><span></span><span></span>thinking with your team</div>
+      </div>
+    </div>
+    <div class="sv sv4 glass-card sv-wide">
+      <div class="sv-ln"></div>
+      <div class="sv-top">
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><svg class="icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M10 9v6l5 -3z"/></svg></div><span class="sv-num">03 / Lighter operations</span></div>
+        <h3 class="sv-t">Find what you can let go — then let it run without you.</h3>
+        <div class="sv-b">One page showing where the week goes. Then we separate what deserves your attention from what a template, a tool, or someone else can carry.</div>
+        <div class="sv-tags"><span>Workload mapping</span><span>Automation</span><span>Quiet systems</span></div>
+      </div>
+      <div class="svc-visual svc-visual-ops" aria-hidden="true">
+        <span class="svc-flow-line"></span><span class="svc-flow-line"></span><span class="svc-flow-line"></span>
+        <span class="svc-flow-dot"></span>
+        <div class="svc-flow-card"><svg class="icn" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Across Borders ── -->
+<section class="sec sec-light" id="s-borders">
+  <div class="s-lbl">// ACROSS BORDERS</div>
+  <h2 class="s-h2">Working together, from wherever you are.</h2>
+  <p class="s-desc">This work has always happened over a call and a shared document. Distance was never the hard part.</p>
+  <div class="phi-grid">
+    <div class="phi-item">
+      <span class="phi-num">01</span>
+      <h3 class="phi-t">Japan, in Japanese</h3>
+      <p class="phi-b">Day to day, I work with Japanese small businesses in their language. If your work touches Japan — a partner, a supplier, a market you’re weighing — I can carry the conversation on both sides: the meetings, the documents, and the follow-up in between.</p>
+    </div>
+    <div class="phi-item">
+      <span class="phi-num">02</span>
+      <h3 class="phi-t">Remote by default</h3>
+      <p class="phi-b">Video calls, shared docs, and steady written updates in between. You always know where things stand.</p>
+    </div>
+    <div class="phi-item">
+      <span class="phi-num">03</span>
+      <h3 class="phi-t">Time zones</h3>
+      <p class="phi-b">I work from Chiang Mai (UTC+7). Afternoons here meet European mornings; my mornings meet evenings in the Americas. Calls are scheduled around your day.</p>
+    </div>
+    <div class="phi-item">
+      <span class="phi-num">04</span>
+      <h3 class="phi-t">Three languages</h3>
+      <p class="phi-b">Work happens in English, Japanese, or German — the documents and the small talk both.</p>
+    </div>
+    <div class="phi-item">
+      <span class="phi-num">05</span>
+      <h3 class="phi-t">Payment</h3>
+      <p class="phi-b">Invoices are in Japanese yen. We’ll agree the practical details — currency, method, timing — before anything is signed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Philosophy ── -->
+<section class="sec sec-light" id="s-philosophy">
+  <div class="s-lbl">// PHILOSOPHY</div>
+  <h2 class="s-h2">Efficiency is a doorway, not the destination.</h2>
+  <p class="s-desc">Three ideas at the root of how Fugasha works.</p>
+  <div class="phi-grid">
+    <div class="phi-item">
+      <span class="phi-num">01</span>
+      <h3 class="phi-t">Subtract before you add.</h3>
+      <p class="phi-b">Before bringing in a new tool, we look for work that can stop. What you remove draws the outline of what matters.</p>
+    </div>
+    <div class="phi-item">
+      <span class="phi-num">02</span>
+      <h3 class="phi-t">Absorption is a resource.</h3>
+      <p class="phi-b">A person fully absorbed in their work outperforms any automation. The job of a system is to protect that state.</p>
+    </div>
+    <div class="phi-item">
+      <span class="phi-num">03</span>
+      <h3 class="phi-t">Room makes decisions.</h3>
+      <p class="phi-b">A head filled with tasks and appointments can’t think ahead. Blank space isn’t idleness — it’s where the next move goes.</p>
+    </div>
+  </div>
+  <figure class="phi-quote">
+    <blockquote>The impediment to action advances action. What stands in the way becomes the way.</blockquote>
+    <figcaption>— Marcus Aurelius, Meditations</figcaption>
+  </figure>
+</section>
+
+<!-- ── Pricing ── -->
+<section class="sec sec-white" id="s-price">
+  <div class="s-lbl">// PRICING</div>
+  <h2 class="s-h2">What it costs</h2>
+  <p class="s-desc">Start small, and decide after you’ve tried. The first thirty minutes are free — that’s where we find out whether we fit.</p>
+  <p class="s-desc">All prices in Japanese yen (JPY). Your bank converts at the day’s rate — I’m glad to estimate in your currency first.</p>
+  <div class="price-grid">
+    <div class="price-card glass-card">
+      <h3 class="price-label">AI WORKSHOP</h3>
+      <div class="price-num">¥50,000<span class="price-num-sub">+</span></div>
+      <div class="price-unit">Half-day session</div>
+      <p class="price-desc">A hands-on session for your team — the lightest way to begin.</p>
+      <div class="price-items">
+        <div class="pi"><div class="pi-dot pi-t"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>Online available</div>
+        <div class="pi"><div class="pi-dot pi-t"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>Small teams welcome</div>
+      </div>
+      <a href="#contact" class="price-cta">Ask about this plan →</a>
+    </div>
+    <div class="price-card glass-card featured">
+      <h3 class="price-label">MONTHLY RETAINER</h3>
+      <div class="price-num">¥80,000<span class="price-num-sub">+ / mo</span></div>
+      <div class="price-unit">Ongoing, month by month</div>
+      <p class="price-desc">One person to think with, across marketing, AI, and design.</p>
+      <div class="price-items">
+        <div class="pi"><div class="pi-dot pi-p"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>Monthly working session</div>
+        <div class="pi"><div class="pi-dot pi-p"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>Direct line between meetings</div>
+        <div class="pi"><div class="pi-dot pi-p"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>From three months</div>
+      </div>
+      <a href="#contact" class="price-cta">Ask about this plan →</a>
+    </div>
+    <div class="price-card glass-card">
+      <h3 class="price-label">SINGLE PROJECT</h3>
+      <div class="price-num">¥150,000<span class="price-num-sub">+</span></div>
+      <div class="price-unit">One project, one scope</div>
+      <p class="price-desc">A landing page, an AI readiness review, the words for a launch.</p>
+      <div class="price-items">
+        <div class="pi"><div class="pi-dot pi-a"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>Deliverables agreed up front</div>
+        <div class="pi"><div class="pi-dot pi-a"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>No ongoing commitment</div>
+      </div>
+      <a href="#contact" class="price-cta">Ask about this plan →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="sec sec-white" id="s-faq">
+  <div class="s-lbl">// FAQ</div>
+  <h2 class="s-h2">Questions, answered first.</h2>
+  <p class="s-desc">The things people ask before writing in.</p>
+  <div class="faq-list">
+    <div class="faq-item glass-card">
+      <button class="faq-q" type="button" aria-expanded="false">
+        <span>I know nothing about AI. Is that a problem?</span>
+        <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
+      </button>
+      <div class="faq-a"><p>Not at all. We start without jargon, by looking at how your work runs today. “I don’t know what I don’t know” is a fine starting point — most conversations begin there.</p></div>
+    </div>
+    <div class="faq-item glass-card">
+      <button class="faq-q" type="button" aria-expanded="false">
+        <span>What exactly can I ask you to do?</span>
+        <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
+      </button>
+      <div class="faq-a"><p>Three things come up most. Making your website, decks, and public words clear at first glance. Turning AI from a headline into something your team uses daily — from finding the first task to prompts and house rules. And mapping your week on one page, so we can separate what needs you from what doesn’t. Where to start is what the first call is for.</p></div>
+    </div>
+    <div class="faq-item glass-card">
+      <button class="faq-q" type="button" aria-expanded="false">
+        <span>Can you help us work with the Japanese market?</span>
+        <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
+      </button>
+      <div class="faq-a"><p>Yes — that’s the setting I work in every day. My clients are mostly small businesses in Japan, and the work runs in Japanese: meetings, documents, and the follow-up in between. For teams outside Japan, that can mean preparing Japanese-language materials, handling correspondence with Japanese partners, or simply explaining how things are usually done — in English or German, whichever suits you.</p></div>
+    </div>
+    <div class="faq-item glass-card">
+      <button class="faq-q" type="button" aria-expanded="false">
+        <span>What happens after the first call?</span>
+        <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
+      </button>
+      <div class="faq-a"><p>We talk for thirty minutes — no preparation needed. Then we put your week on one page, pick the single task where a change would earn the most, and try it small, with the tools you already have. Whatever works, you keep in a form that runs without me. You decide about continuing after you’ve seen it work.</p></div>
+    </div>
+    <div class="faq-item glass-card">
+      <button class="faq-q" type="button" aria-expanded="false">
+        <span>I’m a team of one. Is that too small?</span>
+        <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
+      </button>
+      <div class="faq-a"><p>No — much of this work is with very small businesses and independent professionals, and it runs the same way. What matters isn’t headcount; it’s where your week is heaviest.</p></div>
+    </div>
+    <div class="faq-item glass-card">
+      <button class="faq-q" type="button" aria-expanded="false">
+        <span>Am I locked into anything?</span>
+        <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
+      </button>
+      <div class="faq-a"><p>Single projects carry no ongoing commitment. The monthly retainer starts at three months. And the half-day workshop exists precisely so you can try before deciding anything larger.</p></div>
+    </div>
+    <div class="faq-item glass-card">
+      <button class="faq-q" type="button" aria-expanded="false">
+        <span>How do you handle confidential information?</span>
+        <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
+      </button>
+      <div class="faq-a"><p>What you share is used for the work and nothing else, and I’m glad to sign an NDA before we start. Where AI tools are involved, I work with settings that keep your inputs out of model training — and anything sensitive, we decide how to handle together, in advance.</p></div>
+    </div>
+    <div class="faq-item glass-card">
+      <button class="faq-q" type="button" aria-expanded="false">
+        <span>We’re outside Japan — how do calls and payment work?</span>
+        <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
+      </button>
+      <div class="faq-a"><p>Everything runs remotely: video calls scheduled around your time zone (I’m at UTC+7, which meets European mornings and American evenings), and written updates in between. Invoices are in Japanese yen; we agree the practical details before anything is signed.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="sec sec-dark" id="s-cta">
+  <canvas id="cvc" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
+  <div class="cta-c">
+    <span class="cta-star">✦</span>
+    <h2 class="ch2">Thirty minutes to think out loud.</h2>
+    <p class="csub">No pitch, no pressure. Even if we never work together, you’ll leave with your thoughts in better order.</p>
+    <p class="cq">What you get back isn’t only time. It’s room to think, and days you choose.</p>
+    <div class="cta-manifesto" aria-label="What Fugasha works to give back">
+      <div class="cta-manifesto-line"><span class="cta-manifesto-k">TIME</span><span class="cta-manifesto-t">From hours spent repeating, to hours spent deciding.</span></div>
+      <div class="cta-manifesto-line"><span class="cta-manifesto-k">ROOM</span><span class="cta-manifesto-t">With room to think, decisions come easier — and sooner.</span></div>
+      <div class="cta-manifesto-line"><span class="cta-manifesto-k">LIFE</span><span class="cta-manifesto-t">A business, and a life, shaped by your own hand.</span></div>
+    </div>
+    <div class="cta-wrap">
+      <a href="#contact" class="cta-btn-amber">Write to me <span class="arr">→</span></a>
+      <p class="cta-sub"><a href="mailto:hello@fugasha.jp" class="cta-sub-link">Or email hello@fugasha.jp directly</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ── -->
+<section class="sec sec-light" id="contact">
+  <div class="s-lbl">// CONTACT</div>
+  <h2 class="s-h2">Write to me.</h2>
+  <p class="s-desc">Three fields, no funnel. I reply within 1–2 business days, in English — and if it makes sense to talk, we’ll find a time that fits your day. The first thirty minutes are free.</p>
+  <form class="cform" id="contactForm" novalidate>
+    <div class="cf-fields">
+      <div class="cf-group">
+        <label class="cf-label" for="cfName">Name<span class="cf-req">REQUIRED</span></label>
+        <input type="text" id="cfName" name="name" class="cf-input" autocomplete="name" required aria-describedby="cfNameErr">
+        <span class="cf-err" id="cfNameErr">Please enter your name.</span>
+      </div>
+      <div class="cf-group">
+        <label class="cf-label" for="cfEmail">Email<span class="cf-req">REQUIRED</span></label>
+        <input type="email" id="cfEmail" name="email" class="cf-input" autocomplete="email" required aria-describedby="cfEmailErr">
+        <span class="cf-err" id="cfEmailErr">Please enter a valid email address.</span>
+      </div>
+      <div class="cf-group">
+        <label class="cf-label" for="cfMessage">Message<span class="cf-req">REQUIRED</span></label>
+        <textarea id="cfMessage" name="message" class="cf-textarea" rows="5" required aria-describedby="cfMessageErr" placeholder="A few lines about your business and what feels heavy right now."></textarea>
+        <span class="cf-err" id="cfMessageErr">Please write a short message.</span>
+      </div>
+    </div>
+    <button type="submit" class="btn-amber" id="cfSubmit">Send <span class="arr">→</span></button>
+    <p class="cf-submit-err" id="cfSubmitErr" role="alert">Something went wrong. Please try again in a moment, or email <a href="mailto:hello@fugasha.jp">hello@fugasha.jp</a> directly.</p>
+    <p class="cf-note">Prefer email? <a href="mailto:hello@fugasha.jp">hello@fugasha.jp</a></p>
+  </form>
+  <p class="cf-success" id="cfSuccess" role="status" hidden></p>
+</section>
+</main>
+
+<!-- ── Footer ── -->
+<footer class="ft">
+  <div class="ft-tagline-big">Less friction. More you.</div>
+  <div class="ft-bottom">
+    <span class="ftl"><span lang="ja">風雅舎</span> FUGASHA</span>
+    <div class="ft-links">
+      <a href="#contact" class="ft-link">Contact</a>
+      <a href="mailto:hello@fugasha.jp" class="ft-link">hello@fugasha.jp</a>
+      <a href="../privacy.html" class="ft-link" hreflang="ja">Privacy (Japanese)</a>
+      <a href="../" class="ft-link" lang="ja" hreflang="ja">日本語 →</a>
+    </div>
+    <span class="ftc">© <span id="yr"></span> Fugasha</span>
+  </div>
+  <!-- LinkedIn: URL提供後にここへ追加 -->
+</footer>
+
+<script>
+  'use strict';
+
+  // ── Copyright year ──
+  const yrEl = document.getElementById('yr');
+  if (yrEl) yrEl.textContent = new Date().getFullYear();
+
+  // ══════════════════════════════════════════
+  // ⑬ Lenis smooth scroll
+  // ══════════════════════════════════════════
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let lenis;
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof Lenis === 'undefined' || prefersReducedMotion) return;
+    lenis = new Lenis({
+      lerp: 0.3,
+      wheelMultiplier: 1.1,
+      smoothWheel: true,
+      touchAction: 'pan-y',
+    });
+    // Disable native scroll-behavior when Lenis takes over
+    document.documentElement.style.scrollBehavior = 'auto';
+    function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); }
+    requestAnimationFrame(lenisRaf);
+  });
+
+  // ══════════════════════════════════════════
+  // ② Text Split Reveal — wrap words in spans
+  // ══════════════════════════════════════════
+  function splitTextIntoWords(el) {
+    if (!el || el.dataset.split) return;
+    el.dataset.split = '1';
+    el.classList.add('is-split');
+    let wordIndex = 0;
+
+    function wrapTextNode(node) {
+      const text = node.nodeValue;
+      if (!text || !text.trim()) return;
+
+      const fragment = document.createDocumentFragment();
+      text.split(/(\s+)/).forEach(part => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) {
+          fragment.appendChild(document.createTextNode(part));
+          return;
+        }
+
+        const outer = document.createElement('span');
+        const inner = document.createElement('span');
+        outer.className = 'split-word';
+        outer.dataset.wi = wordIndex++;
+        inner.textContent = part;
+        outer.appendChild(inner);
+        fragment.appendChild(outer);
+      });
+
+      node.parentNode.replaceChild(fragment, node);
+    }
+
+    function walk(node) {
+      Array.from(node.childNodes).forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          wrapTextNode(child);
+        } else if (child.nodeType === Node.ELEMENT_NODE && child.tagName !== 'BR') {
+          walk(child);
+        }
+      });
+    }
+
+    walk(el);
+  }
+
+  // Apply split to key headings — runs before hero becomes visible
+  const splitTargets = ['.h-h1', '.ah2', '.ch2'];
+  splitTargets.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => splitTextIntoWords(el));
+  });
+
+  // ── Scroll observer (sections) ──
+  const sectionIds = ['s-hero','s-tools','s-about','s-pain','s-service','s-borders','s-philosophy','s-price','s-faq','s-cta','contact'];
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.07 });
+  sectionIds.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+
+  // ── FAQ accordion ──
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-q');
+    const panel = item.querySelector('.faq-a');
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(other => {
+        if (other !== item) {
+          other.classList.remove('open');
+          other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+          other.querySelector('.faq-a').style.maxHeight = '0px';
+        }
+      });
+      item.classList.toggle('open', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      panel.style.maxHeight = isOpen ? '0px' : panel.scrollHeight + 'px';
+    });
+  });
+
+  // Hero section immediate reveal (split already applied above)
+  const heroEl = document.getElementById('s-hero');
+  if (heroEl) setTimeout(() => heroEl.classList.add('visible'), 80);
+
+  // ── Scroll progress + nav border ──
+  let scrollTicking = false;
+  const pb = document.getElementById('pb');
+  const nav = document.getElementById('nav');
+
+  function onScroll() {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(() => {
+      const d = document.documentElement;
+      const pct = Math.min((d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100, 100);
+      if (pb) pb.style.width = pct + '%';
+      if (nav) nav.classList.toggle('sc', d.scrollTop > 40);
+      scrollTicking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // ══════════════════════════════════════════
+  // Wave canvas — draws only while section is on screen
+  // ══════════════════════════════════════════
+  function wave(id, colors) {
+    if (prefersReducedMotion) return;
+    const cv = document.getElementById(id);
+    if (!cv) return;
+    const sec = cv.parentElement;
+    const resizeObserver = new ResizeObserver(() => { cv.width = sec.offsetWidth; cv.height = sec.offsetHeight; });
+    resizeObserver.observe(sec);
+    cv.width = sec.offsetWidth; cv.height = sec.offsetHeight;
+    const ctx = cv.getContext('2d');
+    let t = 0;
+    let rafId = 0;
+    let onScreen = false;
+    const ws = colors.map((c, i) => ({ c, off: i * Math.PI * 0.65, amp: 52 * (0.65 + i * 0.2), sp: 0.7 * (1 + i * 0.25) }));
+    function draw() {
+      if (document.hidden || !onScreen) { rafId = 0; return; }
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ws.forEach(w => {
+        ctx.beginPath(); ctx.moveTo(0, cv.height);
+        for (let x = 0; x <= cv.width; x += 4) {
+          const y = cv.height * 0.5 + Math.sin(x * 0.009 + t * w.sp + w.off) * w.amp + Math.sin(x * 0.018 + t * w.sp * 1.3 + w.off) * w.amp * 0.35;
+          ctx.lineTo(x, y);
+        }
+        ctx.lineTo(cv.width, cv.height); ctx.closePath(); ctx.fillStyle = w.c; ctx.fill();
+      });
+      t += 0.011;
+      rafId = requestAnimationFrame(draw);
+    }
+    const io = new IntersectionObserver(entries => {
+      onScreen = entries[0].isIntersecting;
+      if (onScreen && !rafId) rafId = requestAnimationFrame(draw);
+    });
+    io.observe(sec);
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && onScreen && !rafId) rafId = requestAnimationFrame(draw);
+    });
+  }
+  // ── Hero background: mouse-tracking gradient + animated noise ──
+  (function(){
+    if (prefersReducedMotion) return;
+    const cv = document.getElementById('heroBg');
+    if (!cv) return;
+    const ctx = cv.getContext('2d');
+
+    // Dusk Horizon colours
+    const C_NAVY   = [13, 32, 48];      // #0d2030
+    const C_SLATE  = [110, 143, 166];   // #6e8fa6
+    const C_SALMON = [232, 134, 106];   // #e8866a
+    const C_CREAM  = [240, 230, 214];   // #f0e6d6
+
+    // Lerped mouse position
+    let mx = 0.5, my = 0.5;   // normalised 0-1
+    let lx = 0.5, ly = 0.5;   // smoothed
+
+    let t = 0;
+    let rafId = 0;
+    let onScreen = true;
+
+    function resize() {
+      const hero = cv.parentElement;
+      cv.width  = hero.offsetWidth;
+      cv.height = hero.offsetHeight;
+    }
+
+    function lerp(a, b, alpha) { return a + (b - a) * alpha; }
+
+    function draw() {
+      if (document.hidden || !onScreen) { rafId = 0; return; }
+      const W = cv.width, H = cv.height;
+
+      // Smooth mouse
+      lx = lerp(lx, mx, 0.04);
+      ly = lerp(ly, my, 0.04);
+
+      // Clear with cream base
+      ctx.clearRect(0, 0, W, H);
+
+      // ── Layer 1: cream base ──
+      ctx.fillStyle = `rgb(${C_CREAM[0]},${C_CREAM[1]},${C_CREAM[2]})`;
+      ctx.fillRect(0, 0, W, H);
+
+      // ── Layer 2: navy radial following mouse (left-heavy) ──
+      const gNavy = ctx.createRadialGradient(
+        lx * W, ly * H, 0,
+        lx * W, ly * H, Math.max(W, H) * 0.75
+      );
+      gNavy.addColorStop(0,   `rgba(${C_NAVY[0]},${C_NAVY[1]},${C_NAVY[2]},0.10)`);
+      gNavy.addColorStop(0.5, `rgba(${C_NAVY[0]},${C_NAVY[1]},${C_NAVY[2]},0.04)`);
+      gNavy.addColorStop(1,   `rgba(${C_NAVY[0]},${C_NAVY[1]},${C_NAVY[2]},0)`);
+      ctx.fillStyle = gNavy;
+      ctx.fillRect(0, 0, W, H);
+
+      // ── Layer 3: salmon radial at inverse position ──
+      const sx = 1 - lx, sy = 1 - ly;
+      const gSalmon = ctx.createRadialGradient(
+        sx * W, sy * H, 0,
+        sx * W, sy * H, Math.max(W, H) * 0.6
+      );
+      gSalmon.addColorStop(0,   `rgba(${C_SALMON[0]},${C_SALMON[1]},${C_SALMON[2]},0.09)`);
+      gSalmon.addColorStop(0.55,`rgba(${C_SALMON[0]},${C_SALMON[1]},${C_SALMON[2]},0.03)`);
+      gSalmon.addColorStop(1,   `rgba(${C_SALMON[0]},${C_SALMON[1]},${C_SALMON[2]},0)`);
+      ctx.fillStyle = gSalmon;
+      ctx.fillRect(0, 0, W, H);
+
+      // ── Layer 4: slate shimmer top-right ──
+      const gSlate = ctx.createRadialGradient(
+        W * 0.85, H * 0.12, 0,
+        W * 0.85, H * 0.12, W * 0.45
+      );
+      gSlate.addColorStop(0,   `rgba(${C_SLATE[0]},${C_SLATE[1]},${C_SLATE[2]},0.07)`);
+      gSlate.addColorStop(1,   `rgba(${C_SLATE[0]},${C_SLATE[1]},${C_SLATE[2]},0)`);
+      ctx.fillStyle = gSlate;
+      ctx.fillRect(0, 0, W, H);
+
+      // ── Layer 5: floating orbs ──
+      const orbs = [
+        { ox: 0.25, oy: 0.35, r: 0.28, phase: 0,   c: C_SLATE,  a: 0.06 },
+        { ox: 0.75, oy: 0.65, r: 0.22, phase: 2.1, c: C_SALMON, a: 0.05 },
+        { ox: 0.5,  oy: 0.2,  r: 0.18, phase: 4.2, c: C_NAVY,   a: 0.07 },
+      ];
+      orbs.forEach(o => {
+        const px = (o.ox + Math.sin(t * 0.4 + o.phase) * 0.06) * W;
+        const py = (o.oy + Math.cos(t * 0.3 + o.phase) * 0.05) * H;
+        const gr = ctx.createRadialGradient(px, py, 0, px, py, o.r * Math.max(W,H));
+        gr.addColorStop(0,   `rgba(${o.c[0]},${o.c[1]},${o.c[2]},${o.a})`);
+        gr.addColorStop(0.6, `rgba(${o.c[0]},${o.c[1]},${o.c[2]},${(o.a*0.3).toFixed(3)})`);
+        gr.addColorStop(1,   `rgba(${o.c[0]},${o.c[1]},${o.c[2]},0)`);
+        ctx.fillStyle = gr;
+        ctx.fillRect(0, 0, W, H);
+      });
+
+      t += 0.008;
+      rafId = requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('mousemove', e => {
+      const rect = cv.getBoundingClientRect();
+      mx = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      my = Math.max(0, Math.min(1, (e.clientY - rect.top)  / rect.height));
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && onScreen && !rafId) rafId = requestAnimationFrame(draw);
+    });
+
+    const io = new IntersectionObserver(entries => {
+      onScreen = entries[0].isIntersecting;
+      if (onScreen && !rafId) rafId = requestAnimationFrame(draw);
+    });
+    io.observe(cv.parentElement);
+
+    const ro = new ResizeObserver(resize);
+    ro.observe(cv.parentElement);
+    resize();
+    rafId = requestAnimationFrame(draw);
+  })();
+
+  wave('cvc', ['rgba(240,230,214,.07)','rgba(232,134,106,.09)','rgba(143,163,180,.06)']);
+
+  // ── Hamburger menu ──
+  const navHam = document.getElementById('navHam');
+  const navDrawer = document.getElementById('navDrawer');
+  const navClose = document.getElementById('navClose');
+  if (navHam && navDrawer) {
+    function setDrawer(open) {
+      navHam.classList.toggle('open', open);
+      navDrawer.classList.toggle('open', open);
+      navHam.setAttribute('aria-expanded', String(open));
+      navHam.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      // While open, keep Tab from reaching the content behind (the substance of aria-modal)
+      Array.from(document.body.children).forEach(elm => {
+        if (elm !== navDrawer && !elm.contains(navDrawer)) elm.inert = open;
+      });
+      if (open && navClose) navClose.focus();
+    }
+    navHam.addEventListener('click', () => setDrawer(!navDrawer.classList.contains('open')));
+    navClose && navClose.addEventListener('click', () => { setDrawer(false); navHam.focus(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && navDrawer.classList.contains('open')) { setDrawer(false); navHam.focus(); }
+    });
+    navDrawer.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => setDrawer(false));
+    });
+  }
+
+  // ── Nav scrollspy — quiet underline for the section in view ──
+  (function(){
+    const links = Array.from(document.querySelectorAll('.nav-right .nav-link[href^="#"]'));
+    if (!links.length) return;
+    const map = new Map();
+    links.forEach(link => {
+      const sec = document.querySelector(link.getAttribute('href'));
+      if (sec) map.set(sec, link);
+    });
+    const spy = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        links.forEach(l => l.classList.remove('active'));
+        map.get(e.target).classList.add('active');
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    map.forEach((_, sec) => spy.observe(sec));
+  })();
+
+  // ── Contact form (Formspree, same endpoint as contact.html) ──
+  (function(){
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mnjkgdgj';
+    const form    = document.getElementById('contactForm');
+    if (!form) return;
+    const nameEl  = document.getElementById('cfName');
+    const emailEl = document.getElementById('cfEmail');
+    const msgEl   = document.getElementById('cfMessage');
+    const nameErr  = document.getElementById('cfNameErr');
+    const emailErr = document.getElementById('cfEmailErr');
+    const msgErr   = document.getElementById('cfMessageErr');
+    const btn     = document.getElementById('cfSubmit');
+    const errBox  = document.getElementById('cfSubmitErr');
+    const success = document.getElementById('cfSuccess');
+
+    function setInvalid(field, err, invalid) {
+      field.classList.toggle('invalid', invalid);
+      field.setAttribute('aria-invalid', String(invalid));
+      err.style.display = invalid ? 'block' : 'none';
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name    = nameEl.value.trim();
+      const email   = emailEl.value.trim();
+      const message = msgEl.value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      setInvalid(nameEl, nameErr, !name);
+      setInvalid(emailEl, emailErr, !emailOk);
+      setInvalid(msgEl, msgErr, !message);
+
+      const firstInvalid = [!name && nameEl, !emailOk && emailEl, !message && msgEl].find(Boolean);
+      if (firstInvalid) { firstInvalid.focus(); return; }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      errBox.style.display = 'none';
+
+      fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          message: message,
+          source: 'en',
+          _subject: '[Fugasha /en/] English inquiry'
+        })
+      })
+        .then(res => {
+          if (!res.ok) throw new Error('send failed');
+          form.hidden = true;
+          success.textContent = 'Thank you — your note is on its way. I’ll reply within 1–2 business days.';
+          success.hidden = false;
+          // 送信ボタンが disabled のままフォームごと消えるため、フォーカスの着地点を移す
+          success.tabIndex = -1;
+          success.focus();
+        })
+        .catch(() => {
+          errBox.style.display = 'block';
+          btn.disabled = false;
+          btn.innerHTML = 'Send <span class="arr">→</span>';
+        });
+    });
+  })();
+
+</script>
+</body>
+</html>
