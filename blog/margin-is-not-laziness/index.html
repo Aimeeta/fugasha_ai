@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>余白は、怠けではない | 風雅舎</title>
+  <meta name="description" content="予定と作業で埋まった一日は、じつは判断を止めている。余白とは休息ではなく、考えるための構造だ——そう気づいてから、意図的に余白をつくるようになった記録。">
+  <meta property="og:title" content="余白は、怠けではない">
+  <meta property="og:description" content="予定でびっしり埋まった一日は、忙しく見えて、判断が止まっている。余白は休みではなく、考えるための時間だと気づいてから、少し変わった話。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/blog/margin-is-not-laziness/">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/blog/margin-is-not-laziness/ogp.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="風雅舎">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#f0e6d6">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/blog/margin-is-not-laziness/">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": "https://aimeeta.github.io/fugasha_ai/blog/margin-is-not-laziness/#article",
+        "headline": "余白は、怠けではない",
+        "description": "予定と作業で埋まった一日は、じつは判断を止めている。余白とは休息ではなく、考えるための構造だ——そう気づいてから、意図的に余白をつくるようになった記録。",
+        "image": "https://aimeeta.github.io/fugasha_ai/blog/margin-is-not-laziness/ogp.jpg",
+        "datePublished": "2026-07-03",
+        "dateModified": "2026-07-03",
+        "articleSection": "経営・働き方",
+        "inLanguage": "ja",
+        "author": { "@type": "Person", "@id": "https://aimeeta.github.io/fugasha_ai/#person", "name": "Aimee", "alternateName": "Aimee", "jobTitle": "代表" },
+        "publisher": { "@type": "Organization", "@id": "https://aimeeta.github.io/fugasha_ai/#organization", "name": "風雅舎" },
+        "mainEntityOfPage": "https://aimeeta.github.io/fugasha_ai/blog/margin-is-not-laziness/"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://aimeeta.github.io/fugasha_ai/" },
+          { "@type": "ListItem", "position": 2, "name": "ブログ", "item": "https://aimeeta.github.io/fugasha_ai/blog/" },
+          { "@type": "ListItem", "position": 3, "name": "余白は、怠けではない", "item": "https://aimeeta.github.io/fugasha_ai/blog/margin-is-not-laziness/" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      --bg:      #f0e6d6;
+      --bg2:     #e8dcc8;
+      --fg:      #0d2030;
+      --fg2:     #1e3a50;
+      --muted:   #4a6a80;
+      --hint:    #5e7f96;
+      --accent:  #e8866a;
+      --accent2: #f0a882;
+      --line:    rgba(13,32,48,.1);
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono:  'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); }
+    a { color: inherit; }
+    ::selection { background: rgba(232,134,106,.3); color: var(--fg); }
+    .icn { display: inline-block; vertical-align: -0.125em; flex-shrink: 0; }
+
+    /* reading progress */
+    .pb { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 1001; width: 0%; }
+
+    /* ── Navigation (shared pattern) ── */
+    .nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px; position: sticky; top: 0; z-index: 1000;
+      background: rgba(240,230,214,.92);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: .5px solid var(--line);
+    }
+    .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--fg); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 32px; }
+    .nav-link { font-size: 11px; color: var(--hint); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; }
+    .nav-link:hover { color: var(--fg); }
+    .nav-link.active { color: var(--fg); }
+    .nav-cta {
+      display: inline-block; font-size: 11px; padding: 9px 20px; border-radius: 2px;
+      background: var(--accent); color: var(--fg); font-weight: 500;
+      transition: opacity .2s; border: none; letter-spacing: .08em; text-decoration: none;
+    }
+    .nav-cta:hover { opacity: .8; }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: 0; }
+    .nav-ham span { display: block; width: 20px; height: 1.5px; background: var(--fg); border-radius: 1px; transition: all .25s; }
+    .nav-ham.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
+    .nav-ham.open span:nth-child(2) { opacity: 0; }
+    .nav-ham.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
+    .nav-drawer {
+      display: none; position: fixed; inset: 0;
+      background: rgba(240,230,214,.97); backdrop-filter: blur(20px);
+      z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a { font-size: 22px; font-weight: 500; color: var(--fg); text-decoration: none; letter-spacing: .04em; }
+    .nav-drawer-close { position: absolute; top: 18px; right: 20px; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1; background: none; border: none; }
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .nav-right > .nav-link, .nav-right > .nav-cta { display: none; }
+      .nav-ham { display: flex; }
+    }
+
+    /* ── Article shell ── */
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+    .crumb { display: flex; gap: 6px; align-items: center; font-size: 11px; color: var(--hint); letter-spacing: .04em; margin: 40px 0 28px; flex-wrap: wrap; }
+    .crumb a { color: var(--hint); text-decoration: none; }
+    .crumb a:hover { color: var(--fg); }
+    .crumb span.sep { opacity: .5; }
+    .crumb span.cur { color: var(--fg2); }
+
+    .art-badge {
+      display: inline-block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid rgba(232,134,106,.4); border-radius: 100px;
+      padding: 5px 14px; font-weight: 500; margin-bottom: 18px;
+    }
+    .art-h1 {
+      font-family: var(--font-serif); font-weight: 500;
+      font-size: clamp(26px, 4.2vw, 38px); line-height: 1.45; color: var(--fg);
+      margin-bottom: 20px; font-feature-settings: 'palt' 1;
+    }
+    .art-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--hint); margin-bottom: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+    .art-meta span { display: inline-flex; align-items: center; gap: 5px; }
+
+    .art-lead {
+      font-family: var(--font-serif); font-size: 17px; line-height: 1.9; color: var(--fg2);
+      background: var(--bg2); border-left: 3px solid var(--accent);
+      padding: 22px 24px; border-radius: 4px; margin-bottom: 44px;
+    }
+
+    .art-body h2 {
+      font-family: var(--font-serif); font-weight: 500; font-size: 23px; color: var(--fg);
+      margin: 52px 0 20px; line-height: 1.5; font-feature-settings: 'palt' 1;
+    }
+    .art-body p { font-size: 15px; line-height: 2; color: var(--fg2); margin-bottom: 18px; }
+    .art-body strong { color: var(--fg); font-weight: 700; }
+
+    .cta-box {
+      margin: 56px 0; padding: 32px; background: var(--fg); border-radius: 8px; text-align: center;
+    }
+    .cta-box p { color: rgba(240,230,214,.85); font-size: 14px; margin-bottom: 18px; line-height: 1.8; }
+    .cta-box .btn-amber {
+      display: inline-flex; align-items: center; gap: 10px; font-size: 12px;
+      padding: 14px 28px; border-radius: 2px; background: var(--accent); color: var(--fg);
+      font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none; transition: opacity .25s;
+    }
+    .cta-box .btn-amber:hover { opacity: .8; }
+
+    .art-foot-nav { display: flex; justify-content: space-between; align-items: center; margin: 48px 0 80px; padding-top: 24px; border-top: 1px solid var(--line); }
+    .back-blog { font-size: 12px; color: var(--hint); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .back-blog:hover { color: var(--fg); }
+
+    /* ── Footer ── */
+    .ft { padding: 48px 48px 24px; background: var(--fg); display: flex; flex-direction: column; gap: 24px; }
+    .ft-tagline-big { font-family: var(--font-serif); font-weight: 500; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
+    .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 18px; border-top: 1px solid rgba(240,230,214,.1); }
+    .ftl { font-size: 10px; color: rgba(240,230,214,.5); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
+    .ftc { font-size: 10px; color: rgba(240,230,214,.45); letter-spacing: .08em; }
+    .ft-links { display: flex; gap: 20px; align-items: center; }
+    .ft-link { font-size: 10px; color: rgba(240,230,214,.62); text-decoration: none; }
+    .ft-link:hover { color: rgba(240,230,214,.9); }
+    @media (max-width: 768px) {
+      .ft { padding: 36px 20px 20px; gap: 18px; }
+      .ft-tagline-big { font-size: 26px; }
+      .ft-bottom { flex-direction: column; text-align: center; gap: 12px; }
+      .wrap { padding: 0 20px; }
+    }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+<div class="pb" id="pb"></div>
+
+<nav class="nav" id="nav">
+  <a href="../../index.html" class="nav-logo">風雅舎</a>
+  <div class="nav-right">
+    <a href="../../index.html#s-service" class="nav-link">Services</a>
+    <a href="../" class="nav-link active">Blog</a>
+    <a href="../../index.html#s-about" class="nav-link">About</a>
+    <a href="../../contact.html" class="nav-cta">無料相談</a>
+    <button type="button" class="nav-ham" id="navHam" aria-label="メニューを開く" aria-expanded="false" aria-controls="navDrawer"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+  <button class="nav-drawer-close" id="navClose" aria-label="閉じる">✕</button>
+  <a href="../../index.html#s-service">Services</a>
+  <a href="../">Blog</a>
+  <a href="../../index.html#s-about">About</a>
+  <a href="../../contact.html">無料相談 →</a>
+</div>
+
+<main class="wrap">
+  <nav class="crumb" aria-label="パンくずリスト">
+    <a href="../../index.html">ホーム</a>
+    <span class="sep">/</span>
+    <a href="../">ブログ</a>
+    <span class="sep">/</span>
+    <span class="cur">余白は、怠けではない</span>
+  </nav>
+
+  <article>
+    <div class="art-badge">経営・働き方</div>
+    <h1 class="art-h1">余白は、怠けではない</h1>
+    <div class="art-meta">
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg> 2026年7月3日</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約4分で読めます</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/></svg> Aimee(Aimee) — 風雅舎代表</span>
+    </div>
+
+    <p class="art-lead">
+      予定が入っていない時間を、つい「もったいない」と感じてしまう経営者は少なくないと思います。でも、その感覚が、じつは判断力を少しずつ削っているかもしれません。余白とは休息ではなく、考えるための構造だと気づいてから、私自身の一日のつくり方が変わりました。この記事は、そのことについての、小さな記録です。
+    </p>
+
+    <div class="art-body">
+      <h2>埋まった頭では、何かを決められない</h2>
+      <p>
+        手帳やカレンダーがびっしり埋まっている日は、なんとなく充実して見えます。仕事をしている感覚がある。でも、その日の終わりに「今日、大事なことを決めたか」と問い直すと、首を縦に振れないことが多い。
+      </p>
+      <p>
+        会議から会議へ移動して、連絡に返信して、依頼に対応して、確認事項を捌いて——そういう一日が続くと、こなしてはいるのに、前へ進んでいない感覚が残ります。
+      </p>
+      <p>
+        それは怠けているからではありません。<strong>頭が埋まっているから</strong>です。
+      </p>
+      <p>
+        判断というのは、ある程度の空き容量がないとうまく機能しないと、経験から感じています。「次に何をすべきか」「この方向で進んでいいか」「この問題の本質はどこか」——そういった問いは、作業の合間にふと浮かぶものです。作業でびっしり覆われた一日には、その「ふと」が入り込む隙間がありません。
+      </p>
+
+      <h2>余白は、何もしない時間ではない</h2>
+      <p>
+        「余白をつくる」というと、怠けを正当化しているように聞こえるかもしれません。でも、私が言う余白は「何もしなくていい時間」ではありません。
+      </p>
+      <p>
+        余白とは、考えるための時間です。整理するための時間。昨日の判断を振り返り、明日の判断を準備する時間。あるいは、いますぐ結論の出ない問いを、ただ抱えておく時間。
+      </p>
+      <p>
+        こういった時間は、生産の時間には見えません。アウトプットが出ません。会議のように記録も残りません。だから予定表に入れないと、すぐに消えます。打ち合わせや締め切りよりも、弱い優先度で扱われてしまう。
+      </p>
+      <p>
+        でも、経営判断の多くは、この「余白に見える時間」のなかで育っています。打ち合わせ中に名案が浮かぶことより、散歩中に、あるいは翌朝の一杯のコーヒーのそばで、ふと整理がつくことの方が多い——そういう経験をした人は、少なくないと思います。
+      </p>
+
+      <h2>「忙しい」は、判断を先送りしている</h2>
+      <p>
+        予定が詰まっているとき、人は判断をあとに回しがちです。
+      </p>
+      <p>
+        「今週は余裕がないから、来週考えよう」。それ自体は必ずしも悪くありません。ただ、来週も同じ密度で埋まっていたら、判断はまた先送りになります。それが繰り返されると、決断が必要なタイミングで「まだ考え切れていない」という状態が常態化します。
+      </p>
+      <p>
+        忙しさは、あるときから判断の保護ではなく、<strong>判断の回避</strong>になります。その境目は、外からは見えにくい。でも、内側にいると、「なんとなく動けていない」という感覚で現れます。
+      </p>
+      <p>
+        余白をつくることは、そのサイクルを断ち切る行為です。判断のための場所を、意図的に予定の中に確保する、という選択です。
+      </p>
+
+      <h2>余白を予定として入れる</h2>
+      <p>
+        抽象的な話だけで終えるのは、この記事の主旨に反します。実際に何をしたか、書いておきます。
+      </p>
+      <p>
+        私がやっていることは、シンプルです。週に一度、1〜2時間を「考える時間」として手帳に入れます。会議と同じように、予定として確保します。この時間には、メールも返信しません。急ぎの案件も基本的には持ち込みません。
+      </p>
+      <p>
+        その時間に何をするかは、その週によって違います。書き出すこともあれば、ただ静かに座っていることもある。読み返したいメモを眺めることもある。決まった作業があるわけではありません。
+      </p>
+      <p>
+        最初は「何もしていない」という後ろめたさがありました。でも続けていると、この時間のあとで判断の速度が変わっていることに気づきました。具体的に言えば、「迷っていた件にようやく決着がついた」という頻度が上がった。もやがかかった状態が少し晴れる、という感覚に近いです。
+      </p>
+      <p>
+        もうひとつ、日常で使えるものがあります。移動の合間や、仕事を切り替える前の5分——そういった小さな隙間に、スマートフォンを開かないことを意識しています。何かをチェックしてしまうと、隙間が埋まります。その5分が空白のまま残ると、頭のどこかが静かに動き始めることがある。
+      </p>
+      <p>
+        大きなことは必要ありません。小さな空白をひとつ、今週の予定に入れてみる。それだけです。
+      </p>
+
+      <h2>余白が、判断をつくる</h2>
+      <p>
+        風雅舎がAIや業務効率化を扱う文脈で「余白」を話題にするのは、手が空いた時間を増やすことが目的ではないからです。
+      </p>
+      <p>
+        手が空いた時間の先に、その人が本来やりたかった仕事、本来考えたかった問い、本来向き合いたかった経営があります。余白はゴールではなく、そこへ至る通路です。
+      </p>
+      <p>
+        予定と作業で埋まった一日は、賢く見えて、じつは思考を圧迫しています。余白を怠けと呼ぶのではなく、判断のための投資と呼ぶ。その言い換えひとつで、一日のつくり方は少し変わるかもしれません。
+      </p>
+    </div>
+
+    <div class="cta-box">
+      <p>忙しさの外側から、一度整理してみませんか。<br>何から手をつけるか、一緒に考えます。</p>
+      <a href="../../contact.html" class="btn-amber">無料で話してみる <span>→</span></a>
+    </div>
+
+    <div class="art-foot-nav">
+      <a href="../" class="back-blog"><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l14 0"/><path d="M5 12l6 6"/><path d="M5 12l6 -6"/></svg> ブログ一覧に戻る</a>
+    </div>
+  </article>
+</main>
+
+<footer class="ft">
+  <div class="ft-tagline-big">Less friction. More you.</div>
+  <div class="ft-bottom">
+    <span class="ftl">風雅舎 FUGASHA</span>
+    <div class="ft-links">
+      <a href="../../contact.html" class="ft-link">お問い合わせ</a>
+      <a href="../" class="ft-link">ブログ</a>
+    </div>
+    <span class="ftc">© <span id="yr"></span> 風雅舎</span>
+  </div>
+</footer>
+
+<script>
+  'use strict';
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const navHam = document.getElementById('navHam');
+  const navDrawer = document.getElementById('navDrawer');
+  const navClose = document.getElementById('navClose');
+  function setDrawer(open) {
+    navHam.classList.toggle('open', open);
+    navDrawer.classList.toggle('open', open);
+    navHam.setAttribute('aria-expanded', String(open));
+  }
+  navHam.addEventListener('click', () => setDrawer(!navDrawer.classList.contains('open')));
+  navClose.addEventListener('click', () => { setDrawer(false); navHam.focus(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navDrawer.classList.contains('open')) { setDrawer(false); navHam.focus(); }
+  });
+  navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
+
+  const pb = document.getElementById('pb');
+  function updateProgress() {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const height = h.scrollHeight - h.clientHeight;
+    pb.style.width = (height > 0 ? (scrolled / height) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>
+
+</body>
+</html>

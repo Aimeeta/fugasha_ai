@@ -10,6 +10,8 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/blog/">
   <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="風雅舎">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/blog/">
   <meta name="robots" content="index, follow">
@@ -86,7 +88,7 @@
       transition: opacity .2s; border: none; letter-spacing: .08em; text-decoration: none;
     }
     .nav-cta:hover { opacity: .8; }
-    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: 0; }
     .nav-ham span { display: block; width: 20px; height: 1.5px; background: var(--fg); border-radius: 1px; transition: all .25s; }
     .nav-ham.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
     .nav-ham.open span:nth-child(2) { opacity: 0; }
@@ -174,7 +176,7 @@
     <a href="./" class="nav-link active">Blog</a>
     <a href="../index.html#s-about" class="nav-link">About</a>
     <a href="../contact.html" class="nav-cta">無料相談</a>
-    <div class="nav-ham" id="navHam" aria-label="メニュー"><span></span><span></span><span></span></div>
+    <button type="button" class="nav-ham" id="navHam" aria-label="メニューを開く" aria-expanded="false" aria-controls="navDrawer"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="nav-drawer" id="navDrawer">
@@ -199,6 +201,26 @@
   </div>
 
   <div class="grid">
+    <a href="finding-your-first-ai-task/" class="card">
+      <span class="card-badge">AI導入・業務効率化</span>
+      <h2 class="card-title">AIに任せる最初の仕事の見つけ方</h2>
+      <p class="card-excerpt">ツールを選ぶ前に、まず自分の仕事を書き出してみる。「繰り返す・判断不要・嫌いだが必要」で分けると、AIに任せる最初の一歩が自然に見えてくる。</p>
+      <div class="card-meta">
+        <span><i class="ti ti-calendar"></i> 2026.07.03</span>
+        <span><i class="ti ti-clock"></i> 約4分</span>
+      </div>
+      <span class="card-arrow">続きを読む <span class="arr">→</span></span>
+    </a>
+    <a href="margin-is-not-laziness/" class="card">
+      <span class="card-badge">経営・働き方</span>
+      <h2 class="card-title">余白は、怠けではない</h2>
+      <p class="card-excerpt">予定でびっしり埋まった一日は、忙しく見えて、判断が止まっている。余白は休みではなく、考えるための時間だと気づいてから、少し変わった話。</p>
+      <div class="card-meta">
+        <span><i class="ti ti-calendar"></i> 2026.07.03</span>
+        <span><i class="ti ti-clock"></i> 約4分</span>
+      </div>
+      <span class="card-arrow">続きを読む <span class="arr">→</span></span>
+    </a>
     <a href="ai-security-checkpoints/" class="card">
       <span class="card-badge">セキュリティ</span>
       <h2 class="card-title">AI導入とセキュリティは両立できるか？確認すべき5つのポイント</h2>
@@ -231,16 +253,17 @@
   const navHam = document.getElementById('navHam');
   const navDrawer = document.getElementById('navDrawer');
   const navClose = document.getElementById('navClose');
-  function toggleDrawer() {
-    navHam.classList.toggle('open');
-    navDrawer.classList.toggle('open');
+  function setDrawer(open) {
+    navHam.classList.toggle('open', open);
+    navDrawer.classList.toggle('open', open);
+    navHam.setAttribute('aria-expanded', String(open));
   }
-  navHam.addEventListener('click', toggleDrawer);
-  navClose.addEventListener('click', toggleDrawer);
-  navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    navHam.classList.remove('open');
-    navDrawer.classList.remove('open');
-  }));
+  navHam.addEventListener('click', () => setDrawer(!navDrawer.classList.contains('open')));
+  navClose.addEventListener('click', () => { setDrawer(false); navHam.focus(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navDrawer.classList.contains('open')) { setDrawer(false); navHam.focus(); }
+  });
+  navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
 
   (function(){
     const el   = document.getElementById('ftTwText');

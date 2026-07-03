@@ -39,6 +39,14 @@
 - 現状ほぼ完成。微修正候補: ヒーロー「手段は横断しますが」→「道具はいろいろ使いますが」（任意）
 - 「More you.」（フッター）と「More curiosity.」（About）の併存は変奏として維持と判定
 
+## ブログ（2026-07-03 SEO/AEO監査より）
+- ✅ 新記事2本: JSON-LD著者インライン展開・パンくず末尾item・記事別OGP・メタ完備
+- ✅ blog/index.html: og:locale/og:site_name追加、ハンバーガーのbutton化＋aria-expanded
+- ✅ landing #s-blog: sec-whiteクラスとダーク背景の乖離を解消
+- ⬜ 既存記事 ai-security-checkpoints が旧仕様のまま（Tablerフォント・タイプライター・共通OGP流用）→ ROADMAP Phase 3-0
+- ⬜ blog/ 一覧用の専用OGP画像（現状はトップと共通、許容範囲）
+- 🚫 twitter:title等の個別指定（og:*フォールバックで十分と判断）
+
 ## コード品質
 - ⬜ FAQ開いたままリサイズで max-height が古くなる微バグ（transitionend 後に解除で解消可・実害小）
 - ⬜ scrollspy: 非マップセクション（FAQ/Blog/CTA）で直前の下線が残る（仕様として許容中）

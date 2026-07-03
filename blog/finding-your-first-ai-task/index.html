@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIに任せる最初の仕事の見つけ方 | 風雅舎</title>
+  <meta name="description" content="ツールより先に考えたいこと——自分の仕事を書き出して「繰り返す・判断不要・嫌いだが必要」の3つに分けるだけで、AIに任せる最初の一歩が見えてくる。15分でできる手順。">
+  <meta property="og:title" content="AIに任せる最初の仕事の見つけ方">
+  <meta property="og:description" content="ツールを選ぶ前に、まず自分の仕事を書き出してみる。「繰り返す・判断不要・嫌いだが必要」で分けると、AIに任せる最初の一歩が自然に見えてくる。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/blog/finding-your-first-ai-task/">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/blog/finding-your-first-ai-task/ogp.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="風雅舎">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#f0e6d6">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/blog/finding-your-first-ai-task/">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": "https://aimeeta.github.io/fugasha_ai/blog/finding-your-first-ai-task/#article",
+        "headline": "AIに任せる最初の仕事の見つけ方",
+        "description": "ツールより先に考えたいこと——自分の仕事を書き出して「繰り返す・判断不要・嫌いだが必要」の3つに分けるだけで、AIに任せる最初の一歩が見えてくる。15分でできる手順。",
+        "image": "https://aimeeta.github.io/fugasha_ai/blog/finding-your-first-ai-task/ogp.jpg",
+        "datePublished": "2026-07-03",
+        "dateModified": "2026-07-03",
+        "articleSection": "AI導入・業務効率化",
+        "inLanguage": "ja",
+        "author": { "@type": "Person", "@id": "https://aimeeta.github.io/fugasha_ai/#person", "name": "Aimee", "alternateName": "Aimee", "jobTitle": "代表" },
+        "publisher": { "@type": "Organization", "@id": "https://aimeeta.github.io/fugasha_ai/#organization", "name": "風雅舎" },
+        "mainEntityOfPage": "https://aimeeta.github.io/fugasha_ai/blog/finding-your-first-ai-task/"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://aimeeta.github.io/fugasha_ai/" },
+          { "@type": "ListItem", "position": 2, "name": "ブログ", "item": "https://aimeeta.github.io/fugasha_ai/blog/" },
+          { "@type": "ListItem", "position": 3, "name": "AIに任せる最初の仕事の見つけ方", "item": "https://aimeeta.github.io/fugasha_ai/blog/finding-your-first-ai-task/" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      --bg:      #f0e6d6;
+      --bg2:     #e8dcc8;
+      --fg:      #0d2030;
+      --fg2:     #1e3a50;
+      --muted:   #4a6a80;
+      --hint:    #5e7f96;
+      --accent:  #e8866a;
+      --accent2: #f0a882;
+      --line:    rgba(13,32,48,.1);
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono:  'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); }
+    a { color: inherit; }
+    ::selection { background: rgba(232,134,106,.3); color: var(--fg); }
+    .icn { display: inline-block; vertical-align: -0.125em; flex-shrink: 0; }
+
+    /* reading progress */
+    .pb { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 1001; width: 0%; }
+
+    /* ── Navigation (shared pattern) ── */
+    .nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px; position: sticky; top: 0; z-index: 1000;
+      background: rgba(240,230,214,.92);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: .5px solid var(--line);
+    }
+    .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--fg); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 32px; }
+    .nav-link { font-size: 11px; color: var(--hint); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; }
+    .nav-link:hover { color: var(--fg); }
+    .nav-link.active { color: var(--fg); }
+    .nav-cta {
+      display: inline-block; font-size: 11px; padding: 9px 20px; border-radius: 2px;
+      background: var(--accent); color: var(--fg); font-weight: 500;
+      transition: opacity .2s; border: none; letter-spacing: .08em; text-decoration: none;
+    }
+    .nav-cta:hover { opacity: .8; }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: 0; }
+    .nav-ham span { display: block; width: 20px; height: 1.5px; background: var(--fg); border-radius: 1px; transition: all .25s; }
+    .nav-ham.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
+    .nav-ham.open span:nth-child(2) { opacity: 0; }
+    .nav-ham.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
+    .nav-drawer {
+      display: none; position: fixed; inset: 0;
+      background: rgba(240,230,214,.97); backdrop-filter: blur(20px);
+      z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a { font-size: 22px; font-weight: 500; color: var(--fg); text-decoration: none; letter-spacing: .04em; }
+    .nav-drawer-close { position: absolute; top: 18px; right: 20px; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1; background: none; border: none; }
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .nav-right > .nav-link, .nav-right > .nav-cta { display: none; }
+      .nav-ham { display: flex; }
+    }
+
+    /* ── Article shell ── */
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+    .crumb { display: flex; gap: 6px; align-items: center; font-size: 11px; color: var(--hint); letter-spacing: .04em; margin: 40px 0 28px; flex-wrap: wrap; }
+    .crumb a { color: var(--hint); text-decoration: none; }
+    .crumb a:hover { color: var(--fg); }
+    .crumb span.sep { opacity: .5; }
+    .crumb span.cur { color: var(--fg2); }
+
+    .art-badge {
+      display: inline-block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid rgba(232,134,106,.4); border-radius: 100px;
+      padding: 5px 14px; font-weight: 500; margin-bottom: 18px;
+    }
+    .art-h1 {
+      font-family: var(--font-serif); font-weight: 500;
+      font-size: clamp(26px, 4.2vw, 38px); line-height: 1.45; color: var(--fg);
+      margin-bottom: 20px; font-feature-settings: 'palt' 1;
+    }
+    .art-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--hint); margin-bottom: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+    .art-meta span { display: inline-flex; align-items: center; gap: 5px; }
+
+    .art-lead {
+      font-family: var(--font-serif); font-size: 17px; line-height: 1.9; color: var(--fg2);
+      background: var(--bg2); border-left: 3px solid var(--accent);
+      padding: 22px 24px; border-radius: 4px; margin-bottom: 44px;
+    }
+
+    .art-body h2 {
+      font-family: var(--font-serif); font-weight: 500; font-size: 23px; color: var(--fg);
+      margin: 52px 0 20px; line-height: 1.5; font-feature-settings: 'palt' 1;
+    }
+    .art-body h3 {
+      font-size: 16px; font-weight: 700; color: var(--fg); margin: 32px 0 12px;
+      display: flex; align-items: baseline; gap: 10px;
+    }
+    .art-body h3 .num { font-family: var(--font-mono); font-size: 12px; color: var(--accent); font-weight: 400; }
+    .art-body p { font-size: 15px; line-height: 2; color: var(--fg2); margin-bottom: 18px; }
+    .art-body strong { color: var(--fg); font-weight: 700; }
+
+    .cta-box {
+      margin: 56px 0; padding: 32px; background: var(--fg); border-radius: 8px; text-align: center;
+    }
+    .cta-box p { color: rgba(240,230,214,.85); font-size: 14px; margin-bottom: 18px; line-height: 1.8; }
+    .cta-box .btn-amber {
+      display: inline-flex; align-items: center; gap: 10px; font-size: 12px;
+      padding: 14px 28px; border-radius: 2px; background: var(--accent); color: var(--fg);
+      font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none; transition: opacity .25s;
+    }
+    .cta-box .btn-amber:hover { opacity: .8; }
+
+    .art-foot-nav { display: flex; justify-content: space-between; align-items: center; margin: 48px 0 80px; padding-top: 24px; border-top: 1px solid var(--line); }
+    .back-blog { font-size: 12px; color: var(--hint); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .back-blog:hover { color: var(--fg); }
+
+    /* ── Footer ── */
+    .ft { padding: 48px 48px 24px; background: var(--fg); display: flex; flex-direction: column; gap: 24px; }
+    .ft-tagline-big { font-family: var(--font-serif); font-weight: 500; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
+    .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 18px; border-top: 1px solid rgba(240,230,214,.1); }
+    .ftl { font-size: 10px; color: rgba(240,230,214,.5); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
+    .ftc { font-size: 10px; color: rgba(240,230,214,.45); letter-spacing: .08em; }
+    .ft-links { display: flex; gap: 20px; align-items: center; }
+    .ft-link { font-size: 10px; color: rgba(240,230,214,.62); text-decoration: none; }
+    .ft-link:hover { color: rgba(240,230,214,.9); }
+    @media (max-width: 768px) {
+      .ft { padding: 36px 20px 20px; gap: 18px; }
+      .ft-tagline-big { font-size: 26px; }
+      .ft-bottom { flex-direction: column; text-align: center; gap: 12px; }
+      .wrap { padding: 0 20px; }
+    }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+<div class="pb" id="pb"></div>
+
+<nav class="nav" id="nav">
+  <a href="../../index.html" class="nav-logo">風雅舎</a>
+  <div class="nav-right">
+    <a href="../../index.html#s-service" class="nav-link">Services</a>
+    <a href="../" class="nav-link active">Blog</a>
+    <a href="../../index.html#s-about" class="nav-link">About</a>
+    <a href="../../contact.html" class="nav-cta">無料相談</a>
+    <button type="button" class="nav-ham" id="navHam" aria-label="メニューを開く" aria-expanded="false" aria-controls="navDrawer"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+  <button class="nav-drawer-close" id="navClose" aria-label="閉じる">✕</button>
+  <a href="../../index.html#s-service">Services</a>
+  <a href="../">Blog</a>
+  <a href="../../index.html#s-about">About</a>
+  <a href="../../contact.html">無料相談 →</a>
+</div>
+
+<main class="wrap">
+  <nav class="crumb" aria-label="パンくずリスト">
+    <a href="../../index.html">ホーム</a>
+    <span class="sep">/</span>
+    <a href="../">ブログ</a>
+    <span class="sep">/</span>
+    <span class="cur">AIに任せる最初の仕事の見つけ方</span>
+  </nav>
+
+  <article>
+    <div class="art-badge">AI導入・業務効率化</div>
+    <h1 class="art-h1">AIに任せる最初の仕事の見つけ方</h1>
+    <div class="art-meta">
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg> 2026年7月3日</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約4分で読めます</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/></svg> Aimee(Aimee) — 風雅舎代表</span>
+    </div>
+
+    <p class="art-lead">
+      AIに何かを任せてみたい、でも何から始めればいいかわからない——そう感じている経営者は少なくないと思います。ツールを選ぶ前に、もっと手前でやるべきことがあります。自分の仕事を書き出して、3つに分ける。それだけです。この記事では、今日ひとりで15分あればできる手順を、ツール紹介なしでお伝えします。
+    </p>
+
+    <div class="art-body">
+      <h2>なぜ「何から始めるか」でつまずくのか</h2>
+      <p>
+        AIに関する情報は、いまや溢れています。「ChatGPTで議事録を自動化」「生成AIでメール返信を10分に短縮」——そういった事例は目に入るのに、いざ自分のビジネスに当てはめようとすると、どこにも足がかりが見当たらない。
+      </p>
+      <p>
+        その理由は、多くの場合、ツールの話から入るからだと思っています。
+      </p>
+      <p>
+        ツールはあくまで手段です。「何に使えるか」を考える前に、「何に困っているか」「何を手放したいか」を先に言葉にしておかないと、どれだけ優れたツールを手にしても、使う場所がわからないままになります。
+      </p>
+      <p>
+        15分で今日できること。それは、ツールを調べることではなく、<strong>自分の仕事を書き出して、3つに分けること</strong>です。
+      </p>
+
+      <h2>まず「一週間の仕事」を書き出す</h2>
+      <p>
+        白紙（紙でもメモアプリでも）を用意して、こう問いかけてみてください。
+      </p>
+      <p>
+        「先週、自分は何をやっていたか？」
+      </p>
+      <p>
+        思い出せる仕事を、思いつく順番でいいので書き出します。会議、メール返信、請求書の確認、SNSへの投稿、問い合わせへの返信、スケジュールの調整——なんでもかまいません。きれいに整理する必要はありません。箇条書きで10〜20個ほど出ればじゅうぶんです。
+      </p>
+      <p>
+        このとき大事なのは、「大きな仕事」だけでなく、「小さな繰り返し作業」も書き漏らさないことです。「毎朝メールをチェックして既読にする」「週次の売上をスプレッドシートに転記する」——そういった、目立たないけれど確実に時間を取っているものほど、あとで重要になります。
+      </p>
+
+      <h2>3つの問いで分ける</h2>
+      <p>書き出したら、ひとつひとつの仕事に次の3つの問いをあてていきます。</p>
+
+      <h3><span class="num">01</span> 週に1回以上、繰り返しているか</h3>
+      <p>
+        同じ作業を定期的にやっている、または似た作業をほぼ毎週やっている——そういった仕事に印をつけます。AIとの相性がいいのは、繰り返しの多い仕事です。人間が「また同じことをやっている」と感じるタスクは、AIにとって得意な領域であることが多い。
+      </p>
+      <p>
+        チェックリスト、定型文、データの転記、週次レポートのフォーマット作成——こういったものが候補に上がるはずです。
+      </p>
+
+      <h3><span class="num">02</span> 判断が要らないか（あるいは少ないか）</h3>
+      <p>
+        次に、その仕事をするときに「自分がどれだけ考えているか」を正直に問いかけます。
+      </p>
+      <p>
+        顧客ごとの微妙な事情を踏まえて返信を変える必要があるなら、判断が要る仕事です。一方、「この形式で毎週同じ数字を入力する」「ひな形に沿って文書を仕上げる」といった仕事は、判断よりも手順が主役です。
+      </p>
+      <p>
+        この区別は大事です。<strong>AIは手順には強く、判断には弱い。</strong>正確に言えば、AIが出す判断には必ず確認が必要で、それを確認するのはあなた自身です。確認コストが出力コストを上回るなら、その仕事はまだAIに向いていないかもしれません。
+      </p>
+
+      <h3><span class="num">03</span> 嫌いだが、やらないわけにもいかないか</h3>
+      <p>
+        少し個人的な問いです。「できることはできるが、できれば誰かに頼みたい」と思っている仕事はありますか。
+      </p>
+      <p>
+        経営者のなかには、数字の集計が得意でない人、文章を書くのが苦手な人、外部へのメール返信に時間がかかる人がいます。好き嫌いの問題は意外と根深く、「嫌いな仕事に時間がかかる」という状態は、生産性だけでなく、熱中の邪魔にもなります。
+      </p>
+      <p>
+        嫌いだが必要な仕事は、AIへの委任で精神的な負荷も一緒に減らせる可能性があります。これは見落とされがちな、大きなメリットです。
+      </p>
+
+      <h2>3つが重なるところが、最初の一歩</h2>
+      <p>
+        「繰り返す」「判断が少ない」「嫌いだが必要」——3つすべてに当てはまる仕事が、AIに最初に任せてみる候補です。
+      </p>
+      <p>
+        すべて揃わなくてもかまいません。「繰り返す＋判断が少ない」だけでも十分なスタート地点になります。
+      </p>
+      <p>
+        候補が絞れたら、その仕事をもう少し具体的に言葉にしてみてください。「SNSの投稿を書く」より「毎週月曜日に、今週のお知らせ1件をInstagram用に100字以内でまとめる」のように。作業の範囲が明確なほど、AIへの指示も書きやすくなります。
+      </p>
+      <p>
+        どのツールを使うかは、その後でいい。まず「何を」が決まると、「どのツールで」は自然に絞れてきます。
+      </p>
+
+      <h2>書いてみて、初めて見えてくるもの</h2>
+      <p>
+        この作業をやってみると、多くの経営者が気づくことがあります。「思っていたより、同じことを何度もやっていた」。
+      </p>
+      <p>
+        それは非効率の証拠というより、事業を動かすための現実です。ただ、その現実を一度書き出して眺めることで、「これは自分がやるべき仕事か」「これは誰か（あるいは何か）に渡せないか」という問いが生まれます。
+      </p>
+      <p>
+        風雅舎が中小企業のAI導入に関わるとき、必ずこの「書き出す→分ける」から始めます。ツールより先に、仕事の地図を描く。その地図があると、何を選ぶかも、何を残すかも、ずっと決めやすくなります。
+      </p>
+    </div>
+
+    <div class="cta-box">
+      <p>「書き出す→分ける」まで一緒にやってみませんか。<br>どこから始めればいいか、専門用語なしで話します。</p>
+      <a href="../../contact.html" class="btn-amber">無料で話してみる <span>→</span></a>
+    </div>
+
+    <div class="art-foot-nav">
+      <a href="../" class="back-blog"><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l14 0"/><path d="M5 12l6 6"/><path d="M5 12l6 -6"/></svg> ブログ一覧に戻る</a>
+    </div>
+  </article>
+</main>
+
+<footer class="ft">
+  <div class="ft-tagline-big">Less friction. More you.</div>
+  <div class="ft-bottom">
+    <span class="ftl">風雅舎 FUGASHA</span>
+    <div class="ft-links">
+      <a href="../../contact.html" class="ft-link">お問い合わせ</a>
+      <a href="../" class="ft-link">ブログ</a>
+    </div>
+    <span class="ftc">© <span id="yr"></span> 風雅舎</span>
+  </div>
+</footer>
+
+<script>
+  'use strict';
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const navHam = document.getElementById('navHam');
+  const navDrawer = document.getElementById('navDrawer');
+  const navClose = document.getElementById('navClose');
+  function setDrawer(open) {
+    navHam.classList.toggle('open', open);
+    navDrawer.classList.toggle('open', open);
+    navHam.setAttribute('aria-expanded', String(open));
+  }
+  navHam.addEventListener('click', () => setDrawer(!navDrawer.classList.contains('open')));
+  navClose.addEventListener('click', () => { setDrawer(false); navHam.focus(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navDrawer.classList.contains('open')) { setDrawer(false); navHam.focus(); }
+  });
+  navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
+
+  const pb = document.getElementById('pb');
+  function updateProgress() {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const height = h.scrollHeight - h.clientHeight;
+    pb.style.width = (height > 0 ? (scrolled / height) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>
+
+</body>
+</html>

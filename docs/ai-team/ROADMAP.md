@@ -8,6 +8,7 @@
 3. contact.html への og:image 追加（1行）
 
 ## Phase 3（余裕があれば）
+0. **既存記事・ブログ一覧の現行ブランド化** — `blog/ai-security-checkpoints/` と `blog/index.html` はまだ旧仕様（Tabler webフォント・タイプライターフッター・serif 600・CTA白文字）。新記事2本（2026-07-03公開）と同じ仕様に揃える。あわせて既存記事の記事別OGP作成、`blog/ogp.jpg`（一覧用）も検討
 4. FAQリサイズ微バグ（transitionend で max-height 解除）
 5. Philosophy 3原則の上罫線ドロー（scaleX、reduced-motionで即時表示）— creative-coder 承認済みの唯一の新演出
 6. margin の 8px 基調への丸め / 英ラベル letter-spacing 統一 / 角丸トークン化
