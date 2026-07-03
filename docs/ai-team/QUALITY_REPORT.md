@@ -1,6 +1,26 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-03（相談メモ導線リリース時点）
+最終検証: 2026-07-03（トップ改善 Phase 1+2 時点）
+
+## トップ改善 Phase 1+2（2026-07-03・未push）
+変更: index.html（entry-cardリンク化・無料1行・FAQ7問・JSON-LD拡張）/ contact.html（head SEO・Tabler全廃・文言3件・フォントウェイト）/ chat.html（OGP）/ sitemap.xml（chat追記・lastmod更新）
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| inline JS 構文 | `node --check`（3ファイル） | ✅ OK |
+| JSON-LD | json.loads（FAQ7問・OfferCatalog・priceRange含む） | ✅ valid |
+| FAQ 7問の可視/JSON-LD 逐語一致 | seo-aeo-auditor が1文字単位で照合 | ✅ 完全一致 |
+| Offer×3 と料金カード表示の一致 | 名称・minPrice・説明の突合 | ✅ 一致（月額は UnitPriceSpecification） |
+| sitemap.xml | xmllint --noout・全8ページ網羅 | ✅ OK |
+| entry-card 導線 | 実クリックで ?t=ai/brand/ops の3トラック事前選択 | ✅ ブラウザ実測 |
+| FAQ開閉・aria-expanded | 新規3問含む排他アコーディオン | ✅ 動作 |
+| contact アイコン | Tabler CDN 0件・インラインSVG 5種描画 | ✅ スクリーンショット確認 |
+| フォントウェイト整合 | .btn-primary 実効500・serif600読込廃止 | ✅ getComputedStyle 実測 |
+| 禁止語・営業文法 | grep「棚卸」「一切しません」「営業目的以外」 | ✅ 全て0件 |
+| コンソール | index / contact 遷移 | ✅ エラー・警告ゼロ |
+| クロスレビュー | seo-aeo-auditor 監査 | 重大0・中1・軽微4 → 全て修正済み（軽微3・5は据置判断） |
+
+未検証（開示）: Formspree実送信 / Rich Results Test・validator.schema.org での機械検証（公開後に実URL推奨）/ OGP実シェア表示 / 実機モバイル。
 
 ## 相談メモ導線（2026-07-03・未push）
 変更: chat.html 全面リビルド / index.html（ヒーロー・ドロワー・CTA・focus-visible・inert）/ contact.html・privacy.html・blog 4ページ（View Transition スニペットのみ）

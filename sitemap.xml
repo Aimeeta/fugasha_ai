@@ -10,7 +10,14 @@
 
   <url>
     <loc>https://aimeeta.github.io/fugasha_ai/contact.html</loc>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/chat.html</loc>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -60,7 +67,7 @@
 
   <url>
     <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-security-checkpoints/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
