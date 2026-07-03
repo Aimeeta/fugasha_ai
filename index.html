@@ -10,7 +10,12 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/">
   <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="風雅舎">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#f0e6d6">
   <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/">
   <meta name="robots" content="index, follow">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -125,6 +130,8 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* 見出しのみ約物を詰める（本文は読み速度優先で全角のまま） */
+    .h-h1, .s-h2, .sst-h2, .ch2, .ah2, .sv-t, .phi-t { font-feature-settings: 'palt' 1; }
     html { scroll-behavior: smooth; scroll-padding-top: 86px; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
