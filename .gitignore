@@ -4,3 +4,6 @@
 # Editor/OS junk
 Thumbs.db
 *.swp
+
+# Claude Code local tooling
+.claude/
