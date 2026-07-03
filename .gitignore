@@ -12,3 +12,6 @@ Thumbs.db
 # 実名を含む過去ブリーフ — リポジトリに入れない（履歴からも削除済み 2026-07-03）
 brief/fugasha_handoff_brief.docx
 brief/fugasha_handoff_brief_2026-07-01.docx
+
+# 実績数字の裏付け等、非公開の内部資料
+private/

@@ -15,6 +15,13 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/privacy.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
   <!--
     ブログ記事を追加する際は、公開のたびに <url> ノードを1つずつ追記してください。
     毎日投稿する運用になったら、この手動追記は破綻するので

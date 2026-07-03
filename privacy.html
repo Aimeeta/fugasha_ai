@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プライバシーポリシー | 風雅舎</title>
+  <meta name="description" content="風雅舎のプライバシーポリシー。お問い合わせで取得する情報の利用目的、外部サービスの利用、開示請求の窓口について定めています。">
+  <meta property="og:title" content="プライバシーポリシー | 風雅舎">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/privacy.html">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="風雅舎">
+  <meta name="theme-color" content="#f0e6d6">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/privacy.html">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #f0e6d6;
+      --bg2:     #e8dcc8;
+      --fg:      #0d2030;
+      --fg2:     #1e3a50;
+      --muted:   #4a6a80;
+      --hint:    #5e7f96;
+      --accent:  #e8866a;
+      --line:    rgba(13,32,48,.1);
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); }
+    a { color: inherit; }
+    ::selection { background: rgba(232,134,106,.3); color: var(--fg); }
+
+    .nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px; position: sticky; top: 0; z-index: 1000;
+      background: rgba(240,230,214,.92);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: .5px solid var(--line);
+    }
+    .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--fg); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 32px; }
+    .nav-link { font-size: 11px; color: var(--hint); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; }
+    .nav-link:hover { color: var(--fg); }
+    @media (max-width: 768px) { .nav { padding: 14px 20px; } .nav-right { gap: 18px; } }
+
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
+    .pol-h1 {
+      font-family: var(--font-serif); font-weight: 500; font-feature-settings: 'palt' 1;
+      font-size: clamp(26px, 4.2vw, 36px); line-height: 1.5; color: var(--fg);
+      margin: 56px 0 12px;
+    }
+    .pol-date { font-size: 12px; color: var(--hint); margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+    .pol-intro { font-size: 15px; line-height: 2; color: var(--fg2); margin-bottom: 40px; }
+    .pol h2 {
+      font-family: var(--font-serif); font-weight: 500; font-feature-settings: 'palt' 1;
+      font-size: 19px; color: var(--fg); margin: 40px 0 14px; line-height: 1.5;
+    }
+    .pol p { font-size: 14.5px; line-height: 2; color: var(--fg2); margin-bottom: 14px; }
+    .pol ul { margin: 0 0 14px 1.4em; }
+    .pol li { font-size: 14.5px; line-height: 2; color: var(--fg2); }
+    .pol .note { font-size: 12.5px; color: var(--hint); line-height: 1.9; }
+    .back-home { display: inline-block; margin-top: 40px; font-size: 12px; color: var(--hint); text-decoration: none; }
+    .back-home:hover { color: var(--fg); }
+
+    .ft { padding: 40px 48px 24px; background: var(--fg); display: flex; flex-direction: column; gap: 18px; }
+    .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .ftl { font-size: 10px; color: rgba(240,230,214,.5); letter-spacing: .18em; text-transform: uppercase; }
+    .ftc { font-size: 10px; color: rgba(240,230,214,.45); letter-spacing: .08em; }
+    .ft-links { display: flex; gap: 20px; align-items: center; }
+    .ft-link { font-size: 10px; color: rgba(240,230,214,.62); text-decoration: none; }
+    .ft-link:hover { color: rgba(240,230,214,.9); }
+    @media (max-width: 768px) { .ft { padding: 32px 20px 20px; } .ft-bottom { flex-direction: column; text-align: center; } }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">風雅舎</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="blog/" class="nav-link">Blog</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <h1 class="pol-h1">プライバシーポリシー</h1>
+  <p class="pol-date">制定日: 2026年7月3日</p>
+
+  <p class="pol-intro">
+    風雅舎（以下「当方」）は、当サイトをご利用になる方の個人情報を、以下の方針にもとづいて取り扱います。当サイトは、必要のない情報を集めないことを基本にしています。
+  </p>
+
+  <div class="pol">
+    <h2>1. 事業者情報</h2>
+    <p>屋号: 風雅舎（FUGASHA）<br>連絡先: hello@fugasha.jp</p>
+
+    <h2>2. 取得する情報</h2>
+    <p>当サイトでは、お問い合わせフォームの送信時に、次の情報をご提供いただきます。</p>
+    <ul>
+      <li>お名前（ニックネーム可）</li>
+      <li>メールアドレス</li>
+      <li>会社名・屋号（任意）</li>
+      <li>ご相談内容</li>
+    </ul>
+    <p>当サイトは、Cookieを利用したアクセス解析や広告配信を行っていません。導入する場合は、本ポリシーを更新してお知らせします。</p>
+
+    <h2>3. 利用目的</h2>
+    <p>取得した情報は、次の目的にのみ利用します。</p>
+    <ul>
+      <li>お問い合わせへの返信・ご相談の日程調整</li>
+      <li>ご依頼いただいた業務の遂行</li>
+      <li>業務上必要なご連絡</li>
+    </ul>
+    <p>ご相談内容を、営業目的のメール配信や第三者への提供に使うことはありません。</p>
+
+    <h2>4. 第三者への提供</h2>
+    <p>法令にもとづく場合を除き、ご本人の同意なく個人情報を第三者に提供しません。</p>
+
+    <h2>5. 外部サービスの利用</h2>
+    <p>当サイトは、次の外部サービスを利用しています。各サービスの利用時には、通信に必要な情報（IPアドレス等）が各事業者に送信されます。</p>
+    <ul>
+      <li><strong>Formspree</strong>（Formspree, Inc.・米国）— お問い合わせフォームの送信処理。入力内容は同社のサーバーを経由して当方に届きます</li>
+      <li><strong>Google Fonts</strong>（Google LLC）— Webフォントの配信</li>
+      <li><strong>CDN</strong>（jsDelivr / Simple Icons）— スクリプト・画像の配信</li>
+    </ul>
+    <p class="note">各サービスのプライバシーポリシーは、それぞれの公式サイトでご確認いただけます。</p>
+
+    <h2>6. AIツールの利用について</h2>
+    <p>当方はAI活用支援を業務としており、業務でAIツールを利用します。お客様からお預かりした情報をAIツールに入力する場合は、入力内容がモデルの学習に利用されない設定・プランを用いることを原則とし、取り扱いに不安がある情報については事前にご相談のうえ進めます。</p>
+
+    <h2>7. 安全管理</h2>
+    <p>取得した情報は、漏えい・滅失・毀損の防止に努め、業務に必要な期間に限り保管します。</p>
+
+    <h2>8. 開示・訂正・削除のご請求</h2>
+    <p>ご自身の個人情報の開示・訂正・削除をご希望の場合は、hello@fugasha.jp までご連絡ください。ご本人確認のうえ、すみやかに対応します。</p>
+
+    <h2>9. 改定</h2>
+    <p>本ポリシーは、必要に応じて改定することがあります。重要な変更がある場合は、当サイト上でお知らせします。</p>
+  </div>
+
+  <a href="index.html" class="back-home">← トップページに戻る</a>
+</main>
+
+<footer class="ft">
+  <div class="ft-bottom">
+    <span class="ftl">風雅舎 FUGASHA</span>
+    <div class="ft-links">
+      <a href="contact.html" class="ft-link">お問い合わせ</a>
+      <a href="blog/" class="ft-link">ブログ</a>
+    </div>
+    <span class="ftc">© <span id="yr"></span> 風雅舎</span>
+  </div>
+</footer>
+
+<script>
+  'use strict';
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

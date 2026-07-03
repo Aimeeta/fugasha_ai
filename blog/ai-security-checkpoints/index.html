@@ -19,8 +19,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/tabler-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -73,6 +72,7 @@
     }
     body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); }
     a { color: inherit; }
+    .icn { display: inline-block; vertical-align: -0.125em; flex-shrink: 0; }
 
     /* reading progress */
     .pb { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 1001; width: 0%; }
@@ -126,10 +126,10 @@
     .art-badge {
       display: inline-block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
       color: var(--accent); border: 1px solid rgba(232,134,106,.4); border-radius: 100px;
-      padding: 5px 14px; font-weight: 600; margin-bottom: 18px;
+      padding: 5px 14px; font-weight: 500; margin-bottom: 18px;
     }
     .art-h1 {
-      font-family: var(--font-serif); font-weight: 600;
+      font-family: var(--font-serif); font-weight: 500;
       font-size: clamp(26px, 4.2vw, 38px); line-height: 1.45; color: var(--fg);
       margin-bottom: 20px;
     }
@@ -143,7 +143,7 @@
     }
 
     .art-body h2 {
-      font-family: var(--font-serif); font-weight: 600; font-size: 23px; color: var(--fg);
+      font-family: var(--font-serif); font-weight: 500; font-size: 23px; color: var(--fg);
       margin: 52px 0 20px; line-height: 1.5;
     }
     .art-body h3 {
@@ -172,7 +172,7 @@
 
     /* ── Footer ── */
     .ft { padding: 48px 48px 24px; background: var(--fg); display: flex; flex-direction: column; gap: 24px; }
-    .ft-tagline-big { font-family: var(--font-serif); font-weight: 600; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
+    .ft-tagline-big { font-family: var(--font-serif); font-weight: 500; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
     .ft-tw-cur { display: inline-block; width: .05em; height: .85em; background: rgba(240,230,214,.85); margin-left: .04em; vertical-align: text-bottom; opacity: 0; }
     .ft-tw-cur.on { animation: twblink .8s ease-in-out infinite; opacity: 1; }
     @keyframes twblink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
@@ -227,9 +227,9 @@
     <div class="art-badge">セキュリティ</div>
     <h1 class="art-h1">AI導入とセキュリティは両立できるか？<br>確認すべき5つのポイント</h1>
     <div class="art-meta">
-      <span><i class="ti ti-calendar"></i> 2026年7月1日</span>
-      <span><i class="ti ti-clock"></i> 約4分で読めます</span>
-      <span><i class="ti ti-user"></i> Aimee — 風雅舎代表</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg> 2026年7月1日</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約4分で読めます</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/></svg> Aimee — 風雅舎代表</span>
     </div>
 
     <p class="art-lead">
@@ -287,7 +287,7 @@
     </div>
 
     <div class="art-foot-nav">
-      <a href="../" class="back-blog"><i class="ti ti-arrow-left"></i> ブログ一覧に戻る</a>
+      <a href="../" class="back-blog"><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l14 0"/><path d="M5 12l6 6"/><path d="M5 12l6 -6"/></svg> ブログ一覧に戻る</a>
     </div>
   </article>
 </main>
@@ -298,6 +298,7 @@
     <span class="ftl">風雅舎 FUGASHA</span>
     <div class="ft-links">
       <a href="../../contact.html" class="ft-link">お問い合わせ</a>
+      <a href="../../privacy.html" class="ft-link">プライバシーポリシー</a>
       <a href="../" class="ft-link">ブログ</a>
     </div>
     <span class="ftc">© <span id="yr"></span> 風雅舎</span>

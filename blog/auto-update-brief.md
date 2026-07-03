@@ -1,5 +1,15 @@
 # 風雅舎ブログ 自動更新ブリーフ
 
+## 基盤の選定結果（2026-07-03決定）
+
+比較した選択肢: (a) SSG導入（Eleventy等）+ GitHub Actions / (b) 既存テンプレ + Claude Code分隊の運用 / (c) 外部CMS。
+
+**採用: (b) 既存テンプレ + Claude Code分隊。** 理由:
+- 2026-07-03の記事2本公開で、本ブリーフの手順（執筆→実装→SEO監査→検証）がそのまま機能することを実証済み
+- ビルドシステムの導入はサイト憲法（Simplicity wins）に反し、現在の記事数では管理コストが利益を上回る
+- 運用フロー: Claude Codeで「brand-copywriter（執筆）→ 主スレッド（実装）→ seo-aeo-auditor（監査）」の分隊を起動。定期実行にする場合はスケジュール機能で「ドラフト作成まで」を自動化し、**公開（push）は必ず人間が確認してから**行う
+- **移行条件**: 記事が50本を超える、または一覧・sitemapの手動更新でミスが起きたら、Eleventy等のSSG + Actionsによるsitemap自動生成へ移行を再検討する
+
 ## 目的
 
 風雅舎サイトのブログを、毎日1本ずつ静的HTMLとして追加する。読者は中小企業・小規模事業の経営者、個人事業主、現場責任者を想定する。
@@ -33,8 +43,9 @@
 - メタディスクリプション: 90〜140字程度
 - 読了時間: 約3〜6分
 - 本文は初期HTMLに直接書く
-- JSON-LD `BlogPosting` と `BreadcrumbList` を必ず入れる
-- OGP画像は当面 `https://aimeeta.github.io/fugasha_ai/ogp.jpg` を使う
+- JSON-LD `BlogPosting`（author/publisherはインライン展開）と `BreadcrumbList`（末尾にもitem URL）を必ず入れる
+- OGP画像は記事別に `blog/{slug}/ogp.jpg`（1200×630）を作る: カテゴリ背景 `category-nX.png` にタイトルを重ねたHTMLをChromeヘッドレスでスクリーンショット→JPEG変換（例は `ogp-source.html` と QUALITY_REPORT 参照）
+- テンプレは新記事2本（finding-your-first-ai-task / margin-is-not-laziness）を基準にする（インラインSVGアイコン・静的フッター・serif 500・palt）。旧記事のテンプレは使わない
 - CTAは記事末尾に1つだけ置く
 
 ## ネタの優先順位

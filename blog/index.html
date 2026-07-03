@@ -21,8 +21,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/tabler-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -68,6 +67,7 @@
     }
     body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); }
     a { color: inherit; }
+    .icn { display: inline-block; vertical-align: -0.125em; flex-shrink: 0; }
 
     /* ── Navigation (shared pattern) ── */
     .nav {
@@ -111,7 +111,7 @@
     .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
     .blog-head { padding: 64px 0 40px; border-bottom: 1px solid var(--line); margin-bottom: 48px; }
     .blog-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; }
-    .blog-h1 { font-family: var(--font-serif); font-weight: 600; font-size: clamp(30px, 5vw, 44px); margin-bottom: 14px; }
+    .blog-h1 { font-family: var(--font-serif); font-weight: 500; font-size: clamp(30px, 5vw, 44px); margin-bottom: 14px; }
     .blog-intro { font-size: 15px; color: var(--hint); line-height: 1.8; max-width: 560px; }
 
     .cat-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
@@ -131,9 +131,9 @@
     .card-badge {
       display: inline-block; align-self: flex-start; font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
       color: var(--accent); border: 1px solid rgba(232,134,106,.4); border-radius: 100px;
-      padding: 4px 12px; font-weight: 600; margin-bottom: 16px;
+      padding: 4px 12px; font-weight: 500; margin-bottom: 16px;
     }
-    .card-title { font-family: var(--font-serif); font-weight: 600; font-size: 19px; line-height: 1.5; color: var(--fg); margin-bottom: 12px; }
+    .card-title { font-family: var(--font-serif); font-weight: 500; font-size: 19px; line-height: 1.5; color: var(--fg); margin-bottom: 12px; }
     .card-excerpt { font-size: 13px; line-height: 1.8; color: var(--hint); margin-bottom: 20px; flex-grow: 1; }
     .card-meta { display: flex; gap: 12px; font-size: 11px; color: var(--slate); align-items: center; }
     .card-meta span { display: inline-flex; align-items: center; gap: 4px; }
@@ -147,7 +147,7 @@
 
     /* ── Footer ── */
     .ft { padding: 48px 48px 24px; background: var(--fg); display: flex; flex-direction: column; gap: 24px; }
-    .ft-tagline-big { font-family: var(--font-serif); font-weight: 600; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
+    .ft-tagline-big { font-family: var(--font-serif); font-weight: 500; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
     .ft-tw-cur { display: inline-block; width: .05em; height: .85em; background: rgba(240,230,214,.85); margin-left: .04em; vertical-align: text-bottom; opacity: 0; }
     .ft-tw-cur.on { animation: twblink .8s ease-in-out infinite; opacity: 1; }
     @keyframes twblink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
@@ -206,8 +206,8 @@
       <h2 class="card-title">AIに任せる最初の仕事の見つけ方</h2>
       <p class="card-excerpt">ツールを選ぶ前に、まず自分の仕事を書き出してみる。「繰り返す・判断不要・嫌いだが必要」で分けると、AIに任せる最初の一歩が自然に見えてくる。</p>
       <div class="card-meta">
-        <span><i class="ti ti-calendar"></i> 2026.07.03</span>
-        <span><i class="ti ti-clock"></i> 約4分</span>
+        <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg> 2026.07.03</span>
+        <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約4分</span>
       </div>
       <span class="card-arrow">続きを読む <span class="arr">→</span></span>
     </a>
@@ -216,8 +216,8 @@
       <h2 class="card-title">余白は、怠けではない</h2>
       <p class="card-excerpt">予定でびっしり埋まった一日は、忙しく見えて、判断が止まっている。余白は休みではなく、考えるための時間だと気づいてから、少し変わった話。</p>
       <div class="card-meta">
-        <span><i class="ti ti-calendar"></i> 2026.07.03</span>
-        <span><i class="ti ti-clock"></i> 約4分</span>
+        <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg> 2026.07.03</span>
+        <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約4分</span>
       </div>
       <span class="card-arrow">続きを読む <span class="arr">→</span></span>
     </a>
@@ -226,8 +226,8 @@
       <h2 class="card-title">AI導入とセキュリティは両立できるか？確認すべき5つのポイント</h2>
       <p class="card-excerpt">AI導入は本当にセキュリティリスクなのか。中小企業の経営者が導入前に最低限確認すべき5つのポイントを、サイバーセキュリティ執筆歴3年の視点から整理します。</p>
       <div class="card-meta">
-        <span><i class="ti ti-calendar"></i> 2026.07.01</span>
-        <span><i class="ti ti-clock"></i> 約4分</span>
+        <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg> 2026.07.01</span>
+        <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約4分</span>
       </div>
       <span class="card-arrow">続きを読む <span class="arr">→</span></span>
     </a>
@@ -240,6 +240,7 @@
     <span class="ftl">風雅舎 FUGASHA</span>
     <div class="ft-links">
       <a href="../contact.html" class="ft-link">お問い合わせ</a>
+      <a href="../privacy.html" class="ft-link">プライバシーポリシー</a>
       <a href="../index.html" class="ft-link">サイトに戻る</a>
     </div>
     <span class="ftc">© <span id="yr"></span> 風雅舎</span>

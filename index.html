@@ -88,6 +88,14 @@
           },
           {
             "@type": "Question",
+            "name": "相談した内容や社内の情報が、外部に出ることはありませんか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ご相談内容を業務の目的以外に使うことはありません。必要に応じて秘密保持契約（NDA）を交わしたうえで進めます。業務でAIツールを使う場合も、入力内容が学習に使われない設定を前提にし、扱いに迷う情報は事前にご相談のうえ決めています。"
+            }
+          },
+          {
+            "@type": "Question",
             "name": "遠方や海外からでも対応できますか？",
             "acceptedAnswer": {
               "@type": "Answer",
@@ -349,36 +357,16 @@
       transition: transform .2s, box-shadow .2s;
     }
     .tp:hover { box-shadow: 0 8px 22px rgba(28,25,23,.08); }
+    /* ツールアイコンはモノクロ統一（ブランドカラー不使用 — 静けさ優先＋商標ガイドライン対策） */
     .ti {
       width: 34px; height: 34px; border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       font-size: 18px; font-weight: 700; flex-shrink: 0;
       position: relative; overflow: hidden;
+      background: var(--fg); color: rgba(240,230,214,.92);
     }
     .ti img { width: 24px; height: 24px; object-fit: contain; display: block; }
     .ti.has-logo span { display: none; }
-    .t-oai { background: #000; color: #fff; }
-    .t-cl  { background: #d97706; color: #fff; }
-    .t-mj  { background: #1a1a2e; color: #fff; }
-    .t-gm  { background: linear-gradient(135deg,#4285f4,#34a853); color: #fff; }
-    .t-pe  { background: #1c1917; color: #f0ece4; }
-    .t-n8  { background: #ea4b71; color: #fff; }
-    .t-fi  { background: #f24e1e; color: #fff; }
-    .t-ca  { background: #00c4cc; color: #fff; }
-    .t-gw  { background: #4285f4; color: #fff; }
-    .t-no  { background: #111827; color: #fff; }
-    .t-sl  { background: #611f69; color: #fff; }
-    .t-za  { background: #ff4a00; color: #fff; }
-    .t-ma  { background: #ff4f00; color: #fff; }
-    .t-ad  { background: #470137; color: #fff; }
-    .t-ru  { background: #111; color: #fff; }
-    .t-cu  { background: #5b5bd6; color: #fff; }
-    .t-lm  { background: #8b9098; color: #fff; }
-    .t-sf  { background: #00a1e0; color: #fff; }
-    .t-ms  { background: #7f52ff; color: #fff; }
-    .t-li  { background: #0a66c2; color: #fff; }
-    .t-wp  { background: #21759b; color: #fff; }
-    .t-gh  { background: #24292f; color: #fff; }
 
     /* ── Sections ── */
     .sec { padding: clamp(80px, 9vw, 120px) 48px; position: relative; overflow: hidden; }
@@ -1384,26 +1372,26 @@
   <p class="sr-only">ChatGPT、Claude、Gemini、Perplexity、Canva、Google Workspace、Figma、Midjourney、Adobe Express、Notion などのツールに対応しています。</p>
   <div class="tools-marquee" aria-hidden="true">
     <div class="tools-row">
-      <div class="tp"><div class="ti t-oai"><img src="https://cdn.simpleicons.org/openai/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>○</span></div>ChatGPT</div>
-      <div class="tp"><div class="ti t-cl"><img src="https://cdn.simpleicons.org/anthropic/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Claude</div>
-      <div class="tp"><div class="ti t-gm"><img src="https://cdn.simpleicons.org/googlegemini/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Gemini</div>
-      <div class="tp"><div class="ti t-pe"><img src="https://cdn.simpleicons.org/perplexity/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>P</span></div>Perplexity</div>
-      <div class="tp"><div class="ti t-ca"><img src="https://cdn.simpleicons.org/canva/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Canva</div>
-      <div class="tp"><div class="ti t-gw"><img src="https://cdn.simpleicons.org/googleworkspace/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Google Workspace</div>
-      <div class="tp"><div class="ti t-fi"><img src="https://cdn.simpleicons.org/figma/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>F</span></div>Figma</div>
-      <div class="tp"><div class="ti t-mj"><img src="https://cdn.simpleicons.org/midjourney/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>M</span></div>Midjourney</div>
-      <div class="tp"><div class="ti t-ad"><img src="https://cdn.simpleicons.org/adobe/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>A</span></div>Adobe Express</div>
-      <div class="tp"><div class="ti t-no"><img src="https://cdn.simpleicons.org/notion/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>N</span></div>Notion</div>
-      <div class="tp"><div class="ti t-oai"><img src="https://cdn.simpleicons.org/openai/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>○</span></div>ChatGPT</div>
-      <div class="tp"><div class="ti t-cl"><img src="https://cdn.simpleicons.org/anthropic/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Claude</div>
-      <div class="tp"><div class="ti t-gm"><img src="https://cdn.simpleicons.org/googlegemini/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Gemini</div>
-      <div class="tp"><div class="ti t-pe"><img src="https://cdn.simpleicons.org/perplexity/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>P</span></div>Perplexity</div>
-      <div class="tp"><div class="ti t-ca"><img src="https://cdn.simpleicons.org/canva/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Canva</div>
-      <div class="tp"><div class="ti t-gw"><img src="https://cdn.simpleicons.org/googleworkspace/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Google Workspace</div>
-      <div class="tp"><div class="ti t-fi"><img src="https://cdn.simpleicons.org/figma/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>F</span></div>Figma</div>
-      <div class="tp"><div class="ti t-mj"><img src="https://cdn.simpleicons.org/midjourney/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>M</span></div>Midjourney</div>
-      <div class="tp"><div class="ti t-ad"><img src="https://cdn.simpleicons.org/adobe/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>A</span></div>Adobe Express</div>
-      <div class="tp"><div class="ti t-no"><img src="https://cdn.simpleicons.org/notion/ffffff" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>N</span></div>Notion</div>
+      <div class="tp"><div class="ti t-oai"><img src="https://cdn.simpleicons.org/openai/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>○</span></div>ChatGPT</div>
+      <div class="tp"><div class="ti t-cl"><img src="https://cdn.simpleicons.org/anthropic/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Claude</div>
+      <div class="tp"><div class="ti t-gm"><img src="https://cdn.simpleicons.org/googlegemini/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Gemini</div>
+      <div class="tp"><div class="ti t-pe"><img src="https://cdn.simpleicons.org/perplexity/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>P</span></div>Perplexity</div>
+      <div class="tp"><div class="ti t-ca"><img src="https://cdn.simpleicons.org/canva/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Canva</div>
+      <div class="tp"><div class="ti t-gw"><img src="https://cdn.simpleicons.org/googleworkspace/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Google Workspace</div>
+      <div class="tp"><div class="ti t-fi"><img src="https://cdn.simpleicons.org/figma/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>F</span></div>Figma</div>
+      <div class="tp"><div class="ti t-mj"><img src="https://cdn.simpleicons.org/midjourney/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>M</span></div>Midjourney</div>
+      <div class="tp"><div class="ti t-ad"><img src="https://cdn.simpleicons.org/adobe/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>A</span></div>Adobe Express</div>
+      <div class="tp"><div class="ti t-no"><img src="https://cdn.simpleicons.org/notion/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>N</span></div>Notion</div>
+      <div class="tp"><div class="ti t-oai"><img src="https://cdn.simpleicons.org/openai/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>○</span></div>ChatGPT</div>
+      <div class="tp"><div class="ti t-cl"><img src="https://cdn.simpleicons.org/anthropic/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Claude</div>
+      <div class="tp"><div class="ti t-gm"><img src="https://cdn.simpleicons.org/googlegemini/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Gemini</div>
+      <div class="tp"><div class="ti t-pe"><img src="https://cdn.simpleicons.org/perplexity/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>P</span></div>Perplexity</div>
+      <div class="tp"><div class="ti t-ca"><img src="https://cdn.simpleicons.org/canva/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Canva</div>
+      <div class="tp"><div class="ti t-gw"><img src="https://cdn.simpleicons.org/googleworkspace/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Google Workspace</div>
+      <div class="tp"><div class="ti t-fi"><img src="https://cdn.simpleicons.org/figma/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>F</span></div>Figma</div>
+      <div class="tp"><div class="ti t-mj"><img src="https://cdn.simpleicons.org/midjourney/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>M</span></div>Midjourney</div>
+      <div class="tp"><div class="ti t-ad"><img src="https://cdn.simpleicons.org/adobe/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>A</span></div>Adobe Express</div>
+      <div class="tp"><div class="ti t-no"><img src="https://cdn.simpleicons.org/notion/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>N</span></div>Notion</div>
     </div>
   </div>
 </section>
@@ -1748,6 +1736,13 @@
     </div>
     <div class="faq-item glass-card">
       <button class="faq-q" type="button" aria-expanded="false">
+        <span>相談した内容や社内の情報が、外部に出ることはありませんか？</span>
+        <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
+      </button>
+      <div class="faq-a"><p>ご相談内容を業務の目的以外に使うことはありません。必要に応じて秘密保持契約（NDA）を交わしたうえで進めます。業務でAIツールを使う場合も、入力内容が学習に使われない設定を前提にし、扱いに迷う情報は事前にご相談のうえ決めています。</p></div>
+    </div>
+    <div class="faq-item glass-card">
+      <button class="faq-q" type="button" aria-expanded="false">
         <span>遠方や海外からでも対応できますか？</span>
         <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
       </button>
@@ -1811,6 +1806,7 @@
     <span class="ftl">風雅舎 FUGASHA</span>
     <div class="ft-links">
       <a href="contact.html" class="ft-link">お問い合わせ</a>
+      <a href="privacy.html" class="ft-link">プライバシーポリシー</a>
     </div>
     <span class="ftc">© <span id="yr"></span> 風雅舎</span>
   </div>
