@@ -145,6 +145,11 @@
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
 
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+    }
+
     body {
       font-family: var(--font-sans);
       background: var(--bg);
@@ -262,6 +267,32 @@
     .btn-amber:hover { opacity: .8; }
     .btn-amber .arr { transition: transform .25s; display: inline-block; }
     .btn-amber:hover .arr { transform: translateX(4px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; font-size: 12px;
+      padding: 13px 27px; /* btn-amber(14px 28px)と同高 — 1px borderぶん相殺 */
+      border-radius: 2px; background: transparent; color: var(--fg);
+      border: 1px solid var(--line); cursor: pointer; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      font-family: var(--font-sans); text-decoration: none;
+      transition: border-color .2s;
+    }
+    .btn-ghost:hover { border-color: rgba(13,32,48,.32); }
+    .h-actions-note {
+      font-size: 11px; color: var(--hint); line-height: 1.7; margin-top: 12px;
+      opacity: 0; transition: all .6s ease .5s;
+    }
+    .h-chips {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;
+      opacity: 0; transition: all .6s ease .55s;
+    }
+    .h-chip {
+      display: inline-flex; align-items: center; min-height: 44px;
+      font-size: 13px; line-height: 1.6; padding: 10px 16px;
+      color: var(--fg2); text-decoration: none;
+      background: transparent; border: .5px solid var(--gb); border-radius: 99px;
+      transition: background .2s, border-color .2s;
+    }
+    .h-chip:hover { background: rgba(255,255,255,.5); border-color: rgba(13,32,48,.18); }
 
     /* scroll hint */
     .scroll-hint {
@@ -978,6 +1009,13 @@
     .cta-btn-amber:hover { opacity: .85; }
     .cta-btn-amber .arr { transition: transform .25s; display: inline-block; }
     .cta-btn-amber:hover .arr { transform: translateX(4px); }
+    .cta-sub { margin-top: 18px; }
+    .cta-sub-link {
+      display: inline-block; padding: 8px 4px; /* タップ領域確保 */
+      font-size: 12px; color: rgba(240,230,214,.62); text-decoration: none;
+      border-bottom: 1px solid rgba(240,230,214,.25); transition: color .2s, border-color .2s;
+    }
+    .cta-sub-link:hover { color: rgba(240,230,214,.9); border-color: rgba(240,230,214,.5); }
 
     /* Footer */
     .ft { padding: 56px 48px 24px; background: var(--fg); border-top: none; display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center; }
@@ -995,6 +1033,8 @@
     .visible .h-en,
     .visible .h-subcopy,
     .visible .h-actions,
+    .visible .h-actions-note,
+    .visible .h-chips,
     .visible .scroll-hint,
     .visible .hero-right,
     .visible .s-lbl,
@@ -1049,7 +1089,7 @@
     }
     .nav-drawer.open { display: flex; }
     .nav-drawer a { font-size: 22px; font-weight: 500; color: var(--fg); text-decoration: none; letter-spacing: .04em; }
-    .nav-drawer-cta { margin-top: 8px; }
+    .nav-drawer-cta { margin-top: 8px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
     .nav-drawer-close { position: absolute; top: 18px; right: 20px; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1; background: none; border: 0; padding: 4px; }
 
     /* Footer improvements */
@@ -1081,6 +1121,9 @@
       .h-subcopy { font-size: 14px; margin: -2px 0 14px; }
       .h-actions { gap: 8px; }
       .btn-amber { font-size: 11px; padding: 13px 22px; }
+      .btn-ghost { font-size: 11px; padding: 12px 21px; }
+      .h-chips { margin-top: 14px; }
+      .h-chip { font-size: 12px; padding: 9px 14px; }
       .scroll-hint { display: none; }
       /* Checker */
       .hero-right { opacity: 1; transform: none; }
@@ -1254,14 +1297,21 @@
     .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 
     .btn-amber:focus-visible,
+    .btn-ghost:focus-visible,
+    .h-chip:focus-visible,
+    .cta-sub-link:focus-visible,
     .nav-cta:focus-visible,
     .cta-btn-amber:focus-visible,
     .price-cta:focus-visible,
     .nav-link:focus-visible,
     .hck-slider:focus-visible,
     .cases-track:focus-visible {
-      outline: 2px solid var(--accent);
+      outline: 2px solid var(--accent-ink); /* 明所背景でWCAG 1.4.11の3:1を満たす */
       outline-offset: 3px;
+    }
+    .cta-btn-amber:focus-visible,
+    .cta-sub-link:focus-visible {
+      outline-color: var(--accent); /* ダーク面（#s-cta）ではaccentが6.36:1 */
     }
 
     /* ── Inline icons ── */
@@ -1286,7 +1336,7 @@
 </div>
 
 <!-- ── Navigation ── -->
-<nav class="nav" id="nav">
+<nav class="nav" id="nav" aria-label="メイン">
   <div class="nav-logo">風雅舎</div>
   <div class="nav-right">
     <a href="#s-service" class="nav-link">Services</a>
@@ -1299,7 +1349,7 @@
     <button type="button" class="nav-ham" id="navHam" aria-label="メニューを開く" aria-expanded="false" aria-controls="navDrawer"><span></span><span></span><span></span></button>
   </div>
 </nav>
-<div class="nav-drawer" id="navDrawer">
+<div class="nav-drawer" id="navDrawer" role="dialog" aria-modal="true" aria-label="メニュー">
   <button type="button" class="nav-drawer-close" id="navClose" aria-label="メニューを閉じる">✕</button>
   <a href="#s-service">Services</a>
   <a href="#s-cases">Cases</a>
@@ -1308,7 +1358,10 @@
   <a href="blog/">Blog</a>
   <a href="#s-price">Pricing</a>
   <a href="#s-faq">FAQ</a>
-  <div class="nav-drawer-cta"><a href="contact.html" class="btn-amber nav-cta-drawer">無料で相談する →</a></div>
+  <div class="nav-drawer-cta">
+    <a href="chat.html" class="btn-amber nav-cta-drawer">相談メモをつくってみる →</a>
+    <a href="contact.html" class="btn-ghost">30分相談を申し込む</a>
+  </div>
 </div>
 
 <main id="main">
@@ -1320,8 +1373,15 @@
     <p class="h-en">Less friction. More you.</p>
     <p class="h-subcopy">AI、デザイン、発信、業務の整理。手段は横断しますが、目的はひとつです。熱中するための余白を、取り戻すこと。</p>
     <div class="h-actions">
-      <a href="contact.html" class="btn-amber">無料で相談する <span class="arr">→</span></a>
+      <a href="chat.html" class="btn-amber">相談メモをつくってみる <span class="arr">→</span></a>
+      <a href="contact.html" class="btn-ghost">30分相談を申し込む</a>
     </div>
+    <p class="h-actions-note">答えて整理するだけでも構いません。まとまった内容は「相談メモ」として持ち帰れます。</p>
+    <nav class="h-chips" aria-label="相談の入り口">
+      <a href="chat.html?t=ai" class="h-chip">AIを使いたい。でも、何から始めればいいかわからない。</a>
+      <a href="chat.html?t=out" class="h-chip">外注も考えている。でも、何を頼めばいいのか。</a>
+      <a href="chat.html?t=ops" class="h-chip">作業を減らしたい。でも、見直す時間がない。</a>
+    </nav>
   </div>
   <div class="hero-right">
     <div class="h-checker" data-lenis-prevent>
@@ -1794,6 +1854,7 @@
     </div>
     <div class="cta-wrap">
       <a href="contact.html" class="cta-btn-amber">無料で相談する <span class="arr">→</span></a>
+      <p class="cta-sub"><a href="chat.html" class="cta-sub-link">相談メモをつくってから決めたい方はこちら →</a></p>
     </div>
   </div>
 </section>
@@ -2237,6 +2298,10 @@
       navDrawer.classList.toggle('open', open);
       navHam.setAttribute('aria-expanded', String(open));
       navHam.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+      // 開いている間、背後のコンテンツへTabで抜けないようにする（aria-modalの実体）
+      Array.from(document.body.children).forEach(elm => {
+        if (elm !== navDrawer && !elm.contains(navDrawer)) elm.inert = open;
+      });
       if (open && navClose) navClose.focus();
     }
     navHam.addEventListener('click', () => setDrawer(!navDrawer.classList.contains('open')));

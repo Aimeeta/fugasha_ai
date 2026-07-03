@@ -1,6 +1,26 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-03（残タスク一括対応時点）
+最終検証: 2026-07-03（相談メモ導線リリース時点）
+
+## 相談メモ導線（2026-07-03・未push）
+変更: chat.html 全面リビルド / index.html（ヒーロー・ドロワー・CTA・focus-visible・inert）/ contact.html・privacy.html・blog 4ページ（View Transition スニペットのみ）
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| inline JS 構文 | 抽出 → `node --check`（chat.html / index.html） | ✅ OK（JSON-LDも valid） |
+| タグ整合 | 変更7ファイルの開閉カウント | ✅ 全一致（実装エージェント計測） |
+| 外部送信ゼロ | grep（fetch/XHR/localStorage/sessionStorage）＋実機ネットワークログ | ✅ fonts.gstatic.com のみ |
+| 導線一気通貫 | ヒーローチップ→`chat.html?t=ai`→4問→メモ生成→コピー/CTA | ✅ ブラウザ実測 |
+| `?t=` 分岐 | ai / 不正キー（constructor 等のprototype汚染含む）/ なし | ✅ 3系統動作 |
+| a11yクロスレビュー | a11y-auditor（read-only監査） | 重大2・中3・軽微7 検出 |
+| 重大1: フォーカスリング 2.11:1 | outline を accent-ink（明所6.57:1）に変更、ダーク面は accent 維持 | ✅ 修正・実測 |
+| 重大2: メモ生成時フォーカス喪失 | memo-title に tabindex=-1 ＋ focus() | ✅ 修正・activeElement 実測 |
+| 中: main欠如 / group のaria-labelledby / Q表示のSR文 / ドロワーdialog+inert | 修正後にブラウザで属性・挙動を実測 | ✅ すべて動作 |
+| コントラスト（新規要素） | WCAG式で算出（auditor） | ✅ テキスト系は全て4.5:1以上 |
+| レスポンシブ | 375px/デスクトップ、横スクロールなし | ✅ スクリーンショット確認 |
+| コンソール | 全遷移でエラー・警告 | ✅ ゼロ |
+
+未検証（開示）: 実機（iOS Safari/Android）タップ・VoiceOver実機読み上げ・OS設定でのreduced-motion実挙動・実クリップボード書き込み成功経路（権限つき環境での手動確認推奨）・View Transitionのクロスフェード目視。軽微指摘の残りは ROADMAP「次の波」4に記載。
 
 ## 残タスク一括対応（2026-07-03 終盤）
 - 全7ページのJSON-LD parse / タグ整合 / sitemap XML / landing JS構文: すべてOK

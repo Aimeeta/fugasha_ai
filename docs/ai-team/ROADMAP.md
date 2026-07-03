@@ -1,6 +1,25 @@
 # ROADMAP — 優先順位つき残タスク
 
-最終更新: 2026-07-03
+最終更新: 2026-07-03（相談メモ導線リリース時点）
+
+## 相談メモ導線 — 実装済み（2026-07-03・未push）
+1. ~~chat.html 相談メモ化（APIなし）~~ ✅ 5トラック・メモ5項目・コピー機能・a11y修正済み
+2. ~~ヒーロー二段CTA＋悩みチップ3本＋ドロワー二段＋CTAサブリンク~~ ✅
+3. ~~View Transition API 全8ページ~~ ✅
+4. ~~a11yクロスレビュー重大2件・中3件の修正~~ ✅（フォーカスリング3:1・メモ生成時フォーカス・main・aria-labelledby・ドロワーinert）
+
+## 相談メモ導線 — 次の波
+1. **Workers + AI API への昇格**（反応を見て判断）— プロキシ設計・レート制限・ターン上限・privacy.html 更新・CTA文言を「AIに話してみる」系へ昇格。前提: ホスティング先と予算上限のユーザー決定
+2. service-entry カード3枚の `chat.html?t=` リンク化（+focus/hover様式）
+3. ブログ記事末尾に1行リンク `この記事の内容を、自分の仕事に置きかえて考えたい方へ。`→`chat.html?t=カテゴリ`
+4. a11y軽微指摘の残り: btn-ghost/h-chip の境界線視認性（1.2:1）・copy-status の三重通知・@view-transition のオプトイン化・noscript時のヒーローチップ表示・メモ画面から自由記入へ一段だけ戻る
+5. モバイル375pxでチップが3段になる件 — 文言短縮 or 2本化の検討（現状レイアウト崩れはなし）
+
+## ヒーロー背景の格上げ（3Dの代替 — DECISION_LOG 2026-07-03参照）
+1. **reduced-motion 時の静的背景フォールバック**（現状は透明のまま＝a11y案件・最優先）
+2. タッチ端末（pointer: coarse）での heroBg 描画停止 or 静的1回描画
+3. canvas の DPR 対応要否確認（CTA wave のRetinaジャギー疑い・実機目視）
+4. その後、案A「紙のうえの光」の実装検討（creative-director 報告参照）
 
 ## Phase 2 — 完了（2026-07-03）
 1. ~~プライバシーポリシー整備~~ ✅ privacy.html公開・全フッターからリンク
@@ -24,7 +43,9 @@
 10. ブログ自動更新基盤の選定（設計メモ: `blog/auto-update-brief.md`）
 
 ## Future（凍結中 — 憲法により当面やらない）
-- WebGL/Three.js 背景、ページ遷移演出、GSAP導入
+- WebGL/Three.js 背景、GSAP導入（2026-07-03 再審査で却下維持。View Transition API のみ個別解除して採用済み）
+- ナビCTAの chat.html 化（AI昇格後に計測材料が揃ってから再検討）
+- brand-copywriter のサービスカード導入一文4本（全面改稿時の素材として DECISION_LOG に保管）
 
 ## 運用メモ
 - push＝本番公開。ユーザーの明示指示があるまでpushしない
