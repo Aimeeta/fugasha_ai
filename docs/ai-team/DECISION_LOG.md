@@ -2,6 +2,13 @@
 
 新しい決定は上に追記する。形式: 日付 / 決定 / 理由 / 決定者。
 
+## 2026-07-04 — フォント3ウェイト統合＋残改善バッチ（typography-specialist 裁定・全採用）
+- **フォント統合**（9ページ一括）: Zen Kaku w300 廃止（小級数本文9箇所を400へ — 可読性はむしろ向上）/ Noto Serif 500→400 統合（中間見出し約30箇所 — 階層は級数とアキが担う書籍的な組みへ。大見出しw300は無傷）/ JetBrains Mono→システム等幅スタック。**実測: woff2 1.53MB→1.23MB・リクエスト122→88・フォントCSS 207.5KB→147.6KB**。既存の疑似ボールド3箇所（mono w500指定）も修正。ogp-source系は生成用のため対象外
+- **ツールマーキー廃止→静的グリッド**: simpleicons CDN 20リクエスト全廃、ロゴ10個をインラインSVG化（日英）
+- **a11y残課題**: FAQ閉パネルに hidden＋aria-controls / ✦ aria-hidden / manifesto role=list / ドロワーリンク後のフォーカス / nav-ham 8px（日英）
+- **画像**: en アバターを144px版に（600px画像の28倍オーバーサイズ解消）/ grayscale→hover演出廃止（タッチ到達不能のため常時grayscaleへ）
+- **LCPアンカー**: .h-subcopy を初期表示化（日英）/ 未使用PNG 3.5MB整理（category-n* → assets/ogp-src/・generate_ogp.py パス更新・example-security-01.png 削除）
+
 ## 2026-07-04 — ディスプレイ英文タイポの縮小（オーナー直接フィードバック起点）
 オーナー「英語タイトルのフォントサイズがでかい。全体的にUI/UXを改善してほしい」→ visual-designer 裁定「大きさで語る→一箇所だけディスプレイ、他は静かな署名」。
 - タグライン3回反復を1系統に: JA `.h-en`（H1直下の英文キッカー）削除 / `.about-catch` 54px大文字→26pxプルクオート（sentence case）/ フッター `.ft-tagline-big` 160px大文字→16px serif の結び文。ディスプレイスケールの家は /en/ H1 のみ

@@ -9,6 +9,9 @@ CATEGORIES から category を選び、TITLE_LINES に見出しを1〜3行で指
 
 タイトルは日本語の自動折り返しができないため、TITLE_LINES に手動で行分けして渡してください。
 1行あたり全角14〜16文字程度が目安です。
+
+事前レンダリング済みのカテゴリ背景PNG（category-n1〜n4）は assets/ogp-src/ に保管しています
+（Chromeヘッドレスでタイトルを合成する代替手順の素材。blog/auto-update-brief.md 参照）。
 """
 
 import subprocess

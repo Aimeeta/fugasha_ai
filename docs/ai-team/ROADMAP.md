@@ -11,14 +11,14 @@
 
 ## ユーザー判断待ち（新規追加分）
 - **docx の git 履歴からの完全削除**: 追跡は解除済みだが履歴には残存。履歴書き換え（force push）が必要なため要判断（過去に brief/ で実施した前例あり）
-- **フォント戦略の再設計**（効果最大: 転送量の85%=1.53MBがフォント）: w300廃止（index/en のデザイン変更を伴う）・Noto Serif JP 500→400 統合（-632KBの可能性）・JetBrains Mono→システムモノ置換（-21KB）。typography-specialist と要協議
-- **ツールマーキーの静的グリッド化＋ロゴのセルフホスト**: simpleicons CDN 20リクエスト削減＋「ロゴスープ」脱却（design-critic 提案・デザイン変更）
+- ~~フォント戦略の再設計~~ ✅ 2026-07-04 消化（woff2 -300KB・CSS -60KB 実測）
+- ~~ツールマーキーの静的グリッド化＋ロゴのインラインSVG化~~ ✅ 2026-07-04 消化
 - **ヒーローの減量（残り）**: チップ3本の体言止め短縮・CTAセクション cq 削除（~~h-en 削除~~ ✅ 2026-07-04 タイポ縮小波で消化）
 - ~~About カウントアップの静的化＋自動送りスライダーの静的化~~ ✅ 2026-07-04 タイポ縮小波で消化
 - **Vision（sst）疑似ビジュアルの再考**: 「AI」タイルはクリップアート発想（減らすor写真1枚に投資）
-- **aimee-portrait の srcset/WebP化**（72px表示に600px画像 eager 読込の解消）＋ grayscale→hover の廃止（タッチ端末で到達不能）
-- **LCPアンカー**（ヒーロー演出でLCPが構造的に遅延 — サブコピー1ブロック初期可視 or 演出短縮。motion-designer と要協議）
-- **未使用PNG 3.5MB の整理**（category-n*.png は OGP生成素材 → assets/ogp-src/ へ移動＋generate_ogp.py のパス更新、example-security-01.png は削除候補）
+- ~~aimee-portrait 最適化＋grayscale→hover 廃止~~ ✅ 2026-07-04 消化（144px版アバター）
+- ~~LCPアンカー~~ ✅ 2026-07-04 消化（.h-subcopy 初期表示化）
+- ~~未使用PNG 3.5MB の整理~~ ✅ 2026-07-04 消化（assets/ogp-src/ へ・example-security-01 削除）
 - **content-visibility の実適用**（アンカージャンプ・Lenisとの相互作用検証つき）
 - **CSS/JS 外部分離**: perf実測では利得は gzip 5〜23KB/ページと小さく、主目的は ja/en 二重管理の事故防止（stream-label型）。優先度は中
 

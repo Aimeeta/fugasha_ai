@@ -30,7 +30,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -149,7 +149,7 @@
       --gb:      rgba(255,255,255,0.6);
       --font-sans:  'Zen Kaku Gothic New', sans-serif;
       --font-serif: 'Noto Serif JP', serif;
-      --font-mono:  'JetBrains Mono', monospace;
+      --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
       /* タイポスケール */
       --text-xs:   10px;
       --text-sm:   12px;
@@ -219,7 +219,7 @@
     .nav.sc { border-bottom-color: var(--line); }
     .nav-logo {
       font-size: 13px; font-weight: 700; letter-spacing: .18em;
-      cursor: pointer; text-transform: uppercase; color: var(--fg);
+      cursor: default; text-transform: uppercase; color: var(--fg);
       font-family: var(--font-sans);
     }
     .nav-right { display: flex; align-items: center; gap: 32px; }
@@ -258,10 +258,10 @@
       opacity: 0; transform: translateY(20px);
       transition: all 1s cubic-bezier(.16,1,.3,1) .1s;
     }
+    /* LCP candidate: shown immediately (reveal stays on the H1 only) */
     .h-subcopy {
       max-width: 520px; font-size: 16px; line-height: 1.7; color: var(--fg2);
-      margin: -8px 0 20px; opacity: 0; transform: translateY(10px);
-      transition: opacity .7s ease .38s, transform .7s ease .38s;
+      margin: -8px 0 20px;
     }
     .h-actions {
       display: flex; align-items: center; gap: 10px;
@@ -326,18 +326,12 @@
     .sec-tools {
       padding: 34px 0; background: rgba(255,255,255,.55);
       border-bottom: .5px solid rgba(255,255,255,.6); backdrop-filter: blur(10px);
-      overflow: hidden;
     }
     .tools-lbl { font-size: 10px; letter-spacing: .18em; color: var(--hint); text-align: center; margin-bottom: 18px; }
-    .tools-marquee { display: grid; gap: 14px; overflow: hidden; }
-    .tools-row {
-      display: flex; align-items: center; gap: 14px; flex-wrap: nowrap; width: max-content;
-      animation: toolsMarquee 110s linear infinite;
+    .tools-grid {
+      list-style: none; margin: 0 auto; padding: 0 24px; max-width: 1200px;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;
     }
-    .tools-marquee:hover .tools-row,
-    .tools-marquee:focus-within .tools-row,
-    .tools-marquee.paused .tools-row { animation-play-state: paused; }
-    @keyframes toolsMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .tp {
       display: flex; align-items: center; gap: 12px; padding: 10px 24px; border-radius: 99px;
       border: .5px solid var(--gb); background: var(--glass); font-size: 22px; color: var(--fg2);
@@ -350,11 +344,9 @@
       width: 34px; height: 34px; border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       font-size: 18px; font-weight: 700; flex-shrink: 0;
-      position: relative; overflow: hidden;
       background: var(--fg); color: rgba(240,230,214,.92);
     }
-    .ti img { width: 24px; height: 24px; object-fit: contain; display: block; }
-    .ti.has-logo span { display: none; }
+    .ti svg { width: 24px; height: 24px; display: block; }
 
     /* ── Sections ── */
     .sec { padding: clamp(80px, 9vw, 120px) 48px; position: relative; overflow: hidden; }
@@ -372,7 +364,7 @@
     }
     .s-h2 { font-size: 38px; font-weight: 300; line-height: 1.3; margin-bottom: 16px; color: var(--fg); opacity: 0; transform: translateY(12px); transition: all .8s cubic-bezier(.16,1,.3,1) .08s; font-family: var(--font-serif); letter-spacing: -.02em; }
     .s-h2-l { color: rgba(240,230,214,.9); }
-    .s-desc { font-size: 15px; color: var(--muted); margin-bottom: 48px; opacity: 0; transition: all .6s ease .16s; line-height: 1.7; max-width: 480px; font-weight: 300; }
+    .s-desc { font-size: 15px; color: var(--muted); margin-bottom: 48px; opacity: 0; transition: all .6s ease .16s; line-height: 1.7; max-width: 480px; font-weight: 400; }
 
     /* glass cards */
     .glass-card { background: rgba(255,255,255,.6); border: .5px solid rgba(13,32,48,.08); }
@@ -387,7 +379,7 @@
       position: relative; overflow: hidden; cursor: default;
     }
     .bc:hover { border-color: rgba(232,134,106,.24); }
-    .bc-nb { font-size: 72px; font-weight: 500; position: absolute; bottom: -14px; right: 8px; line-height: 1; color: rgba(13,32,48,.04); font-family: var(--font-mono); pointer-events: none; }
+    .bc-nb { font-size: 72px; font-weight: 400; position: absolute; bottom: -14px; right: 8px; line-height: 1; color: rgba(13,32,48,.04); font-family: var(--font-mono); pointer-events: none; }
     .bc-lbl {
       display: inline-flex; width: fit-content; font-size: 10px; letter-spacing: .1em;
       color: var(--accent-ink); margin-bottom: 12px; font-family: var(--font-mono);
@@ -420,7 +412,7 @@
       font-size: 18px; font-weight: 500;
     }
     .sv-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; color: var(--hint); padding-top: 4px; }
-    .sv-t { font-family: var(--font-serif); font-size: 20px; font-weight: 500; color: var(--fg); line-height: 1.35; margin-bottom: 8px; }
+    .sv-t { font-family: var(--font-serif); font-size: 20px; font-weight: 400; color: var(--fg); line-height: 1.35; margin-bottom: 8px; }
     .sv-b { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 380px; }
     .sv-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; }
     .sv-tags span {
@@ -471,9 +463,6 @@
     .svc-flow-dot { position: absolute; left: 28px; top: 53px; width: 15px; height: 15px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 8px rgba(232,134,106,.12); }
     .svc-flow-card { position: absolute; right: 22px; top: 28px; width: 82px; height: 64px; border-radius: 10px; background: rgba(13,32,48,.86); color: rgba(240,230,214,.9); display: grid; place-items: center; font-size: 24px; }
 
-    @media (prefers-reduced-motion: reduce) {
-      .tools-row { animation: none; }
-    }
 
     /* philosophy */
     .phi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; max-width: 980px; }
@@ -486,8 +475,8 @@
     .phi-item:nth-child(3) { transition-delay: .2s; }
     .visible .phi-item { opacity: 1; transform: none; }
     .phi-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--accent-ink); display: block; margin-bottom: 14px; }
-    .phi-t { font-family: var(--font-serif); font-size: 21px; font-weight: 500; color: var(--fg); line-height: 1.5; margin-bottom: 12px; letter-spacing: -.01em; }
-    .phi-b { font-size: 14.5px; color: var(--muted); line-height: 1.75; font-weight: 300; }
+    .phi-t { font-family: var(--font-serif); font-size: 21px; font-weight: 400; color: var(--fg); line-height: 1.5; margin-bottom: 12px; letter-spacing: -.01em; }
+    .phi-b { font-size: 14.5px; color: var(--muted); line-height: 1.75; font-weight: 400; }
     .phi-quote {
       margin: 72px auto 0; max-width: 640px; text-align: center;
       opacity: 0; transition: opacity 1s ease .3s;
@@ -511,14 +500,11 @@
     .visible .aph {
       clip-path: inset(0 0% 0 0);
     }
+    /* Always grayscale (hover-to-color removed: unreachable on touch devices) */
     .ab-img-main {
       width: 100%; height: 100%; object-fit: cover; border-radius: 18px; display: block;
       object-position: center 24%;
       filter: grayscale(1) contrast(1.05);
-      transition: filter .6s cubic-bezier(.16,1,.3,1);
-    }
-    .aph:hover .ab-img-main {
-      filter: grayscale(0) contrast(1);
     }
     .app { font-size: 10px; color: var(--hint); letter-spacing: .1em; }
     .ar { opacity: 0; transform: translateX(14px); transition: all .8s cubic-bezier(.16,1,.3,1) .15s; }
@@ -570,13 +556,13 @@
     .faq-icon { flex-shrink: 0; font-size: 18px; color: var(--accent-ink); transition: transform .3s cubic-bezier(.16,1,.3,1); }
     .faq-item.open .faq-icon { transform: rotate(180deg); }
     .faq-a { max-height: 0; overflow: hidden; transition: max-height .4s cubic-bezier(.16,1,.3,1); }
-    .faq-a p { font-size: var(--text-base); color: var(--muted); line-height: 1.7; max-width: 62ch; font-weight: 300; padding: 0 24px 22px; }
+    .faq-a p { font-size: var(--text-base); color: var(--muted); line-height: 1.7; max-width: 62ch; font-weight: 400; padding: 0 24px 22px; }
 
     /* CTA */
     .cta-c { position: relative; z-index: 2; text-align: center; }
     .cta-star { font-size: 28px; display: block; margin-bottom: 14px; color: var(--bg); opacity: .55; }
     .ch2 { font-size: 42px; font-weight: 300; line-height: 1.3; color: rgba(240,230,214,.95); margin-bottom: 22px; opacity: 0; transform: translateY(14px); transition: all .8s cubic-bezier(.16,1,.3,1); font-family: var(--font-serif); letter-spacing: -.02em; }
-    .csub { font-size: 14px; color: rgba(240,230,214,.6); margin-bottom: 12px; opacity: 0; transform: translateY(9px); transition: all .6s ease .15s; font-weight: 300; }
+    .csub { font-size: 14px; color: rgba(240,230,214,.6); margin-bottom: 12px; opacity: 0; transform: translateY(9px); transition: all .6s ease .15s; font-weight: 400; }
     .cq { font-size: 13px; color: rgba(240,230,214,.62); font-style: normal; margin-bottom: 36px; opacity: 0; transition: opacity .6s ease .25s; font-family: var(--font-serif); }
     .csub, .cq { max-width: 58ch; margin-left: auto; margin-right: auto; }
     .cta-manifesto {
@@ -631,7 +617,6 @@
     .visible .h-h1,
     .visible .h-ja,
     .visible .h-kicker,
-    .visible .h-subcopy,
     .visible .h-actions,
     .visible .h-actions-note,
     .visible .scroll-hint,
@@ -664,7 +649,7 @@
     .price-cta:hover { text-decoration: underline; }
 
     /* Hamburger menu */
-    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: 0; }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: 0; }
     .nav-ham span { display: block; width: 20px; height: 1.5px; background: var(--fg); border-radius: 1px; transition: all .25s; }
     .nav-ham.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
     .nav-ham.open span:nth-child(2) { opacity: 0; }
@@ -722,12 +707,11 @@
 
       /* ── Tools ── */
       .tools-lbl { font-size: 10px; margin-bottom: 12px; }
-      .tools-row { gap: 10px; }
+      .tools-grid { gap: 10px; }
       .tp { font-size: 16px; padding: 8px 18px; gap: 9px; }
       .ti { width: 28px; height: 28px; border-radius: 7px; font-size: 15px; }
-      .ti img { width: 20px; height: 20px; }
+      .ti svg { width: 20px; height: 20px; }
       .sec-tools { padding: 24px 0; }
-      .tools-marquee { gap: 10px; }
 
       /* ── Pain / Bento ── */
       .bento { grid-template-columns: 1fr; gap: 10px; }
@@ -873,7 +857,7 @@
       width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: center 24%;
       border: 2px solid rgba(255,255,255,.7); box-shadow: 0 6px 18px rgba(13,32,48,.12); flex-shrink: 0;
     }
-    .hp-name { font-family: var(--font-serif); font-size: 18px; font-weight: 500; color: var(--fg); line-height: 1.3; }
+    .hp-name { font-family: var(--font-serif); font-size: 18px; font-weight: 400; color: var(--fg); line-height: 1.3; }
     .hp-role { font-size: 11px; color: var(--hint); letter-spacing: .06em; margin-top: 3px; }
     .hp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
     .hp-chips .cr { font-size: 11px; padding: 5px 12px; }
@@ -1006,7 +990,7 @@
       </div>
       <div class="hp-body">
         <div class="hp-top">
-          <img src="../aimee-portrait.jpg" alt="Aimee, founder of Fugasha" class="hp-photo" width="600" height="771" loading="eager" decoding="async">
+          <img src="../aimee-portrait-144.jpg" alt="Aimee, founder of Fugasha" class="hp-photo" width="112" height="144" loading="eager" decoding="async">
           <div>
             <div class="hp-name">Aimee</div>
             <div class="hp-role">Founder, Fugasha</div>
@@ -1031,31 +1015,18 @@
 <!-- ── Tools ── -->
 <section class="sec-tools" id="s-tools">
   <div class="tools-lbl">TOOLS WE THINK WITH</div>
-  <p class="sr-only">Tools we regularly work with include ChatGPT, Claude, Gemini, Perplexity, Canva, Google Workspace, Figma, Midjourney, Adobe Express, and Notion.</p>
-  <div class="tools-marquee" aria-hidden="true">
-    <div class="tools-row">
-      <div class="tp"><div class="ti t-oai"><img src="https://cdn.simpleicons.org/openai/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>○</span></div>ChatGPT</div>
-      <div class="tp"><div class="ti t-cl"><img src="https://cdn.simpleicons.org/anthropic/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Claude</div>
-      <div class="tp"><div class="ti t-gm"><img src="https://cdn.simpleicons.org/googlegemini/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Gemini</div>
-      <div class="tp"><div class="ti t-pe"><img src="https://cdn.simpleicons.org/perplexity/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>P</span></div>Perplexity</div>
-      <div class="tp"><div class="ti t-ca"><img src="https://cdn.simpleicons.org/canva/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Canva</div>
-      <div class="tp"><div class="ti t-gw"><img src="https://cdn.simpleicons.org/googleworkspace/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Google Workspace</div>
-      <div class="tp"><div class="ti t-fi"><img src="https://cdn.simpleicons.org/figma/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>F</span></div>Figma</div>
-      <div class="tp"><div class="ti t-mj"><img src="https://cdn.simpleicons.org/midjourney/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>M</span></div>Midjourney</div>
-      <div class="tp"><div class="ti t-ad"><img src="https://cdn.simpleicons.org/adobe/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>A</span></div>Adobe Express</div>
-      <div class="tp"><div class="ti t-no"><img src="https://cdn.simpleicons.org/notion/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>N</span></div>Notion</div>
-      <div class="tp"><div class="ti t-oai"><img src="https://cdn.simpleicons.org/openai/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>○</span></div>ChatGPT</div>
-      <div class="tp"><div class="ti t-cl"><img src="https://cdn.simpleicons.org/anthropic/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Claude</div>
-      <div class="tp"><div class="ti t-gm"><img src="https://cdn.simpleicons.org/googlegemini/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Gemini</div>
-      <div class="tp"><div class="ti t-pe"><img src="https://cdn.simpleicons.org/perplexity/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>P</span></div>Perplexity</div>
-      <div class="tp"><div class="ti t-ca"><img src="https://cdn.simpleicons.org/canva/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>C</span></div>Canva</div>
-      <div class="tp"><div class="ti t-gw"><img src="https://cdn.simpleicons.org/googleworkspace/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>G</span></div>Google Workspace</div>
-      <div class="tp"><div class="ti t-fi"><img src="https://cdn.simpleicons.org/figma/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>F</span></div>Figma</div>
-      <div class="tp"><div class="ti t-mj"><img src="https://cdn.simpleicons.org/midjourney/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>M</span></div>Midjourney</div>
-      <div class="tp"><div class="ti t-ad"><img src="https://cdn.simpleicons.org/adobe/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>A</span></div>Adobe Express</div>
-      <div class="tp"><div class="ti t-no"><img src="https://cdn.simpleicons.org/notion/f0e6d6" alt="" loading="lazy" onload="this.parentNode.classList.add('has-logo')" onerror="this.remove()"><span>N</span></div>Notion</div>
-    </div>
-  </div>
+  <ul class="tools-grid">
+    <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></span>ChatGPT</li>
+    <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg></span>Claude</li>
+    <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg></span>Gemini</li>
+    <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z"/></svg></span>Perplexity</li>
+    <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zM6.962 7.68c.754 0 1.337.549 1.405 1.2.069.583-.171 1.097-.822 1.406-.343.171-.48.172-.549.069-.034-.069 0-.137.069-.206.617-.514.617-.926.548-1.508-.034-.378-.308-.618-.583-.618-1.2 0-2.914 2.674-2.674 4.629.103.754.549 1.646 1.509 1.646.308 0 .65-.103.96-.24.5-.264.799-.47 1.097-.8-.073-.885.704-2.046 1.851-2.046.515 0 .926.205.96.583.068.514-.377.582-.514.582s-.378-.034-.378-.17c-.034-.138.309-.07.275-.378-.035-.206-.24-.274-.446-.274-.72 0-1.131.994-1.029 1.611.035.275.172.549.447.549.205 0 .514-.31.617-.755.068-.308.343-.514.583-.514.102 0 .17.034.205.171v.138c-.034.137-.137.548-.102.651 0 .069.034.171.17.171.092 0 .436-.18.777-.459.117-.59.253-1.298.253-1.357.034-.24.137-.48.617-.48.103 0 .171.034.205.171v.138l-.136.617c.445-.583 1.097-.994 1.508-.994.172 0 .309.102.309.274 0 .103 0 .274-.069.446-.137.377-.309.96-.412 1.474 0 .137.035.274.207.274.171 0 .685-.206 1.096-.754l.007-.004c-.002-.068-.007-.134-.007-.202 0-.411.035-.754.104-.994.068-.274.411-.514.617-.514.103 0 .205.069.205.171 0 .035 0 .103-.034.137-.137.446-.24.857-.24 1.269 0 .24.034.582.102.788 0 .034.035.069.07.069.068 0 .548-.445.89-1.028-.308-.206-.48-.549-.48-.96 0-.72.446-1.097.858-1.097.343 0 .617.24.617.72 0 .308-.103.65-.274.96h.102a.77.77 0 0 0 .584-.24.293.293 0 0 1 .134-.117c.335-.425.83-.74 1.41-.74.48 0 .924.205.959.582.068.515-.378.618-.515.618l-.002-.002c-.138 0-.377-.035-.377-.172 0-.137.309-.068.274-.376-.034-.206-.24-.275-.446-.275-.686 0-1.13.891-1.028 1.611.034.275.171.583.445.583.206 0 .515-.308.652-.754.068-.274.343-.514.583-.514.103 0 .17.034.205.171 0 .069 0 .206-.137.652-.17.308-.171.48-.137.617.034.274.171.48.309.583.034.034.068.102.068.102 0 .069-.034.138-.137.138-.034 0-.068 0-.103-.035-.514-.205-.72-.548-.789-.891-.205.24-.445.377-.72.377-.445 0-.89-.411-.96-.926a1.609 1.609 0 0 1 .075-.649c-.203.13-.422.203-.623.203h-.17c-.447.652-.927 1.098-1.27 1.303a.896.896 0 0 1-.377.104c-.068 0-.171-.035-.205-.104-.095-.152-.156-.392-.193-.667-.481.527-1.145.805-1.453.805-.343 0-.548-.206-.582-.55v-.376c.102-.754.377-1.2.377-1.337a.074.074 0 0 0-.069-.07c-.24 0-1.028.824-1.166 1.373l-.103.445c-.068.309-.377.515-.582.515-.103 0-.172-.035-.206-.172v-.137l.046-.233c-.435.31-.87.508-1.075.508-.308 0-.48-.172-.514-.412-.206.274-.445.412-.754.412-.352 0-.696-.24-.862-.593-.244.275-.523.553-.852.764-.48.309-1.028.549-1.68.549-.582 0-1.097-.309-1.371-.583-.412-.377-.651-.96-.686-1.509-.205-1.68.823-3.84 2.4-4.8.378-.205.755-.343 1.132-.343zm9.77 3.291c-.104 0-.172.172-.172.343 0 .274.137.583.309.755a1.74 1.74 0 0 0 .102-.583c0-.343-.137-.515-.24-.515z"/></svg></span>Canva</li>
+    <li class="tp"><span class="ti" aria-hidden="true">G</span>Google Workspace</li>
+    <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg></span>Figma</li>
+    <li class="tp"><span class="ti" aria-hidden="true">M</span>Midjourney</li>
+    <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M13.966 22.624l-1.69-4.281H8.122l3.892-9.144 5.662 13.425zM8.884 1.376H0v21.248zm15.116 0h-8.884L24 22.624Z"/></svg></span>Adobe Express</li>
+    <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg></span>Notion</li>
+  </ul>
 </section>
 
 <!-- ── About ── -->
@@ -1270,60 +1241,60 @@
   <p class="s-desc">The things people ask before writing in.</p>
   <div class="faq-list">
     <div class="faq-item glass-card">
-      <button class="faq-q" type="button" aria-expanded="false">
+      <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-1">
         <span>I know nothing about AI. Is that a problem?</span>
         <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
       </button>
-      <div class="faq-a"><p>Not at all. We start without jargon, by looking at how your work runs today. “I don’t know what I don’t know” is a fine starting point — most conversations begin there.</p></div>
+      <div class="faq-a" id="faq-a-1" hidden><p>Not at all. We start without jargon, by looking at how your work runs today. “I don’t know what I don’t know” is a fine starting point — most conversations begin there.</p></div>
     </div>
     <div class="faq-item glass-card">
-      <button class="faq-q" type="button" aria-expanded="false">
+      <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-2">
         <span>What exactly can I ask you to do?</span>
         <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
       </button>
-      <div class="faq-a"><p>Three things come up most. Making your website, decks, and public words clear at first glance. Turning AI from a headline into something your team uses daily — from finding the first task to prompts and house rules. And mapping your week on one page, so we can separate what needs you from what doesn’t. Where to start is what the first call is for.</p></div>
+      <div class="faq-a" id="faq-a-2" hidden><p>Three things come up most. Making your website, decks, and public words clear at first glance. Turning AI from a headline into something your team uses daily — from finding the first task to prompts and house rules. And mapping your week on one page, so we can separate what needs you from what doesn’t. Where to start is what the first call is for.</p></div>
     </div>
     <div class="faq-item glass-card">
-      <button class="faq-q" type="button" aria-expanded="false">
+      <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-3">
         <span>Can you help us work with the Japanese market?</span>
         <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
       </button>
-      <div class="faq-a"><p>Yes — that’s the setting I work in every day. My clients are mostly small businesses in Japan, and the work runs in Japanese: meetings, documents, and the follow-up in between. For teams outside Japan, that can mean preparing Japanese-language materials, handling correspondence with Japanese partners, or simply explaining how things are usually done — in English or German, whichever suits you.</p></div>
+      <div class="faq-a" id="faq-a-3" hidden><p>Yes — that’s the setting I work in every day. My clients are mostly small businesses in Japan, and the work runs in Japanese: meetings, documents, and the follow-up in between. For teams outside Japan, that can mean preparing Japanese-language materials, handling correspondence with Japanese partners, or simply explaining how things are usually done — in English or German, whichever suits you.</p></div>
     </div>
     <div class="faq-item glass-card">
-      <button class="faq-q" type="button" aria-expanded="false">
+      <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-4">
         <span>What happens after the first call?</span>
         <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
       </button>
-      <div class="faq-a"><p>We talk for thirty minutes — no preparation needed. Then we put your week on one page, pick the single task where a change would earn the most, and try it small, with the tools you already have. Whatever works, you keep in a form that runs without me. You decide about continuing after you’ve seen it work.</p></div>
+      <div class="faq-a" id="faq-a-4" hidden><p>We talk for thirty minutes — no preparation needed. Then we put your week on one page, pick the single task where a change would earn the most, and try it small, with the tools you already have. Whatever works, you keep in a form that runs without me. You decide about continuing after you’ve seen it work.</p></div>
     </div>
     <div class="faq-item glass-card">
-      <button class="faq-q" type="button" aria-expanded="false">
+      <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-5">
         <span>I’m a team of one. Is that too small?</span>
         <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
       </button>
-      <div class="faq-a"><p>No — much of this work is with very small businesses and independent professionals, and it runs the same way. What matters isn’t headcount; it’s where your week is heaviest.</p></div>
+      <div class="faq-a" id="faq-a-5" hidden><p>No — much of this work is with very small businesses and independent professionals, and it runs the same way. What matters isn’t headcount; it’s where your week is heaviest.</p></div>
     </div>
     <div class="faq-item glass-card">
-      <button class="faq-q" type="button" aria-expanded="false">
+      <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-6">
         <span>Am I locked into anything?</span>
         <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
       </button>
-      <div class="faq-a"><p>Single projects carry no ongoing commitment. The monthly retainer starts at three months. And the half-day workshop exists precisely so you can try before deciding anything larger.</p></div>
+      <div class="faq-a" id="faq-a-6" hidden><p>Single projects carry no ongoing commitment. The monthly retainer starts at three months. And the half-day workshop exists precisely so you can try before deciding anything larger.</p></div>
     </div>
     <div class="faq-item glass-card">
-      <button class="faq-q" type="button" aria-expanded="false">
+      <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-7">
         <span>How do you handle confidential information?</span>
         <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
       </button>
-      <div class="faq-a"><p>What you share is used for the work and nothing else, and I’m glad to sign an NDA before we start. Where AI tools are involved, I work with settings that keep your inputs out of model training — and anything sensitive, we decide how to handle together, in advance.</p></div>
+      <div class="faq-a" id="faq-a-7" hidden><p>What you share is used for the work and nothing else, and I’m glad to sign an NDA before we start. Where AI tools are involved, I work with settings that keep your inputs out of model training — and anything sensitive, we decide how to handle together, in advance.</p></div>
     </div>
     <div class="faq-item glass-card">
-      <button class="faq-q" type="button" aria-expanded="false">
+      <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-8">
         <span>We’re outside Japan — how do calls and payment work?</span>
         <svg class="faq-icon icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6l6 -6"/></svg>
       </button>
-      <div class="faq-a"><p>Everything runs remotely: video calls scheduled around your time zone (I’m at UTC+7, which meets European mornings and American evenings), and written updates in between. Invoices are in Japanese yen; we agree the practical details before anything is signed.</p></div>
+      <div class="faq-a" id="faq-a-8" hidden><p>Everything runs remotely: video calls scheduled around your time zone (I’m at UTC+7, which meets European mornings and American evenings), and written updates in between. Invoices are in Japanese yen; we agree the practical details before anything is signed.</p></div>
     </div>
   </div>
 </section>
@@ -1332,14 +1303,14 @@
 <section class="sec sec-dark" id="s-cta">
   <canvas id="cvc" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
   <div class="cta-c">
-    <span class="cta-star">✦</span>
+    <span class="cta-star" aria-hidden="true">✦</span>
     <h2 class="ch2">Thirty minutes to think out loud.</h2>
     <p class="csub">No pitch, no pressure. Even if we never work together, you’ll leave with your thoughts in better order.</p>
     <p class="cq">What you get back isn’t only time. It’s room to think, and days you choose.</p>
-    <div class="cta-manifesto" aria-label="What Fugasha works to give back">
-      <div class="cta-manifesto-line"><span class="cta-manifesto-k">TIME</span><span class="cta-manifesto-t">From hours spent repeating, to hours spent deciding.</span></div>
-      <div class="cta-manifesto-line"><span class="cta-manifesto-k">ROOM</span><span class="cta-manifesto-t">With room to think, decisions come easier — and sooner.</span></div>
-      <div class="cta-manifesto-line"><span class="cta-manifesto-k">LIFE</span><span class="cta-manifesto-t">A business, and a life, shaped by your own hand.</span></div>
+    <div class="cta-manifesto" role="list" aria-label="What Fugasha works to give back">
+      <div class="cta-manifesto-line" role="listitem"><span class="cta-manifesto-k">TIME</span><span class="cta-manifesto-t">From hours spent repeating, to hours spent deciding.</span></div>
+      <div class="cta-manifesto-line" role="listitem"><span class="cta-manifesto-k">ROOM</span><span class="cta-manifesto-t">With room to think, decisions come easier — and sooner.</span></div>
+      <div class="cta-manifesto-line" role="listitem"><span class="cta-manifesto-k">LIFE</span><span class="cta-manifesto-t">A business, and a life, shaped by your own hand.</span></div>
     </div>
     <div class="cta-wrap">
       <a href="#contact" class="cta-btn-amber">Write to me <span class="arr">→</span></a>
@@ -1489,6 +1460,10 @@
   document.querySelectorAll('.faq-item').forEach(item => {
     const btn = item.querySelector('.faq-q');
     const panel = item.querySelector('.faq-a');
+    // Hide the closed panel from screen readers once the close animation ends
+    panel.addEventListener('transitionend', e => {
+      if (e.propertyName === 'max-height' && !item.classList.contains('open')) panel.hidden = true;
+    });
     btn.addEventListener('click', () => {
       const isOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item.open').forEach(other => {
@@ -1500,7 +1475,13 @@
       });
       item.classList.toggle('open', !isOpen);
       btn.setAttribute('aria-expanded', String(!isOpen));
-      panel.style.maxHeight = isOpen ? '0px' : panel.scrollHeight + 'px';
+      if (isOpen) {
+        panel.style.maxHeight = '0px';
+      } else {
+        panel.hidden = false;
+        panel.offsetHeight; // reflow so unhiding lands before the max-height animation
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
     });
   });
 
@@ -1687,16 +1668,6 @@
 
   wave('cvc', ['rgba(240,230,214,.07)','rgba(232,134,106,.09)','rgba(143,163,180,.06)']);
 
-  // ── Tools marquee — pause animation while off screen (same IO pattern as wave canvas) ──
-  (function(){
-    const marquee = document.querySelector('.tools-marquee');
-    if (!marquee) return;
-    const io = new IntersectionObserver(entries => {
-      marquee.classList.toggle('paused', !entries[0].isIntersecting);
-    });
-    io.observe(marquee);
-  })();
-
   // ── Hamburger menu ──
   const navHam = document.getElementById('navHam');
   const navDrawer = document.getElementById('navDrawer');
@@ -1719,7 +1690,18 @@
       if (e.key === 'Escape' && navDrawer.classList.contains('open')) { setDrawer(false); navHam.focus(); }
     });
     navDrawer.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => setDrawer(false));
+      a.addEventListener('click', () => {
+        setDrawer(false);
+        // Move focus to the target section on anchor navigation (avoids focus loss after the drawer closes)
+        const href = a.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target) {
+            target.setAttribute('tabindex', '-1');
+            target.focus({ preventScroll: true });
+          }
+        }
+      });
     });
   }
 

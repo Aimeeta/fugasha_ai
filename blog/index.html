@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -57,7 +57,7 @@
       --line:    rgba(13,32,48,.1);
       --font-sans:  'Zen Kaku Gothic New', sans-serif;
       --font-serif: 'Noto Serif JP', serif;
-      --font-mono:  'JetBrains Mono', monospace;
+      --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -111,7 +111,7 @@
     .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
     .blog-head { padding: 64px 0 40px; border-bottom: 1px solid var(--line); margin-bottom: 48px; }
     .blog-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; }
-    .blog-h1 { font-family: var(--font-serif); font-weight: 500; font-size: clamp(30px, 5vw, 44px); margin-bottom: 14px; }
+    .blog-h1 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(30px, 5vw, 44px); margin-bottom: 14px; }
     .blog-intro { font-size: 15px; color: var(--hint); line-height: 1.8; max-width: 560px; }
 
     .cat-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
@@ -133,7 +133,7 @@
       color: var(--accent); border: 1px solid rgba(232,134,106,.4); border-radius: 100px;
       padding: 4px 12px; font-weight: 500; margin-bottom: 16px;
     }
-    .card-title { font-family: var(--font-serif); font-weight: 500; font-size: 19px; line-height: 1.5; color: var(--fg); margin-bottom: 12px; }
+    .card-title { font-family: var(--font-serif); font-weight: 400; font-size: 19px; line-height: 1.5; color: var(--fg); margin-bottom: 12px; }
     .card-excerpt { font-size: 13px; line-height: 1.8; color: var(--hint); margin-bottom: 20px; flex-grow: 1; }
     .card-meta { display: flex; gap: 12px; font-size: 11px; color: var(--slate); align-items: center; }
     .card-meta span { display: inline-flex; align-items: center; gap: 4px; }
@@ -147,7 +147,7 @@
 
     /* ── Footer ── */
     .ft { padding: 48px 48px 24px; background: var(--fg); display: flex; flex-direction: column; gap: 24px; }
-    .ft-tagline-big { font-family: var(--font-serif); font-weight: 500; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
+    .ft-tagline-big { font-family: var(--font-serif); font-weight: 400; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
     .ft-tw-cur { display: inline-block; width: .05em; height: .85em; background: rgba(240,230,214,.85); margin-left: .04em; vertical-align: text-bottom; opacity: 0; }
     .ft-tw-cur.on { animation: twblink .8s ease-in-out infinite; opacity: 1; }
     @keyframes twblink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
