@@ -312,10 +312,6 @@
       opacity: 0; transform: translateY(20px);
       transition: all 1s cubic-bezier(.16,1,.3,1) .1s;
     }
-    .h-en {
-      font-size: 11px; letter-spacing: .14em; color: var(--hint); margin-bottom: 20px;
-      opacity: 0; transition: all .7s ease .3s; font-weight: 400; text-transform: uppercase;
-    }
     .h-subcopy {
       max-width: 520px; font-size: 16px; line-height: 2; color: var(--fg2);
       margin: -8px 0 20px; opacity: 0; transform: translateY(10px);
@@ -376,7 +372,7 @@
       0%,100% { opacity: .2; transform: scaleY(.4) translateY(-6px); }
       55% { opacity: .8; transform: scaleY(1); }
     }
-    .scroll-hint-txt { font-size: 9px; letter-spacing: .12em; color: var(--hint); }
+    .scroll-hint-txt { font-size: 10px; letter-spacing: .12em; color: var(--hint); }
 
     /* ── Hero right: 業務時間チェッカー ── */
     .hero-right {
@@ -420,7 +416,7 @@
       width: 18px; height: 18px; border-radius: 50%;
       background: var(--fg); border: 2.5px solid var(--bg); cursor: pointer;
     }
-    .hck-ticks { display: flex; justify-content: space-between; font-size: 9px; color: var(--hint); margin-top: 4px; font-family: var(--font-mono); letter-spacing: .04em; }
+    .hck-ticks { display: flex; justify-content: space-between; font-size: 10px; color: var(--hint); margin-top: 4px; font-family: var(--font-mono); letter-spacing: .04em; }
     .hck-display { display: flex; align-items: baseline; gap: 5px; margin: 12px 0 14px; }
     .hck-val { font-size: 44px; font-weight: 300; color: var(--fg); font-family: var(--font-serif); line-height: 1; transition: all .2s; }
     .hck-unit { font-size: 13px; color: var(--muted); }
@@ -483,7 +479,7 @@
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
     .s-lbl {
       display: inline-flex; align-items: center; width: fit-content;
-      font-size: 9px; letter-spacing: .16em; color: var(--accent-ink);
+      font-size: 10px; letter-spacing: .16em; color: var(--accent-ink);
       margin-bottom: 14px; opacity: 0; transform: translateY(8px);
       transition: all .6s ease; text-transform: uppercase; font-family: var(--font-mono);
       padding: 4px 9px; border-radius: 999px; background: rgba(232,134,106,.1);
@@ -560,7 +556,7 @@
       transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1), border-color .2s, background .2s;
     }
     .entry-card:hover { background: var(--bg2); border-color: rgba(232,134,106,.24); }
-    .entry-kicker { display: block; font-size: 9px; letter-spacing: .12em; color: var(--accent-ink); font-family: var(--font-mono); margin-bottom: 8px; text-transform: uppercase; }
+    .entry-kicker { display: block; font-size: 10px; letter-spacing: .12em; color: var(--accent-ink); font-family: var(--font-mono); margin-bottom: 8px; text-transform: uppercase; }
     .entry-title { font-size: 14px; color: var(--fg); font-weight: 500; line-height: 1.55; margin-bottom: 6px; }
     .entry-body { font-size: 12px; color: var(--muted); line-height: 1.7; }
     .sv {
@@ -973,7 +969,7 @@
 
     .app { font-size: 10px; color: var(--hint); letter-spacing: .1em; }
     .ar { opacity: 0; transform: translateX(14px); transition: all .8s cubic-bezier(.16,1,.3,1) .15s; }
-    .albl { font-size: 9px; letter-spacing: .14em; color: var(--hint); margin-bottom: 12px; }
+    .albl { font-size: 10px; letter-spacing: .14em; color: var(--hint); margin-bottom: 12px; }
     .ah2 { font-size: 28px; font-weight: 300; line-height: 1.55; margin-bottom: 18px; font-family: var(--font-serif); color: var(--fg); letter-spacing: -.01em; }
     .ap { font-size: 15px; color: var(--muted); line-height: 2.05; margin-bottom: 14px; }
     .crs { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 14px; }
@@ -984,12 +980,11 @@
       box-shadow: 0 12px 28px rgba(13,32,48,.04);
     }
     .about-mini-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
-    .about-mini-k { font-family: var(--font-mono); font-size: 9px; letter-spacing: .13em; color: var(--hint); }
+    .about-mini-k { font-family: var(--font-mono); font-size: 10px; letter-spacing: .13em; color: var(--hint); }
     .about-mini-title { font-family: var(--font-serif); font-size: 16px; font-weight: 500; color: var(--fg); line-height: 1.3; }
-    .about-mini-slider { overflow: hidden; }
-    .about-mini-track { display: flex; transition: transform .45s cubic-bezier(.16,1,.3,1); }
+    .about-mini-track { display: flex; flex-direction: column; gap: 6px; }
     .about-mini-slide {
-      flex: 0 0 100%; min-height: 40px; display: flex; align-items: center; gap: 10px;
+      flex: none; min-height: 0; display: flex; align-items: center; gap: 10px;
       color: var(--fg2); font-size: 13px; line-height: 1.55;
     }
     .about-mini-slide i {
@@ -997,15 +992,10 @@
       display: inline-flex; align-items: center; justify-content: center;
       background: rgba(232,134,106,.13); color: var(--accent-ink); font-size: 16px;
     }
-    .about-mini-dots { display: flex; gap: 6px; margin-top: 8px; }
-    .about-mini-dot {
-      width: 6px; height: 6px; border: 0; border-radius: 999px; padding: 0; cursor: pointer;
-      background: rgba(13,32,48,.18); transition: width .2s, background .2s;
-    }
-    .about-mini-dot.active { width: 18px; background: var(--accent); }
     .about-catch {
-      margin: 18px 0 12px; font-family: var(--font-serif); font-size: clamp(30px, 5vw, 54px);
-      line-height: .98; letter-spacing: 0; color: var(--fg); text-transform: uppercase;
+      margin: 22px 0 14px; font-family: var(--font-serif);
+      font-size: clamp(20px, 2vw, 26px);
+      line-height: 1.4; letter-spacing: .01em; color: var(--fg);
     }
     .about-catch span { display: block; color: var(--accent-ink); }
     .ab-cred { display: flex; align-items: center; gap: 0; margin-top: 16px; padding: 16px 20px; border-radius: 10px; background: rgba(13,32,48,.03); border: .5px solid var(--line); }
@@ -1033,7 +1023,7 @@
     .price-desc { font-size: 13px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; }
     .price-items { display: flex; flex-direction: column; gap: 6px; }
     .pi { display: flex; align-items: flex-start; gap: 7px; font-size: 12px; color: var(--fg2); }
-    .pi-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 9px; }
+    .pi-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 10px; }
     .pi-a { background: rgba(232,134,106,.1); color: var(--accent-ink); }
     .pi-p { background: rgba(232,134,106,.1); color: var(--accent-ink); }
     .pi-t { background: rgba(232,134,106,.1); color: var(--accent-ink); }
@@ -1065,14 +1055,15 @@
       transition: opacity .6s ease .28s, transform .6s ease .28s;
     }
     .cta-manifesto-line {
-      min-height: 118px; padding: 24px 22px; border-radius: 8px;
+      min-height: auto; padding: 24px 22px; border-radius: 8px;
       border: .5px solid rgba(240,230,214,.18);
       background: linear-gradient(160deg, rgba(240,230,214,.11), rgba(232,134,106,.08));
       text-align: left; box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
     }
     .cta-manifesto-k {
-      display: block; font-family: var(--font-serif); font-size: clamp(28px, 4vw, 48px);
-      letter-spacing: 0; line-height: .9; color: var(--accent2); text-transform: uppercase; margin-bottom: 16px;
+      display: block; font-family: var(--font-mono); font-size: 11px;
+      letter-spacing: .18em; line-height: 1; color: var(--accent2);
+      text-transform: uppercase; margin-bottom: 12px;
     }
     .cta-manifesto-t { display: block; font-size: 13px; line-height: 1.85; color: rgba(240,230,214,.78); }
     .cta-wrap { opacity: 0; transition: opacity .6s ease .35s; }
@@ -1095,19 +1086,18 @@
     .cta-sub-link:hover { color: rgba(240,230,214,.9); border-color: rgba(240,230,214,.5); }
 
     /* Footer */
-    .ft { padding: 56px 48px 24px; background: var(--fg); border-top: none; display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center; }
+    .ft { padding: 48px 48px 24px; background: var(--fg); border-top: none; display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; }
     .ft-tagline-big {
-      font-family: var(--font-serif); font-weight: 500; text-transform: uppercase;
-      font-size: clamp(48px, 11vw, 160px); line-height: .9; letter-spacing: 0;
-      color: rgba(240,230,214,.94); width: 100%; text-align: center;
+      font-family: var(--font-serif); font-weight: 400; text-transform: none;
+      font-size: 16px; line-height: 1.6; letter-spacing: .06em;
+      color: rgba(240,230,214,.8); width: 100%; text-align: center;
     }
     .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 22px; border-top: 1px solid rgba(240,230,214,.1); }
-    .ftl { font-size: 10px; color: rgba(240,230,214,.5); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
-    .ftc { font-size: 10px; color: rgba(240,230,214,.45); letter-spacing: .08em; }
+    .ftl { font-size: 10px; color: rgba(240,230,214,.62); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
+    .ftc { font-size: 10px; color: rgba(240,230,214,.62); letter-spacing: .08em; }
 
     /* ── Visibility (scroll animations) ── */
     .visible .h-h1,
-    .visible .h-en,
     .visible .h-subcopy,
     .visible .h-actions,
     .visible .h-actions-note,
@@ -1194,7 +1184,6 @@
         min-height: auto;
       }
       .h-h1 { font-size: 32px; line-height: 1.28; margin-bottom: 16px; }
-      .h-en { font-size: 11px; margin-bottom: 14px; }
       .h-subcopy { font-size: 14px; margin: -2px 0 14px; }
       .h-actions { gap: 8px; }
       .btn-amber { font-size: 11px; padding: 13px 22px; }
@@ -1207,7 +1196,7 @@
       .h-checker { border-radius: 12px; }
       .hck-val { font-size: 36px; }
       .hck-r-num { font-size: 20px; }
-      .stream-note { font-size: 9px; padding: 6px 14px 10px; }
+      .stream-note { font-size: 10px; padding: 6px 14px 10px; }
 
       /* ── Sections ── */
       .sec { padding: 52px 20px; }
@@ -1215,7 +1204,7 @@
       .s-desc { font-size: 13px; margin-bottom: 28px; }
 
       /* ── Tools ── */
-      .tools-lbl { font-size: 9px; margin-bottom: 12px; }
+      .tools-lbl { font-size: 10px; margin-bottom: 12px; }
       .tools-row { gap: 10px; }
       .tp { font-size: 16px; padding: 8px 18px; gap: 9px; }
       .ti { width: 28px; height: 28px; border-radius: 7px; font-size: 15px; }
@@ -1265,7 +1254,6 @@
       .ab-grid { grid-template-columns: 1fr; gap: 28px; }
       .aph { aspect-ratio: 1/1; max-height: 340px; border-radius: 14px; }
       .ab-img-main { object-position: center 18%; }
-      .about-catch { font-size: 34px; }
       .ah2 { font-size: 24px; }
       .ap { font-size: 14px; }
       .ab-cred { flex-direction: column; gap: 16px; }
@@ -1286,7 +1274,6 @@
 
       /* ── Footer ── */
       .ft { gap: 20px; padding: 40px 20px 20px; }
-      .ft-tagline-big { font-size: clamp(44px, 17vw, 86px); }
       .ft-bottom { flex-direction: column; text-align: center; gap: 12px; padding-top: 18px; }
       .ft-links { flex-wrap: wrap; justify-content: center; gap: 12px; }
 
@@ -1450,7 +1437,6 @@
   <canvas id="heroBg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
   <div class="hero-left">
     <h1 class="h-h1">無駄をなくして、<br>熱中を取り戻す。</h1>
-    <p class="h-en">Less friction. More you.</p>
     <p class="h-subcopy">AI、デザイン、発信、業務の整理。手段は横断しますが、目的はひとつです。熱中するための余白を、取り戻すこと。</p>
     <div class="h-actions">
       <a href="chat.html" class="btn-amber">相談メモをつくってみる <span class="arr">→</span></a>
@@ -1766,7 +1752,7 @@
           <h3 class="about-mini-title">こんな人です。</h3>
         </div>
         <div class="about-mini-slider">
-          <div class="about-mini-track" id="aboutMiniTrack">
+          <div class="about-mini-track">
             <div class="about-mini-slide">
               <i aria-hidden="true"><svg class="icn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5"/><path d="M9 4v13"/><path d="M15 7v5.5"/><path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z"/><path d="M19 18v.01"/></svg></i>
               <span>チェンマイを拠点に、旅しながら働いています。</span>
@@ -1788,17 +1774,16 @@
               <span>AIコミュニティの運営に、デザインの面から関わっています。</span>
             </div>
           </div>
-          <div class="about-mini-dots" id="aboutMiniDots" aria-label="人柄スライダー"></div>
         </div>
       </div>
-      <div class="ab-cred" id="ab-cred">
+      <div class="ab-cred">
         <div class="ab-cred-item">
-          <div class="ab-cred-num"><span id="ab-n1">0</span><span class="ab-cred-unit">本以上</span></div>
+          <div class="ab-cred-num">144<span class="ab-cred-unit">本以上</span></div>
           <div class="ab-cred-lbl">サイバーセキュリティ記事<br>執筆実績（3年継続中）</div>
         </div>
         <div class="ab-cred-divider"></div>
         <div class="ab-cred-item">
-          <div class="ab-cred-num"><span id="ab-n2">0</span><span class="ab-cred-unit">年以上</span></div>
+          <div class="ab-cred-num">6<span class="ab-cred-unit">年以上</span></div>
           <div class="ab-cred-lbl">マーケティング・広報・<br>デザイン経験</div>
         </div>
         <div class="ab-cred-divider"></div>
@@ -2343,31 +2328,6 @@
     updateChecker(15); // initial state
   }
 
-  // ── About credカウントアップ ──
-  (function(){
-    const cred = document.getElementById('ab-cred');
-    const n1   = document.getElementById('ab-n1');
-    const n2   = document.getElementById('ab-n2');
-    if (!cred || !n1 || !n2) return;
-    let fired = false;
-    const obs = new IntersectionObserver(entries => {
-      if (fired || !entries[0].isIntersecting) return;
-      fired = true;
-      obs.disconnect();
-      const dur = 1400;
-      const start = performance.now();
-      function tick(now) {
-        const p = Math.min((now - start) / dur, 1);
-        const e = p < 1 ? 1 - Math.pow(2, -10 * p) : 1;
-        n1.textContent = Math.round(144 * e);
-        n2.textContent = Math.round(6 * e);
-        if (p < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    }, { threshold: 0.5 });
-    obs.observe(cred);
-  })();
-
   // ══════════════════════════════════════════
   // ⑦ Horizontal scroll cases — native scroll + drag
   //    (wheel hijack removed: vertical scroll should never stall)
@@ -2426,59 +2386,6 @@
       a.addEventListener('click', () => setDrawer(false));
     });
   }
-
-  // ── About mini slider ──
-  (function(){
-    const track = document.getElementById('aboutMiniTrack');
-    const dotsWrap = document.getElementById('aboutMiniDots');
-    if (!track || !dotsWrap) return;
-
-    const slides = Array.from(track.children);
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let idx = 0;
-    let timer = null;
-
-    slides.forEach((_, i) => {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'about-mini-dot';
-      dot.setAttribute('aria-label', `こんな人です ${i + 1}`);
-      dot.addEventListener('click', () => {
-        go(i);
-        restart();
-      });
-      dotsWrap.appendChild(dot);
-    });
-
-    const dots = Array.from(dotsWrap.children);
-
-    function go(next) {
-      idx = (next + slides.length) % slides.length;
-      track.style.transform = `translateX(-${idx * 100}%)`;
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === idx);
-        dot.setAttribute('aria-current', i === idx ? 'true' : 'false');
-      });
-    }
-
-    function start() {
-      if (reduceMotion || slides.length < 2) return;
-      timer = window.setInterval(() => go(idx + 1), 6400);
-    }
-
-    function restart() {
-      if (timer) window.clearInterval(timer);
-      start();
-    }
-
-    track.addEventListener('mouseenter', () => {
-      if (timer) window.clearInterval(timer);
-    });
-    track.addEventListener('mouseleave', start);
-
-    go(0);
-    start();
-  })();
 
   // ── Scroll Storytelling ──
   (function(){

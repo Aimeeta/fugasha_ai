@@ -1,6 +1,20 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-04（英語版改善＋全体監査の波）
+最終検証: 2026-07-04（ディスプレイタイポ縮小波・未push）
+
+## ディスプレイタイポ縮小（2026-07-04・オーナーFB起点）
+変更: index.html / en/index.html（B-1〜B-8: h-en削除・about-catch 26px化・フッター結び文化・manifesto-k monoラベル化・カウントアップ/スライダー静的化・9px→10px・フッターコントラスト）
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| node --check / タグ整合 | 両ファイル全ブロック | ✅ |
+| 残存参照 | h-en / dots / aboutMini / ab-n1,2 / 9px の grep | ✅ 全て0件 |
+| computed style | 実ブラウザで about-catch 26px・ftb 16px w400・manifesto-k 11px mono 等を実測 | ✅ |
+| レイアウト | ja/en × about・cta-footer × 1440/768/375 の12枚スクリーンショット目視 | ✅ 崩れなし |
+| 375px 横はみ出し | scrollWidth=375 | ✅ |
+| reduced-motion / タブ順 | force-prefers-reduced-motion・dots消滅確認 | ✅ |
+
+未検証: Safari/Firefox 描画・実機タッチ。
 
 ## 英語版改善＋全体監査の波（2026-07-04・2度目のリリース）
 変更: en/index.html（Cases・タイポ・FAQPage JSON-LD・OGP差替）/ en/ogp.jpg・ogp-source-en.html 新規 / index.html（stream-labelバグ・フッターENリンク・マーキーIO・sstスロットル・色置換）/ contact.html（Step1ネイティブ入力化・reduced-motion・色統一）/ blog×4・privacy（トークン統一等）/ docx×4 を private/ へ

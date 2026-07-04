@@ -2,6 +2,14 @@
 
 新しい決定は上に追記する。形式: 日付 / 決定 / 理由 / 決定者。
 
+## 2026-07-04 — ディスプレイ英文タイポの縮小（オーナー直接フィードバック起点）
+オーナー「英語タイトルのフォントサイズがでかい。全体的にUI/UXを改善してほしい」→ visual-designer 裁定「大きさで語る→一箇所だけディスプレイ、他は静かな署名」。
+- タグライン3回反復を1系統に: JA `.h-en`（H1直下の英文キッカー）削除 / `.about-catch` 54px大文字→26pxプルクオート（sentence case）/ フッター `.ft-tagline-big` 160px大文字→16px serif の結び文。ディスプレイスケールの家は /en/ H1 のみ
+- CTA の TIME/ROOM/LIFE（48px）→ 11px mono ラベル（サイトのラベル体系に合流）
+- About のカウントアップ・自動送りスライダーを静的化（「静けさの設計」との整合。ROADMAP判断待ち2件を消化）
+- 9pxラベルの10px統一（トークン --text-xs: 10px への収束）/ JAフッター法的表記のコントラストをENと同値化
+- 巨大フッターワードマークは「2020年代前半のトレンドで経年劣化リスク」（Timeless優先）という判定を記録
+
 ## 2026-07-04 — 英語版改善＋全体監査の波（8体分隊）
 brand-copywriter / typography-specialist / design-critic / performance-auditor（監査4体・並列）→ frontend-engineer ×2（直列実装）→ 検証はオーケストレーター。
 - **/en/ 改善**: Cases英語版追加（現在形の一般描写・"not client records" 明示・3枚静的グリッド）/ 英文タイポ15項目（行間2→1.7系・行長62ch制御・疑似イタリック排除・text-wrap: balance/pretty 等 — 「直すべきは書体でなくメトリクス」の裁定でフォント追加なし）/ 英語FAQPage JSON-LD / 英語版OGP `/en/ogp.jpg` 生成・差替
