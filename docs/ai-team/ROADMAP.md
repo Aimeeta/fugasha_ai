@@ -1,13 +1,26 @@
 # ROADMAP — 優先順位つき残タスク
 
-最終更新: 2026-07-04（英語版トップ /en/ 公開時点）
+最終更新: 2026-07-04（英語版改善＋全体監査の波 公開時点）
 
-## 英語版 /en/ — Phase 2（公開後すぐ）
-1. **LinkedIn URL 受領次第**: /en/ フッターのコメント位置にリンク追加＋Person JSON-LD に sameAs（日本語側にも）
-2. 英語版 OGP 画像 `/en/ogp.jpg`（ogp-source.html 複製で生成 → og:image 差替。現在はルート ogp.jpg 暫定）
-3. Cases 英語版（"Model cases based on typical engagements with Japanese SMEs" 明示・brand-copywriter 起案→レビュー）
-4. 英語 FAQPage JSON-LD（/en/#faq・inLanguage:"en" — 可視FAQは実装済みなので追加可能）
-5. フォームの実送信テスト（本番 Formspree・TEST明記で1件、source:"en" の識別確認）
+## 2026-07-04 改善波 — 実装済み
+~~Cases英語版 / 英文タイポ15項目 / 英語FAQPage JSON-LD / en/ogp.jpg / stream-label未定義バグ / contact Step1キーボード修理＋色統一 / 旧トークン一掃（AA達成）/ blogドロワーdialog+inert / フォントURL統一 / マーキー画面外停止 / sst rAFスロットル / docx退避~~ ✅
+
+## 英語版 /en/ — 残り
+1. **LinkedIn URL 受領次第**: /en/ フッター＋Person JSON-LD sameAs（日本語側にも）
+2. フォームの実送信テスト（本番 Formspree・TEST明記で1件、source:"en" の識別確認）
+
+## ユーザー判断待ち（新規追加分）
+- **docx の git 履歴からの完全削除**: 追跡は解除済みだが履歴には残存。履歴書き換え（force push）が必要なため要判断（過去に brief/ で実施した前例あり）
+- **フォント戦略の再設計**（効果最大: 転送量の85%=1.53MBがフォント）: w300廃止（index/en のデザイン変更を伴う）・Noto Serif JP 500→400 統合（-632KBの可能性）・JetBrains Mono→システムモノ置換（-21KB）。typography-specialist と要協議
+- **ツールマーキーの静的グリッド化＋ロゴのセルフホスト**: simpleicons CDN 20リクエスト削減＋「ロゴスープ」脱却（design-critic 提案・デザイン変更）
+- **ヒーローの減量**（design-critic）: チップ3本の体言止め短縮・h-en 削除（タグライン3回反復の解消）・CTAセクション cq 削除
+- **About カウントアップの静的化**（「数字を回す」演出と誇大数字禁止の矛盾）＋自動送りスライダーの静的化
+- **Vision（sst）疑似ビジュアルの再考**: 「AI」タイルはクリップアート発想（減らすor写真1枚に投資）
+- **aimee-portrait の srcset/WebP化**（72px表示に600px画像 eager 読込の解消）＋ grayscale→hover の廃止（タッチ端末で到達不能）
+- **LCPアンカー**（ヒーロー演出でLCPが構造的に遅延 — サブコピー1ブロック初期可視 or 演出短縮。motion-designer と要協議）
+- **未使用PNG 3.5MB の整理**（category-n*.png は OGP生成素材 → assets/ogp-src/ へ移動＋generate_ogp.py のパス更新、example-security-01.png は削除候補）
+- **content-visibility の実適用**（アンカージャンプ・Lenisとの相互作用検証つき）
+- **CSS/JS 外部分離**: perf実測では利得は gzip 5〜23KB/ページと小さく、主目的は ja/en 二重管理の事故防止（stream-label型）。優先度は中
 
 ## 英語版 /en/ — Phase 3
 - Vision 静的3段圧縮版の英語化 / 英語ブログ記事→Blog帯復活 / 相談メモ英語化→ヒーローチップ復活

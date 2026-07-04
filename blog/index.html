@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -50,8 +50,8 @@
       --bg2:     #e8dcc8;
       --fg:      #0d2030;
       --fg2:     #1e3a50;
-      --muted:   #4a6a80;
-      --hint:    #5e7f96;
+      --muted:   #5a5f66;       /* index.htmlと同値 — 読みやすさ向上 */
+      --hint:    #5f646c;       /* クリーム上で約4.6:1 — WCAG AA準拠 */
       --accent:  #e8866a;
       --slate:   #6e8fa6;
       --line:    rgba(13,32,48,.1);
@@ -84,7 +84,7 @@
     .nav-link.active { color: var(--fg); }
     .nav-cta {
       display: inline-block; font-size: 11px; padding: 9px 20px; border-radius: 2px;
-      background: var(--accent); color: #fff; font-weight: 500;
+      background: var(--accent); color: var(--fg); font-weight: 500; /* ネイビー文字×サーモン — index.htmlと同じAA達成の組み合わせ */
       transition: opacity .2s; border: none; letter-spacing: .08em; text-decoration: none;
     }
     .nav-cta:hover { opacity: .8; }
@@ -152,8 +152,8 @@
     .ft-tw-cur.on { animation: twblink .8s ease-in-out infinite; opacity: 1; }
     @keyframes twblink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
     .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 18px; border-top: 1px solid rgba(240,230,214,.1); }
-    .ftl { font-size: 10px; color: rgba(240,230,214,.3); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
-    .ftc { font-size: 10px; color: rgba(240,230,214,.2); letter-spacing: .08em; }
+    .ftl { font-size: 10px; color: rgba(240,230,214,.5); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
+    .ftc { font-size: 10px; color: rgba(240,230,214,.45); letter-spacing: .08em; }
     .ft-links { display: flex; gap: 20px; align-items: center; }
     .ft-link { font-size: 10px; color: rgba(240,230,214,.3); text-decoration: none; }
     .ft-link:hover { color: rgba(240,230,214,.7); }
@@ -184,7 +184,7 @@
     <button type="button" class="nav-ham" id="navHam" aria-label="メニューを開く" aria-expanded="false" aria-controls="navDrawer"><span></span><span></span><span></span></button>
   </div>
 </nav>
-<div class="nav-drawer" id="navDrawer">
+<div class="nav-drawer" id="navDrawer" role="dialog" aria-modal="true" aria-label="メニュー">
   <button class="nav-drawer-close" id="navClose" aria-label="閉じる">✕</button>
   <a href="../index.html#s-service">Services</a>
   <a href="./">Blog</a>
@@ -263,6 +263,12 @@
     navHam.classList.toggle('open', open);
     navDrawer.classList.toggle('open', open);
     navHam.setAttribute('aria-expanded', String(open));
+    navHam.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+    // 開いている間、背後のコンテンツへTabで抜けないようにする（aria-modalの実体） — index.htmlと同パターン
+    Array.from(document.body.children).forEach(elm => {
+      if (elm !== navDrawer && !elm.contains(navDrawer)) elm.inert = open;
+    });
+    if (open && navClose) navClose.focus();
   }
   navHam.addEventListener('click', () => setDrawer(!navDrawer.classList.contains('open')));
   navClose.addEventListener('click', () => { setDrawer(false); navHam.focus(); });

@@ -1,6 +1,23 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-04（英語版トップ /en/ 公開時点）
+最終検証: 2026-07-04（英語版改善＋全体監査の波）
+
+## 英語版改善＋全体監査の波（2026-07-04・2度目のリリース）
+変更: en/index.html（Cases・タイポ・FAQPage JSON-LD・OGP差替）/ en/ogp.jpg・ogp-source-en.html 新規 / index.html（stream-labelバグ・フッターENリンク・マーキーIO・sstスロットル・色置換）/ contact.html（Step1ネイティブ入力化・reduced-motion・色統一）/ blog×4・privacy（トークン統一等）/ docx×4 を private/ へ
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| 実装中断からの引き継ぎ | Agent1がプロセス中断 → オーケストレーターが仕様A〜F全項目を再検査・残1件（blogフォントURL）を補完 | ✅ |
+| inline JS / JSON-LD（変更全ファイル） | node --check・json.loads | ✅ 全て合格 |
+| Cases/タイポ/FAQPage/OGP | 決定稿スポット照合・FAQPage 8問 inLanguage:en・sips寸法1200×630 | ✅ |
+| stream-label 修正 | ヘッドレスChromeスクリーンショットで装飾表示を目視 | ✅ |
+| contact キーボード完走 | **Playwright実測**: Tab→Space選択→次へ→Enter、radio矢印キー、380ms自動遷移の廃止確認、コンソールエラー0 | ✅ |
+| blogドロワー | dialog/aria-modal/inert/Esc/フォーカス復帰を実測 | ✅ |
+| 色負債 | grep: 28,25,23 / 217,119,6 / #92400e / #5e7f96 / #4a6a80 = 全リポジトリ0件 | ✅ |
+| フォントURL統一 | 全HTML走査で distinct 1種 | ✅ |
+| /en/ Cases レイアウト | ヘッドレスChrome 1280px（3カラム静的グリッド）目視 | ✅ |
+
+未検証（開示）: Formspree実送信 / VoiceOver実機 / reduced-motion実機 / 本番LCP等の実数値（PageSpeed Insights は公開後に実URL計測を推奨）。docx は git履歴に残存（ユーザー判断待ち）。
 
 ## 英語版トップ /en/（2026-07-04）
 変更: en/index.html 新規（1684行・単一ファイル） / index.html（hreflang・og:locale:alternate・ナビ/ドロワーEnglishリンク・areaServed→Worldwide・FAQフォーカスリング修正） / sitemap.xml（xhtml namespace・/en/ エントリ・双方向alternate）

@@ -29,6 +29,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {
@@ -392,6 +393,12 @@
       padding: 9px 15px; background: rgba(255,255,255,.25);
       border-bottom: .5px solid rgba(255,255,255,.5);
     }
+    .stream-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: .14em; color: var(--hint);
+      font-family: var(--font-mono); text-transform: uppercase;
+    }
+    .sld { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
     .h-checker-body { padding: 18px 18px 14px; }
     .hck-q { font-size: 12px; color: var(--fg); font-weight: 500; margin-bottom: 16px; line-height: 1.6; }
     .hck-slider-wrap { margin-bottom: 4px; }
@@ -444,9 +451,11 @@
     .tools-marquee { display: grid; gap: 14px; overflow: hidden; }
     .tools-row {
       display: flex; align-items: center; gap: 14px; flex-wrap: nowrap; width: max-content;
-      animation: toolsMarquee 110s linear infinite; will-change: transform;
+      animation: toolsMarquee 110s linear infinite;
     }
-    .tools-marquee:hover .tools-row { animation-play-state: paused; }
+    .tools-marquee:hover .tools-row,
+    .tools-marquee:focus-within .tools-row,
+    .tools-marquee.paused .tools-row { animation-play-state: paused; }
     @keyframes toolsMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     .tp {
       display: flex; align-items: center; gap: 12px; padding: 10px 24px; border-radius: 99px;
@@ -454,7 +463,7 @@
       font-weight: 500; backdrop-filter: blur(8px); cursor: default;
       transition: transform .2s, box-shadow .2s;
     }
-    .tp:hover { box-shadow: 0 8px 22px rgba(28,25,23,.08); }
+    .tp:hover { box-shadow: 0 8px 22px rgba(13,32,48,.08); }
     /* ツールアイコンはモノクロ統一（ブランドカラー不使用 — 静けさ優先＋商標ガイドライン対策） */
     .ti {
       width: 34px; height: 34px; border-radius: 8px;
@@ -526,7 +535,7 @@
       position: relative; overflow: hidden; cursor: default;
     }
     .bc:hover { border-color: rgba(232,134,106,.24); }
-    .bc-nb { font-size: 72px; font-weight: 500; position: absolute; bottom: -14px; right: 8px; line-height: 1; color: rgba(28,25,23,.04); font-family: var(--font-mono); pointer-events: none; }
+    .bc-nb { font-size: 72px; font-weight: 500; position: absolute; bottom: -14px; right: 8px; line-height: 1; color: rgba(13,32,48,.04); font-family: var(--font-mono); pointer-events: none; }
     .bc-lbl {
       display: inline-flex; width: fit-content; font-size: 10px; letter-spacing: .1em;
       color: var(--accent-ink); margin-bottom: 12px; font-family: var(--font-mono);
@@ -1300,7 +1309,7 @@
       .aph { max-height: 220px; }
     }
 
-    /* ① CSS Scroll-Driven Animations — removed (conflicts with JS IntersectionObserver + content-visibility) */
+    /* ① CSS Scroll-Driven Animations — removed (JS IntersectionObserverによる出現アニメと競合するため。content-visibility はこのページでは未適用) */
 
     /* ══════════════════════════════════════════
        ② Text Split Reveal — word-by-word
@@ -1350,7 +1359,7 @@
     .cases-track:active { cursor: grabbing; }
     .cases-track::-webkit-scrollbar { height: 3px; }
     .cases-track::-webkit-scrollbar-track { background: transparent; }
-    .cases-track::-webkit-scrollbar-thumb { background: rgba(28,25,23,.15); border-radius: 2px; }
+    .cases-track::-webkit-scrollbar-thumb { background: rgba(13,32,48,.15); border-radius: 2px; }
     .cases-track .case {
       flex: 0 0 clamp(280px, 45vw, 480px);
       scroll-snap-align: start; min-height: 180px;
@@ -1961,6 +1970,7 @@
     <div class="ft-links">
       <a href="contact.html" class="ft-link">お問い合わせ</a>
       <a href="privacy.html" class="ft-link">プライバシーポリシー</a>
+      <a href="en/" class="ft-link" lang="en" hreflang="en">English →</a>
     </div>
     <span class="ftc">© <span id="yr"></span> 風雅舎</span>
   </div>
@@ -2381,6 +2391,16 @@
     });
   }
 
+  // ── Tools marquee — pause animation while off screen (same IO pattern as wave canvas) ──
+  (function(){
+    const marquee = document.querySelector('.tools-marquee');
+    if (!marquee) return;
+    const io = new IntersectionObserver(entries => {
+      marquee.classList.toggle('paused', !entries[0].isIntersecting);
+    });
+    io.observe(marquee);
+  })();
+
   // ── Hamburger menu ──
   const navHam = document.getElementById('navHam');
   const navDrawer = document.getElementById('navDrawer');
@@ -2495,8 +2515,16 @@
       show(p >= .67 ? 2 : p >= .34 ? 1 : 0);
     }
 
-    window.addEventListener('scroll', tick, { passive: true });
-    window.addEventListener('resize', tick, { passive: true });
+    // rAFスロットル（Scroll progressのonScrollと同じtickingパターン）
+    let sstTicking = false;
+    function onSstScroll() {
+      if (sstTicking) return;
+      sstTicking = true;
+      requestAnimationFrame(() => { tick(); sstTicking = false; });
+    }
+
+    window.addEventListener('scroll', onSstScroll, { passive: true });
+    window.addEventListener('resize', onSstScroll, { passive: true });
     setTimeout(tick, 300);
 
     dots.forEach((dot, i) => {
@@ -2551,8 +2579,7 @@
 
   // ── Price card CTA → contact.html（実リンク化済み、JSハンドラ不要）──
 
-  // ⑫ content-visibility: scroll detection override for older browsers
-  // (no JS needed — CSS-only via content-visibility: auto)
+  // ⑫ content-visibility — 未適用。アンカージャンプ・Lenis との相互作用検証が必要なため見送り（ROADMAP参照）
 
 </script>
 </body>
