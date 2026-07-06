@@ -1087,6 +1087,46 @@
     .ft-link:hover { color: rgba(240,230,214,.9); }
 
     /* ═══════════════════════════════════════
+       RESPONSIVE — 769px〜1100px（タブレット）
+    ═══════════════════════════════════════ */
+    @media (min-width: 769px) and (max-width: 1100px) {
+      .nav { padding: 18px 30px; }
+      .nav-right { gap: 18px; }
+      .nav-link { font-size: 10px; letter-spacing: .08em; }
+      .nav-cta { padding: 9px 16px; }
+
+      .hero {
+        padding: 58px 30px 68px;
+        gap: 34px;
+        grid-template-columns: minmax(0, 1fr) minmax(320px, .95fr);
+      }
+      .h-h1 { font-size: clamp(36px, 4.1vw, 46px); }
+      .h-subcopy { font-size: 15px; }
+      .h-chip { min-height: 40px; padding: 8px 13px; font-size: 12px; }
+      .h-checker-body { padding: 16px 16px 13px; }
+      .hck-val { font-size: 40px; }
+      .hck-r-num { font-size: 22px; }
+
+      .sec { padding-left: 30px; padding-right: 30px; }
+      .sign-grid,
+      .phi-grid { gap: 28px; }
+      .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .service-entry { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .entry-card { padding: 15px 16px; }
+      .price-card { padding: 24px 20px; }
+
+      .sst-right { padding: 0 42px 0 42px; }
+      .sst-h2 { font-size: 36px; }
+      .sst-p,
+      .sst-note { max-width: 360px; }
+
+      .ab-grid { grid-template-columns: minmax(210px, 280px) minmax(0, 1fr); gap: 34px; }
+      .ab-cred { padding: 14px 16px; }
+      .ab-cred-divider { margin: 0 14px; }
+      .ab-cred-num { font-size: 24px; }
+    }
+
+    /* ═══════════════════════════════════════
        RESPONSIVE — 768px以下
     ═══════════════════════════════════════ */
     @media (max-width: 768px) {
@@ -1101,8 +1141,8 @@
       /* ── Hero ── */
       .hero {
         grid-template-columns: 1fr;
-        padding: 40px 20px 48px;
-        gap: 28px;
+        padding: 34px 20px 42px;
+        gap: 22px;
         min-height: auto;
       }
       .h-h1 { font-size: 32px; line-height: 1.28; margin-bottom: 16px; }
@@ -1112,12 +1152,18 @@
       .btn-ghost { font-size: 11px; padding: 12px 21px; }
       .h-chips { margin-top: 14px; }
       .h-chip { font-size: 12px; padding: 9px 14px; }
+      .h-actions-note { margin-top: 10px; }
       .scroll-hint { display: none; }
       /* Checker */
       .hero-right { opacity: 1; transform: none; }
       .h-checker { border-radius: 12px; }
+      .h-checker-bar { padding: 8px 13px; }
+      .h-checker-body { padding: 15px 15px 12px; }
+      .hck-q { margin-bottom: 13px; }
       .hck-val { font-size: 36px; }
       .hck-r-num { font-size: 20px; }
+      .hck-result { padding: 12px; }
+      .hck-r-divider { margin: 0 10px; }
       .stream-note { font-size: 10px; padding: 6px 14px 10px; }
 
       /* ── Sections ── */
@@ -1141,7 +1187,7 @@
       .entry-card { padding: 14px 16px; }
       .svc-bento { grid-template-columns: 1fr; gap: 10px; }
       .sv-wide { grid-column: 1; }
-      .sv { border-radius: 14px; padding: 22px 18px; }
+      .sv { border-radius: 14px; padding: 22px 18px; transform: translateY(12px); }
       .sv:hover { transform: none; }
 
       /* ── Cases ── */
@@ -1203,6 +1249,14 @@
     ═══════════════════════════════════════ */
     @media (max-width: 480px) {
       .h-h1 { font-size: 28px; }
+      .hero { padding-top: 30px; }
+      .h-subcopy { line-height: 1.85; }
+      .h-actions { align-items: stretch; }
+      .btn-amber,
+      .btn-ghost { width: 100%; justify-content: center; }
+      .h-actions-note { font-size: 10.5px; }
+      .h-chips { gap: 7px; }
+      .h-chip { width: 100%; min-height: 0; padding: 8px 12px; line-height: 1.55; }
       .s-h2 { font-size: 25px; }
       .sst-h2 { font-size: 24px; }
       .sec { padding: 44px 16px; }
@@ -1210,6 +1264,11 @@
       .ch2 { font-size: 23px; }
       .hck-val { font-size: 32px; }
       .aph { max-height: 220px; }
+    }
+
+    @media (max-width: 360px) {
+      .hck-result-row { flex-direction: column; gap: 13px; }
+      .hck-r-divider { width: 100%; height: .5px; margin: 0; }
     }
 
     /* ① CSS Scroll-Driven Animations — removed (JS IntersectionObserverによる出現アニメと競合するため。content-visibility はこのページでは未適用) */
