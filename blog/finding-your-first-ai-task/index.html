@@ -161,14 +161,35 @@
     .source-list-count { font-family: var(--font-mono); font-size: 11px; color: var(--hint); }
     .source-list-items { list-style: none; border-top: 1px solid var(--line); }
     .source-item { border-bottom: 1px solid var(--line); }
-    .source-link { display: grid; grid-template-columns: 26px minmax(0,1fr) 16px; align-items: center; column-gap: 12px; min-height: 52px; padding: 12px 2px; text-decoration: none; }
+    .source-link { display: grid; grid-template-columns: 22px 18px minmax(0,1fr) 16px; align-items: center; column-gap: 10px; min-height: 52px; padding: 12px 2px; text-decoration: none; }
     .source-num { font-family: var(--font-mono); font-size: 10px; color: var(--hint); text-align: right; font-variant-numeric: tabular-nums; }
+    .source-favicon { width: 18px; height: 18px; border-radius: 4px; background: var(--bg2); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+    .source-favicon img { width: 14px; height: 14px; display: block; object-fit: contain; }
     .source-text { min-width: 0; }
     .source-name { display: block; font-size: 12.5px; font-weight: 500; color: var(--fg2); line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .2s; }
     .source-domain { display: block; font-family: var(--font-mono); font-size: 10.5px; color: var(--hint); margin-top: 2px; }
     .source-ext { width: 14px; height: 14px; color: var(--hint); opacity: .6; transition: opacity .2s, color .2s, transform .2s; }
     .source-link:hover .source-name { color: var(--accent-ink); }
     .source-link:hover .source-ext { opacity: 1; color: var(--accent-ink); transform: translate(1px, -1px); }
+
+    /* ── Table of contents ── */
+    .art-toc { margin: 0 0 44px; padding: 18px 22px 20px; border: .5px solid var(--line); border-radius: 6px; background: rgba(255,255,255,.4); }
+    .art-toc-eyebrow { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--hint); margin-bottom: 6px; }
+    .art-toc-heading { font-size: 13px; font-weight: 700; color: var(--fg); margin: 0 0 12px; }
+    .art-toc-list { list-style: none; counter-reset: toc; display: flex; flex-direction: column; gap: 9px; }
+    .art-toc-list li { counter-increment: toc; }
+    .art-toc-link { display: flex; align-items: baseline; gap: 8px; font-size: 13px; line-height: 1.6; color: var(--fg2); text-decoration: none; transition: color .2s; }
+    .art-toc-link::before { content: counter(toc, decimal-leading-zero); font-family: var(--font-mono); font-size: 10.5px; color: var(--hint); flex-shrink: 0; }
+    .art-toc-link:hover { color: var(--accent-ink); }
+
+    /* ── Inline CTA ── */
+    .inline-cta { margin: 40px 0 44px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 20px; }
+    .inline-cta-text { font-size: 14px; line-height: 1.8; color: var(--fg2); margin: 0; flex: 1 1 260px; }
+    .inline-cta-link { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; color: var(--fg); text-decoration: none; border-bottom: 1px solid rgba(13,32,48,.24); padding-bottom: 2px; white-space: nowrap; transition: border-color .2s, color .2s; }
+    .inline-cta-link:hover { color: var(--accent-ink); border-color: var(--accent-ink); }
+    .inline-cta-link .arr { display: inline-block; transition: transform .2s; }
+    .inline-cta-link:hover .arr { transform: translateX(3px); }
+    @media (max-width: 480px) { .inline-cta { flex-direction: column; align-items: flex-start; } }
 
     .art-badge {
       display: inline-block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
@@ -278,13 +299,19 @@
     <h1 class="art-h1">AIに任せる最初の仕事の見つけ方</h1>
     <div class="art-meta">
       <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg> 2026年7月3日</span>
-      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約4分で読めます</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約7分で読めます</span>
       <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/></svg> Aimee — 風雅舎代表</span>
     </div>
 
     <p class="art-lead">
       AIに何かを任せてみたい、でも何から始めればいいかわからない——そう感じている経営者は少なくないと思います。ツールを選ぶ前に、もっと手前でやるべきことがあります。自分の仕事を書き出して、3つに分ける。それだけです。この記事では、今日ひとりで15分あればできる手順を、ツール紹介なしでお伝えします。
     </p>
+
+    <nav class="art-toc" aria-labelledby="art-toc-heading" hidden>
+      <span class="art-toc-eyebrow">Contents</span>
+      <h2 class="art-toc-heading" id="art-toc-heading">目次</h2>
+      <ol class="art-toc-list"></ol>
+    </nav>
 
     <div class="art-body">
       <h2>なぜ「何から始めるか」でつまずくのか</h2>
@@ -293,6 +320,9 @@
       </p>
       <p>
         その理由は、多くの場合、ツールの話から入るからだと思っています。
+      </p>
+      <p>
+        SNSやニュースで「AIをこう使っている」という事例を目にすると、自分だけが取り残されているような焦りを感じることもあると思います。その焦りから、とりあえず話題のツールに登録してみる、というところで止まってしまう経営者を何人か見てきました。登録した直後は良い気がするのですが、しばらくすると「結局、何に使えばいいのかわからない」状態に戻ってしまう。これは能力の問題ではなく、順番の問題だと感じています。
       </p>
       <p>
         ツールはあくまで手段です。「何に使えるか」を考える前に、「何に困っているか」「何を手放したいか」を先に言葉にしておかないと、どれだけ優れたツールを手にしても、使う場所がわからないままになります。
@@ -313,6 +343,9 @@
       </p>
       <p>
         このとき大事なのは、「大きな仕事」だけでなく、「小さな繰り返し作業」も書き漏らさないことです。「毎朝メールをチェックして既読にする」「週次の売上をスプレッドシートに転記する」——そういった、目立たないけれど確実に時間を取っているものほど、あとで重要になります。
+      </p>
+      <p>
+        実際にやってみると、最初の3〜4個はすぐに書けても、そこから先が止まることがあります。それは仕事が少ないからではなく、日々の作業があまりに当たり前になっていて、「仕事」として意識にのぼりにくいからだと思います。一度で終わらせようとせず、思い出すたびに書き足していく、くらいの気持ちで十分です。
       </p>
 
       <h2>3つの問いで分ける</h2>
@@ -345,7 +378,27 @@
         経営者のなかには、数字の集計が得意でない人、文章を書くのが苦手な人、外部へのメール返信に時間がかかる人がいます。好き嫌いの問題は意外と根深く、「嫌いな仕事に時間がかかる」という状態は、生産性だけでなく、熱中の邪魔にもなります。
       </p>
       <p>
+        私自身の話をすると、書き出したリストの中に「請求書のPDF化と月末の突き合わせ」という、ごく小さな作業がありました。難しい作業ではありません。ただ、毎月同じタイミングで気が重くなる仕事で、後回しにするほど月末の数日が窮屈になっていました。書き出してみて初めて、「これは能力の問題ではなく、単に苦手だと自分で認めていなかっただけだ」と気づいたのを覚えています。
+      </p>
+      <p>
         嫌いだが必要な仕事は、AIへの委任で精神的な負荷も一緒に減らせる可能性があります。これは見落とされがちな、大きなメリットです。
+      </p>
+
+      <div class="inline-cta">
+        <p class="inline-cta-text">ここまで思い当たることがあれば、一度、頭の中を整理してみませんか。</p>
+        <a href="../../chat.html?t=ai" class="inline-cta-link">相談メモをつくる <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+
+      <h2>やってみて、たいていつまずくところ</h2>
+      <p>この作業を実際にやってみると、いくつか共通してつまずくポイントがあります。</p>
+      <p>
+        一つ目は、「ほとんど全部が繰り返しに見えてしまう」ことです。日々の仕事の多くは、広い意味では繰り返しです。ここで大事なのは、頻度の高さよりも、判断が少ないかどうかの方を先に見ることだと思います。
+      </p>
+      <p>
+        二つ目は、分類を完璧にしようとして手が止まることです。「これは繰り返しでもあり、少し判断も要る」というように、きれいに分けられない仕事は必ず出てきます。無理に一つの箱に押し込まなくても大丈夫です。迷ったら、いったん保留にして次に進む方が、作業全体は前に進みます。
+      </p>
+      <p>
+        三つ目は、「嫌いな仕事」を正直に書き出すことへの抵抗です。経営者としての自分と、素直に苦手を認める自分の間で、ためらいが生まれることがあります。ここは誰にも見せる必要のないメモです。正直に書いた方が、後の判断がずっと楽になります。
       </p>
 
       <h2>3つが重なるところが、最初の一歩</h2>
@@ -357,6 +410,9 @@
       </p>
       <p>
         候補が絞れたら、その仕事をもう少し具体的に言葉にしてみてください。「SNSの投稿を書く」より「毎週月曜日に、今週のお知らせ1件をInstagram用に100字以内でまとめる」のように。作業の範囲が明確なほど、AIへの指示も書きやすくなります。
+      </p>
+      <p>
+        候補が複数出てきたときは、いちばん大きな仕事からではなく、いちばん範囲の狭い仕事から手をつけることをおすすめします。最初の一歩で大きな仕事を選ぶと、期待も大きくなり、うまくいかなかったときの落胆も大きくなります。小さく始めて、「これは思ったより楽になった」という実感を一つ持てると、次の仕事に手を伸ばしやすくなります。
       </p>
       <p>
         どのツールを使うかは、その後でいい。まず「何を」が決まると、「どのツールで」は自然に絞れてきます。
@@ -389,6 +445,7 @@
         <li class="source-item">
           <a href="https://www.ipa.go.jp/jinzai/ics/core_human_resource/final_project/2024/generative-ai-guideline.html" target="_blank" rel="noopener noreferrer" class="source-link">
             <span class="source-num">01</span>
+            <span class="source-favicon" aria-hidden="true"><img src="../../assets/favicons/ipa.png" width="14" height="14" alt="" loading="lazy" decoding="async"></span>
             <span class="source-text">
               <span class="source-name">テキスト生成AIの導入・運用ガイドライン — IPA</span>
               <span class="source-domain">ipa.go.jp</span>
@@ -400,6 +457,7 @@
         <li class="source-item">
           <a href="https://www.chusho.meti.go.jp/koukai/kenkyukai/seicho_innovation/004/004.pdf" target="_blank" rel="noopener noreferrer" class="source-link">
             <span class="source-num">02</span>
+            <span class="source-favicon" aria-hidden="true"><img src="../../assets/favicons/chusho-meti.png" width="14" height="14" alt="" loading="lazy" decoding="async"></span>
             <span class="source-text">
               <span class="source-name">中小企業の生産性向上に向けて — 中小企業庁</span>
               <span class="source-domain">chusho.meti.go.jp</span>
@@ -472,6 +530,25 @@
   }
   window.addEventListener('scroll', updateProgress, { passive: true });
   updateProgress();
+
+  (function () {
+    var toc = document.querySelector('.art-toc');
+    var list = document.querySelector('.art-toc-list');
+    var headings = document.querySelectorAll('.art-body > h2');
+    if (!toc || !list || headings.length < 2) return;
+    headings.forEach(function (h, i) {
+      var id = 'sec-' + (i + 1);
+      h.id = id;
+      var a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = h.textContent;
+      a.className = 'art-toc-link';
+      var li = document.createElement('li');
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    toc.hidden = false;
+  })();
 </script>
 
 </body>

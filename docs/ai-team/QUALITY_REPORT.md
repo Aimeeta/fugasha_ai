@@ -1,6 +1,20 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-06（新記事＋ブログ2カラムテンプレ・未push）
+最終検証: 2026-07-06（ブログ4記事拡充・未push）
+
+## ブログ4記事拡充（favicon・目次・inline CTA・本文加筆）
+変更: blog/{margin-is-not-laziness, why-freed-time-fills-up, finding-your-first-ai-task, ai-security-checkpoints}/index.html、assets/favicons/（新規5画像）
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| node --check / タグ整合（4記事） | script全ブロック抽出・主要タグ開閉カウント | ✅ ALL OK |
+| favicon 5枚 | ローカルサーバーでHTTP 200確認、目視で個別画像であることを確認（政府系3ドメインはfavicon.ico直接取得に切替） | ✅ |
+| 文字数・読了時間 | node正規表現で実測、meta表示を実測値に更新 | ✅ margin 1.56x/finding 1.58x/security 1.75x/why-freed 1.50x |
+| スクリーンショット | CDP Emulation.setDeviceMetricsOverride で真の375px幅を強制し再撮影（初回はheadless Chromeが375px指定でも500pxにクランプする既知の制約を発見） | ✅ 8枚、目次・inline CTA・favicon付き参考文献を目視確認 |
+| TOCアンカー整合 | href/id一致を機械確認 | ✅（実クリックでのジャンプ動作は未検証） |
+| 禁止語・誇大表現grep | 「定着」1件検出→文脈確認の上ユーザー承認で維持、「完璧」は反-誇大の文脈で問題なし | ✅ |
+
+未検証（開示）: 実ブラウザでのTOCクリックジャンプ・Safari/Firefox表示・reduced-motion実機トグル。
 
 ## 新記事＋ブログ2カラムテンプレート（2026-07-06）
 変更: blog/why-freed-time-fills-up/（新規）・blog/margin-is-not-laziness・blog/finding-your-first-ai-task・blog/ai-security-checkpoints（テンプレ改修）・blog/index.html・sitemap.xml

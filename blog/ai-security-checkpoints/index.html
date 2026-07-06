@@ -156,14 +156,35 @@
     .source-list-count { font-family: var(--font-mono); font-size: 11px; color: var(--hint); }
     .source-list-items { list-style: none; border-top: 1px solid var(--line); }
     .source-item { border-bottom: 1px solid var(--line); }
-    .source-link { display: grid; grid-template-columns: 26px minmax(0,1fr) 16px; align-items: center; column-gap: 12px; min-height: 52px; padding: 12px 2px; text-decoration: none; }
+    .source-link { display: grid; grid-template-columns: 22px 18px minmax(0,1fr) 16px; align-items: center; column-gap: 10px; min-height: 52px; padding: 12px 2px; text-decoration: none; }
     .source-num { font-family: var(--font-mono); font-size: 10px; color: var(--hint); text-align: right; font-variant-numeric: tabular-nums; }
+    .source-favicon { width: 18px; height: 18px; border-radius: 4px; background: var(--bg2); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+    .source-favicon img { width: 14px; height: 14px; display: block; object-fit: contain; }
     .source-text { min-width: 0; }
     .source-name { display: block; font-size: 12.5px; font-weight: 500; color: var(--fg2); line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .2s; }
     .source-domain { display: block; font-family: var(--font-mono); font-size: 10.5px; color: var(--hint); margin-top: 2px; }
     .source-ext { width: 14px; height: 14px; color: var(--hint); opacity: .6; transition: opacity .2s, color .2s, transform .2s; }
     .source-link:hover .source-name { color: var(--accent-ink); }
     .source-link:hover .source-ext { opacity: 1; color: var(--accent-ink); transform: translate(1px, -1px); }
+
+    /* ── Table of contents ── */
+    .art-toc { margin: 0 0 44px; padding: 18px 22px 20px; border: .5px solid var(--line); border-radius: 6px; background: rgba(255,255,255,.4); }
+    .art-toc-eyebrow { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--hint); margin-bottom: 6px; }
+    .art-toc-heading { font-size: 13px; font-weight: 700; color: var(--fg); margin: 0 0 12px; }
+    .art-toc-list { list-style: none; counter-reset: toc; display: flex; flex-direction: column; gap: 9px; }
+    .art-toc-list li { counter-increment: toc; }
+    .art-toc-link { display: flex; align-items: baseline; gap: 8px; font-size: 13px; line-height: 1.6; color: var(--fg2); text-decoration: none; transition: color .2s; }
+    .art-toc-link::before { content: counter(toc, decimal-leading-zero); font-family: var(--font-mono); font-size: 10.5px; color: var(--hint); flex-shrink: 0; }
+    .art-toc-link:hover { color: var(--accent-ink); }
+
+    /* ── Inline CTA ── */
+    .inline-cta { margin: 40px 0 44px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 20px; }
+    .inline-cta-text { font-size: 14px; line-height: 1.8; color: var(--fg2); margin: 0; flex: 1 1 260px; }
+    .inline-cta-link { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; color: var(--fg); text-decoration: none; border-bottom: 1px solid rgba(13,32,48,.24); padding-bottom: 2px; white-space: nowrap; transition: border-color .2s, color .2s; }
+    .inline-cta-link:hover { color: var(--accent-ink); border-color: var(--accent-ink); }
+    .inline-cta-link .arr { display: inline-block; transition: transform .2s; }
+    .inline-cta-link:hover .arr { transform: translateX(3px); }
+    @media (max-width: 480px) { .inline-cta { flex-direction: column; align-items: flex-start; } }
 
     .art-badge {
       display: inline-block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
@@ -273,13 +294,19 @@
     <h1 class="art-h1">AI導入とセキュリティは両立できるか？<br>確認すべき5つのポイント</h1>
     <div class="art-meta">
       <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg> 2026年7月1日</span>
-      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約4分で読めます</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約6分で読めます</span>
       <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/></svg> Aimee — 風雅舎代表</span>
     </div>
 
     <p class="art-lead">
       結論から言うと、AI導入とセキュリティは対立するものではありません。多くの中小企業がつまずくのは「AIを使うかどうか」ではなく、「何を確認せずに使い始めてしまうか」です。この記事では、AI導入前に最低限チェックしておきたい5つのポイントを、実務目線で整理します。
     </p>
+
+    <nav class="art-toc" aria-labelledby="art-toc-heading" hidden>
+      <span class="art-toc-eyebrow">Contents</span>
+      <h2 class="art-toc-heading" id="art-toc-heading">目次</h2>
+      <ol class="art-toc-list"></ol>
+    </nav>
 
     <div class="art-body">
       <h2>なぜ「AI導入 = セキュリティリスク」と思われがちなのか</h2>
@@ -289,12 +316,18 @@
       <p>
         ただし、それは「AIそのものが危険」という意味ではありません。危険なのは、確認すべき点を確認しないまま、なんとなく使い始めてしまうことです。同じツールでも、使い方次第でリスクは大きく変わります。サイバーセキュリティ関連の記事執筆に3年携わってきた立場から見ても、AI導入で実際に問題化するケースの多くは<strong>「技術的な欠陥」ではなく「運用上の見落とし」</strong>に起因しています。
       </p>
+      <p>
+        この記事を書くにあたって、あらためて主要な生成AIサービス数社の利用規約とプライバシーポリシーを読み直しました。読み直して感じたのは、法人向けプランの説明が、想像していたよりずっと簡潔だということです。「学習に利用しません」という一文だけで済ませているサービスもあれば、データの保持期間やアクセス権限まで細かく明記しているサービスもある。書かれている量そのものが、そのサービスがこの問題をどれだけ重く見ているかの、ひとつの手がかりになる気がしています。
+      </p>
 
       <h2>導入前に確認すべき5つのポイント</h2>
 
       <h3><span class="num">01</span> 入力したデータがどう扱われるか</h3>
       <p>
         無料版の生成AIツールの多くは、入力内容をモデルの学習に利用する設定がデフォルトになっている場合があります。顧客情報や見積もり金額など、社外に出したくない情報を入力する前に、そのツールの利用規約やプライバシー設定で「学習への利用をオフにできるか」を確認しましょう。多くの主要サービスは法人向けプランやAPI利用時に学習オプトアウトを標準としていますが、無料の個人アカウントではオプトインになっているケースもあります。
+      </p>
+      <p>
+        確認する際は、「学習に使われるか」と「一定期間サーバー上に保持されるか」を分けて考えることをおすすめします。この二つは別の問題です。学習に使われないことになっていても、障害対応や不正利用の監視を目的として、一定期間データが保持される設計になっているサービスは珍しくありません。保持期間がどこにも書かれていない場合は、問い合わせて確認しておく価値があります。
       </p>
 
       <h3><span class="num">02</span> 誰が・どのアカウントで使っているか</h3>
@@ -306,15 +339,34 @@
       <p>
         同じサービス名でも、プランによってデータの扱いやセキュリティ機能は大きく異なります。「使ってみて良かったから」という理由で無料版のまま業務利用を続けるのではなく、本格導入する際は法人向けプラン(データ保持期間の指定、SSO連携、監査ログなど)への切り替えを検討する価値があります。
       </p>
+      <p>
+        具体的には、SSO（シングルサインオン）連携の有無、管理者による利用状況の閲覧権限、監査ログの保存期間、契約解除時のデータ削除規定などが、プランによって細かく異なります。どれも地味な項目に見えますが、実際に何か問題が起きたときに効いてくるのは、この地味な部分です。
+      </p>
 
       <h3><span class="num">04</span> 何を入力していいか、社内でルールが決まっているか</h3>
       <p>
         技術的な対策と同じくらい重要なのが、社内ルールです。「個人情報・契約書・未公開の財務情報はAIに入力しない」といった最低限のルールを、口頭ではなく明文化しておくこと。ルールは1ページのメモで十分です。詳細な規定よりも、全員が読んで理解できる短さの方が、実際に機能します。
       </p>
+      <p>
+        もう一つ付け加えたいのは、このルールは一度つくって終わりにしないことです。使うツールが増えたり、扱う業務が広がったりすると、最初に決めたルールでは足りなくなる場面が出てきます。半年に一度程度、内容を見直す機会を設けておくと、ルールが形だけのものになりにくくなります。
+      </p>
 
       <h3><span class="num">05</span> ツールを提供する会社のセキュリティ体制</h3>
       <p>
         どの会社のAIサービスを使うかも判断材料になります。第三者機関によるセキュリティ認証(ISO27001など)を取得しているか、インシデント発生時の対応方針を公開しているか、といった点は、公式サイトのセキュリティページやTrust Centerで確認できます。数分で確認できる情報なので、導入前に一度は目を通しておくと安心です。
+      </p>
+      <p>
+        ただし、認証マークがあることだけで安心してしまうのも注意が必要です。認証はあくまで、ある時点での体制を示すものであり、その後のインシデント対応の速さや透明性までは保証しません。過去に情報漏洩などの問題が報じられていないか、公開されている範囲で確認しておくことも、あわせて行っておきたい確認です。
+      </p>
+
+      <div class="inline-cta">
+        <p class="inline-cta-text">ここまで思い当たることがあれば、一度、頭の中を整理してみませんか。</p>
+        <a href="../../chat.html?t=ai" class="inline-cta-link">相談メモをつくる <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+
+      <h2>5つを確認しても、リスクがゼロになるわけではない</h2>
+      <p>
+        ここまで挙げた5つのポイントは、リスクをゼロにするためのものではありません。どれだけ確認を重ねても、ヒューマンエラーや、想定していなかった使われ方が起きる可能性は残ります。それでも確認する意味があるのは、起こりうる問題の多くが、事前に確認できる範囲のものだからです。技術的に防ぎようのない未知のリスクと、確認すれば防げたはずのリスクは、分けて考えた方がいいと思っています。この記事で挙げた5つは、後者に属するものがほとんどです。
       </p>
 
       <h2>「両立できるか」への答え</h2>
@@ -341,6 +393,7 @@
         <li class="source-item">
           <a href="https://www.soumu.go.jp/main_content/001002576.pdf" target="_blank" rel="noopener noreferrer" class="source-link">
             <span class="source-num">01</span>
+            <span class="source-favicon" aria-hidden="true"><img src="../../assets/favicons/soumu.png" width="14" height="14" alt="" loading="lazy" decoding="async"></span>
             <span class="source-text">
               <span class="source-name">AI事業者ガイドライン（第1.1版） — 総務省・経済産業省</span>
               <span class="source-domain">soumu.go.jp</span>
@@ -352,6 +405,7 @@
         <li class="source-item">
           <a href="https://www.ipa.go.jp/jinzai/ics/core_human_resource/final_project/2024/f55m8k0000003spo-att/f55m8k0000003svn.pdf" target="_blank" rel="noopener noreferrer" class="source-link">
             <span class="source-num">02</span>
+            <span class="source-favicon" aria-hidden="true"><img src="../../assets/favicons/ipa.png" width="14" height="14" alt="" loading="lazy" decoding="async"></span>
             <span class="source-text">
               <span class="source-name">テキスト生成AIの導入・運用ガイドライン — IPA</span>
               <span class="source-domain">ipa.go.jp</span>
@@ -363,6 +417,7 @@
         <li class="source-item">
           <a href="https://www.ipa.go.jp/digital/ai/security/ai_security_tips.html" target="_blank" rel="noopener noreferrer" class="source-link">
             <span class="source-num">03</span>
+            <span class="source-favicon" aria-hidden="true"><img src="../../assets/favicons/ipa.png" width="14" height="14" alt="" loading="lazy" decoding="async"></span>
             <span class="source-text">
               <span class="source-name">AI利用者のためのセキュリティ豆知識 — IPA</span>
               <span class="source-domain">ipa.go.jp</span>
@@ -434,6 +489,25 @@
   }
   window.addEventListener('scroll', updateProgress, { passive: true });
   updateProgress();
+
+  (function () {
+    var toc = document.querySelector('.art-toc');
+    var list = document.querySelector('.art-toc-list');
+    var headings = document.querySelectorAll('.art-body > h2');
+    if (!toc || !list || headings.length < 2) return;
+    headings.forEach(function (h, i) {
+      var id = 'sec-' + (i + 1);
+      h.id = id;
+      var a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = h.textContent;
+      a.className = 'art-toc-link';
+      var li = document.createElement('li');
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    toc.hidden = false;
+  })();
 </script>
 
 </body>

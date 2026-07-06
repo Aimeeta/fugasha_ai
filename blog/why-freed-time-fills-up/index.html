@@ -161,14 +161,35 @@
     .source-list-count { font-family: var(--font-mono); font-size: 11px; color: var(--hint); }
     .source-list-items { list-style: none; border-top: 1px solid var(--line); }
     .source-item { border-bottom: 1px solid var(--line); }
-    .source-link { display: grid; grid-template-columns: 26px minmax(0,1fr) 16px; align-items: center; column-gap: 12px; min-height: 52px; padding: 12px 2px; text-decoration: none; }
+    .source-link { display: grid; grid-template-columns: 22px 18px minmax(0,1fr) 16px; align-items: center; column-gap: 10px; min-height: 52px; padding: 12px 2px; text-decoration: none; }
     .source-num { font-family: var(--font-mono); font-size: 10px; color: var(--hint); text-align: right; font-variant-numeric: tabular-nums; }
+    .source-favicon { width: 18px; height: 18px; border-radius: 4px; background: var(--bg2); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+    .source-favicon img { width: 14px; height: 14px; display: block; object-fit: contain; }
     .source-text { min-width: 0; }
     .source-name { display: block; font-size: 12.5px; font-weight: 500; color: var(--fg2); line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .2s; }
     .source-domain { display: block; font-family: var(--font-mono); font-size: 10.5px; color: var(--hint); margin-top: 2px; }
     .source-ext { width: 14px; height: 14px; color: var(--hint); opacity: .6; transition: opacity .2s, color .2s, transform .2s; }
     .source-link:hover .source-name { color: var(--accent-ink); }
     .source-link:hover .source-ext { opacity: 1; color: var(--accent-ink); transform: translate(1px, -1px); }
+
+    /* ── Table of contents ── */
+    .art-toc { margin: 0 0 44px; padding: 18px 22px 20px; border: .5px solid var(--line); border-radius: 6px; background: rgba(255,255,255,.4); }
+    .art-toc-eyebrow { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--hint); margin-bottom: 6px; }
+    .art-toc-heading { font-size: 13px; font-weight: 700; color: var(--fg); margin: 0 0 12px; }
+    .art-toc-list { list-style: none; counter-reset: toc; display: flex; flex-direction: column; gap: 9px; }
+    .art-toc-list li { counter-increment: toc; }
+    .art-toc-link { display: flex; align-items: baseline; gap: 8px; font-size: 13px; line-height: 1.6; color: var(--fg2); text-decoration: none; transition: color .2s; }
+    .art-toc-link::before { content: counter(toc, decimal-leading-zero); font-family: var(--font-mono); font-size: 10.5px; color: var(--hint); flex-shrink: 0; }
+    .art-toc-link:hover { color: var(--accent-ink); }
+
+    /* ── Inline CTA ── */
+    .inline-cta { margin: 40px 0 44px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 20px; }
+    .inline-cta-text { font-size: 14px; line-height: 1.8; color: var(--fg2); margin: 0; flex: 1 1 260px; }
+    .inline-cta-link { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; color: var(--fg); text-decoration: none; border-bottom: 1px solid rgba(13,32,48,.24); padding-bottom: 2px; white-space: nowrap; transition: border-color .2s, color .2s; }
+    .inline-cta-link:hover { color: var(--accent-ink); border-color: var(--accent-ink); }
+    .inline-cta-link .arr { display: inline-block; transition: transform .2s; }
+    .inline-cta-link:hover .arr { transform: translateX(3px); }
+    @media (max-width: 480px) { .inline-cta { flex-direction: column; align-items: flex-start; } }
 
     .art-badge {
       display: inline-block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
@@ -278,13 +299,19 @@
     <h1 class="art-h1">AIで浮いた時間は、なぜまた作業で埋まるのか</h1>
     <div class="art-meta">
       <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg> 2026年7月6日</span>
-      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約4分で読めます</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約6分で読めます</span>
       <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/></svg> Aimee — 風雅舎代表</span>
     </div>
 
     <p class="art-lead">
       AIを使って作業時間が短くなったはずなのに、気づけば前と同じくらい忙しい——そう感じたことのある経営者は、少なくないと思います。浮いた時間は、放っておくと静かに埋まっていきます。空白を悪いものとして扱っているわけではないのに、なぜかそうなる。これは、その理由と、私自身が浮いた時間をどう扱おうとして、何度もうまくいかなかったかについての記録です。
     </p>
+
+    <nav class="art-toc" aria-labelledby="art-toc-heading" hidden>
+      <span class="art-toc-eyebrow">Contents</span>
+      <h2 class="art-toc-heading" id="art-toc-heading">目次</h2>
+      <ol class="art-toc-list"></ol>
+    </nav>
 
     <div class="art-body">
       <h2>浮いた時間は、埋まる前提でできている</h2>
@@ -302,6 +329,9 @@
       <p>
         その空白への答えを用意していないと、時間が浮いた瞬間、いちばん手近な作業がそこに流れ込みます。メールの返信、確認作業、次の会議の準備——それ自体は必要な仕事です。ただ、「本来何に使いたかったか」を問う前に、埋まってしまう。
       </p>
+      <p>
+        似たようなことが、クライアントとの打ち合わせでも起きました。ある月、資料作成にかかる時間をAIで短縮できたことで、週に半日ほどの空きができたことがありました。その空きを見て最初にしたのは、「では、もう一件、面談の枠を入れられますね」と、自分から予定を提案することでした。数週間後、気づけばまた面談の予定でほぼ埋まっていて、資料づくりに使っていた時間が、そのまま面談に置き換わっただけだったと気づきました。空いた時間の使い道を決めていなかったから、いちばん提案しやすいものに流れていったのだと思います。
+      </p>
 
       <h2>効率化を目的にすると、次のタスクを探してしまう</h2>
       <p>
@@ -309,6 +339,19 @@
       </p>
       <p>
         一見、前向きに見えます。でも実際には、次の作業を探しているだけのことが多い。浮いた時間で何かに没頭するのではなく、浮いた時間をどう使えば「もっと効率的」に見えるかを考えてしまう。効率化が入り口ではなく、目的そのものになった瞬間、この循環が始まる気がしています。
+      </p>
+
+      <div class="inline-cta">
+        <p class="inline-cta-text">ここまで思い当たることがあれば、一度、頭の中を整理してみませんか。</p>
+        <a href="../../chat.html?t=ai" class="inline-cta-link">相談メモをつくる <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+
+      <h2>「忙しいこと自体は悪くない」という指摘について</h2>
+      <p>
+        ここまで読んで、「忙しいこと自体は悪いことではないのでは」と感じた方もいるかもしれません。その通りだと思います。事業が伸びている時期に予定が詰まるのは自然なことですし、忙しさそのものを否定するつもりはありません。
+      </p>
+      <p>
+        私が気にしているのは、忙しさの中身が「選んだもの」か「なんとなく流れ込んできたもの」か、という違いです。空いた時間に何を置くかを自分で決めた上で忙しいのと、決めないままいつのまにか埋まっているのとでは、同じ「忙しい」でも、あとに残るものがずいぶん違う気がしています。
       </p>
 
       <h2>私が実際にやってみたこと（と、うまくいかなかったこと）</h2>
@@ -327,6 +370,9 @@
       <p>
         最初は落ち着きませんでした。何も生み出していない気がして、つい別の作業に手が伸びそうになる。でも、決めておいた予定があると、その衝動を一度止められることに気づきました。
       </p>
+      <p>
+        ここで正直に書いておくと、これは一度決めたら終わり、というものではありませんでした。数週間続けても、忙しい週が続くと、また元のやり方に戻ってしまう。予定を先に書き込んでも、緊急の連絡が入れば、結局そちらを優先することもあります。それ自体は仕方のないことだと思っています。大事なのは、完璧に守ることではなく、崩れたことに気づいたら、また次の週に書き直す——それを繰り返すことなのだと感じています。
+      </p>
 
       <h2>埋まらないようにする、小さな工夫</h2>
 
@@ -343,6 +389,11 @@
       <h3><span class="num">03</span> 「何をやめたか」を記録する</h3>
       <p>
         増えた仕事ではなく、減らせた仕事のほうを書き残しておきます。効率化が目的にすり替わるのを防ぐための、ささやかな仕掛けです。
+      </p>
+
+      <h3><span class="num">04</span> 埋まってしまった週も、責めない</h3>
+      <p>
+        工夫を用意していても、埋まってしまう週は必ずあります。そのこと自体を失敗だと捉えると、続けるのがつらくなります。埋まった理由を一度だけ振り返って、また次の週に予定を書き込み直す。それくらいの緩さで十分だと思っています。
       </p>
 
       <h2>効率化は、入り口だったはず</h2>
@@ -369,6 +420,7 @@
         <li class="source-item">
           <a href="https://ja.wikipedia.org/wiki/%E3%83%91%E3%83%BC%E3%82%AD%E3%83%B3%E3%82%BD%E3%83%B3%E3%81%AE%E6%B3%95%E5%89%87" target="_blank" rel="noopener noreferrer" class="source-link">
             <span class="source-num">01</span>
+            <span class="source-favicon" aria-hidden="true"><img src="../../assets/favicons/wikipedia.png" width="14" height="14" alt="" loading="lazy" decoding="async"></span>
             <span class="source-text">
               <span class="source-name">パーキンソンの法則 — Wikipedia</span>
               <span class="source-domain">ja.wikipedia.org</span>
@@ -380,6 +432,7 @@
         <li class="source-item">
           <a href="https://ja.wikipedia.org/wiki/%E3%82%B8%E3%82%A7%E3%83%9C%E3%83%B3%E3%82%BA%E3%81%AE%E3%83%91%E3%83%A9%E3%83%89%E3%83%83%E3%82%AF%E3%82%B9" target="_blank" rel="noopener noreferrer" class="source-link">
             <span class="source-num">02</span>
+            <span class="source-favicon" aria-hidden="true"><img src="../../assets/favicons/wikipedia.png" width="14" height="14" alt="" loading="lazy" decoding="async"></span>
             <span class="source-text">
               <span class="source-name">ジェボンズのパラドックス — Wikipedia</span>
               <span class="source-domain">ja.wikipedia.org</span>
@@ -452,6 +505,25 @@
   }
   window.addEventListener('scroll', updateProgress, { passive: true });
   updateProgress();
+
+  (function () {
+    var toc = document.querySelector('.art-toc');
+    var list = document.querySelector('.art-toc-list');
+    var headings = document.querySelectorAll('.art-body > h2');
+    if (!toc || !list || headings.length < 2) return;
+    headings.forEach(function (h, i) {
+      var id = 'sec-' + (i + 1);
+      h.id = id;
+      var a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = h.textContent;
+      a.className = 'art-toc-link';
+      var li = document.createElement('li');
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    toc.hidden = false;
+  })();
 </script>
 
 </body>
