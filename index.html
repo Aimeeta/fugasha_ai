@@ -210,7 +210,7 @@
     html { scroll-behavior: smooth; scroll-padding-top: 86px; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; }
     }
 
     @view-transition { navigation: auto; }
@@ -508,7 +508,7 @@
     #s-blog .blog-prev-grid { max-width: 860px; }
     #s-blog .blog-prev-card {
       background: rgba(240,230,214,.93); color: var(--fg);
-      border-color: rgba(240,230,214,.18); box-shadow: 0 20px 46px rgba(0,0,0,.18);
+      border-color: rgba(240,230,214,.18); /* 影なし: 明色カードは暗背景との対比で十分立つ（BRAND_PRINCIPLES「影は最小限」） */
     }
     #s-blog .blog-prev-title { color: var(--fg); }
     #s-blog .blog-prev-more { color: rgba(240,230,214,.9); }
@@ -1035,23 +1035,6 @@
     .ch2 { font-size: 42px; font-weight: 300; line-height: 1.42; color: rgba(240,230,214,.95); margin-bottom: 22px; opacity: 0; transform: translateY(14px); transition: all .8s cubic-bezier(.16,1,.3,1); font-family: var(--font-serif); letter-spacing: -.02em; }
     .csub { font-size: 14px; color: rgba(240,230,214,.6); margin-bottom: 12px; opacity: 0; transform: translateY(9px); transition: all .6s ease .15s; font-weight: 400; }
     .cq { font-size: 13px; color: rgba(240,230,214,.62); font-style: italic; margin-bottom: 36px; opacity: 0; transition: opacity .6s ease .25s; font-family: var(--font-serif); }
-    .cta-manifesto {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;
-      max-width: 900px; margin: -4px auto 36px; opacity: 0; transform: translateY(10px);
-      transition: opacity .6s ease .28s, transform .6s ease .28s;
-    }
-    .cta-manifesto-line {
-      min-height: auto; padding: 24px 22px; border-radius: 8px;
-      border: .5px solid rgba(240,230,214,.18);
-      background: linear-gradient(160deg, rgba(240,230,214,.11), rgba(232,134,106,.08));
-      text-align: left; box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
-    }
-    .cta-manifesto-k {
-      display: block; font-family: var(--font-mono); font-size: 11px;
-      letter-spacing: .18em; line-height: 1; color: var(--accent2);
-      text-transform: uppercase; margin-bottom: 12px;
-    }
-    .cta-manifesto-t { display: block; font-size: 13px; line-height: 1.85; color: rgba(240,230,214,.78); }
     .cta-wrap { opacity: 0; transition: opacity .6s ease .35s; }
     .cta-btn-amber {
       display: inline-flex; align-items: center; gap: 12px; font-size: 12px;
@@ -1101,8 +1084,7 @@
     .visible .ch2,
     .visible .csub,
     .visible .cq,
-    .visible .cta-wrap,
-    .visible .cta-manifesto { opacity: 1; transform: none; }
+    .visible .cta-wrap { opacity: 1; transform: none; }
 
     .bc:nth-child(2) { transition-delay: .08s; }
     .bc:nth-child(3) { transition-delay: .16s; }
@@ -1252,8 +1234,6 @@
       /* ── Infog ── */
       /* ── CTA ── */
       .ch2 { font-size: 26px; }
-      .cta-manifesto { grid-template-columns: 1fr; gap: 8px; margin: -8px auto 28px; }
-      .cta-manifesto-line { min-height: auto; padding: 18px 18px; }
       .cta-btn-amber { padding: 14px 28px; font-size: 11px; }
 
       /* ── Footer ── */
@@ -1295,19 +1275,7 @@
       transform: translateY(110%);
       transition: transform .7s cubic-bezier(.16,1,.3,1);
     }
-    /* Stagger via nth-of-type on parent - JS sets data-word-index */
-    .split-word[data-wi="1"] span { transition-delay: .06s; }
-    .split-word[data-wi="2"] span { transition-delay: .12s; }
-    .split-word[data-wi="3"] span { transition-delay: .18s; }
-    .split-word[data-wi="4"] span { transition-delay: .24s; }
-    .split-word[data-wi="5"] span { transition-delay: .30s; }
-    .split-word[data-wi="6"] span { transition-delay: .36s; }
-    .split-word[data-wi="7"] span { transition-delay: .42s; }
-    .split-word[data-wi="8"] span { transition-delay: .48s; }
-    .split-word[data-wi="9"] span { transition-delay: .54s; }
-    .split-word[data-wi="10"] span { transition-delay: .60s; }
-    .split-word[data-wi="11"] span { transition-delay: .66s; }
-    .split-word[data-wi="12"] span { transition-delay: .72s; }
+    /* Stagger: JS側で inner span に transition-delay を直接付与（語数上限なし・0.72sで頭打ち） */
     .visible .split-word span,
     .split-reveal-done .split-word span {
       transform: translateY(0);
@@ -1367,6 +1335,27 @@
     .icn { display: inline-block; vertical-align: -0.125em; flex-shrink: 0; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+  <noscript>
+    <style>
+      /* JS無効時: IntersectionObserverのリビールが動かないため、初期状態 opacity:0 の要素をすべて可視化する */
+      .h-h1, .h-actions, .h-actions-note, .h-chips, .scroll-hint, .hero-right,
+      .s-lbl, .s-h2, .s-desc, .bc, .entry-card, .sv, .case,
+      .phi-item, .phi-quote, .ar, .price-card,
+      .ch2, .csub, .cq, .cta-wrap {
+        opacity: 1 !important; transform: none !important;
+      }
+      .aph { clip-path: none !important; }
+      /* Vision(sst): JSの場面切替が動かないため、重ねた3場面を縦に流して全文を可視化する */
+      .sst-outer { height: auto !important; }
+      .sst-sticky { position: static !important; height: auto !important; }
+      .sst-scenes-text { display: block !important; }
+      .sst-text {
+        opacity: 1 !important; transform: none !important;
+        visibility: visible !important; pointer-events: auto !important;
+        padding: 48px 0;
+      }
+    </style>
+  </noscript>
 </head>
 <body>
 <!--
@@ -1411,7 +1400,7 @@
   <a href="en/" lang="en" hreflang="en">English</a>
   <div class="nav-drawer-cta">
     <a href="chat.html" class="btn-amber nav-cta-drawer">相談メモをつくってみる →</a>
-    <a href="contact.html" class="btn-ghost">30分相談を申し込む</a>
+    <a href="contact.html" class="btn-ghost">無料の30分相談を申し込む</a>
   </div>
 </div>
 
@@ -1424,7 +1413,7 @@
     <p class="h-subcopy">AI、デザイン、発信、業務の整理。手段は横断しますが、目的はひとつです。熱中するための余白を、取り戻すこと。</p>
     <div class="h-actions">
       <a href="chat.html" class="btn-amber">相談メモをつくってみる <span class="arr">→</span></a>
-      <a href="contact.html" class="btn-ghost">30分相談を申し込む</a>
+      <a href="contact.html" class="btn-ghost">無料の30分相談を申し込む</a>
     </div>
     <p class="h-actions-note">答えて整理するだけでも構いません。まとまった内容は「相談メモ」として持ち帰れます。</p>
     <nav class="h-chips" aria-label="相談の入り口">
@@ -1464,7 +1453,8 @@
               <div class="hck-r-bar-wrap"><div class="hck-r-bar hck-r-bar-navy" id="hckBarYear" style="width:19%"></div></div>
             </div>
           </div>
-          <div class="hck-message" id="hckMsg">その時間で、何ができますか。</div>
+          <div class="hck-message" id="hckMsg">その時間の使い道は、あなたが決めることです。</div>
+          <div class="sr-only" id="hckStatus" role="status"></div>
         </div>
       </div>
       <div class="stream-note">※ ルーティン作業の30〜50%を任せられると仮定した概算です。実際の幅は業務内容やツール環境によって変わります。</div>
@@ -1519,7 +1509,7 @@
     </a>
     <a class="entry-card" href="chat.html?t=brand">
       <span class="entry-kicker">START 02</span>
-      <div class="entry-title">サイト・資料・発信を整えたい</div>
+      <div class="entry-title">サイトや資料を整えたい</div>
       <p class="entry-body">見た目だけでなく、伝わる順番と言葉、読み手が迷わない道筋まで、まとめて整えます。</p>
     </a>
     <a class="entry-card" href="chat.html?t=ops">
@@ -1903,13 +1893,8 @@
   <div class="cta-c">
     <span class="cta-star" aria-hidden="true">✦</span>
     <h2 class="ch2">まず30分、<br>頭の中を一緒に整理します。</h2>
-    <p class="csub">急かしません。話して整理するだけでも、持ち帰れるものがあるはずです。</p>
+    <p class="csub">急かしません。仕事につながらなくても、考えが少し整って残れば、それで十分です。</p>
     <p class="cq">取り戻すのは、時間だけではありません。考える余白と、選べる毎日です。</p>
-    <div class="cta-manifesto" role="list" aria-label="風雅舎が取り戻したいもの">
-      <div class="cta-manifesto-line" role="listitem"><span class="cta-manifesto-k">TIME</span><span class="cta-manifesto-t">同じ作業に追われる時間を、未来を考える時間へ。</span></div>
-      <div class="cta-manifesto-line" role="listitem"><span class="cta-manifesto-k">ROOM</span><span class="cta-manifesto-t">余白が戻ると、判断は速く、仕事は進めやすくなります。</span></div>
-      <div class="cta-manifesto-line" role="listitem"><span class="cta-manifesto-k">LIFE</span><span class="cta-manifesto-t">事業も暮らしも、自分の手で選べる状態へ。</span></div>
-    </div>
     <div class="cta-wrap">
       <a href="contact.html" class="cta-btn-amber">無料で相談する <span class="arr">→</span></a>
       <p class="cta-sub"><a href="chat.html" class="cta-sub-link">相談メモをつくってから決めたい方はこちら →</a></p>
@@ -1988,7 +1973,8 @@
         const outer = document.createElement('span');
         const inner = document.createElement('span');
         outer.className = 'split-word';
-        outer.dataset.wi = wordIndex++;
+        // 語ごとのstaggerはインラインで付与（CSSの12語上限を撤廃。0.72sで頭打ち＝長い見出しでも文末が先行しない）
+        inner.style.transitionDelay = Math.min(wordIndex++ * 0.06, 0.72) + 's';
         inner.textContent = part;
         outer.appendChild(inner);
         fragment.appendChild(outer);
@@ -2260,6 +2246,8 @@
   const hckBarSave = document.getElementById('hckBarSave');
   const hckBarYear = document.getElementById('hckBarYear');
   const hckMsg    = document.getElementById('hckMsg');
+  const hckStatus = document.getElementById('hckStatus'); // SR向け結果通知（role="status" — chat.htmlのcopy-statusと同パターン）
+  let hckStatusTimer = null;
 
   const R_LOW = 0.3, R_HIGH = 0.5; // 任せられる割合の仮定値（30〜50%）— 約束ではなく目安
   const WEEKS_PER_YEAR = 52;
@@ -2271,7 +2259,7 @@
     max:  '今ある作業を、一度見える形にしてみましょう。'
   };
 
-  function updateChecker(hours) {
+  function updateChecker(hours, announce) {
     const saveLow  = Math.round(hours * R_LOW);
     const saveHigh = Math.round(hours * R_HIGH);
     const yearLow  = Math.round(hours * R_LOW  * WEEKS_PER_YEAR / 10) * 10;
@@ -2302,11 +2290,19 @@
         hckMsg.style.opacity = '1';
       }, 150);
     }
+
+    // SR向け結果通知: スライダー連打で読み上げが洪水にならないよう300msデバウンスで集約
+    if (announce && hckStatus) {
+      clearTimeout(hckStatusTimer);
+      hckStatusTimer = setTimeout(() => {
+        hckStatus.textContent = '手放せる時間の目安は週' + saveLow + '〜' + saveHigh + '時間、年間' + yearLow.toLocaleString() + '〜' + yearHigh.toLocaleString() + '時間。';
+      }, 300);
+    }
   }
 
   if (hckSlider) {
-    hckSlider.addEventListener('input', () => updateChecker(parseInt(hckSlider.value)));
-    updateChecker(15); // initial state
+    hckSlider.addEventListener('input', () => updateChecker(parseInt(hckSlider.value), true));
+    updateChecker(15); // initial state（読み込み時はSR通知しない）
   }
 
   // ══════════════════════════════════════════
@@ -2420,7 +2416,7 @@
       dot.addEventListener('click', () => {
         const thresholds = [0, 0.34, 0.67];
         const target = outer.offsetTop + thresholds[i] * (outer.offsetHeight - window.innerHeight);
-        window.scrollTo({ top: target, behavior: 'smooth' });
+        window.scrollTo({ top: target, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
       });
     });
   })();

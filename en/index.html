@@ -166,7 +166,7 @@
     html { scroll-behavior: smooth; scroll-padding-top: 86px; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; }
     }
 
     @view-transition { navigation: auto; }
@@ -565,23 +565,6 @@
     .csub { font-size: 14px; color: rgba(240,230,214,.6); margin-bottom: 12px; opacity: 0; transform: translateY(9px); transition: all .6s ease .15s; font-weight: 400; }
     .cq { font-size: 13px; color: rgba(240,230,214,.62); font-style: normal; margin-bottom: 36px; opacity: 0; transition: opacity .6s ease .25s; font-family: var(--font-serif); }
     .csub, .cq { max-width: 58ch; margin-left: auto; margin-right: auto; }
-    .cta-manifesto {
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;
-      max-width: 900px; margin: -4px auto 36px; opacity: 0; transform: translateY(10px);
-      transition: opacity .6s ease .28s, transform .6s ease .28s;
-    }
-    .cta-manifesto-line {
-      min-height: auto; padding: 24px 22px; border-radius: 8px;
-      border: .5px solid rgba(240,230,214,.18);
-      background: linear-gradient(160deg, rgba(240,230,214,.11), rgba(232,134,106,.08));
-      text-align: left; box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
-    }
-    .cta-manifesto-k {
-      display: block; font-family: var(--font-mono); font-size: 11px;
-      letter-spacing: .18em; line-height: 1; color: var(--accent2);
-      text-transform: uppercase; margin-bottom: 12px;
-    }
-    .cta-manifesto-t { display: block; font-size: 13px; line-height: 1.7; color: rgba(240,230,214,.78); }
     .cta-wrap { opacity: 0; transition: opacity .6s ease .35s; }
     .cta-btn-amber {
       display: inline-flex; align-items: center; gap: 12px; font-size: 12px;
@@ -631,8 +614,7 @@
     .visible .ch2,
     .visible .csub,
     .visible .cq,
-    .visible .cta-wrap,
-    .visible .cta-manifesto { opacity: 1; transform: none; }
+    .visible .cta-wrap { opacity: 1; transform: none; }
 
     .bc:nth-child(2) { transition-delay: .08s; }
     .bc:nth-child(3) { transition-delay: .16s; }
@@ -743,8 +725,6 @@
       /* ── Infog ── */
       /* ── CTA ── */
       .ch2 { font-size: 26px; }
-      .cta-manifesto { grid-template-columns: 1fr; gap: 8px; margin: -8px auto 28px; }
-      .cta-manifesto-line { min-height: auto; padding: 18px 18px; }
       .cta-btn-amber { padding: 14px 28px; font-size: 11px; }
 
       /* ── Footer ── */
@@ -784,18 +764,7 @@
       transition: transform .7s cubic-bezier(.16,1,.3,1);
     }
     /* Stagger via nth-of-type on parent - JS sets data-word-index */
-    .split-word[data-wi="1"] span { transition-delay: .06s; }
-    .split-word[data-wi="2"] span { transition-delay: .12s; }
-    .split-word[data-wi="3"] span { transition-delay: .18s; }
-    .split-word[data-wi="4"] span { transition-delay: .24s; }
-    .split-word[data-wi="5"] span { transition-delay: .30s; }
-    .split-word[data-wi="6"] span { transition-delay: .36s; }
-    .split-word[data-wi="7"] span { transition-delay: .42s; }
-    .split-word[data-wi="8"] span { transition-delay: .48s; }
-    .split-word[data-wi="9"] span { transition-delay: .54s; }
-    .split-word[data-wi="10"] span { transition-delay: .60s; }
-    .split-word[data-wi="11"] span { transition-delay: .66s; }
-    .split-word[data-wi="12"] span { transition-delay: .72s; }
+    /* Stagger: JS側で inner span に transition-delay を直接付与（語数上限なし・0.72sで頭打ち） */
     .visible .split-word span,
     .split-reveal-done .split-word span {
       transform: translateY(0);
@@ -929,6 +898,18 @@
     .icn { display: inline-block; vertical-align: -0.125em; flex-shrink: 0; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+  <noscript>
+    <style>
+      /* No JS: IntersectionObserver reveals never fire, so unhide everything that starts at opacity:0 */
+      .h-h1, .h-ja, .h-kicker, .h-actions, .h-actions-note, .scroll-hint, .hero-right,
+      .s-lbl, .s-h2, .s-desc, .bc, .sv, .case,
+      .phi-item, .phi-quote, .ar, .price-card,
+      .ch2, .csub, .cq, .cta-wrap {
+        opacity: 1 !important; transform: none !important;
+      }
+      .aph { clip-path: none !important; }
+    </style>
+  </noscript>
 </head>
 <body>
 <!--
@@ -1307,11 +1288,6 @@
     <h2 class="ch2">Thirty minutes to think out loud.</h2>
     <p class="csub">No pitch, no pressure. Even if we never work together, you’ll leave with your thoughts in better order.</p>
     <p class="cq">What you get back isn’t only time. It’s room to think, and days you choose.</p>
-    <div class="cta-manifesto" role="list" aria-label="What Fugasha works to give back">
-      <div class="cta-manifesto-line" role="listitem"><span class="cta-manifesto-k">TIME</span><span class="cta-manifesto-t">From hours spent repeating, to hours spent deciding.</span></div>
-      <div class="cta-manifesto-line" role="listitem"><span class="cta-manifesto-k">ROOM</span><span class="cta-manifesto-t">With room to think, decisions come easier — and sooner.</span></div>
-      <div class="cta-manifesto-line" role="listitem"><span class="cta-manifesto-k">LIFE</span><span class="cta-manifesto-t">A business, and a life, shaped by your own hand.</span></div>
-    </div>
     <div class="cta-wrap">
       <a href="#contact" class="cta-btn-amber">Write to me <span class="arr">→</span></a>
       <p class="cta-sub"><a href="mailto:hello@fugasha.jp" class="cta-sub-link">Or email hello@fugasha.jp directly</a></p>
@@ -1345,6 +1321,7 @@
     <button type="submit" class="btn-amber" id="cfSubmit">Send <span class="arr">→</span></button>
     <p class="cf-submit-err" id="cfSubmitErr" role="alert">Something went wrong. Please try again in a moment, or email <a href="mailto:hello@fugasha.jp">hello@fugasha.jp</a> directly.</p>
     <p class="cf-note">Prefer email? <a href="mailto:hello@fugasha.jp">hello@fugasha.jp</a></p>
+    <p class="cf-note">What you write here is used only to reply to you. <a href="../privacy.html" hreflang="ja">Privacy policy</a> (Japanese).</p>
   </form>
   <p class="cf-success" id="cfSuccess" role="status" hidden></p>
 </section>
@@ -1368,6 +1345,8 @@
 
 <script>
   'use strict';
+
+  console.log('%cCuriosity that opens the console deserves a reply — hello@fugasha.jp', 'color:#757a82; font-size:12px;');
 
   // ── Copyright year ──
   const yrEl = document.getElementById('yr');
@@ -1416,7 +1395,8 @@
         const outer = document.createElement('span');
         const inner = document.createElement('span');
         outer.className = 'split-word';
-        outer.dataset.wi = wordIndex++;
+        // 語ごとのstaggerはインラインで付与（CSSの12語上限を撤廃。0.72sで頭打ち＝長い見出しでも文末が先行しない）
+        inner.style.transitionDelay = Math.min(wordIndex++ * 0.06, 0.72) + 's';
         inner.textContent = part;
         outer.appendChild(inner);
         fragment.appendChild(outer);

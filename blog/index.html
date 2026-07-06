@@ -148,9 +148,6 @@
     /* ── Footer ── */
     .ft { padding: 48px 48px 24px; background: var(--fg); display: flex; flex-direction: column; gap: 24px; }
     .ft-tagline-big { font-family: var(--font-serif); font-weight: 400; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
-    .ft-tw-cur { display: inline-block; width: .05em; height: .85em; background: rgba(240,230,214,.85); margin-left: .04em; vertical-align: text-bottom; opacity: 0; }
-    .ft-tw-cur.on { animation: twblink .8s ease-in-out infinite; opacity: 1; }
-    @keyframes twblink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
     .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 18px; border-top: 1px solid rgba(240,230,214,.1); }
     .ftl { font-size: 10px; color: rgba(240,230,214,.5); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
     .ftc { font-size: 10px; color: rgba(240,230,214,.45); letter-spacing: .08em; }
@@ -240,7 +237,7 @@
 </main>
 
 <footer class="ft">
-  <div class="ft-tagline-big" id="ftTypewriter"><span id="ftTwText">Less friction. More you.</span><span class="ft-tw-cur" id="ftTwCur"></span></div>
+  <div class="ft-tagline-big">Less friction. More you.</div>
   <div class="ft-bottom">
     <span class="ftl">風雅舎 FUGASHA</span>
     <div class="ft-links">
@@ -276,34 +273,6 @@
     if (e.key === 'Escape' && navDrawer.classList.contains('open')) { setDrawer(false); navHam.focus(); }
   });
   navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
-
-  (function(){
-    const el   = document.getElementById('ftTwText');
-    const cur  = document.getElementById('ftTwCur');
-    const wrap = document.getElementById('ftTypewriter');
-    if (!el || !cur || !wrap) return;
-    const full = el.textContent;
-    let started = false;
-    function randomSpeed(min, max) { return min + Math.random() * (max - min); }
-    function typeIn() {
-      if (started) return;
-      started = true;
-      el.textContent = '';
-      cur.classList.add('on');
-      let i = 0;
-      (function tick() {
-        i++;
-        el.textContent = full.slice(0, i);
-        if (i < full.length) setTimeout(tick, randomSpeed(28, 58));
-      })();
-    }
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) { typeIn(); io.disconnect(); } });
-      }, { threshold: 0.4 });
-      io.observe(wrap);
-    } else { typeIn(); }
-  })();
 </script>
 
 </body>

@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>お問い合わせ | 風雅舎</title>
-  <meta name="description" content="風雅舎へのお問い合わせ。3つの質問に答えて連絡先を送ると、24時間以内にご連絡します。まず状況を聞かせてもらうところから始めます。">
+  <meta name="description" content="風雅舎へのお問い合わせ。2つの質問に答えて連絡先を送ると、1〜2営業日のうちにお返事します。まず状況を聞かせてもらうところから始めます。">
   <meta property="og:title" content="お問い合わせ | 風雅舎">
-  <meta property="og:description" content="風雅舎へのお問い合わせ。3つの質問に答えて連絡先を送ると、24時間以内にご連絡します。まず状況を聞かせてもらうところから始めます。">
+  <meta property="og:description" content="風雅舎へのお問い合わせ。2つの質問に答えて連絡先を送ると、1〜2営業日のうちにお返事します。まず状況を聞かせてもらうところから始めます。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/contact.html">
   <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
@@ -232,6 +232,7 @@
     .confirm-row:last-child { border-bottom: none; }
     .confirm-key { font-size: 12px; color: var(--hint); min-width: 64px; flex-shrink: 0; }
     .confirm-val { font-size: 14px; color: var(--fg); line-height: 1.65; }
+    #cMsg { white-space: pre-line; } /* chatの相談メモ等、改行入りの「ひとこと」を一塊に潰さない */
     .confirm-note {
       background: var(--amber-light); border: .5px solid var(--amber-mid);
       border-radius: var(--r-md); padding: 14px 16px; margin-top: 20px;
@@ -252,6 +253,8 @@
     }
     .done-title { font-family: var(--font-serif); font-size: 22px; font-weight: 400; text-align: center; margin-bottom: 10px; }
     .done-body { font-size: 14px; color: var(--muted); text-align: center; line-height: 1.85; margin-bottom: 28px; }
+    .done-next { font-size: 13px; color: var(--hint); text-align: center; line-height: 1.7; margin: -16px 0 24px; }
+    .done-next a { color: var(--fg2); text-decoration: underline; }
 
     /* ── Validation ── */
     .err { font-size: 12px; color: #a32d2d; margin-top: 4px; display: none; }
@@ -333,7 +336,7 @@
       </div>
       <div class="field-group">
         <label class="field-label" for="fmessage">ひとこと <span class="field-opt">任意</span></label>
-        <textarea id="fmessage" placeholder="「うちはここが一番きつい」でも「とりあえず話を聞いてみたい」でも、なんでも。" rows="3"></textarea>
+        <textarea id="fmessage" placeholder="「うちはここが一番きつい」でも「とりあえず話を聞いてみたい」でも、なんでも。" rows="5"></textarea>
         <span class="field-hint">書けることだけで大丈夫です。相談メモをつくった方は、ここに貼り付けてください。</span>
       </div>
     </div>
@@ -357,7 +360,6 @@
 
     <div class="confirm-section">
       <div class="confirm-row"><span class="confirm-key">会社規模</span><span class="confirm-val" id="cSize"></span></div>
-      <div class="confirm-row"><span class="confirm-key">検討状況</span><span class="confirm-val" id="cUrgency"></span></div>
     </div>
 
     <div class="confirm-section">
@@ -369,7 +371,7 @@
     </div>
 
     <div class="confirm-note">
-      送信後、<strong>24時間以内</strong>にご入力のメールアドレス宛にご連絡します。<br>
+      送信後、<strong>1〜2営業日</strong>のうちに、ご入力のメールアドレス宛へお返事します。<br>
       返信では、まず状況を聞かせてもらうところから始めます。
     </div>
 
@@ -384,8 +386,9 @@
   <!-- 完了 -->
   <div class="card screen" id="screenDone">
     <div class="done-icon">✓</div>
-    <h2 class="done-title">送信が完了しました</h2>
-    <p class="done-body">ありがとうございます。<br>24時間以内にご連絡いたします。<br>少し、楽しみにしていてください。</p>
+    <h2 class="done-title" tabindex="-1">送信が完了しました</h2>
+    <p class="done-body">ありがとうございます。<br>いただいた内容は、代表の Aimee がそのまま読みます。<br>お返事は1〜2営業日のうちに。</p>
+    <p class="done-next">待つあいだの読みものは、<a href="blog/">ブログ</a>にあります。</p>
     <a class="btn-secondary" href="index.html">← サイトに戻る</a>
   </div>
 
@@ -409,7 +412,7 @@
   const questions = [
     {
       id: 'pain', type: 'multi',
-      qlabel: 'Q1 / 3',
+      qlabel: 'Q1 / 2',
       title: 'いちばん気になっていることは、どれですか？',
       sub: '当てはまるものをすべて選んでください。一つでも大丈夫です。',
       options: [
@@ -422,7 +425,7 @@
     },
     {
       id: 'size', type: 'single',
-      qlabel: 'Q2 / 3',
+      qlabel: 'Q2 / 2',
       title: '会社の規模を教えてください',
       sub: 'だいたいで大丈夫です。',
       options: [
@@ -431,22 +434,10 @@
         { title: '従業員 10〜49名', value: '従業員10〜49名' },
         { title: '従業員 50名以上', value: '従業員50名以上' }
       ]
-    },
-    {
-      id: 'urgency', type: 'single',
-      qlabel: 'Q3 / 3',
-      title: '今のご検討状況を教えてください',
-      sub: '',
-      options: [
-        { title: 'すぐにでも相談したい', value: 'すぐにでも相談したい' },
-        { title: '情報収集中——まずは話を聞いてみたい', value: '情報収集中' },
-        { title: '具体的な予算感を知りたい', value: '予算感を知りたい' },
-        { title: 'まだ漠然としている', value: 'まだ漠然としている' }
-      ]
     }
   ];
 
-  const answers = { pain: new Set(), size: '', urgency: '' };
+  const answers = { pain: new Set(), size: '' };
   let qIndex = 0;
 
   function renderQuestion() {
@@ -652,7 +643,6 @@
     });
 
     document.getElementById('cSize').textContent = answers.size;
-    document.getElementById('cUrgency').textContent = answers.urgency;
     document.getElementById('cName').textContent = name;
     document.getElementById('cEmail').textContent = email;
 
@@ -703,7 +693,6 @@
       const payload = {
         pain_points: Array.from(answers.pain).join(' / '),
         company_size: answers.size,
-        urgency: answers.urgency,
         name: document.getElementById('fname').value.trim(),
         company: document.getElementById('fcompany').value.trim(),
         email: document.getElementById('femail').value.trim(),
@@ -724,7 +713,9 @@
               document.getElementById(id).classList.remove('active');
             });
             document.getElementById('screenDone').classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+            // 送信ボタンがフォームごと消えるため、完了見出しへフォーカスを移す（SRにも完了が通知される — /en/ と同パターン）
+            document.querySelector('#screenDone .done-title').focus({ preventScroll: true });
           } else {
             return res.json().then(data => {
               const msg = (data && data.errors) ? data.errors.map(e => e.message).join(' / ') : '送信に失敗しました';

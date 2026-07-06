@@ -256,6 +256,7 @@
     .memo-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
     .copy-status { display: block; font-size: 12px; color: var(--accent-ink); min-height: 1em; margin-top: 8px; }
     .memo-hint { font-size: 12px; color: var(--hint); line-height: 1.7; margin-top: 10px; }
+    .memo-mail-link { display: inline-block; margin-top: 12px; font-size: 12px; color: var(--fg2); text-decoration: underline; }
     .memo-note { font-size: 12px; color: var(--muted); line-height: 1.7; margin-top: 8px; }
 
     .copy-fallback { margin-top: 14px; }
@@ -303,7 +304,7 @@
     <h1 class="hero-title">頭の中にあることを、<br>書き出してみてください。</h1>
     <p class="hero-sub">
       いくつかの選択肢に答えると、いま考えていることが一枚の「相談メモ」になります。
-      質問は4つ。最後のひとつは自由記入で、空欄のまま進めます。
+      質問は4つ。最後のひとつは自由記入で、空欄のままでも進めます。
     </p>
     <p class="hero-trust">入力内容はどこにも送信されません。このページを閉じると、内容は消えます。</p>
   </section>
@@ -348,7 +349,7 @@
   var Q2_TITLE = '背景に近いのは、どれですか。';
   var Q3_TITLE = 'こうなったらいい、と思うのはどれですか。';
   var FREE_TITLE = '最後は、自由記入です。';
-  var FREE_SUB = 'ここまでで書き足りないことがあれば、そのまま書いてみてください。書けることだけで大丈夫です。空欄のまま進めます。';
+  var FREE_SUB = 'ここまでで書き足りないことがあれば、そのまま書いてみてください。書けることだけで大丈夫です。空欄のままでも進めます。';
 
   var TRACKS = {
     ai: {
@@ -372,7 +373,7 @@
         '何に使えて、何に向かないか。自分の中で整理できている',
         '社内でも安心して使える形になっている'
       ],
-      help: '業務を書き出して、AIで置き換えやすい部分を見つけるところから。プロンプトや日々の使い方まで、無理のない小さな一歩を一緒に整えられそうです。'
+      help: '業務を書き出して、AIで置き換えやすい部分を見つけるところから。プロンプトや日々の使い方まで、無理のない小さな一歩に分けて進めます。'
     },
     out: {
       chip: '外注も考えている。でも、何を頼めばいいのか。',
@@ -395,7 +396,7 @@
         '頼んだ結果を、自分の言葉で判断できている',
         '外に出したぶん、自分の時間が戻ってきている'
       ],
-      help: '日々の作業を一枚に書き出して、人に頼むこと・AIに任せること・手元に残すことを分けるところから、一緒に整理できそうです。'
+      help: '任せたい仕事の中身を、まず一枚に書き出すところから。人に頼むこと・AIに任せること・手元に残すことを、ひとつずつ分けていきます。'
     },
     ops: {
       chip: '作業を減らしたい。でも、見直す時間がない。',
@@ -441,7 +442,7 @@
         '書くことが、負担でなくなっている',
         '発信が、問い合わせや紹介につながり始めている'
       ],
-      help: '伝えたい相手と、伝える順番を整理するところから。無理なく続けられる発信の形を、一緒に探せそうです。'
+      help: '伝えたい相手と、伝える順番を決めるところから。無理なく続けられる発信の形を、一緒に探せそうです。'
     },
     brand: {
       chip: 'サイトや資料を整えたい。でも、言葉がまとまらない。',
@@ -696,15 +697,40 @@
 
     var cta = el('a', 'btn-primary');
     cta.href = 'contact.html';
-    cta.appendChild(document.createTextNode('このメモを持って、30分相談へ '));
+    cta.appendChild(document.createTextNode('メモをコピーして、30分相談へ '));
     var arr = el('span', null, '→');
     arr.setAttribute('aria-hidden', 'true');
     cta.appendChild(arr);
+    /* コピーせず遷移するとメモが消えてしまうため、遷移前に自動でクリップボードへ書き込む。
+       writeText は非同期なので一旦 preventDefault し、成功を待ってから遷移する
+       （待たずに遷移するとページ破棄で書き込みが中断されることがある）。 */
+    var ctaManualMode = false; // フォールバック表示後は手動コピー済みの前提で、そのまま遷移させる
+    cta.addEventListener('click', function (e) {
+      if (ctaManualMode) return;
+      e.preventDefault();
+      var go = function () { location.href = cta.getAttribute('href'); };
+      var fail = function () {
+        ctaManualMode = true;
+        showCopyFallback(card, buildMemoText());
+        status.textContent = '自動コピーができませんでした。メモをコピーしてから、もう一度ボタンでお進みください。';
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(buildMemoText()).then(go, fail);
+      } else {
+        fail();
+      }
+    });
     actions.appendChild(cta);
 
     card.appendChild(actions);
     card.appendChild(status);
-    card.appendChild(el('p', 'memo-hint', 'コピーしたメモは、お問い合わせの「ひとこと」欄にそのまま貼り付けられます。'));
+
+    var mailLink = el('a', 'memo-mail-link');
+    mailLink.textContent = 'メモを自分宛にメールする';
+    mailLink.href = 'mailto:?subject=' + encodeURIComponent('相談メモ（風雅舎のページで作成）') +
+      '&body=' + encodeURIComponent(buildMemoText());
+    card.appendChild(mailLink);
+    card.appendChild(el('p', 'memo-hint', 'コピーしたメモは、お問い合わせの「ひとこと」欄にそのまま貼り付けられます。メール送信はお使いのメールアプリで行われ、内容が風雅舎に届くことはありません。'));
     card.appendChild(el('p', 'memo-note', '急かしません。メモを眺めながら、話すかどうか決めてください。'));
     return card;
   }

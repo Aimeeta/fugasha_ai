@@ -1,6 +1,21 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-04（フォント統合＋残改善バッチ・未push）
+最終検証: 2026-07-05（監査A・B群 実装・未push）
+
+## 監査A・B群 実装（2026-07-05）
+変更: index.html / en/index.html（noscript・split-word・チェッカーaria-live・cta-manifesto削除・entry-card文言・ヒーロー「無料」）/ chat.html（自動コピー・help文・mailtoリンク・空欄表記）/ contact.html（Q3削除・pre-line・返信約束・完了画面）/ privacy.html（相談メモ言及）/ blog/index.html・blog/ai-security-checkpoints/index.html（タイプライター削除）
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| 実装エージェント中断からの引き継ぎ | A群8項目を個別grep/読解で再検査 → noscript・aria-liveは既に実装済みと確認、他は完了 | ✅ 8/8完了 |
+| node --check / タグ整合（9ページ） | script全ブロック抽出・主要タグ開閉カウント | ✅ ALL OK |
+| 残存チェック | grep: cta-manifesto/urgency/24時間以内/検討状況 = 全ファイル0件 | ✅ |
+| contact Q1→Q2→Step2 フロー | **CDP（Chrome DevTools Protocol）で実クリック駆動** | ✅ Q2/2ラベル・#cUrgency消滅を実測 |
+| confirm画面のメモ整形 | CDPでStep3まで進めpre-line適用を実測 | ✅ 改行保持を確認 |
+| chat 4問→メモ→CTA/mailto | CDPで全4問クリック駆動 | ✅ CTA文言・mailto href（相談メモ本文含む）を実測 |
+| blogタイプライター削除 | reduced-motion環境でヘッドレスChromeスクリーンショット | ✅ 静的フッターに統一、演出なし |
+
+未検証: クリップボード実書き込み成功経路（headless環境で権限プロンプト不可のため、フォールバック分岐のみ確認）/ 実機VoiceOver / 「多くの場合は当日中」の事実性（未確認のため不採用）。
 
 ## フォント統合＋残改善バッチ（2026-07-04）
 | 項目 | 方法 | 結果 |
