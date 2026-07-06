@@ -160,6 +160,15 @@
       --text-2xl:  36px;
       --text-3xl:  48px;
       --text-4xl:  60px;
+      /* モーショントークン（motion-designer仕様） */
+      --ease:      cubic-bezier(.16,1,.3,1);
+      --dur-tap:   .2s;
+      --dur-open:  .4s;
+      --dur-card:  .6s;
+      --dur-head:  .8s;
+      --dur-hero:  1s;
+      --stagger:   .08s;
+      --stagger-w: .06s;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -204,7 +213,7 @@
     .pb {
       position: fixed; top: 0; left: 0; height: 2px;
       background: var(--accent);
-      z-index: 10001; width: 0%; transition: width .1s linear;
+      z-index: 10001; width: 0%;
     }
 
     /* ── Navigation ── */
@@ -336,7 +345,7 @@
       display: flex; align-items: center; gap: 12px; padding: 10px 24px; border-radius: 99px;
       border: .5px solid var(--gb); background: var(--glass); font-size: 22px; color: var(--fg2);
       font-weight: 500; backdrop-filter: blur(8px); cursor: default;
-      transition: transform .2s, box-shadow .2s;
+      transition: box-shadow var(--dur-tap);
     }
     .tp:hover { box-shadow: 0 8px 22px rgba(13,32,48,.08); }
     /* ツールアイコンはモノクロ統一（ブランドカラー不使用 — 静けさ優先＋商標ガイドライン対策） */
@@ -369,34 +378,27 @@
     /* glass cards */
     .glass-card { background: rgba(255,255,255,.6); border: .5px solid rgba(13,32,48,.08); }
 
-    /* bento grid */
-    .bento { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-
-    .bc {
-      border-radius: 18px; padding: 26px 22px;
-      opacity: 0; transform: translateX(-18px);
-      transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1);
-      position: relative; overflow: hidden; cursor: default;
+    /* SIGNS — Philosophy語彙（上罫線＋番号＋余白）に統一。視覚の重さはbc-t/bc-bの値を踏襲 */
+    .sign-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; max-width: 980px; }
+    .sign-item {
+      padding-top: 22px; border-top: 1px solid rgba(13,32,48,.14);
+      opacity: 0; transform: translateY(12px);
+      transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
     }
-    .bc:hover { border-color: rgba(232,134,106,.24); }
-    .bc-nb { font-size: 72px; font-weight: 400; position: absolute; bottom: -14px; right: 8px; line-height: 1; color: rgba(13,32,48,.04); font-family: var(--font-mono); pointer-events: none; }
-    .bc-lbl {
-      display: inline-flex; width: fit-content; font-size: 10px; letter-spacing: .1em;
-      color: var(--accent-ink); margin-bottom: 12px; font-family: var(--font-mono);
-      padding: 3px 8px; border-radius: 999px; background: rgba(232,134,106,.11);
-      border: .5px solid rgba(232,134,106,.18);
-    }
-    .bc-t { font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.55; margin-bottom: 8px; }
-    .bc-b { font-size: 14px; color: var(--fg2); line-height: 1.7; }
-    .bc-num { font-family: var(--font-serif); font-size: 38px; font-weight: 300; color: var(--fg); line-height: 1; margin: 2px 0 10px; letter-spacing: -.01em; }
-    .bc-src { font-size: 10px; color: var(--hint); margin-top: 12px; line-height: 1.6; }
+    .sign-item:hover { border-color: rgba(232,134,106,.24); }
+    .sign-item:nth-child(2) { transition-delay: var(--stagger); }
+    .sign-item:nth-child(3) { transition-delay: calc(var(--stagger) * 2); }
+    .visible .sign-item { opacity: 1; transform: none; }
+    .sign-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--accent-ink); display: block; margin-bottom: 14px; }
+    .sign-t { font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.55; margin-bottom: 8px; }
+    .sign-b { font-size: 14px; color: var(--fg2); line-height: 1.7; }
 
     /* services */
     .svc-bento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 
     .sv {
-      min-height: 310px; border-radius: 18px; padding: 24px; opacity: 0; transform: translateX(20px);
-      transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1), border-color .2s;
+      border-radius: 18px; padding: 24px; opacity: 0; transform: translateX(20px);
+      transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
       position: relative; overflow: hidden; cursor: default;
       display: flex; flex-direction: column; justify-content: space-between;
     }
@@ -420,48 +422,6 @@
       border-radius: 999px; background: rgba(232,134,106,.12); border: .5px solid rgba(232,134,106,.2);
       font-size: 10px; color: var(--accent-ink); font-weight: 500;
     }
-    .svc-visual {
-      position: relative; z-index: 1; margin-top: 20px; min-height: 118px;
-      border-radius: 14px; overflow: hidden; background: linear-gradient(135deg, rgba(255,255,255,.62), rgba(238,235,226,.42));
-      border: .5px solid rgba(13,32,48,.08);
-    }
-    .svc-visual::before {
-      content: ''; position: absolute; inset: 0;
-      background-image: radial-gradient(circle at 18% 24%, rgba(232,134,106,.18), transparent 28%), radial-gradient(circle at 86% 74%, rgba(110,143,166,.16), transparent 32%);
-      pointer-events: none;
-    }
-    .svc-artboard { position: absolute; inset: 18px 42px 18px 18px; border-radius: 10px; background: rgba(255,255,255,.7); border: .5px solid rgba(13,32,48,.12); box-shadow: 10px 10px 0 rgba(13,32,48,.05); }
-    .svc-artbar { position: absolute; left: 16px; right: 54px; height: 7px; border-radius: 4px; background: rgba(13,32,48,.16); }
-    .svc-artbar:nth-child(1) { top: 18px; width: 58%; background: var(--fg); opacity: .86; }
-    .svc-artbar:nth-child(2) { top: 38px; width: 82%; }
-    .svc-artbar:nth-child(3) { top: 56px; width: 46%; }
-    .svc-swatch { position: absolute; right: 14px; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,.8); }
-    .svc-swatch-a { top: 16px; background: var(--accent); }
-    .svc-swatch-b { top: 42px; background: #8b9098; }
-    .svc-swatch-c { top: 68px; background: var(--fg); }
-    .svc-node { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: var(--fg); box-shadow: 0 0 0 8px rgba(13,32,48,.07); }
-    .svc-node-a { left: 22%; top: 32%; }
-    .svc-node-b { left: 50%; top: 58%; background: var(--accent); }
-    .svc-node-c { right: 20%; top: 28%; background: #8b9098; }
-    .svc-link { position: absolute; height: 1px; background: rgba(13,32,48,.2); transform-origin: left center; }
-    .svc-link-a { left: 26%; top: 39%; width: 30%; transform: rotate(29deg); }
-    .svc-link-b { left: 53%; top: 57%; width: 30%; transform: rotate(-34deg); }
-    .svc-prompt { position: absolute; left: 22px; right: 22px; bottom: 18px; display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--fg2); }
-    .svc-prompt span { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
-    .svc-pr-arc { position: absolute; left: 24px; top: 24px; width: 70px; height: 70px; border: 1px solid rgba(13,32,48,.16); border-radius: 50%; border-left-color: transparent; border-bottom-color: transparent; transform: rotate(-18deg); }
-    .svc-pr-arc:nth-child(2) { width: 98px; height: 98px; opacity: .6; }
-    .svc-pr-copy { position: absolute; right: 20px; top: 24px; width: 46%; display: grid; gap: 9px; }
-    .svc-pr-copy span { height: 7px; border-radius: 4px; background: rgba(13,32,48,.16); }
-    .svc-pr-copy span:first-child { width: 86%; background: var(--fg); opacity: .86; }
-    .svc-pr-copy span:nth-child(2) { width: 100%; }
-    .svc-pr-copy span:nth-child(3) { width: 60%; background: var(--accent); opacity: .7; }
-    .svc-pr-burst { position: absolute; left: 62px; bottom: 24px; color: var(--accent-ink); font-size: 26px; transform: rotate(-12deg); }
-    .svc-flow-line { position: absolute; left: 20px; right: 20px; height: 1px; background: rgba(13,32,48,.14); }
-    .svc-flow-line:nth-child(1) { top: 34px; }
-    .svc-flow-line:nth-child(2) { top: 60px; }
-    .svc-flow-line:nth-child(3) { top: 86px; }
-    .svc-flow-dot { position: absolute; left: 28px; top: 53px; width: 15px; height: 15px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 8px rgba(232,134,106,.12); }
-    .svc-flow-card { position: absolute; right: 22px; top: 28px; width: 82px; height: 64px; border-radius: 10px; background: rgba(13,32,48,.86); color: rgba(240,230,214,.9); display: grid; place-items: center; font-size: 24px; }
 
 
     /* philosophy */
@@ -471,8 +431,8 @@
       opacity: 0; transform: translateY(12px);
       transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
     }
-    .phi-item:nth-child(2) { transition-delay: .1s; }
-    .phi-item:nth-child(3) { transition-delay: .2s; }
+    .phi-item:nth-child(2) { transition-delay: .08s; }
+    .phi-item:nth-child(3) { transition-delay: .16s; }
     .visible .phi-item { opacity: 1; transform: none; }
     .phi-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--accent-ink); display: block; margin-bottom: 14px; }
     .phi-t { font-family: var(--font-serif); font-size: 21px; font-weight: 400; color: var(--fg); line-height: 1.5; margin-bottom: 12px; letter-spacing: -.01em; }
@@ -525,7 +485,7 @@
     .price-card {
       padding: 28px 24px; border-radius: 18px;
       opacity: 0; transform: translateY(22px) scale(.97);
-      transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+      transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
       position: relative; overflow: hidden; cursor: default;
     }
     .price-card:hover { border-color: rgba(232,134,106,.24); }
@@ -607,7 +567,6 @@
     .visible .s-lbl,
     .visible .s-h2,
     .visible .s-desc,
-    .visible .bc,
     .visible .sv,
     .visible .price-card,
     .visible .ar,
@@ -616,15 +575,13 @@
     .visible .cq,
     .visible .cta-wrap { opacity: 1; transform: none; }
 
-    .bc:nth-child(2) { transition-delay: .08s; }
-    .bc:nth-child(3) { transition-delay: .16s; }
     .sv:nth-child(2) { transition-delay: .08s; }
     .sv:nth-child(3) { transition-delay: .16s; }
     .sv:nth-child(4) { transition-delay: .24s; }
-    .phi-item:nth-child(4) { transition-delay: .3s; }
-    .phi-item:nth-child(5) { transition-delay: .4s; }
-    .price-card:nth-child(2) { transition-delay: .1s; }
-    .price-card:nth-child(3) { transition-delay: .2s; }
+    .phi-item:nth-child(4) { transition-delay: .24s; }
+    .phi-item:nth-child(5) { transition-delay: .32s; }
+    .price-card:nth-child(2) { transition-delay: .08s; }
+    .price-card:nth-child(3) { transition-delay: .16s; }
 
     /* Price card CTA link */
     .price-cta { display: block; margin-top: 14px; font-size: 11px; color: var(--accent-ink); font-weight: 500; cursor: pointer; letter-spacing: .03em; text-decoration: none; }
@@ -639,11 +596,12 @@
 
     /* Mobile nav drawer */
     .nav-drawer {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      display: flex; visibility: hidden; opacity: 0; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(240,230,214,.97); backdrop-filter: blur(20px);
       z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+      transition: opacity var(--dur-open) ease, visibility 0s linear var(--dur-open);
     }
-    .nav-drawer.open { display: flex; }
+    .nav-drawer.open { visibility: visible; opacity: 1; transition: opacity var(--dur-open) ease; }
     .nav-drawer a { font-size: 22px; font-weight: 500; color: var(--fg); text-decoration: none; letter-spacing: .04em; }
     .nav-drawer-cta { margin-top: 8px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
     .nav-drawer-close { position: absolute; top: 18px; right: 20px; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1; background: none; border: 0; padding: 4px; }
@@ -695,10 +653,8 @@
       .ti svg { width: 20px; height: 20px; }
       .sec-tools { padding: 24px 0; }
 
-      /* ── Pain / Bento ── */
-      .bento { grid-template-columns: 1fr; gap: 10px; }
-      .bc { border-radius: 14px; padding: 22px 18px; }
-      .bc:hover { transform: none; }
+      /* ── Pain / Signs ── */
+      .sign-grid { grid-template-columns: 1fr; gap: 26px; }
 
       /* ── Services ── */
       .svc-bento { grid-template-columns: 1fr; gap: 10px; }
@@ -733,7 +689,7 @@
       .ft-links { flex-wrap: wrap; justify-content: center; gap: 12px; }
 
       /* ── Hover effects off (touch) ── */
-      .bc:hover, .sv:hover, .tp:hover { transform: none; box-shadow: none; }
+      .sv:hover, .tp:hover { transform: none; box-shadow: none; }
     }
 
     /* ═══════════════════════════════════════
@@ -743,7 +699,7 @@
       .h-h1 { font-size: 28px; }
       .s-h2 { font-size: 25px; }
       .sec { padding: 44px 16px; }
-      .bento, .svc-bento, .price-grid { gap: 8px; }
+      .sign-grid, .svc-bento, .price-grid { gap: 8px; }
       .ch2 { font-size: 23px; }
       .aph { max-height: 220px; }
     }
@@ -805,12 +761,12 @@
     .h-ja {
       font-family: var(--font-serif); font-size: 13px; letter-spacing: .1em; color: var(--hint);
       margin-bottom: 12px; font-weight: 400;
-      opacity: 0; transition: all .7s ease .3s;
+      opacity: 0; transition: all .6s ease .3s;
     }
     .h-kicker {
       font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; color: var(--accent-ink);
       text-transform: uppercase; margin-bottom: 20px;
-      opacity: 0; transition: all .7s ease .35s;
+      opacity: 0; transition: all .6s ease .35s;
     }
 
     /* hero profile card — reuses the .h-checker glass shell */
@@ -841,7 +797,8 @@
     .cases-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
     .case {
       padding: 22px 26px; border-radius: 16px; opacity: 0; transform: translateY(14px);
-      transition: all .6s cubic-bezier(.16,1,.3,1); cursor: default;
+      transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
+      cursor: default;
     }
     .case:hover { border-color: rgba(232,134,106,.24); }
     .case-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
@@ -902,7 +859,7 @@
     <style>
       /* No JS: IntersectionObserver reveals never fire, so unhide everything that starts at opacity:0 */
       .h-h1, .h-ja, .h-kicker, .h-actions, .h-actions-note, .scroll-hint, .hero-right,
-      .s-lbl, .s-h2, .s-desc, .bc, .sv, .case,
+      .s-lbl, .s-h2, .s-desc, .sign-item, .sv, .case,
       .phi-item, .phi-quote, .ar, .price-card,
       .ch2, .csub, .cq, .cta-wrap {
         opacity: 1 !important; transform: none !important;
@@ -1039,10 +996,10 @@
   <div class="s-lbl">// SIGNS</div>
   <h2 class="s-h2">When did busy become the default?</h2>
   <p class="s-desc">Talking with business owners, the same three states keep coming up. Before solving anything, it helps to give them names.</p>
-  <div class="bento">
-    <div class="bc glass-card"><div class="bc-nb">01</div><div class="bc-lbl">01 / TIME</div><div class="bc-t">Running the business leaves no time to think about the business.</div><div class="bc-b">“I know what matters. But today went to the tasks again.”</div></div>
-    <div class="bc glass-card"><div class="bc-nb">02</div><div class="bc-lbl">02 / BRAND</div><div class="bc-t">The public face of the company keeps sliding to “later.”</div><div class="bc-b">“The part people see first has been ‘good enough for now’ — for years.”</div></div>
-    <div class="bc glass-card"><div class="bc-nb">03</div><div class="bc-lbl">03 / AI</div><div class="bc-t">AI could probably help. Finding out is one more task on the pile.</div><div class="bc-b">“I’m curious. I just want someone to sort it out and bring it to me.”</div></div>
+  <div class="sign-grid">
+    <div class="sign-item"><span class="sign-num">01</span><h3 class="sign-t">Running the business leaves no time to think about the business.</h3><p class="sign-b">“I know what matters. But today went to the tasks again.”</p></div>
+    <div class="sign-item"><span class="sign-num">02</span><h3 class="sign-t">The public face of the company keeps sliding to “later.”</h3><p class="sign-b">“The part people see first has been ‘good enough for now’ — for years.”</p></div>
+    <div class="sign-item"><span class="sign-num">03</span><h3 class="sign-t">AI could probably help. Finding out is one more task on the pile.</h3><p class="sign-b">“I’m curious. I just want someone to sort it out and bring it to me.”</p></div>
   </div>
 </section>
 
@@ -1060,10 +1017,6 @@
         <div class="sv-b">Websites, decks, the words you open with. Not just polish — we reorder things so a stranger understands your company in one reading.</div>
         <div class="sv-tags"><span>Landing pages</span><span>Sales decks</span><span>Voice &amp; messaging</span></div>
       </div>
-      <div class="svc-visual svc-visual-design" aria-hidden="true">
-        <div class="svc-artboard"><span class="svc-artbar"></span><span class="svc-artbar"></span><span class="svc-artbar"></span></div>
-        <span class="svc-swatch svc-swatch-a"></span><span class="svc-swatch svc-swatch-b"></span><span class="svc-swatch svc-swatch-c"></span>
-      </div>
     </div>
     <div class="sv sv2 glass-card">
       <div class="sv-ln"></div>
@@ -1073,11 +1026,6 @@
         <div class="sv-b">We start by writing down what fills your days, then hand over one task at a time — prompts, ground rules, and the habit of using them. Small steps, nothing on faith.</div>
         <div class="sv-tags"><span>Task mapping</span><span>Generative AI</span><span>House rules</span></div>
       </div>
-      <div class="svc-visual svc-visual-ai" aria-hidden="true">
-        <span class="svc-link svc-link-a"></span><span class="svc-link svc-link-b"></span>
-        <span class="svc-node svc-node-a"></span><span class="svc-node svc-node-b"></span><span class="svc-node svc-node-c"></span>
-        <div class="svc-prompt"><span></span><span></span><span></span>thinking with your team</div>
-      </div>
     </div>
     <div class="sv sv4 glass-card sv-wide">
       <div class="sv-ln"></div>
@@ -1086,11 +1034,6 @@
         <h3 class="sv-t">Find what you can let go — then let it run without you.</h3>
         <div class="sv-b">One page showing where the week goes. Then we separate what deserves your attention from what a template, a tool, or someone else can carry.</div>
         <div class="sv-tags"><span>Workload mapping</span><span>Automation</span><span>Quiet systems</span></div>
-      </div>
-      <div class="svc-visual svc-visual-ops" aria-hidden="true">
-        <span class="svc-flow-line"></span><span class="svc-flow-line"></span><span class="svc-flow-line"></span>
-        <span class="svc-flow-dot"></span>
-        <div class="svc-flow-card"><svg class="icn" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>
       </div>
     </div>
   </div>
