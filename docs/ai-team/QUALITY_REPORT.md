@@ -1,6 +1,20 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-05（監査A・B群 実装・未push）
+最終検証: 2026-07-06（新記事＋ブログ2カラムテンプレ・未push）
+
+## 新記事＋ブログ2カラムテンプレート（2026-07-06）
+変更: blog/why-freed-time-fills-up/（新規）・blog/margin-is-not-laziness・blog/finding-your-first-ai-task・blog/ai-security-checkpoints（テンプレ改修）・blog/index.html・sitemap.xml
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| node --check / タグ整合（4記事） | script全ブロック抽出・主要タグ開閉カウント | ✅ ALL OK |
+| JSON-LD parse | 4記事とも | ✅ |
+| 参考文献URL実在確認 | curl実UAでHTTPステータス確認、全9件 | ✅ 全件200（403だった経産省PDF数件は実在確認できる代替に差し替え済み） |
+| スクリーンショット | ヘッドレスChrome 1280px（2カラム）・375px（縦積み）×4記事＝8枚 | ✅ 目視確認、崩れなし |
+| 1024px境界 | 1023px/1025pxの比較撮影 | ✅ 本文の押し潰れなし |
+| nav-cta色統一 | grep確認 | ✅ ai-security-checkpointsの白文字残存を発見・修正、4記事とも統一 |
+
+未検証（開示）: reduced-motion実機トグル・正確なコントラスト比計算・Tabキー実機トレース・sticky top:96pxの厳密なピクセル調整。
 
 ## 監査A・B群 実装（2026-07-05）
 変更: index.html / en/index.html（noscript・split-word・チェッカーaria-live・cta-manifesto削除・entry-card文言・ヒーロー「無料」）/ chat.html（自動コピー・help文・mailtoリンク・空欄表記）/ contact.html（Q3削除・pre-line・返信約束・完了画面）/ privacy.html（相談メモ言及）/ blog/index.html・blog/ai-security-checkpoints/index.html（タイプライター削除）
