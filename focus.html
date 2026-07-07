@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="kinari">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>集中 | 風雅舎</title>
+  <meta name="description" content="時計とポモドーロタイマー、やることリストをひとつにした集中のためのページ。データはブラウザの中にだけ保存されます。">
+  <meta property="og:title" content="集中 | 風雅舎">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/focus.html">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="風雅舎">
+  <meta name="theme-color" content="#f0e6d6" id="metaTheme">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/focus.html">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #f0e6d6;
+      --bg2:     #e8dcc8;
+      --fg:      #0d2030;
+      --fg2:     #1e3a50;
+      --hint:    #5f646c;
+      --accent:  #e8866a;
+      --accent-ink: #7a4025;
+      --line:    rgba(13,32,48,.1);
+      --panel:   #f4ecdf;
+      --shadow:  rgba(13,32,48,.14);
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+      --ease: cubic-bezier(.16,1,.3,1);
+      --clock-font: var(--font-serif);
+    }
+    [data-theme="yoi"] {
+      --bg:      #0d2030;
+      --bg2:     #14293d;
+      --fg:      #f0e6d6;
+      --fg2:     #d9cfba;
+      --hint:    #b4ad9d;
+      --accent:  #f0a882;
+      --accent-ink: #f0a882;
+      --line:    rgba(240,230,214,.16);
+      --panel:   #122638;
+      --shadow:  rgba(0,0,0,.4);
+    }
+    [data-theme="koke"] {
+      --bg:      #e7e9dd;
+      --bg2:     #dde0cf;
+      --fg:      #1c281e;
+      --fg2:     #334031;
+      --hint:    #59614f;
+      --accent:  #e8866a;
+      --accent-ink: #6f4327;
+      --line:    rgba(28,40,30,.13);
+      --panel:   #edeee4;
+      --shadow:  rgba(28,40,30,.16);
+    }
+    [data-theme="kasumi"] {
+      --bg:      #e9e6e1;
+      --bg2:     #dfdbd4;
+      --fg:      #26282e;
+      --fg2:     #3c3f47;
+      --hint:    #61646b;
+      --accent:  #e8866a;
+      --accent-ink: #7a4025;
+      --line:    rgba(38,40,46,.13);
+      --panel:   #efece8;
+      --shadow:  rgba(38,40,46,.16);
+    }
+    [data-clock-font="sans"] { --clock-font: var(--font-sans); }
+    [data-clock-font="mono"] { --clock-font: var(--font-mono); }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: var(--font-sans); background: var(--bg); color: var(--fg);
+      transition: background .4s, color .4s;
+      overflow-x: hidden;
+    }
+    a { color: inherit; }
+    ::selection { background: rgba(232,134,106,.3); color: var(--fg); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    button { font-family: var(--font-sans); color: inherit; }
+
+    .nav {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: calc(env(safe-area-inset-top) + 20px) 48px 20px;
+    }
+    .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 32px; }
+    .nav-link { font-size: 11px; color: var(--hint); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; }
+    .nav-link:hover { color: var(--fg); }
+    @media (max-width: 768px) { .nav { padding-left: 20px; padding-right: 20px; } .nav-right { gap: 18px; } }
+
+    /* ---- 舞台 ---- */
+    .stage {
+      min-height: 100vh; min-height: 100dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; gap: 0;
+      padding: calc(env(safe-area-inset-top) + 84px) 24px calc(env(safe-area-inset-bottom) + 104px);
+    }
+    .st-date {
+      font-family: var(--font-mono); font-size: 12px; letter-spacing: .22em;
+      color: var(--hint); text-transform: uppercase;
+    }
+    .st-clock {
+      font-family: var(--clock-font); font-weight: 300;
+      font-size: clamp(64px, 17vw, 164px); line-height: 1.15;
+      font-variant-numeric: tabular-nums; letter-spacing: .02em;
+      color: var(--fg); margin: 4px 0 8px;
+    }
+    .st-clock .sec { font-size: .38em; color: var(--hint); font-variant-numeric: tabular-nums; margin-left: .12em; }
+    /* Zen Kaku GothicとJetBrains系は300を読み込んでいないため、疑似細字を避け400を使う */
+    [data-clock-font="sans"] .st-clock,
+    [data-clock-font="mono"] .st-clock { font-weight: 400; }
+
+    /* ---- ポモドーロ ---- */
+    .pomo { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 10px; }
+    .pomo-tabs {
+      display: inline-flex; border: 1px solid var(--line); border-radius: 2px; overflow: hidden;
+      background: color-mix(in srgb, var(--bg2) 55%, transparent);
+    }
+    .pomo-tab {
+      font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 500;
+      padding: 11px 18px; min-height: 44px; background: transparent; border: none; cursor: pointer;
+      color: var(--hint); transition: color .2s, background .2s;
+    }
+    .pomo-tab[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+    .pomo-tab:hover:not([aria-pressed="true"]) { color: var(--fg); }
+    .pomo-time {
+      font-family: var(--font-mono); font-size: clamp(36px, 8vw, 56px);
+      font-variant-numeric: tabular-nums; letter-spacing: .04em; line-height: 1.2; color: var(--fg2);
+    }
+    .pomo-time.done-pulse { animation: pulse 1s ease 2; }
+    @keyframes pulse { 0%,100% { color: var(--fg2); } 50% { color: var(--accent); } }
+    .pomo-ctrl { display: flex; gap: 10px; }
+    .btn-amber {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 12px;
+      padding: 13px 26px; min-height: 44px; border-radius: 2px; background: var(--accent); color: #0d2030;
+      cursor: pointer; font-weight: 500; border: none; letter-spacing: .1em;
+      transition: opacity .25s; text-transform: uppercase; text-decoration: none;
+    }
+    .btn-amber:hover { opacity: .8; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 12px;
+      padding: 12px 25px; min-height: 44px; border-radius: 2px; background: transparent; color: var(--fg);
+      border: 1px solid var(--line); cursor: pointer; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase; text-decoration: none; transition: border-color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--hint); }
+    .btn-amber svg, .btn-ghost svg { width: 15px; height: 15px; }
+
+    .pomo-task {
+      font-size: 13px; color: var(--fg2); line-height: 1.8; max-width: 480px;
+      padding: 0 8px; overflow-wrap: anywhere;
+    }
+    .pomo-task .lbl { color: var(--hint); font-size: 12px; }
+    .pomo-task .none { color: var(--hint); font-size: 12px; }
+
+    /* ---- ことば ---- */
+    .msg-wrap { display: flex; align-items: center; gap: 10px; margin-top: 26px; max-width: 560px; }
+    .msg-col { display: flex; flex-direction: column; gap: 5px; }
+    .msg {
+      font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1;
+      font-size: 15px; line-height: 2; color: var(--fg2);
+      opacity: 1; transition: opacity .4s ease;
+    }
+    .msg.fading { opacity: 0; }
+    .msg-author {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; color: var(--hint);
+      opacity: 1; transition: opacity .4s ease; min-height: 1em;
+    }
+    .msg-author.fading { opacity: 0; }
+    .msg-next {
+      flex: none; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
+      background: transparent; border: 1px solid var(--line); border-radius: 50%; cursor: pointer;
+      color: var(--hint); transition: color .2s, border-color .2s, transform .4s var(--ease);
+    }
+    .msg-next:hover { color: var(--fg); border-color: var(--hint); transform: rotate(180deg); }
+    .msg-next svg { width: 15px; height: 15px; }
+
+    /* ---- 下部の操作 ---- */
+    .corner {
+      position: fixed; bottom: calc(env(safe-area-inset-bottom) + 20px); z-index: 10;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .corner-l { left: max(env(safe-area-inset-left), 20px); }
+    .corner-r { right: max(env(safe-area-inset-right), 20px); }
+    .theme-dot {
+      width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+      border: 1px solid var(--line); padding: 0;
+      transition: transform .2s var(--ease), box-shadow .2s;
+    }
+    .theme-dot:hover { transform: scale(1.15); }
+    .theme-dot[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+    .btn-tasks {
+      display: inline-flex; align-items: center; gap: 10px; font-size: 11px;
+      padding: 12px 20px; min-height: 44px; border-radius: 2px;
+      background: color-mix(in srgb, var(--panel) 88%, transparent); color: var(--fg);
+      border: 1px solid var(--line); cursor: pointer; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase; transition: border-color .2s;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .btn-tasks:hover { border-color: var(--hint); }
+    .btn-tasks svg { width: 15px; height: 15px; }
+    .btn-tasks .cnt { font-family: var(--font-mono); font-size: 10px; color: var(--accent-ink); }
+
+    /* ---- タスクパネル ---- */
+    .backdrop {
+      position: fixed; inset: 0; z-index: 40; background: rgba(13,32,48,.35);
+      opacity: 0; pointer-events: none; transition: opacity .35s;
+    }
+    .backdrop.open { opacity: 1; pointer-events: auto; }
+    .panel {
+      position: fixed; z-index: 50; background: var(--panel);
+      display: flex; flex-direction: column;
+      box-shadow: 0 8px 48px var(--shadow);
+      top: 0; right: 0; bottom: 0; width: min(380px, 92vw);
+      transform: translateX(105%); transition: transform .45s var(--ease);
+      padding-top: env(safe-area-inset-top);
+    }
+    .panel.open { transform: translateX(0); }
+    @media (max-width: 640px) {
+      .panel {
+        top: auto; left: 0; right: 0; bottom: 0; width: 100%;
+        max-height: 80vh; max-height: 80dvh;
+        border-radius: 10px 10px 0 0; padding-top: 0;
+        transform: translateY(105%);
+      }
+      .panel.open { transform: translateY(0); }
+    }
+    .panel-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 22px 14px; border-bottom: 1px solid var(--line); flex: none;
+    }
+    .panel-title { font-family: var(--font-serif); font-weight: 400; font-feature-settings: 'palt' 1; font-size: 17px; }
+    .panel-close {
+      width: 44px; height: 44px; margin: -10px -12px -10px 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: transparent; border: none; cursor: pointer; color: var(--hint); transition: color .2s;
+    }
+    .panel-close:hover { color: var(--fg); }
+    .panel-close svg { width: 18px; height: 18px; }
+    .panel-add { display: flex; gap: 8px; padding: 16px 22px 6px; flex: none; }
+    .panel-add input {
+      flex: 1; min-width: 0; font-family: var(--font-sans); font-size: 14px;
+      padding: 11px 12px; min-height: 44px; border: 1px solid var(--line); border-radius: 2px;
+      background: var(--bg); color: var(--fg);
+    }
+    .panel-add input::placeholder { color: var(--hint); }
+    .panel-add .btn-amber { padding: 11px 16px; }
+    .panel-tools { display: flex; justify-content: flex-end; padding: 6px 22px; flex: none; }
+    .toggle-done {
+      font-size: 11px; color: var(--hint); background: transparent; border: none; cursor: pointer;
+      padding: 8px 2px; letter-spacing: .04em; transition: color .2s; min-height: 36px;
+    }
+    .toggle-done:hover { color: var(--fg); }
+    .task-list { list-style: none; overflow-y: auto; flex: 1; padding: 2px 14px calc(env(safe-area-inset-bottom) + 20px); overscroll-behavior: contain; }
+    .task-empty { font-size: 13px; color: var(--hint); line-height: 2; padding: 22px 10px; text-align: center; }
+    .task {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 6px 8px 10px; border-radius: 2px; border-left: 2px solid transparent;
+      transition: background .2s, border-color .2s;
+    }
+    .task:hover { background: var(--bg2); }
+    .task.is-focus { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+    .t-check {
+      flex: none; width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
+      background: transparent; border: none; cursor: pointer; color: var(--hint);
+    }
+    .t-check .box {
+      width: 17px; height: 17px; border: 1.5px solid var(--hint); border-radius: 2px;
+      display: inline-flex; align-items: center; justify-content: center; transition: background .2s, border-color .2s;
+    }
+    .t-check .box svg { width: 11px; height: 11px; opacity: 0; color: var(--bg); transition: opacity .2s; }
+    .task.is-done .t-check .box { background: var(--hint); border-color: var(--hint); }
+    .task.is-done .t-check .box svg { opacity: 1; }
+    .t-body { flex: 1; min-width: 0; text-align: left; }
+    .t-name { display: block; font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+    .task.is-done .t-name { color: var(--hint); text-decoration: line-through; }
+    .t-meta { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; color: var(--accent-ink); margin-top: 1px; }
+    .t-edit-input {
+      width: 100%; font-family: var(--font-sans); font-size: 14px; padding: 6px 8px;
+      border: 1px solid var(--accent); border-radius: 2px; background: var(--bg); color: var(--fg);
+    }
+    .t-act {
+      flex: none; width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
+      background: transparent; border: none; cursor: pointer; color: var(--hint); border-radius: 2px;
+      transition: color .2s;
+    }
+    .t-act:hover { color: var(--fg); }
+    .t-act svg { width: 16px; height: 16px; }
+    .t-focus-btn[aria-pressed="true"] { color: var(--accent-ink); }
+
+    /* ---- 通知 ---- */
+    .notice {
+      position: fixed; top: calc(env(safe-area-inset-top) + 16px); left: 50%; z-index: 60;
+      transform: translate(-50%, -16px); opacity: 0; pointer-events: none;
+      background: var(--fg); color: var(--bg);
+      font-size: 13px; line-height: 1.7; padding: 13px 20px; border-radius: 2px;
+      display: flex; align-items: center; gap: 14px; max-width: min(480px, calc(100vw - 32px));
+      box-shadow: 0 8px 32px var(--shadow);
+      transition: opacity .4s, transform .4s var(--ease);
+    }
+    .notice.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+    .notice button {
+      background: transparent; border: none; color: inherit; opacity: .7; cursor: pointer;
+      font-size: 12px; letter-spacing: .08em; padding: 6px; min-height: 32px;
+    }
+    .notice button:hover { opacity: 1; }
+
+    /* ---- 背景レイヤー ---- */
+    .bg-layer {
+      position: fixed; inset: 0; z-index: 0; overflow: hidden;
+      background: var(--bg); transition: background .4s;
+    }
+    .bg-media { position: absolute; inset: 0; }
+    .bg-media img, .bg-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .bg-layer::after {
+      content: ''; position: absolute; inset: 0; background: var(--bg);
+      opacity: 1; transition: opacity .5s ease, background .4s; pointer-events: none;
+    }
+    [data-bg-kind="preset"] .bg-layer::after { opacity: .18; }
+    [data-bg-kind="custom"] .bg-layer::after { opacity: .62; }
+    .bg-preset { position: absolute; inset: 0; }
+    .p-mist {
+      background:
+        radial-gradient(ellipse at 28% 22%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 60%),
+        radial-gradient(ellipse at 76% 82%, color-mix(in srgb, var(--fg2) 16%, transparent), transparent 58%),
+        var(--bg);
+      animation: driftMist 28s ease-in-out infinite alternate;
+    }
+    .p-fire {
+      background:
+        radial-gradient(circle at 50% 120%, color-mix(in srgb, var(--accent) 60%, transparent), transparent 45%),
+        radial-gradient(circle at 50% 130%, color-mix(in srgb, var(--accent2, var(--accent)) 35%, transparent), transparent 60%),
+        var(--bg);
+      animation: emberGlow 5s ease-in-out infinite;
+    }
+    .p-water {
+      background: linear-gradient(120deg,
+        color-mix(in srgb, var(--fg2) 12%, var(--bg)),
+        var(--bg2),
+        color-mix(in srgb, var(--accent) 10%, var(--bg)));
+      background-size: 220% 220%;
+      animation: waterFlow 32s ease-in-out infinite;
+    }
+    @keyframes driftMist { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-3%, 2%) scale(1.06); } }
+    @keyframes emberGlow { 0%, 100% { opacity: .7; } 50% { opacity: 1; } }
+    @keyframes waterFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    @media (prefers-reduced-motion: reduce) {
+      .p-mist, .p-fire, .p-water { animation: none !important; }
+    }
+    .stage { position: relative; z-index: 1; }
+
+    /* ---- 外観パネル ---- */
+    .panel--left { right: auto; left: 0; transform: translateX(-105%); }
+    .panel--left.open { transform: translateX(0); }
+    .appearance-body { padding: 4px 22px calc(env(safe-area-inset-bottom) + 24px); overflow-y: auto; flex: 1; }
+    .ap-section { padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .ap-section:last-child { border-bottom: none; }
+    .ap-h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--hint); margin-bottom: 12px; font-weight: 500; }
+    .ap-swatches { display: flex; gap: 10px; }
+    .ap-bg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+    .bg-choice { display: flex; flex-direction: column; align-items: center; gap: 6px; background: transparent; border: none; cursor: pointer; padding: 2px; }
+    .bg-thumb { width: 100%; aspect-ratio: 1; border-radius: 4px; border: 1px solid var(--line); overflow: hidden; transition: box-shadow .2s; }
+    .bg-choice[aria-pressed="true"] .bg-thumb { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+    .bg-thumb-none { background: var(--bg2); }
+    .bg-choice-label { font-size: 10px; color: var(--hint); letter-spacing: .04em; }
+    .ap-upload { display: block; cursor: pointer; }
+    .ap-upload-btn { width: 100%; box-sizing: border-box; }
+    .ap-hint { font-size: 11.5px; color: var(--hint); line-height: 1.7; margin-top: 10px; }
+    .ap-custom-status { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; padding: 8px 10px; background: var(--bg2); border-radius: 2px; font-size: 12px; }
+    .ap-custom-status[hidden] { display: none; }
+    .ap-font-group { display: flex; gap: 8px; }
+    .ap-font-btn {
+      flex: 1; font-size: 12px; padding: 10px 6px; min-height: 40px; border: 1px solid var(--line);
+      border-radius: 2px; background: transparent; color: var(--fg); cursor: pointer;
+      transition: border-color .2s, background .2s, color .2s;
+    }
+    .ap-font-btn[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    .ap-font-btn:hover:not([aria-pressed="true"]) { border-color: var(--hint); }
+
+    /* ---- 音楽 ---- */
+    .btn-icon { padding: 12px; }
+    .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .switch-row + .switch-row { margin-top: 14px; }
+    .switch-label { font-size: 13px; color: var(--fg2); }
+    .switch {
+      flex: none; width: 40px; height: 22px; border-radius: 11px; border: 1px solid var(--line);
+      background: var(--bg2); cursor: pointer; position: relative; padding: 0;
+      transition: background .25s, border-color .25s;
+    }
+    .switch::after {
+      content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px;
+      border-radius: 50%; background: var(--hint); transition: transform .25s var(--ease), background .25s;
+    }
+    .switch[aria-checked="true"] { background: var(--accent); border-color: var(--accent); }
+    .switch[aria-checked="true"]::after { transform: translateX(18px); background: #fff; }
+    .vol-row { display: flex; align-items: center; gap: 12px; }
+    .vol-row svg { flex: none; width: 16px; height: 16px; color: var(--hint); }
+    .vol-slider { flex: 1; accent-color: var(--accent); height: 22px; cursor: pointer; }
+    .track-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .track {
+      display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+      padding: 9px 8px; min-height: 56px; border: none; border-radius: 2px; background: transparent;
+      cursor: pointer; border-left: 2px solid transparent; transition: background .2s, border-color .2s;
+    }
+    .track:hover { background: var(--bg2); }
+    .track[aria-pressed="true"] { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+    .track-thumb { flex: none; width: 38px; height: 38px; border-radius: 4px; border: 1px solid var(--line); overflow: hidden; }
+    .track-body { flex: 1; min-width: 0; }
+    .track-name { display: block; font-size: 13.5px; font-weight: 500; color: var(--fg); }
+    .track-desc { display: block; font-size: 11px; color: var(--hint); margin-top: 1px; }
+    .eq { flex: none; display: none; align-items: flex-end; gap: 2px; height: 14px; }
+    .eq i { width: 2.5px; background: var(--accent-ink); border-radius: 1px; animation: eqB 1s ease-in-out infinite; }
+    .eq i:nth-child(1) { height: 60%; animation-delay: 0s; }
+    .eq i:nth-child(2) { height: 100%; animation-delay: .25s; }
+    .eq i:nth-child(3) { height: 45%; animation-delay: .5s; }
+    @keyframes eqB { 0%, 100% { transform: scaleY(.5); } 50% { transform: scaleY(1); } }
+    .is-playing .eq { display: inline-flex; }
+
+    /* ---- ミニプレイヤー ---- */
+    .mini {
+      position: fixed; z-index: 10; bottom: calc(env(safe-area-inset-bottom) + 20px);
+      left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 10px 8px 16px; border-radius: 28px;
+      background: color-mix(in srgb, var(--panel) 85%, transparent); border: 1px solid var(--line);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 24px var(--shadow);
+      max-width: min(400px, calc(100vw - 32px));
+    }
+    .mini[hidden] { display: none; }
+    .mini-info { display: flex; align-items: center; gap: 8px; min-width: 0; margin-right: 4px; }
+    .mini-name { font-size: 12px; font-weight: 500; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mini-btn {
+      flex: none; width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
+      background: transparent; border: none; border-radius: 50%; cursor: pointer; color: var(--fg2);
+      transition: background .2s, color .2s;
+    }
+    .mini-btn:hover { background: var(--bg2); color: var(--fg); }
+    .mini-btn svg { width: 16px; height: 16px; }
+    .mini-btn--main { background: var(--accent); color: #0d2030; }
+    .mini-btn--main:hover { background: var(--accent); opacity: .85; color: #0d2030; }
+    @media (max-width: 640px) {
+      .mini { bottom: calc(env(safe-area-inset-bottom) + 78px); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-layer" id="bgLayer" aria-hidden="true">
+  <div class="bg-media" id="bgMedia"></div>
+</div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">風雅舎</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="blog/" class="nav-link">Blog</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+</nav>
+
+<main class="stage">
+  <h1 class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">集中のためのページ</h1>
+  <p class="st-date" id="stDate"></p>
+  <p class="st-clock" id="stClock" aria-label="現在時刻"></p>
+
+  <section class="pomo" aria-label="ポモドーロタイマー">
+    <div class="pomo-tabs" role="group" aria-label="タイマーのモード">
+      <button type="button" class="pomo-tab" data-mode="focus" aria-pressed="true">Focus</button>
+      <button type="button" class="pomo-tab" data-mode="short" aria-pressed="false">Short Break</button>
+      <button type="button" class="pomo-tab" data-mode="long" aria-pressed="false">Long Break</button>
+    </div>
+    <p class="pomo-time" id="pomoTime">25:00</p>
+    <div class="pomo-ctrl">
+      <button type="button" class="btn-amber" id="btnStart">
+        <svg id="icoPlay" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.53.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>
+        <svg id="icoPause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M8 5a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1zm8 0a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1z"/></svg>
+        <span id="btnStartLabel">開始</span>
+      </button>
+      <button type="button" class="btn-ghost" id="btnReset">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11A8.1 8.1 0 0 0 4.5 9M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg>
+        リセット
+      </button>
+    </div>
+    <p class="pomo-task" id="pomoTask" aria-live="polite"></p>
+  </section>
+
+  <div class="msg-wrap">
+    <div class="msg-col">
+      <p class="msg" id="msg"></p>
+      <p class="msg-author" id="msgAuthor"></p>
+    </div>
+    <button type="button" class="msg-next" id="msgNext" aria-label="次のことばを表示">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11A8.1 8.1 0 0 0 4.5 9M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg>
+    </button>
+  </div>
+</main>
+
+<div class="corner corner-l">
+  <button type="button" class="btn-tasks" id="btnAppearance" aria-expanded="false" aria-controls="appearancePanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21a9 9 0 1 1 0-18c4 0 8 2.7 8 6.5 0 2.2-1.6 3.7-3.6 3.7H14a2 2 0 0 0-1.1 3.7 2 2 0 0 1-.9 3.8z"/><circle cx="7.5" cy="10.8" r="1" fill="currentColor" stroke="none"/><circle cx="11" cy="7.2" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="7.8" r="1" fill="currentColor" stroke="none"/></svg>
+    外観
+  </button>
+  <button type="button" class="btn-tasks btn-icon" id="btnMusic" aria-expanded="false" aria-controls="musicPanel" aria-label="音楽と環境音">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="17" r="3"/><circle cx="16" cy="15" r="3"/><path d="M9 17V5l10-2v12"/></svg>
+  </button>
+</div>
+
+<div class="corner corner-r">
+  <button type="button" class="btn-tasks" id="btnPanel" aria-expanded="false" aria-controls="panel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>
+    やること<span class="cnt" id="taskCnt"></span>
+  </button>
+</div>
+
+<div class="backdrop" id="backdrop"></div>
+<aside class="panel" id="panel" role="dialog" aria-modal="true" aria-label="やることリスト" aria-hidden="true">
+  <div class="panel-head">
+    <h2 class="panel-title">やることリスト</h2>
+    <button type="button" class="panel-close" id="btnClose" aria-label="リストを閉じる">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <form class="panel-add" id="addForm">
+    <input type="text" id="addInput" placeholder="やることを書き出す" maxlength="200" aria-label="新しいタスク">
+    <button type="submit" class="btn-amber" aria-label="タスクを追加">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+  </form>
+  <div class="panel-tools">
+    <button type="button" class="toggle-done" id="toggleDone" aria-pressed="true">完了済みを隠す</button>
+  </div>
+  <ul class="task-list" id="taskList"></ul>
+</aside>
+
+<aside class="panel panel--left" id="appearancePanel" role="dialog" aria-modal="true" aria-label="外観の設定" aria-hidden="true">
+  <div class="panel-head">
+    <h2 class="panel-title">外観</h2>
+    <button type="button" class="panel-close" id="btnAppearanceClose" aria-label="外観の設定を閉じる">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="appearance-body">
+    <section class="ap-section">
+      <h3 class="ap-h3">配色</h3>
+      <div class="ap-swatches" role="group" aria-label="配色を選ぶ">
+        <button type="button" class="theme-dot" data-theme="kinari" aria-label="生成り（クリーム）" aria-pressed="true" style="background:#f0e6d6"></button>
+        <button type="button" class="theme-dot" data-theme="yoi" aria-label="宵（ネイビー）" aria-pressed="false" style="background:#0d2030"></button>
+        <button type="button" class="theme-dot" data-theme="koke" aria-label="苔（若葉）" aria-pressed="false" style="background:#dde0cf"></button>
+        <button type="button" class="theme-dot" data-theme="kasumi" aria-label="霞（グレー）" aria-pressed="false" style="background:#dfdbd4"></button>
+      </div>
+    </section>
+    <section class="ap-section">
+      <h3 class="ap-h3">背景</h3>
+      <div class="ap-bg-grid" role="group" aria-label="背景を選ぶ">
+        <button type="button" class="bg-choice" data-bg="none" aria-pressed="true">
+          <span class="bg-thumb bg-thumb-none"></span>
+          <span class="bg-choice-label">既定</span>
+        </button>
+        <button type="button" class="bg-choice" data-bg="mist" aria-pressed="false">
+          <span class="bg-thumb p-mist"></span>
+          <span class="bg-choice-label">靄</span>
+        </button>
+        <button type="button" class="bg-choice" data-bg="fire" aria-pressed="false">
+          <span class="bg-thumb p-fire"></span>
+          <span class="bg-choice-label">灯</span>
+        </button>
+        <button type="button" class="bg-choice" data-bg="water" aria-pressed="false">
+          <span class="bg-thumb p-water"></span>
+          <span class="bg-choice-label">水面</span>
+        </button>
+      </div>
+      <label class="ap-upload">
+        <input type="file" id="bgFileInput" accept="image/*,video/*" hidden>
+        <span class="btn-ghost ap-upload-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M12 4l4 4M12 4 8 8"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+          写真・動画を選ぶ
+        </span>
+      </label>
+      <p class="ap-hint" id="bgHint">お使いの端末に保存されている画像・動画を、この画面だけの背景として使えます。データはこの端末の中だけに残り、外部には送信されません。</p>
+      <div class="ap-custom-status" id="bgCustomStatus" hidden>
+        <span id="bgCustomName"></span>
+        <button type="button" class="t-act" id="bgCustomRemove" aria-label="独自の背景を削除">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg>
+        </button>
+      </div>
+    </section>
+    <section class="ap-section">
+      <h3 class="ap-h3">時計の書体</h3>
+      <div class="ap-font-group" role="group" aria-label="時計の書体を選ぶ">
+        <button type="button" class="ap-font-btn" data-clock-font="serif" aria-pressed="true">明朝</button>
+        <button type="button" class="ap-font-btn" data-clock-font="sans" aria-pressed="false">ゴシック</button>
+        <button type="button" class="ap-font-btn" data-clock-font="mono" aria-pressed="false">等幅</button>
+      </div>
+    </section>
+  </div>
+</aside>
+
+<aside class="panel panel--left" id="musicPanel" role="dialog" aria-modal="true" aria-label="音楽と環境音" aria-hidden="true">
+  <div class="panel-head">
+    <h2 class="panel-title">音楽と環境音</h2>
+    <button type="button" class="panel-close" id="btnMusicClose" aria-label="音楽の設定を閉じる">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="appearance-body">
+    <section class="ap-section">
+      <div class="switch-row">
+        <span class="switch-label" id="lblMini">ミニプレイヤーを表示</span>
+        <button type="button" class="switch" id="swMini" role="switch" aria-checked="true" aria-labelledby="lblMini"></button>
+      </div>
+      <div class="switch-row">
+        <span class="switch-label" id="lblBgFollow">背景を音に合わせる</span>
+        <button type="button" class="switch" id="swBgFollow" role="switch" aria-checked="false" aria-labelledby="lblBgFollow"></button>
+      </div>
+    </section>
+    <section class="ap-section">
+      <h3 class="ap-h3">音量</h3>
+      <div class="vol-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 8a5 5 0 0 1 0 8"/><path d="M6 15H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2l3.5-4.5A.8.8 0 0 1 11 5v14a.8.8 0 0 1-1.5.5L6 15"/></svg>
+        <input type="range" class="vol-slider" id="volSlider" min="0" max="1" step="0.01" value="0.7" aria-label="音量">
+      </div>
+    </section>
+    <section class="ap-section">
+      <h3 class="ap-h3">音源</h3>
+      <ul class="track-list" id="trackList"></ul>
+      <p class="ap-hint">音源はすべて風雅舎用に合成した仮のループです。データはこのサイトから配信され、外部サービスには接続しません。</p>
+    </section>
+  </div>
+</aside>
+
+<div class="mini" id="miniPlayer" hidden>
+  <div class="mini-info">
+    <span class="mini-name" id="miniName"></span>
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  </div>
+  <button type="button" class="mini-btn" id="miniPrev" aria-label="前の音源">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.5 5.6v12.8a1 1 0 0 1-1.53.85L8 13v5a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5l9.97-6.25a1 1 0 0 1 1.53.85z"/></svg>
+  </button>
+  <button type="button" class="mini-btn mini-btn--main" id="miniPlay" aria-label="再生">
+    <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.53.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>
+    <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M8 5a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1zm8 0a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1z"/></svg>
+  </button>
+  <button type="button" class="mini-btn" id="miniNext" aria-label="次の音源">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.5 5.6v12.8a1 1 0 0 0 1.53.85L16 13v5a1 1 0 0 0 2 0V6a1 1 0 0 0-2 0v5L6.03 4.75a1 1 0 0 0-1.53.85z"/></svg>
+  </button>
+</div>
+
+<div class="notice" id="notice" role="status" aria-live="assertive">
+  <span id="noticeText"></span>
+  <button type="button" id="noticeClose">閉じる</button>
+</div>
+
+<script>
+'use strict';
+(function () {
+  /* ---------- 保存 ---------- */
+  var LS_KEY = 'fugasha_focus_v1';
+  var state = {
+    tasks: [],            // {id, name, done, pomos, createdAt}
+    selectedId: null,
+    hideDone: false,
+    theme: 'kinari',
+    mode: 'focus',
+    durations: { focus: 25 * 60, short: 5 * 60, long: 15 * 60 }, // 秒
+    background: { type: 'none' }, // {type:'none'} | {type:'preset', presetId} | {type:'custom'}
+    clockFont: 'serif',
+    music: { trackId: null, volume: 0.7, mini: true, bgFollow: false }
+  };
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(LS_KEY);
+      if (!raw) return;
+      var s = JSON.parse(raw);
+      if (s && typeof s === 'object') {
+        if (Array.isArray(s.tasks)) state.tasks = s.tasks;
+        if (typeof s.selectedId === 'string') state.selectedId = s.selectedId;
+        if (typeof s.hideDone === 'boolean') state.hideDone = s.hideDone;
+        if (typeof s.theme === 'string') state.theme = s.theme;
+        if (s.mode === 'focus' || s.mode === 'short' || s.mode === 'long') state.mode = s.mode;
+        if (s.durations && typeof s.durations.focus === 'number') state.durations = s.durations;
+        if (s.background && (s.background.type === 'none' || s.background.type === 'preset' || s.background.type === 'custom')) state.background = s.background;
+        if (s.clockFont === 'serif' || s.clockFont === 'sans' || s.clockFont === 'mono') state.clockFont = s.clockFont;
+        if (s.music && typeof s.music === 'object') {
+          if (typeof s.music.trackId === 'string') state.music.trackId = s.music.trackId;
+          if (typeof s.music.volume === 'number' && s.music.volume >= 0 && s.music.volume <= 1) state.music.volume = s.music.volume;
+          if (typeof s.music.mini === 'boolean') state.music.mini = s.music.mini;
+          if (typeof s.music.bgFollow === 'boolean') state.music.bgFollow = s.music.bgFollow;
+        }
+      }
+    } catch (e) { /* プライベートモード等では保存なしで動作 */ }
+  }
+  function saveState() {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) { /* 保存不可でも継続 */ }
+  }
+
+  /* ---------- 時計 ---------- */
+  var elDate = document.getElementById('stDate');
+  var elClock = document.getElementById('stClock');
+  var WD = ['日', '月', '火', '水', '木', '金', '土'];
+  function pad(n) { return String(n).padStart(2, '0'); }
+  var lastClockText = '';
+  function tickClock() {
+    var d = new Date();
+    var t = pad(d.getHours()) + ':' + pad(d.getMinutes());
+    var s = pad(d.getSeconds());
+    var text = t + s;
+    if (text !== lastClockText) {
+      lastClockText = text;
+      elClock.innerHTML = '';
+      elClock.appendChild(document.createTextNode(t));
+      var sec = document.createElement('span');
+      sec.className = 'sec';
+      sec.textContent = s;
+      elClock.appendChild(sec);
+      elDate.textContent = d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate()) + ' ' + WD[d.getDay()];
+    }
+  }
+  tickClock();
+  setInterval(tickClock, 250);
+
+  /* ---------- ことば ---------- */
+  // オリジナル（風雅舎）: 出典確認不要の書き下ろし
+  // 引用（出典明記）: 一次資料（論語・老子・自省録・プラトン対話篇）で確認できる範囲に厳選し、誤引用を避ける
+  var MESSAGES = [
+    { t: 'focus', m: '深い集中は、静けさの中でしか育たない。', author: '風雅舎' },
+    { t: 'focus', m: '一度にひとつ。それがいちばん速い道になる。', author: '風雅舎' },
+    { t: 'focus', m: '迷いを書き出すと、机の上が少し広くなる。', author: '風雅舎' },
+    { t: 'focus', m: '大きな仕事は、小さな二十五分の積み重ねでできている。', author: '風雅舎' },
+    { t: 'focus', m: '完璧な計画より、不完全な一行。', author: '風雅舎' },
+    { t: 'any',   m: '続けることは、才能のもうひとつの名前。', author: '風雅舎' },
+    { t: 'any',   m: '学びとは、昨日の自分との静かな対話。', author: '風雅舎' },
+    { t: 'any',   m: '創造は、余白のあるところに訪れる。', author: '風雅舎' },
+    { t: 'any',   m: '急がない。ただ、止まらない。', author: '風雅舎' },
+    { t: 'any',   m: '小さな一歩でいい。方向が合っているなら。', author: '風雅舎' },
+    { t: 'break', m: '休むことも、仕事のうち。', author: '風雅舎' },
+    { t: 'break', m: '一杯のお茶。遠くを見る時間。', author: '風雅舎' },
+    { t: 'break', m: 'よく休んだ人から、よく集中していく。', author: '風雅舎' },
+    { t: 'any',   m: '過ちて改めざる、是を過ちと謂う。', author: '孔子', source: '論語・衛霊公篇' },
+    { t: 'any',   m: '千里の行も、足下より始まる。', author: '老子', source: '老子・第六十四章' },
+    { t: 'any',   m: '知らないことを知っている。それだけが確かな知恵だ。', author: 'ソクラテス', source: 'プラトン『ソクラテスの弁明』' },
+    { t: 'break', m: '内に目を向けよ。掘り続ける限り、そこには尽きぬ善の泉がある。', author: 'マルクス・アウレリウス', source: '自省録・第七巻' }
+  ];
+  var elMsg = document.getElementById('msg');
+  var elMsgAuthor = document.getElementById('msgAuthor');
+  var lastMsgIdx = -1;
+  function msgPool() {
+    var want = state.mode === 'focus' ? 'focus' : 'break';
+    return MESSAGES.map(function (m, i) { return { i: i, m: m }; })
+      .filter(function (x) { return x.m.t === want || x.m.t === 'any'; });
+  }
+  function renderMessage(pick) {
+    elMsg.textContent = pick.m.m;
+    elMsgAuthor.textContent = pick.m.author ? '— ' + pick.m.author : '';
+  }
+  function pickMessage(fade) {
+    var pool = msgPool();
+    var cands = pool.filter(function (x) { return x.i !== lastMsgIdx; });
+    if (!cands.length) cands = pool;
+    var pick = cands[Math.floor(Math.random() * cands.length)];
+    lastMsgIdx = pick.i;
+    if (fade) {
+      elMsg.classList.add('fading');
+      elMsgAuthor.classList.add('fading');
+      setTimeout(function () {
+        renderMessage(pick);
+        elMsg.classList.remove('fading');
+        elMsgAuthor.classList.remove('fading');
+      }, 400);
+    } else {
+      renderMessage(pick);
+    }
+  }
+  document.getElementById('msgNext').addEventListener('click', function () { pickMessage(true); });
+
+  /* ---------- 通知 ---------- */
+  var elNotice = document.getElementById('notice');
+  var elNoticeText = document.getElementById('noticeText');
+  var noticeTimer = null;
+  function showNotice(text) {
+    elNoticeText.textContent = text;
+    elNotice.classList.add('show');
+    if (noticeTimer) clearTimeout(noticeTimer);
+    noticeTimer = setTimeout(hideNotice, 8000);
+  }
+  function hideNotice() {
+    elNotice.classList.remove('show');
+    if (noticeTimer) { clearTimeout(noticeTimer); noticeTimer = null; }
+  }
+  document.getElementById('noticeClose').addEventListener('click', hideNotice);
+
+  var audioCtx = null;
+  function chime() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      if (!audioCtx) audioCtx = new AC();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      [660, 880].forEach(function (freq, i) {
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        var t0 = audioCtx.currentTime + i * 0.28;
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.0001, t0);
+        gain.gain.exponentialRampToValueAtTime(0.12, t0 + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.6);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start(t0);
+        osc.stop(t0 + 0.65);
+      });
+    } catch (e) { /* 音が出せない環境では視覚通知のみ */ }
+  }
+
+  /* ---------- ポモドーロ ---------- */
+  var elTime = document.getElementById('pomoTime');
+  var elStartLabel = document.getElementById('btnStartLabel');
+  var icoPlay = document.getElementById('icoPlay');
+  var icoPause = document.getElementById('icoPause');
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.pomo-tab'));
+  var MODE_LABEL = { focus: 'Focus', short: 'Short Break', long: 'Long Break' };
+  var timer = { running: false, endAt: 0, remaining: 0, intervalId: null };
+  var baseTitle = document.title;
+
+  function fmt(sec) {
+    sec = Math.max(0, Math.round(sec));
+    return pad(Math.floor(sec / 60)) + ':' + pad(sec % 60);
+  }
+  function renderTimer() {
+    var text = fmt(timer.remaining);
+    if (elTime.textContent !== text) elTime.textContent = text;
+    document.title = timer.running ? text + ' — ' + MODE_LABEL[state.mode] + ' | 風雅舎' : baseTitle;
+    icoPlay.style.display = timer.running ? 'none' : '';
+    icoPause.style.display = timer.running ? '' : 'none';
+    elStartLabel.textContent = timer.running ? '一時停止' : '開始';
+    tabs.forEach(function (b) {
+      b.setAttribute('aria-pressed', b.dataset.mode === state.mode ? 'true' : 'false');
+    });
+  }
+  function tickTimer() {
+    if (!timer.running) return;
+    timer.remaining = (timer.endAt - Date.now()) / 1000; // 終了予定時刻との差分で計算
+    if (timer.remaining <= 0) { finishTimer(); return; }
+    renderTimer();
+  }
+  function startTimer() {
+    timer.endAt = Date.now() + timer.remaining * 1000;
+    timer.running = true;
+    if (timer.intervalId) clearInterval(timer.intervalId);
+    timer.intervalId = setInterval(tickTimer, 250);
+    renderTimer();
+  }
+  function pauseTimer() {
+    timer.remaining = Math.max(0, (timer.endAt - Date.now()) / 1000);
+    timer.running = false;
+    if (timer.intervalId) { clearInterval(timer.intervalId); timer.intervalId = null; }
+    renderTimer();
+  }
+  function resetTimer() {
+    timer.running = false;
+    if (timer.intervalId) { clearInterval(timer.intervalId); timer.intervalId = null; }
+    timer.remaining = state.durations[state.mode];
+    renderTimer();
+  }
+  function setMode(mode, opts) {
+    state.mode = mode;
+    saveState();
+    resetTimer();
+    if (!(opts && opts.keepMessage)) pickMessage(true);
+  }
+  function finishTimer() {
+    var wasFocus = state.mode === 'focus';
+    timer.running = false;
+    if (timer.intervalId) { clearInterval(timer.intervalId); timer.intervalId = null; }
+    timer.remaining = 0;
+    renderTimer();
+    chime();
+    elTime.classList.remove('done-pulse');
+    void elTime.offsetWidth;
+    elTime.classList.add('done-pulse');
+
+    if (wasFocus) {
+      var t = state.tasks.find(function (x) { return x.id === state.selectedId; });
+      if (t) {
+        t.pomos = (t.pomos || 0) + 1;
+        saveState();
+        renderTasks();
+        showNotice('Focusが終わりました。「' + t.name + '」に 1 Pomodoro を記録しました。ひと休みしましょう。');
+      } else {
+        showNotice('Focusが終わりました。ひと休みしましょう。');
+      }
+      setMode('short');
+    } else {
+      showNotice('休憩が終わりました。次のFocusへ。');
+      setMode('focus');
+    }
+  }
+  document.getElementById('btnStart').addEventListener('click', function () {
+    if (timer.running) { pauseTimer(); } else {
+      if (timer.remaining <= 0) timer.remaining = state.durations[state.mode];
+      startTimer();
+    }
+  });
+  document.getElementById('btnReset').addEventListener('click', resetTimer);
+  tabs.forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.dataset.mode !== state.mode) setMode(b.dataset.mode);
+    });
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) tickTimer(); // 復帰時に即再計算
+  });
+
+  /* ---------- タスク ---------- */
+  var elList = document.getElementById('taskList');
+  var elCnt = document.getElementById('taskCnt');
+  var elPomoTask = document.getElementById('pomoTask');
+  var elToggleDone = document.getElementById('toggleDone');
+  var editingId = null;
+
+  function uid() { return 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function svgIcon(paths) {
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '2');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+    paths.forEach(function (d) {
+      var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('d', d);
+      svg.appendChild(p);
+    });
+    return svg;
+  }
+  var IC = {
+    check: ['M5 12l5 5L20 7'],
+    target: ['M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0', 'M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0', 'M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0'],
+    pencil: ['M4 20h4L18.5 9.5a2.828 2.828 0 1 0-4-4L4 16v4', 'M13.5 6.5l4 4'],
+    trash: ['M4 7h16', 'M10 11v6', 'M14 11v6', 'M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12', 'M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3']
+  };
+
+  function pomoLabel(n) { return n === 1 ? '1 Pomodoro' : n + ' Pomodoros'; }
+
+  function renderFocusLine() {
+    elPomoTask.innerHTML = '';
+    var t = state.tasks.find(function (x) { return x.id === state.selectedId; });
+    if (t) {
+      var lbl = document.createElement('span');
+      lbl.className = 'lbl';
+      lbl.textContent = '現在の集中タスク：';
+      elPomoTask.appendChild(lbl);
+      elPomoTask.appendChild(document.createTextNode(t.name));
+    } else {
+      var none = document.createElement('span');
+      none.className = 'none';
+      none.textContent = 'リストからタスクを選ぶと、ここに表示されます';
+      elPomoTask.appendChild(none);
+    }
+  }
+
+  function renderTasks() {
+    elList.innerHTML = '';
+    var open = state.tasks.filter(function (t) { return !t.done; }).length;
+    elCnt.textContent = open > 0 ? String(open) : '';
+    elToggleDone.textContent = state.hideDone ? '完了済みを表示' : '完了済みを隠す';
+    elToggleDone.setAttribute('aria-pressed', state.hideDone ? 'false' : 'true');
+
+    var visible = state.tasks.filter(function (t) { return !(state.hideDone && t.done); });
+    if (!visible.length) {
+      var li = document.createElement('li');
+      li.className = 'task-empty';
+      li.textContent = state.tasks.length
+        ? '表示できるタスクがありません。'
+        : 'まだタスクがありません。ひとつ、書き出してみましょう。';
+      elList.appendChild(li);
+    }
+    visible.forEach(function (t) {
+      var li = document.createElement('li');
+      li.className = 'task' + (t.done ? ' is-done' : '') + (t.id === state.selectedId ? ' is-focus' : '');
+
+      var check = document.createElement('button');
+      check.type = 'button';
+      check.className = 't-check';
+      check.setAttribute('role', 'checkbox');
+      check.setAttribute('aria-checked', t.done ? 'true' : 'false');
+      check.setAttribute('aria-label', '「' + t.name + '」を' + (t.done ? '未完了に戻す' : '完了にする'));
+      var box = document.createElement('span');
+      box.className = 'box';
+      box.appendChild(svgIcon(IC.check));
+      check.appendChild(box);
+      check.addEventListener('click', function () {
+        t.done = !t.done;
+        if (t.done && state.selectedId === t.id) state.selectedId = null;
+        saveState(); renderTasks();
+      });
+      li.appendChild(check);
+
+      var body = document.createElement('div');
+      body.className = 't-body';
+      if (editingId === t.id) {
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.className = 't-edit-input';
+        input.value = t.name;
+        input.maxLength = 200;
+        input.setAttribute('aria-label', 'タスク名を編集');
+        function commit() {
+          var v = input.value.trim();
+          if (v) t.name = v;
+          editingId = null;
+          saveState(); renderTasks(); renderFocusLine();
+        }
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); commit(); }
+          if (e.key === 'Escape') { editingId = null; renderTasks(); }
+        });
+        input.addEventListener('blur', commit);
+        body.appendChild(input);
+        setTimeout(function () { input.focus(); input.select(); }, 0);
+      } else {
+        var name = document.createElement('span');
+        name.className = 't-name';
+        name.textContent = t.name;
+        body.appendChild(name);
+        var meta = document.createElement('span');
+        meta.className = 't-meta';
+        meta.textContent = pomoLabel(t.pomos || 0);
+        body.appendChild(meta);
+      }
+      li.appendChild(body);
+
+      var focusBtn = document.createElement('button');
+      focusBtn.type = 'button';
+      focusBtn.className = 't-act t-focus-btn';
+      focusBtn.setAttribute('aria-pressed', t.id === state.selectedId ? 'true' : 'false');
+      focusBtn.setAttribute('aria-label', '「' + t.name + '」を集中タスクに' + (t.id === state.selectedId ? 'した状態を解除' : 'する'));
+      focusBtn.appendChild(svgIcon(IC.target));
+      focusBtn.addEventListener('click', function () {
+        state.selectedId = state.selectedId === t.id ? null : t.id;
+        if (state.selectedId === t.id && t.done) { t.done = false; }
+        saveState(); renderTasks(); renderFocusLine();
+      });
+      li.appendChild(focusBtn);
+
+      var editBtn = document.createElement('button');
+      editBtn.type = 'button';
+      editBtn.className = 't-act';
+      editBtn.setAttribute('aria-label', '「' + t.name + '」を編集');
+      editBtn.appendChild(svgIcon(IC.pencil));
+      editBtn.addEventListener('click', function () {
+        editingId = t.id;
+        renderTasks();
+      });
+      li.appendChild(editBtn);
+
+      var delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 't-act';
+      delBtn.setAttribute('aria-label', '「' + t.name + '」を削除');
+      delBtn.appendChild(svgIcon(IC.trash));
+      delBtn.addEventListener('click', function () {
+        state.tasks = state.tasks.filter(function (x) { return x.id !== t.id; });
+        if (state.selectedId === t.id) state.selectedId = null;
+        saveState(); renderTasks(); renderFocusLine();
+      });
+      li.appendChild(delBtn);
+
+      elList.appendChild(li);
+    });
+    renderFocusLine();
+  }
+
+  document.getElementById('addForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = document.getElementById('addInput');
+    var v = input.value.trim();
+    if (!v) return;
+    state.tasks.unshift({ id: uid(), name: v, done: false, pomos: 0, createdAt: Date.now() });
+    input.value = '';
+    saveState(); renderTasks();
+    input.focus();
+  });
+  elToggleDone.addEventListener('click', function () {
+    state.hideDone = !state.hideDone;
+    saveState(); renderTasks();
+  });
+
+  /* ---------- パネル開閉（タスク／外観で共通化） ---------- */
+  var panel = document.getElementById('panel');
+  var backdrop = document.getElementById('backdrop');
+  var btnPanel = document.getElementById('btnPanel');
+  var btnClose = document.getElementById('btnClose');
+  var appearancePanel = document.getElementById('appearancePanel');
+  var btnAppearance = document.getElementById('btnAppearance');
+  var btnAppearanceClose = document.getElementById('btnAppearanceClose');
+  var openPanelEl = null;
+  var openTriggerBtn = null;
+
+  function openPanelGeneric(panelEl, triggerBtn, focusEl) {
+    if (openPanelEl && openPanelEl !== panelEl) closePanelGeneric();
+    panelEl.classList.add('open');
+    backdrop.classList.add('open');
+    panelEl.setAttribute('aria-hidden', 'false');
+    triggerBtn.setAttribute('aria-expanded', 'true');
+    openPanelEl = panelEl;
+    openTriggerBtn = triggerBtn;
+    if (focusEl) focusEl.focus();
+  }
+  function closePanelGeneric() {
+    if (!openPanelEl) return;
+    openPanelEl.classList.remove('open');
+    openPanelEl.setAttribute('aria-hidden', 'true');
+    if (openTriggerBtn) { openTriggerBtn.setAttribute('aria-expanded', 'false'); openTriggerBtn.focus(); }
+    backdrop.classList.remove('open');
+    editingId = null;
+    openPanelEl = null;
+    openTriggerBtn = null;
+  }
+  var musicPanel = document.getElementById('musicPanel');
+  var btnMusic = document.getElementById('btnMusic');
+  var btnMusicClose = document.getElementById('btnMusicClose');
+  btnPanel.addEventListener('click', function () { openPanelGeneric(panel, btnPanel, btnClose); });
+  btnClose.addEventListener('click', closePanelGeneric);
+  btnAppearance.addEventListener('click', function () { openPanelGeneric(appearancePanel, btnAppearance, btnAppearanceClose); });
+  btnAppearanceClose.addEventListener('click', closePanelGeneric);
+  btnMusic.addEventListener('click', function () { openPanelGeneric(musicPanel, btnMusic, btnMusicClose); });
+  btnMusicClose.addEventListener('click', closePanelGeneric);
+  backdrop.addEventListener('click', closePanelGeneric);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && openPanelEl) closePanelGeneric();
+  });
+
+  /* ---------- 配色 ---------- */
+  var themeDots = Array.prototype.slice.call(document.querySelectorAll('.theme-dot'));
+  var metaTheme = document.getElementById('metaTheme');
+  var THEME_BG = { kinari: '#f0e6d6', yoi: '#0d2030', koke: '#e7e9dd', kasumi: '#e9e6e1' };
+  function applyTheme(name) {
+    if (!THEME_BG[name]) name = 'kinari';
+    state.theme = name;
+    document.documentElement.setAttribute('data-theme', name);
+    metaTheme.setAttribute('content', THEME_BG[name]);
+    themeDots.forEach(function (d) {
+      d.setAttribute('aria-pressed', d.dataset.theme === name ? 'true' : 'false');
+    });
+  }
+  themeDots.forEach(function (d) {
+    d.addEventListener('click', function () {
+      applyTheme(d.dataset.theme);
+      saveState();
+    });
+  });
+
+  /* ---------- 時計の書体 ---------- */
+  var clockFontBtns = Array.prototype.slice.call(document.querySelectorAll('.ap-font-btn'));
+  var CLOCK_FONTS = { serif: 1, sans: 1, mono: 1 };
+  function applyClockFont(id) {
+    if (!CLOCK_FONTS[id]) id = 'serif';
+    state.clockFont = id;
+    document.documentElement.setAttribute('data-clock-font', id);
+    clockFontBtns.forEach(function (b) {
+      b.setAttribute('aria-pressed', b.dataset.clockFont === id ? 'true' : 'false');
+    });
+  }
+  clockFontBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      applyClockFont(b.dataset.clockFont);
+      saveState();
+    });
+  });
+
+  /* ---------- 背景（IndexedDBにのみ保存。localStorageには種別だけ残す） ---------- */
+  var DB_NAME = 'fugasha_focus_media';
+  var DB_STORE = 'bg';
+  var DB_KEY = 'custom';
+  function openDb() {
+    return new Promise(function (resolve, reject) {
+      if (!('indexedDB' in window)) { reject(new Error('no-idb')); return; }
+      var req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = function () { req.result.createObjectStore(DB_STORE); };
+      req.onsuccess = function () { resolve(req.result); };
+      req.onerror = function () { reject(req.error); };
+    });
+  }
+  function idbSet(record) {
+    return openDb().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(DB_STORE, 'readwrite');
+        tx.objectStore(DB_STORE).put(record, DB_KEY);
+        tx.oncomplete = function () { resolve(); };
+        tx.onerror = function () { reject(tx.error); };
+      });
+    });
+  }
+  function idbGet() {
+    return openDb().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(DB_STORE, 'readonly');
+        var req = tx.objectStore(DB_STORE).get(DB_KEY);
+        req.onsuccess = function () { resolve(req.result || null); };
+        req.onerror = function () { reject(req.error); };
+      });
+    });
+  }
+  function idbDelete() {
+    return openDb().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(DB_STORE, 'readwrite');
+        tx.objectStore(DB_STORE).delete(DB_KEY);
+        tx.oncomplete = function () { resolve(); };
+        tx.onerror = function () { reject(tx.error); };
+      });
+    });
+  }
+
+  var elBgMedia = document.getElementById('bgMedia');
+  var bgChoices = Array.prototype.slice.call(document.querySelectorAll('.bg-choice'));
+  var elBgFileInput = document.getElementById('bgFileInput');
+  var elBgHint = document.getElementById('bgHint');
+  var elBgCustomStatus = document.getElementById('bgCustomStatus');
+  var elBgCustomName = document.getElementById('bgCustomName');
+  var elBgCustomRemove = document.getElementById('bgCustomRemove');
+  var BG_HINT_DEFAULT = elBgHint.textContent;
+  var currentObjectUrl = null;
+  var MAX_IMAGE_DIM = 1920;
+  var MAX_VIDEO_BYTES = 25 * 1024 * 1024;
+
+  function prefersReducedMotion() {
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+  function setBgKind(kind) { document.documentElement.setAttribute('data-bg-kind', kind); }
+  function setBgChoicePressed(id) {
+    bgChoices.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.bg === id ? 'true' : 'false'); });
+  }
+  function clearBgMedia() {
+    elBgMedia.innerHTML = '';
+    if (currentObjectUrl) { URL.revokeObjectURL(currentObjectUrl); currentObjectUrl = null; }
+  }
+  function showCustomStatus(name) { elBgCustomName.textContent = name || 'カスタム背景'; elBgCustomStatus.hidden = false; }
+  function hideCustomStatus() { elBgCustomStatus.hidden = true; }
+
+  function applyBackgroundNone() {
+    clearBgMedia();
+    setBgKind('none');
+    setBgChoicePressed('none');
+    hideCustomStatus();
+  }
+  function applyBackgroundPreset(id) {
+    clearBgMedia();
+    var div = document.createElement('div');
+    div.className = 'bg-preset p-' + id;
+    elBgMedia.appendChild(div);
+    setBgKind('preset');
+    setBgChoicePressed(id);
+    hideCustomStatus();
+  }
+  function applyBackgroundCustomBlob(blob, mime, name) {
+    clearBgMedia();
+    var url = URL.createObjectURL(blob);
+    currentObjectUrl = url;
+    var isVideo = mime.indexOf('video') === 0;
+    var el = document.createElement(isVideo ? 'video' : 'img');
+    el.setAttribute('aria-hidden', 'true');
+    if (isVideo) {
+      el.muted = true; el.loop = true; el.playsInline = true;
+      el.src = url;
+      if (!prefersReducedMotion()) { el.play().catch(function () {}); }
+    } else {
+      el.alt = '';
+      el.src = url;
+    }
+    elBgMedia.appendChild(el);
+    setBgKind('custom');
+    setBgChoicePressed('');
+    showCustomStatus(name);
+  }
+  function loadBackgroundFromState() {
+    var bg = state.background;
+    if (bg.type === 'preset') {
+      applyBackgroundPreset(bg.presetId);
+    } else if (bg.type === 'custom') {
+      idbGet().then(function (rec) {
+        if (rec && rec.blob) { applyBackgroundCustomBlob(rec.blob, rec.mime, rec.name); }
+        else { state.background = { type: 'none' }; saveState(); applyBackgroundNone(); }
+      }).catch(function () { applyBackgroundNone(); });
+    } else {
+      applyBackgroundNone();
+    }
+  }
+  bgChoices.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var id = b.dataset.bg;
+      if (id === 'none') { state.background = { type: 'none' }; applyBackgroundNone(); }
+      else { state.background = { type: 'preset', presetId: id }; applyBackgroundPreset(id); }
+      saveState();
+    });
+  });
+  function compressImage(file) {
+    return new Promise(function (resolve, reject) {
+      var img = new Image();
+      var url = URL.createObjectURL(file);
+      img.onload = function () {
+        var w = img.naturalWidth, h = img.naturalHeight;
+        var scale = Math.min(1, MAX_IMAGE_DIM / Math.max(w, h));
+        var cw = Math.max(1, Math.round(w * scale)), ch = Math.max(1, Math.round(h * scale));
+        var canvas = document.createElement('canvas');
+        canvas.width = cw; canvas.height = ch;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, cw, ch);
+        URL.revokeObjectURL(url);
+        canvas.toBlob(function (blob) {
+          if (blob) resolve(blob); else reject(new Error('encode-failed'));
+        }, 'image/jpeg', 0.85);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('load-failed')); };
+      img.src = url;
+    });
+  }
+  elBgFileInput.addEventListener('change', function () {
+    var file = elBgFileInput.files && elBgFileInput.files[0];
+    elBgFileInput.value = '';
+    if (!file) return;
+    var isImage = file.type.indexOf('image') === 0;
+    var isVideo = file.type.indexOf('video') === 0;
+    if (!isImage && !isVideo) { elBgHint.textContent = '画像または動画ファイルを選んでください。'; return; }
+    if (isVideo && file.size > MAX_VIDEO_BYTES) {
+      elBgHint.textContent = '動画は25MBまでにしてください（現在: ' + Math.round(file.size / 1024 / 1024) + 'MB）。';
+      return;
+    }
+    var proceed = isImage ? compressImage(file) : Promise.resolve(file);
+    proceed.then(function (blob) {
+      var mime = isImage ? 'image/jpeg' : file.type;
+      return idbSet({ blob: blob, mime: mime, name: file.name }).then(function () {
+        state.background = { type: 'custom' };
+        saveState();
+        applyBackgroundCustomBlob(blob, mime, file.name);
+        elBgHint.textContent = BG_HINT_DEFAULT;
+      });
+    }).catch(function () {
+      elBgHint.textContent = 'この画像・動画は読み込めませんでした。別のファイルでお試しください。';
+    });
+  });
+  elBgCustomRemove.addEventListener('click', function () {
+    idbDelete().catch(function () {});
+    state.background = { type: 'none' };
+    saveState();
+    applyBackgroundNone();
+  });
+  document.addEventListener('visibilitychange', function () {
+    var video = elBgMedia.querySelector('video');
+    if (!video) return;
+    if (document.hidden) { video.pause(); }
+    else if (!prefersReducedMotion()) { video.play().catch(function () {}); }
+  });
+
+  /* ---------- 音楽と環境音 ----------
+     音源を差し替えるには、この配列の src を変更するだけでよい。
+     bg は「背景を音に合わせる」で使う背景プリセットID（none/mist/fire/water） */
+  var TRACKS = [
+    { id: 'lofi',      name: 'Lo-fi Focus',   desc: '集中用の落ち着いたLo-fi',     src: 'assets/audio/lofi-focus.m4a',    bg: 'mist' },
+    { id: 'jazz',      name: 'Jazz Piano',    desc: '温かみのあるスロージャズ',     src: 'assets/audio/jazz-piano.m4a',    bg: 'fire' },
+    { id: 'piano',     name: 'Piano Ambient', desc: '静かでミニマルなピアノ',       src: 'assets/audio/piano-ambient.m4a', bg: 'mist' },
+    { id: 'fireplace', name: 'Fireplace',     desc: '暖炉の環境音',               src: 'assets/audio/fireplace.m4a',     bg: 'fire' },
+    { id: 'ambient',   name: 'Ambient',       desc: '浮遊感のあるアンビエント',     src: 'assets/audio/ambient.m4a',       bg: 'water' }
+  ];
+  var audio = new Audio();
+  audio.loop = true;
+  audio.preload = 'none';
+  var elTrackList = document.getElementById('trackList');
+  var elMini = document.getElementById('miniPlayer');
+  var elMiniName = document.getElementById('miniName');
+  var elMiniPlay = document.getElementById('miniPlay');
+  var elVol = document.getElementById('volSlider');
+  var swMini = document.getElementById('swMini');
+  var swBgFollow = document.getElementById('swBgFollow');
+
+  function currentTrack() {
+    return TRACKS.find(function (t) { return t.id === state.music.trackId; }) || null;
+  }
+  function renderMusic() {
+    var t = currentTrack();
+    var playing = t && !audio.paused;
+    Array.prototype.forEach.call(elTrackList.children, function (li) {
+      var btn = li.firstChild;
+      var sel = t && btn.dataset.track === t.id;
+      btn.setAttribute('aria-pressed', sel ? 'true' : 'false');
+      btn.classList.toggle('is-playing', !!(sel && playing));
+    });
+    elMini.hidden = !(t && state.music.mini);
+    elMini.classList.toggle('is-playing', !!playing);
+    if (t) elMiniName.textContent = t.name;
+    elMiniPlay.setAttribute('aria-label', playing ? '一時停止' : '再生');
+    elMiniPlay.querySelector('.ic-play').style.display = playing ? 'none' : '';
+    elMiniPlay.querySelector('.ic-pause').style.display = playing ? '' : 'none';
+    swMini.setAttribute('aria-checked', state.music.mini ? 'true' : 'false');
+    swBgFollow.setAttribute('aria-checked', state.music.bgFollow ? 'true' : 'false');
+  }
+  function followBackground(t) {
+    if (!state.music.bgFollow || !t || !t.bg) return;
+    if (t.bg === 'none') { state.background = { type: 'none' }; applyBackgroundNone(); }
+    else { state.background = { type: 'preset', presetId: t.bg }; applyBackgroundPreset(t.bg); }
+  }
+  function playTrack(t) {
+    if (audio.src.indexOf(t.src) === -1) { audio.src = t.src; }
+    state.music.trackId = t.id;
+    audio.volume = state.music.volume;
+    followBackground(t);
+    saveState();
+    audio.play().catch(function () { renderMusic(); });
+    renderMusic();
+  }
+  function selectTrack(t) {
+    if (state.music.trackId === t.id) {
+      if (audio.paused) { playTrack(t); } else { audio.pause(); }
+    } else {
+      playTrack(t);
+    }
+  }
+  function stepTrack(dir) {
+    var idx = TRACKS.findIndex(function (t) { return t.id === state.music.trackId; });
+    var next = idx === -1 ? 0 : (idx + dir + TRACKS.length) % TRACKS.length;
+    playTrack(TRACKS[next]);
+  }
+  // 音源リストは設定配列から組み立てる
+  TRACKS.forEach(function (t) {
+    var li = document.createElement('li');
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'track';
+    btn.dataset.track = t.id;
+    btn.setAttribute('aria-pressed', 'false');
+    var thumb = document.createElement('span');
+    thumb.className = 'track-thumb' + (t.bg && t.bg !== 'none' ? ' p-' + t.bg : ' bg-thumb-none');
+    btn.appendChild(thumb);
+    var body = document.createElement('span');
+    body.className = 'track-body';
+    var name = document.createElement('span');
+    name.className = 'track-name';
+    name.textContent = t.name;
+    var desc = document.createElement('span');
+    desc.className = 'track-desc';
+    desc.textContent = t.desc;
+    body.appendChild(name); body.appendChild(desc);
+    btn.appendChild(body);
+    var eq = document.createElement('span');
+    eq.className = 'eq';
+    eq.setAttribute('aria-hidden', 'true');
+    eq.innerHTML = '<i></i><i></i><i></i>';
+    btn.appendChild(eq);
+    btn.addEventListener('click', function () { selectTrack(t); });
+    li.appendChild(btn);
+    elTrackList.appendChild(li);
+  });
+  document.getElementById('miniPrev').addEventListener('click', function () { stepTrack(-1); });
+  document.getElementById('miniNext').addEventListener('click', function () { stepTrack(1); });
+  elMiniPlay.addEventListener('click', function () {
+    var t = currentTrack();
+    if (!t) return;
+    if (audio.paused) { playTrack(t); } else { audio.pause(); }
+  });
+  elVol.addEventListener('input', function () {
+    state.music.volume = Number(elVol.value);
+    audio.volume = state.music.volume;
+    saveState();
+  });
+  swMini.addEventListener('click', function () {
+    state.music.mini = !state.music.mini;
+    saveState(); renderMusic();
+  });
+  swBgFollow.addEventListener('click', function () {
+    state.music.bgFollow = !state.music.bgFollow;
+    saveState();
+    followBackground(currentTrack());
+    saveState();
+    renderMusic();
+  });
+  audio.addEventListener('play', renderMusic);
+  audio.addEventListener('pause', renderMusic);
+  audio.addEventListener('error', function () {
+    showNotice('音源を読み込めませんでした。時間をおいてもう一度お試しください。');
+    renderMusic();
+  });
+
+  /* ---------- 初期化 ---------- */
+  loadState();
+  applyTheme(state.theme);
+  applyClockFont(state.clockFont);
+  loadBackgroundFromState();
+  resetTimer();
+  pickMessage(false);
+  renderTasks();
+  // 音楽: 前回の選択を復元（自動再生はブラウザ制限があるため行わない）
+  elVol.value = String(state.music.volume);
+  audio.volume = state.music.volume;
+  var savedTrack = currentTrack();
+  if (savedTrack) { audio.src = savedTrack.src; }
+  else { state.music.trackId = null; }
+  renderMusic();
+})();
+</script>
+
+</body>
+</html>
