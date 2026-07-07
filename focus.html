@@ -129,15 +129,16 @@
       text-align: center; gap: 0;
       padding: calc(env(safe-area-inset-top) + 68px) 24px calc(env(safe-area-inset-bottom) + 108px);
     }
-    /* 背景が写真/動画のときは明色＋影で可読性を確保 */
-    body.on-media { --fg: #f7f2e8; --fg2: #e6ddcb; --hint: #cdc6b6; }
+    /* 背景が写真/動画のとき、可読性のための明色/暗色テキストは「舞台(.stage)とナビ」だけに適用する。
+       パネル・ツールバー・ミニプレイヤーは自前の明るいパネル地の上に載るため、テーマ色（暗文字）のまま保つ。 */
+    body.on-media .stage { --fg: #f7f2e8; --fg2: #e6ddcb; --hint: #cdc6b6; }
     body.on-media .st-clock, body.on-media .st-date, body.on-media .pomo-time,
     body.on-media .msg, body.on-media .pomo-stats, body.on-media .pomo-task {
       text-shadow: 0 1px 24px rgba(0,0,0,.55), 0 1px 3px rgba(0,0,0,.4);
     }
     body.on-media .pomo-tab { text-shadow: none; }
     /* 明るい写真/動画の上では暗色テキスト＋淡い光の影に切替（白文字の視認性崩れを防ぐ） */
-    body.on-media.on-media-bright { --fg: #16181c; --fg2: #2b2f36; --hint: #4a4f57; }
+    body.on-media.on-media-bright .stage { --fg: #16181c; --fg2: #2b2f36; --hint: #4a4f57; }
     body.on-media.on-media-bright .st-clock, body.on-media.on-media-bright .st-date, body.on-media.on-media-bright .pomo-time,
     body.on-media.on-media-bright .msg, body.on-media.on-media-bright .pomo-stats, body.on-media.on-media-bright .pomo-task {
       text-shadow: 0 1px 20px rgba(255,255,255,.7), 0 1px 3px rgba(255,255,255,.55);
@@ -145,7 +146,7 @@
     body.on-media.on-media-bright .pomo-tabs { background: rgba(255,255,255,.42); }
     body.on-media.on-media-bright .pomo-tab[aria-pressed="true"] { background: #16181c; color: #fff; }
     body.on-media.on-media-bright .pomo-ring-track { stroke: rgba(0,0,0,.22); }
-    body.on-media.on-media-bright .btn-ghost { border-color: rgba(0,0,0,.28); background: rgba(255,255,255,.34); }
+    body.on-media.on-media-bright .stage .btn-ghost { border-color: rgba(0,0,0,.28); background: rgba(255,255,255,.34); }
     body.on-media.on-media-bright .nav-logo, body.on-media.on-media-bright .nav-link { color: #16181c; text-shadow: 0 1px 10px rgba(255,255,255,.65); }
 
     .st-date { font-family: var(--font-mono); font-size: 12px; letter-spacing: .22em; color: var(--hint); text-transform: uppercase; }
@@ -184,7 +185,7 @@
     .btn-amber:hover { opacity: .85; }
     .btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; padding: 11px 18px; min-height: 44px; border-radius: 2px; background: transparent; color: var(--fg); border: 1px solid var(--line); cursor: pointer; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; transition: border-color .2s, background .2s; }
     .btn-ghost:hover { border-color: var(--hint); }
-    body.on-media .btn-ghost { border-color: rgba(255,255,255,.35); background: rgba(0,0,0,.18); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+    body.on-media .stage .btn-ghost { border-color: rgba(255,255,255,.35); background: rgba(0,0,0,.18); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
     .btn-amber svg, .btn-ghost svg { width: 16px; height: 16px; }
 
     .pomo-stats { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; color: var(--hint); margin-top: 2px; }
