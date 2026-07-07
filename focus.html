@@ -29,6 +29,7 @@
       --fg2:     #1e3a50;
       --hint:    #5f646c;
       --accent:  #e8866a;
+      --accent2: #f0a882;
       --accent-ink: #7a4025;
       --line:    rgba(13,32,48,.1);
       --panel:   #f4ecdf;
@@ -46,33 +47,37 @@
       --fg2:     #d9cfba;
       --hint:    #b4ad9d;
       --accent:  #f0a882;
+      --accent2: #ffcf9e;
       --accent-ink: #f0a882;
       --line:    rgba(240,230,214,.16);
       --panel:   #122638;
       --shadow:  rgba(0,0,0,.4);
     }
+    /* koke/kasumiは近似色だったため、koke=緑がかった暖色寄り／kasumi=青灰寄りに差別化（意匠デビル批評対応） */
     [data-theme="koke"] {
-      --bg:      #e7e9dd;
-      --bg2:     #dde0cf;
-      --fg:      #1c281e;
-      --fg2:     #334031;
-      --hint:    #59614f;
-      --accent:  #e8866a;
-      --accent-ink: #6f4327;
-      --line:    rgba(28,40,30,.13);
-      --panel:   #edeee4;
-      --shadow:  rgba(28,40,30,.16);
+      --bg:      #e3e8d6;
+      --bg2:     #d8ddc9;
+      --fg:      #1a2618;
+      --fg2:     #2e3a28;
+      --hint:    #576048;
+      --accent:  #c9805a;
+      --accent2: #e0a06a;
+      --accent-ink: #6b4025;
+      --line:    rgba(26,38,22,.14);
+      --panel:   #eaece0;
+      --shadow:  rgba(26,38,22,.17);
     }
     [data-theme="kasumi"] {
-      --bg:      #e9e6e1;
-      --bg2:     #dfdbd4;
+      --bg:      #e6e7ea;
+      --bg2:     #dadde2;
       --fg:      #26282e;
       --fg2:     #3c3f47;
       --hint:    #61646b;
       --accent:  #e8866a;
+      --accent2: #f0a882;
       --accent-ink: #7a4025;
-      --line:    rgba(38,40,46,.13);
-      --panel:   #efece8;
+      --line:    rgba(38,40,55,.13);
+      --panel:   #ecedf0;
       --shadow:  rgba(38,40,46,.16);
     }
     [data-clock-font="sans"] { --clock-font: var(--font-sans); }
@@ -121,13 +126,15 @@
       font-variant-numeric: tabular-nums; letter-spacing: .02em;
       color: var(--fg); margin: 4px 0 8px;
     }
-    .st-clock .sec { font-size: .38em; color: var(--hint); font-variant-numeric: tabular-nums; margin-left: .12em; }
+    .st-clock .sec { font-size: .38em; color: var(--hint); font-variant-numeric: tabular-nums; margin-left: .12em; transition: color .6s ease; }
+    /* 音楽再生中は秒表示の色だけをわずかに変化させる（BPM同期のような偽装はしない） */
+    .music-active .st-clock .sec { color: var(--accent-ink); }
     /* Zen Kaku GothicとJetBrains系は300を読み込んでいないため、疑似細字を避け400を使う */
     [data-clock-font="sans"] .st-clock,
     [data-clock-font="mono"] .st-clock { font-weight: 400; }
 
     /* ---- ポモドーロ ---- */
-    .pomo { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 10px; }
+    .pomo { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 8px; }
     .pomo-tabs {
       display: inline-flex; border: 1px solid var(--line); border-radius: 2px; overflow: hidden;
       background: color-mix(in srgb, var(--bg2) 55%, transparent);
@@ -139,12 +146,25 @@
     }
     .pomo-tab[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
     .pomo-tab:hover:not([aria-pressed="true"]) { color: var(--fg); }
+    .pomo-ring-wrap {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      width: clamp(172px, 32vw, 232px); height: clamp(172px, 32vw, 232px);
+    }
+    .pomo-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+    .pomo-ring-track { fill: none; stroke: var(--line); stroke-width: 2.5; }
+    .pomo-ring-fill {
+      fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round;
+      transition: stroke-dashoffset .25s linear, stroke .3s;
+    }
     .pomo-time {
+      position: relative; z-index: 1;
       font-family: var(--font-mono); font-size: clamp(36px, 8vw, 56px);
       font-variant-numeric: tabular-nums; letter-spacing: .04em; line-height: 1.2; color: var(--fg2);
     }
-    .pomo-time.done-pulse { animation: pulse 1s ease 2; }
+    .pomo-time.done-pulse { animation: pulse 1s var(--ease) 2; }
     @keyframes pulse { 0%,100% { color: var(--fg2); } 50% { color: var(--accent); } }
+    .pomo-time.start-breathe { animation: breathe .42s var(--ease); }
+    @keyframes breathe { 0% { transform: scale(1); } 45% { transform: scale(1.045); } 100% { transform: scale(1); } }
     .pomo-ctrl { display: flex; gap: 10px; }
     .btn-amber {
       display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 12px;
@@ -160,17 +180,17 @@
       letter-spacing: .1em; text-transform: uppercase; text-decoration: none; transition: border-color .2s;
     }
     .btn-ghost:hover { border-color: var(--hint); }
-    .btn-amber svg, .btn-ghost svg { width: 15px; height: 15px; }
+    .btn-amber svg, .btn-ghost svg { width: 16px; height: 16px; }
 
     .pomo-task {
-      font-size: 13px; color: var(--fg2); line-height: 1.8; max-width: 480px;
+      font-size: 13px; color: var(--fg2); line-height: 1.8; max-width: 520px;
       padding: 0 8px; overflow-wrap: anywhere;
     }
     .pomo-task .lbl { color: var(--hint); font-size: 12px; }
     .pomo-task .none { color: var(--hint); font-size: 12px; }
 
     /* ---- ことば ---- */
-    .msg-wrap { display: flex; align-items: center; gap: 10px; margin-top: 26px; max-width: 560px; }
+    .msg-wrap { display: flex; align-items: center; gap: 10px; margin-top: 32px; max-width: 520px; }
     .msg-col { display: flex; flex-direction: column; gap: 5px; }
     .msg {
       font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1;
@@ -189,7 +209,7 @@
       color: var(--hint); transition: color .2s, border-color .2s, transform .4s var(--ease);
     }
     .msg-next:hover { color: var(--fg); border-color: var(--hint); transform: rotate(180deg); }
-    .msg-next svg { width: 15px; height: 15px; }
+    .msg-next svg { width: 16px; height: 16px; }
 
     /* ---- 下部の操作 ---- */
     .corner {
@@ -246,6 +266,8 @@
       padding: 20px 22px 14px; border-bottom: 1px solid var(--line); flex: none;
     }
     .panel-title { font-family: var(--font-serif); font-weight: 400; font-feature-settings: 'palt' 1; font-size: 17px; }
+    /* やることリストは実務的な機能のため、情緒的な明朝ではなくゴシックに */
+    #panel .panel-title { font-family: var(--font-sans); font-weight: 500; font-feature-settings: normal; }
     .panel-close {
       width: 44px; height: 44px; margin: -10px -12px -10px 0;
       display: inline-flex; align-items: center; justify-content: center;
@@ -253,7 +275,7 @@
     }
     .panel-close:hover { color: var(--fg); }
     .panel-close svg { width: 18px; height: 18px; }
-    .panel-add { display: flex; gap: 8px; padding: 16px 22px 6px; flex: none; }
+    .panel-add { display: flex; gap: 8px; padding: 16px 22px 8px; flex: none; }
     .panel-add input {
       flex: 1; min-width: 0; font-family: var(--font-sans); font-size: 14px;
       padding: 11px 12px; min-height: 44px; border: 1px solid var(--line); border-radius: 2px;
@@ -261,7 +283,7 @@
     }
     .panel-add input::placeholder { color: var(--hint); }
     .panel-add .btn-amber { padding: 11px 16px; }
-    .panel-tools { display: flex; justify-content: flex-end; padding: 6px 22px; flex: none; }
+    .panel-tools { display: flex; justify-content: flex-end; padding: 8px 22px; flex: none; }
     .toggle-done {
       font-size: 11px; color: var(--hint); background: transparent; border: none; cursor: pointer;
       padding: 8px 2px; letter-spacing: .04em; transition: color .2s; min-height: 36px;
@@ -285,6 +307,9 @@
       display: inline-flex; align-items: center; justify-content: center; transition: background .2s, border-color .2s;
     }
     .t-check .box svg { width: 11px; height: 11px; opacity: 0; color: var(--bg); transition: opacity .2s; }
+    .t-check .box svg path { stroke-dasharray: 20; stroke-dashoffset: 0; }
+    .t-check .box svg path.draw-in { animation: checkDraw .3s var(--ease); }
+    @keyframes checkDraw { from { stroke-dashoffset: 20; } to { stroke-dashoffset: 0; } }
     .task.is-done .t-check .box { background: var(--hint); border-color: var(--hint); }
     .task.is-done .t-check .box svg { opacity: 1; }
     .t-body { flex: 1; min-width: 0; text-align: left; }
@@ -309,7 +334,8 @@
       position: fixed; top: calc(env(safe-area-inset-top) + 16px); left: 50%; z-index: 60;
       transform: translate(-50%, -16px); opacity: 0; pointer-events: none;
       background: var(--fg); color: var(--bg);
-      font-size: 13px; line-height: 1.7; padding: 13px 20px; border-radius: 2px;
+      font-size: 13px; line-height: 1.7; padding: 14px 20px 14px 17px; border-radius: 8px;
+      border-left: 3px solid var(--accent);
       display: flex; align-items: center; gap: 14px; max-width: min(480px, calc(100vw - 32px));
       box-shadow: 0 8px 32px var(--shadow);
       transition: opacity .4s, transform .4s var(--ease);
@@ -339,27 +365,42 @@
       background:
         radial-gradient(ellipse at 28% 22%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 60%),
         radial-gradient(ellipse at 76% 82%, color-mix(in srgb, var(--fg2) 16%, transparent), transparent 58%),
+        radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--bg2) 45%, transparent), transparent 75%),
         var(--bg);
+      background-blend-mode: normal, normal, soft-light, normal;
       animation: driftMist 28s ease-in-out infinite alternate;
     }
     .p-fire {
       background:
         radial-gradient(circle at 50% 120%, color-mix(in srgb, var(--accent) 60%, transparent), transparent 45%),
-        radial-gradient(circle at 50% 130%, color-mix(in srgb, var(--accent2, var(--accent)) 35%, transparent), transparent 60%),
+        radial-gradient(circle at 50% 130%, color-mix(in srgb, var(--accent2) 35%, transparent), transparent 60%),
         var(--bg);
-      animation: emberGlow 5s ease-in-out infinite;
+      transform-origin: 50% 100%;
+      animation: emberGlow 4.5s ease-in-out infinite;
     }
     .p-water {
-      background: linear-gradient(120deg,
-        color-mix(in srgb, var(--fg2) 12%, var(--bg)),
-        var(--bg2),
-        color-mix(in srgb, var(--accent) 10%, var(--bg)));
-      background-size: 220% 220%;
+      background:
+        linear-gradient(120deg,
+          color-mix(in srgb, var(--fg2) 12%, var(--bg)),
+          var(--bg2),
+          color-mix(in srgb, var(--accent) 10%, var(--bg))),
+        linear-gradient(210deg,
+          transparent,
+          color-mix(in srgb, var(--bg2) 35%, transparent) 50%,
+          transparent);
+      background-size: 220% 220%, 170% 170%;
       animation: waterFlow 32s ease-in-out infinite;
     }
     @keyframes driftMist { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-3%, 2%) scale(1.06); } }
-    @keyframes emberGlow { 0%, 100% { opacity: .7; } 50% { opacity: 1; } }
-    @keyframes waterFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    @keyframes emberGlow {
+      0%, 100% { opacity: .7; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.03); }
+    }
+    @keyframes waterFlow {
+      0%   { background-position: 0% 50%, 100% 0%; }
+      50%  { background-position: 100% 50%, 30% 100%; }
+      100% { background-position: 0% 50%, 100% 0%; }
+    }
     @media (prefers-reduced-motion: reduce) {
       .p-mist, .p-fire, .p-water { animation: none !important; }
     }
@@ -375,7 +416,7 @@
     .ap-swatches { display: flex; gap: 10px; }
     .ap-bg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
     .bg-choice { display: flex; flex-direction: column; align-items: center; gap: 6px; background: transparent; border: none; cursor: pointer; padding: 2px; }
-    .bg-thumb { width: 100%; aspect-ratio: 1; border-radius: 4px; border: 1px solid var(--line); overflow: hidden; transition: box-shadow .2s; }
+    .bg-thumb { width: 100%; aspect-ratio: 1; border-radius: 2px; border: 1px solid var(--line); overflow: hidden; transition: box-shadow .2s; }
     .bg-choice[aria-pressed="true"] .bg-thumb { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
     .bg-thumb-none { background: var(--bg2); }
     .bg-choice-label { font-size: 10px; color: var(--hint); letter-spacing: .04em; }
@@ -394,7 +435,6 @@
     .ap-font-btn:hover:not([aria-pressed="true"]) { border-color: var(--hint); }
 
     /* ---- 音楽 ---- */
-    .btn-icon { padding: 12px; }
     .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
     .switch-row + .switch-row { margin-top: 14px; }
     .switch-label { font-size: 13px; color: var(--fg2); }
@@ -420,29 +460,24 @@
     }
     .track:hover { background: var(--bg2); }
     .track[aria-pressed="true"] { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
-    .track-thumb { flex: none; width: 38px; height: 38px; border-radius: 4px; border: 1px solid var(--line); overflow: hidden; }
+    .track-thumb { flex: none; width: 38px; height: 38px; border-radius: 2px; border: 1px solid var(--line); overflow: hidden; }
     .track-body { flex: 1; min-width: 0; }
     .track-name { display: block; font-size: 13.5px; font-weight: 500; color: var(--fg); }
     .track-desc { display: block; font-size: 11px; color: var(--hint); margin-top: 1px; }
-    .eq { flex: none; display: none; align-items: flex-end; gap: 2px; height: 14px; }
-    .eq i { width: 2.5px; background: var(--accent-ink); border-radius: 1px; animation: eqB 1s ease-in-out infinite; }
-    .eq i:nth-child(1) { height: 60%; animation-delay: 0s; }
-    .eq i:nth-child(2) { height: 100%; animation-delay: .25s; }
-    .eq i:nth-child(3) { height: 45%; animation-delay: .5s; }
-    @keyframes eqB { 0%, 100% { transform: scaleY(.5); } 50% { transform: scaleY(1); } }
-    .is-playing .eq { display: inline-flex; }
 
-    /* ---- ミニプレイヤー ---- */
+    /* ---- ミニプレイヤー（浮遊高度=低: btn-tasksと同じ角丸・ぼかしに統一） ---- */
     .mini {
       position: fixed; z-index: 10; bottom: calc(env(safe-area-inset-bottom) + 20px);
       left: 50%; transform: translateX(-50%);
       display: flex; align-items: center; gap: 8px;
-      padding: 8px 10px 8px 16px; border-radius: 28px;
+      padding: 8px 10px 8px 16px; border-radius: 2px;
       background: color-mix(in srgb, var(--panel) 85%, transparent); border: 1px solid var(--line);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       box-shadow: 0 4px 24px var(--shadow);
       max-width: min(400px, calc(100vw - 32px));
+      opacity: 1; transition: opacity .35s var(--ease), transform .35s var(--ease);
     }
+    .mini.mini-hidden { opacity: 0; transform: translateX(-50%) translateY(8px); pointer-events: none; }
     .mini[hidden] { display: none; }
     .mini-info { display: flex; align-items: center; gap: 8px; min-width: 0; margin-right: 4px; }
     .mini-name { font-size: 12px; font-weight: 500; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -482,11 +517,17 @@
 
   <section class="pomo" aria-label="ポモドーロタイマー">
     <div class="pomo-tabs" role="group" aria-label="タイマーのモード">
-      <button type="button" class="pomo-tab" data-mode="focus" aria-pressed="true">Focus</button>
-      <button type="button" class="pomo-tab" data-mode="short" aria-pressed="false">Short Break</button>
-      <button type="button" class="pomo-tab" data-mode="long" aria-pressed="false">Long Break</button>
+      <button type="button" class="pomo-tab" data-mode="focus" aria-pressed="true">集中</button>
+      <button type="button" class="pomo-tab" data-mode="short" aria-pressed="false">小休憩</button>
+      <button type="button" class="pomo-tab" data-mode="long" aria-pressed="false">長休憩</button>
     </div>
-    <p class="pomo-time" id="pomoTime">25:00</p>
+    <div class="pomo-ring-wrap">
+      <svg class="pomo-ring" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+        <circle class="pomo-ring-track" cx="60" cy="60" r="54"></circle>
+        <circle class="pomo-ring-fill" id="pomoRingFill" cx="60" cy="60" r="54"></circle>
+      </svg>
+      <p class="pomo-time" id="pomoTime">25:00</p>
+    </div>
     <div class="pomo-ctrl">
       <button type="button" class="btn-amber" id="btnStart">
         <svg id="icoPlay" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.53.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>
@@ -517,8 +558,9 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21a9 9 0 1 1 0-18c4 0 8 2.7 8 6.5 0 2.2-1.6 3.7-3.6 3.7H14a2 2 0 0 0-1.1 3.7 2 2 0 0 1-.9 3.8z"/><circle cx="7.5" cy="10.8" r="1" fill="currentColor" stroke="none"/><circle cx="11" cy="7.2" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="7.8" r="1" fill="currentColor" stroke="none"/></svg>
     外観
   </button>
-  <button type="button" class="btn-tasks btn-icon" id="btnMusic" aria-expanded="false" aria-controls="musicPanel" aria-label="音楽と環境音">
+  <button type="button" class="btn-tasks" id="btnMusic" aria-expanded="false" aria-controls="musicPanel">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="17" r="3"/><circle cx="16" cy="15" r="3"/><path d="M9 17V5l10-2v12"/></svg>
+    音楽
   </button>
 </div>
 
@@ -648,7 +690,6 @@
 <div class="mini" id="miniPlayer" hidden>
   <div class="mini-info">
     <span class="mini-name" id="miniName"></span>
-    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
   </div>
   <button type="button" class="mini-btn" id="miniPrev" aria-label="前の音源">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.5 5.6v12.8a1 1 0 0 1-1.53.85L8 13v5a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5l9.97-6.25a1 1 0 0 1 1.53.85z"/></svg>
@@ -739,11 +780,12 @@
   // オリジナル（風雅舎）: 出典確認不要の書き下ろし
   // 引用（出典明記）: 一次資料（論語・老子・自省録・プラトン対話篇）で確認できる範囲に厳選し、誤引用を避ける
   var MESSAGES = [
-    { t: 'focus', m: '深い集中は、静けさの中でしか育たない。', author: '風雅舎' },
+    { t: 'focus', m: '深い集中は、静けさの中でしか育たない。', author: '風雅舎', phase: 'start' },
     { t: 'focus', m: '一度にひとつ。それがいちばん速い道になる。', author: '風雅舎' },
     { t: 'focus', m: '迷いを書き出すと、机の上が少し広くなる。', author: '風雅舎' },
-    { t: 'focus', m: '大きな仕事は、小さな二十五分の積み重ねでできている。', author: '風雅舎' },
+    { t: 'focus', m: '大きな仕事は、小さな二十五分の積み重ねでできている。', author: '風雅舎', phase: 'start' },
     { t: 'focus', m: '完璧な計画より、不完全な一行。', author: '風雅舎' },
+    { t: 'focus', m: 'あと少し。今の集中は、もう十分に積み上がっている。', author: '風雅舎', phase: 'late' },
     { t: 'any',   m: '続けることは、才能のもうひとつの名前。', author: '風雅舎' },
     { t: 'any',   m: '学びとは、昨日の自分との静かな対話。', author: '風雅舎' },
     { t: 'any',   m: '創造は、余白のあるところに訪れる。', author: '風雅舎' },
@@ -765,12 +807,21 @@
     return MESSAGES.map(function (m, i) { return { i: i, m: m }; })
       .filter(function (x) { return x.m.t === want || x.m.t === 'any'; });
   }
+  // Focus中は残り時間の割合でメッセージの傾向を変える（開始直後=start／残りわずか=late）
+  function phaseFilter(pool) {
+    if (state.mode !== 'focus' || !state.durations.focus) return pool;
+    var frac = timer.remaining / state.durations.focus;
+    var wantPhase = frac >= 0.85 ? 'start' : (frac <= 0.2 ? 'late' : null);
+    if (!wantPhase) return pool;
+    var matched = pool.filter(function (x) { return x.m.phase === wantPhase; });
+    return matched.length ? matched : pool;
+  }
   function renderMessage(pick) {
     elMsg.textContent = pick.m.m;
     elMsgAuthor.textContent = pick.m.author ? '— ' + pick.m.author : '';
   }
   function pickMessage(fade) {
-    var pool = msgPool();
+    var pool = phaseFilter(msgPool());
     var cands = pool.filter(function (x) { return x.i !== lastMsgIdx; });
     if (!cands.length) cands = pool;
     var pick = cands[Math.floor(Math.random() * cands.length)];
@@ -834,9 +885,13 @@
   var icoPlay = document.getElementById('icoPlay');
   var icoPause = document.getElementById('icoPause');
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.pomo-tab'));
-  var MODE_LABEL = { focus: 'Focus', short: 'Short Break', long: 'Long Break' };
+  var MODE_LABEL = { focus: '集中', short: '小休憩', long: '長休憩' };
   var timer = { running: false, endAt: 0, remaining: 0, intervalId: null };
   var baseTitle = document.title;
+  var elRingFill = document.getElementById('pomoRingFill');
+  var RING_C = 2 * Math.PI * 54;
+  elRingFill.style.strokeDasharray = String(RING_C);
+  var latePhaseShown = false;
 
   function fmt(sec) {
     sec = Math.max(0, Math.round(sec));
@@ -852,11 +907,19 @@
     tabs.forEach(function (b) {
       b.setAttribute('aria-pressed', b.dataset.mode === state.mode ? 'true' : 'false');
     });
+    var total = state.durations[state.mode] || 1;
+    var frac = Math.max(0, Math.min(1, timer.remaining / total));
+    elRingFill.style.strokeDashoffset = String(RING_C * (1 - frac));
   }
   function tickTimer() {
     if (!timer.running) return;
     timer.remaining = (timer.endAt - Date.now()) / 1000; // 終了予定時刻との差分で計算
     if (timer.remaining <= 0) { finishTimer(); return; }
+    if (state.mode === 'focus' && !latePhaseShown && state.durations.focus &&
+        (timer.remaining / state.durations.focus) <= 0.2) {
+      latePhaseShown = true;
+      pickMessage(true);
+    }
     renderTimer();
   }
   function startTimer() {
@@ -865,6 +928,9 @@
     if (timer.intervalId) clearInterval(timer.intervalId);
     timer.intervalId = setInterval(tickTimer, 250);
     renderTimer();
+    elTime.classList.remove('start-breathe');
+    void elTime.offsetWidth;
+    elTime.classList.add('start-breathe');
   }
   function pauseTimer() {
     timer.remaining = Math.max(0, (timer.endAt - Date.now()) / 1000);
@@ -876,6 +942,7 @@
     timer.running = false;
     if (timer.intervalId) { clearInterval(timer.intervalId); timer.intervalId = null; }
     timer.remaining = state.durations[state.mode];
+    latePhaseShown = false;
     renderTimer();
   }
   function setMode(mode, opts) {
@@ -884,6 +951,7 @@
     resetTimer();
     if (!(opts && opts.keepMessage)) pickMessage(true);
   }
+  var sessionFocusCount = 0; // このページ滞在中のみの一時集計。保存・送信はしない
   function finishTimer() {
     var wasFocus = state.mode === 'focus';
     timer.running = false;
@@ -896,18 +964,20 @@
     elTime.classList.add('done-pulse');
 
     if (wasFocus) {
+      sessionFocusCount += 1;
+      var sessionLine = '今日、集中を' + sessionFocusCount + '回重ねました。';
       var t = state.tasks.find(function (x) { return x.id === state.selectedId; });
       if (t) {
         t.pomos = (t.pomos || 0) + 1;
         saveState();
         renderTasks();
-        showNotice('Focusが終わりました。「' + t.name + '」に 1 Pomodoro を記録しました。ひと休みしましょう。');
+        showNotice('集中が終わりました。「' + t.name + '」に 1 Pomodoro を記録しました。' + sessionLine + 'ひと休みしましょう。');
       } else {
-        showNotice('Focusが終わりました。ひと休みしましょう。');
+        showNotice('集中が終わりました。' + sessionLine + 'ひと休みしましょう。');
       }
       setMode('short');
     } else {
-      showNotice('休憩が終わりました。次のFocusへ。');
+      showNotice('休憩が終わりました。次の集中へ。');
       setMode('focus');
     }
   }
@@ -933,6 +1003,7 @@
   var elPomoTask = document.getElementById('pomoTask');
   var elToggleDone = document.getElementById('toggleDone');
   var editingId = null;
+  var justCompletedIds = {}; // 完了直後のみ描画アニメーションを出すための一時フラグ（再描画のたびに再生されないように）
 
   function uid() { return 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
   function svgIcon(paths) {
@@ -1005,10 +1076,17 @@
       check.setAttribute('aria-label', '「' + t.name + '」を' + (t.done ? '未完了に戻す' : '完了にする'));
       var box = document.createElement('span');
       box.className = 'box';
-      box.appendChild(svgIcon(IC.check));
+      var checkSvg = svgIcon(IC.check);
+      if (t.done && justCompletedIds[t.id]) {
+        checkSvg.querySelector('path').classList.add('draw-in');
+        delete justCompletedIds[t.id];
+      }
+      box.appendChild(checkSvg);
       check.appendChild(box);
       check.addEventListener('click', function () {
+        var wasDone = t.done;
         t.done = !t.done;
+        if (t.done && !wasDone) justCompletedIds[t.id] = true;
         if (t.done && state.selectedId === t.id) state.selectedId = null;
         saveState(); renderTasks();
       });
@@ -1305,14 +1383,26 @@
       applyBackgroundNone();
     }
   }
+  function applyBackgroundChoice(id) {
+    if (id === 'none') { state.background = { type: 'none' }; applyBackgroundNone(); }
+    else { state.background = { type: 'preset', presetId: id }; applyBackgroundPreset(id); }
+  }
   bgChoices.forEach(function (b) {
     b.addEventListener('click', function () {
-      var id = b.dataset.bg;
-      if (id === 'none') { state.background = { type: 'none' }; applyBackgroundNone(); }
-      else { state.background = { type: 'preset', presetId: id }; applyBackgroundPreset(id); }
+      applyBackgroundChoice(b.dataset.bg);
       saveState();
     });
   });
+  // ホバーでライブプレビュー（stateは書き換えない・視覚のみ）→離れたら確定済みの背景に戻す（タッチ端末では無効）
+  if (window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+    bgChoices.forEach(function (b) {
+      b.addEventListener('mouseenter', function () {
+        var id = b.dataset.bg;
+        if (id === 'none') { applyBackgroundNone(); } else { applyBackgroundPreset(id); }
+      });
+      b.addEventListener('mouseleave', function () { loadBackgroundFromState(); });
+    });
+  }
   function compressImage(file) {
     return new Promise(function (resolve, reject) {
       var img = new Image();
@@ -1397,15 +1487,15 @@
   }
   function renderMusic() {
     var t = currentTrack();
-    var playing = t && !audio.paused;
+    var playing = !!(t && !audio.paused);
     Array.prototype.forEach.call(elTrackList.children, function (li) {
       var btn = li.firstChild;
       var sel = t && btn.dataset.track === t.id;
       btn.setAttribute('aria-pressed', sel ? 'true' : 'false');
-      btn.classList.toggle('is-playing', !!(sel && playing));
     });
-    elMini.hidden = !(t && state.music.mini);
-    elMini.classList.toggle('is-playing', !!playing);
+    elMini.hidden = !t;
+    elMini.classList.toggle('mini-hidden', !state.music.mini);
+    document.body.classList.toggle('music-active', playing);
     if (t) elMiniName.textContent = t.name;
     elMiniPlay.setAttribute('aria-label', playing ? '一時停止' : '再生');
     elMiniPlay.querySelector('.ic-play').style.display = playing ? 'none' : '';
@@ -1460,11 +1550,6 @@
     desc.textContent = t.desc;
     body.appendChild(name); body.appendChild(desc);
     btn.appendChild(body);
-    var eq = document.createElement('span');
-    eq.className = 'eq';
-    eq.setAttribute('aria-hidden', 'true');
-    eq.innerHTML = '<i></i><i></i><i></i>';
-    btn.appendChild(eq);
     btn.addEventListener('click', function () { selectTrack(t); });
     li.appendChild(btn);
     elTrackList.appendChild(li);
