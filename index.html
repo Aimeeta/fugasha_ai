@@ -47,44 +47,24 @@
         "areaServed": "Worldwide",
         "founder": { "@id": "https://aimeeta.github.io/fugasha_ai/#person" },
         "knowsLanguage": ["ja", "en", "de"],
-        "priceRange": "¥50,000〜",
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
-          "name": "料金の目安",
+          "name": "サービスのかたち",
           "itemListElement": [
             {
               "@type": "Offer",
-              "name": "AI WORKSHOP（半日ワークショップ）",
-              "description": "社員向けAI研修・導入ハンズオン。まずここから試せます。",
-              "priceCurrency": "JPY",
-              "priceSpecification": {
-                "@type": "PriceSpecification",
-                "minPrice": 50000,
-                "priceCurrency": "JPY"
-              }
+              "name": "受託開発",
+              "description": "小さな業務ツール、Web機能、AIを使った社内向けの仕組みを、要件整理から実装まで支援します。"
             },
             {
               "@type": "Offer",
-              "name": "MONTHLY RETAINER（月額 / 伴走型）",
-              "description": "マーケティング・AI・デザインを横断して、月ごとの相談相手として引き受けます。",
-              "priceCurrency": "JPY",
-              "priceSpecification": {
-                "@type": "UnitPriceSpecification",
-                "minPrice": 80000,
-                "priceCurrency": "JPY",
-                "unitText": "月"
-              }
+              "name": "ワークショップ",
+              "description": "AI活用、情報整理、発信設計を、少人数のチームで実際に手を動かしながら学ぶ場を設計します。"
             },
             {
               "@type": "Offer",
-              "name": "SINGLE PROJECT（単発 / プロジェクト単位）",
-              "description": "LP制作、AI導入診断、広報文章制作など。",
-              "priceCurrency": "JPY",
-              "priceSpecification": {
-                "@type": "PriceSpecification",
-                "minPrice": 150000,
-                "priceCurrency": "JPY"
-              }
+              "name": "伴走型コンサルティング",
+              "description": "毎週のミーティングを軸に、AI活用、業務整理、発信、制作を継続的に一緒に進めます。"
             }
           ]
         }
@@ -354,18 +334,39 @@
       font-size: 11px; color: var(--hint); line-height: 1.7; margin-top: 12px;
       opacity: 0; transition: all .6s ease .5s;
     }
+    .h-choice-label {
+      margin-top: 18px; margin-bottom: 8px;
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em;
+      color: var(--accent-ink); text-transform: uppercase;
+      opacity: 0; transition: opacity .6s ease .52s;
+    }
     .h-chips {
-      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;
+      display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 0; max-width: 560px;
       opacity: 0; transition: all .6s ease .55s;
     }
     .h-chip {
-      display: inline-flex; align-items: center; min-height: 44px;
-      font-size: 13px; line-height: 1.6; padding: 10px 16px;
+      position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 10px; row-gap: 5px;
+      min-height: 78px; padding: 14px 14px 13px;
       color: var(--fg2); text-decoration: none;
-      background: transparent; border: .5px solid var(--gb); border-radius: 99px;
-      transition: background .2s, border-color .2s;
+      background: rgba(255,255,255,.34); border: .5px solid var(--gb); border-radius: 8px;
+      transition: background .2s, border-color .2s, transform .2s, box-shadow .2s;
     }
-    .h-chip:hover { background: rgba(255,255,255,.5); border-color: rgba(13,32,48,.18); }
+    .h-chip::after {
+      content: '→'; position: absolute; right: 12px; bottom: 10px;
+      font-size: 12px; color: var(--accent-ink); opacity: .75; transition: transform .2s;
+    }
+    .h-chip:hover {
+      background: rgba(255,255,255,.58); border-color: rgba(232,134,106,.34);
+      transform: translateY(-2px); box-shadow: 0 12px 28px rgba(13,32,48,.08);
+    }
+    .h-chip:hover::after { transform: translateX(3px); }
+    .h-chip-num {
+      grid-row: 1 / span 2; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;
+      border: .5px solid rgba(232,134,106,.32); color: var(--accent-ink);
+      font-family: var(--font-mono); font-size: 10px; border-radius: 50%;
+    }
+    .h-chip-title { display: block; padding-right: 18px; font-size: 13px; line-height: 1.55; color: var(--fg); font-weight: 500; }
+    .h-chip-desc { display: block; padding-right: 12px; font-size: 11.5px; line-height: 1.65; color: var(--muted); }
 
     /* scroll hint */
     .scroll-hint {
@@ -468,9 +469,20 @@
       display: flex; align-items: center; gap: 12px; padding: 10px 24px; border-radius: 99px;
       border: .5px solid var(--gb); background: var(--glass); font-size: 22px; color: var(--fg2);
       font-weight: 500; backdrop-filter: blur(8px); cursor: default;
-      transition: box-shadow var(--dur-tap);
+      opacity: 0; transform: translateY(10px);
+      transition: opacity .65s var(--ease), transform .65s var(--ease), box-shadow var(--dur-tap), border-color .2s;
     }
-    .tp:hover { box-shadow: 0 8px 22px rgba(13,32,48,.08); }
+    .visible .tp { opacity: 1; transform: none; }
+    .tp:nth-child(2) { transition-delay: .04s; }
+    .tp:nth-child(3) { transition-delay: .08s; }
+    .tp:nth-child(4) { transition-delay: .12s; }
+    .tp:nth-child(5) { transition-delay: .16s; }
+    .tp:nth-child(6) { transition-delay: .20s; }
+    .tp:nth-child(7) { transition-delay: .24s; }
+    .tp:nth-child(8) { transition-delay: .28s; }
+    .tp:nth-child(9) { transition-delay: .32s; }
+    .tp:nth-child(10) { transition-delay: .36s; }
+    .tp:hover { box-shadow: 0 8px 22px rgba(13,32,48,.08); border-color: rgba(232,134,106,.22); }
     /* ツールアイコンはモノクロ統一（ブランドカラー不使用 — 静けさ優先＋商標ガイドライン対策） */
     .ti {
       width: 34px; height: 34px; border-radius: 8px;
@@ -486,8 +498,13 @@
     }
     .tool-thought {
       background: rgba(240,230,214,.72); padding: 18px 18px 20px;
-      min-height: 142px;
+      min-height: 142px; opacity: 0; transform: translateY(8px);
+      transition: opacity .75s var(--ease), transform .75s var(--ease);
     }
+    .visible .tool-thought { opacity: 1; transform: none; }
+    .tool-thought:nth-child(2) { transition-delay: .08s; }
+    .tool-thought:nth-child(3) { transition-delay: .16s; }
+    .tool-thought:nth-child(4) { transition-delay: .24s; }
     .tool-thought-k {
       display: block; font-family: var(--font-mono); font-size: 10px;
       letter-spacing: .14em; color: var(--accent-ink); margin-bottom: 12px;
@@ -1071,29 +1088,6 @@
     .security-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 20px; font-size: 12px; color: var(--fg); text-decoration: none; border-bottom: 1px solid rgba(13,32,48,.24); padding-bottom: 2px; }
     .security-link:hover { border-color: rgba(232,134,106,.55); }
 
-    /* pricing */
-    .price-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-    .price-card {
-      padding: 28px 24px; border-radius: 18px;
-      opacity: 0; transform: translateY(22px) scale(.97);
-      transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
-      position: relative; overflow: hidden; cursor: default;
-    }
-    .price-card:hover { border-color: rgba(232,134,106,.24); }
-    .price-card.featured { border: 1.5px solid var(--accent); }
-    .price-label { font-size: 10px; letter-spacing: .12em; color: var(--hint); margin-bottom: 10px; }
-    .price-num { font-size: 30px; font-weight: 300; color: var(--fg); margin-bottom: 4px; line-height: 1; font-family: var(--font-serif); }
-    .price-num-sub { font-size: 14px; color: var(--muted); }
-    .pi-icon { width: 8px; height: 8px; }
-    .price-unit { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
-    .price-desc { font-size: 13px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; }
-    .price-items { display: flex; flex-direction: column; gap: 6px; }
-    .pi { display: flex; align-items: flex-start; gap: 7px; font-size: 12px; color: var(--fg2); }
-    .pi-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 10px; }
-    .pi-a { background: rgba(232,134,106,.1); color: var(--accent-ink); }
-    .pi-p { background: rgba(232,134,106,.1); color: var(--accent-ink); }
-    .pi-t { background: rgba(232,134,106,.1); color: var(--accent-ink); }
-
     /* FAQ */
     .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
     .faq-item { border-radius: 4px; overflow: hidden; transition: border-color .2s; }
@@ -1149,6 +1143,7 @@
     .visible .h-h1,
     .visible .h-actions,
     .visible .h-actions-note,
+    .visible .h-choice-label,
     .visible .h-chips,
     .visible .scroll-hint,
     .visible .hero-right,
@@ -1158,7 +1153,6 @@
     .visible .entry-card,
     .visible .sv,
     .visible .case,
-    .visible .price-card,
     .visible .ar,
     .visible .ch2,
     .visible .csub,
@@ -1172,14 +1166,6 @@
     .sv:nth-child(4) { transition-delay: .24s; }
     .case:nth-child(2) { transition-delay: .08s; }
     .case:nth-child(3) { transition-delay: .16s; }
-    .price-card:nth-child(2) { transition-delay: .08s; }
-    .price-card:nth-child(3) { transition-delay: .16s; }
-
-    /* Price card CTA link */
-    .price-cta { display: block; margin-top: 14px; font-size: 11px; color: var(--accent-ink); font-weight: 500; cursor: pointer; letter-spacing: .03em; text-decoration: none; }
-    .price-cta:hover { text-decoration: underline; }
-
-
     /* Hamburger menu */
     .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: 0; }
     .nav-ham span { display: block; width: 20px; height: 1.5px; background: var(--fg); border-radius: 1px; transition: all .25s; }
@@ -1220,7 +1206,8 @@
       }
       .h-h1 { font-size: clamp(36px, 4.1vw, 46px); }
       .h-subcopy { font-size: 15px; }
-      .h-chip { min-height: 40px; padding: 8px 13px; font-size: 12px; }
+      .h-chips { grid-template-columns: 1fr; max-width: 560px; }
+      .h-chip { min-height: 78px; padding: 13px 14px; }
       .h-checker-body { padding: 16px 16px 13px; }
       .hck-val { font-size: 40px; }
       .hck-r-num { font-size: 22px; }
@@ -1233,7 +1220,6 @@
       .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .service-entry { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .entry-card { padding: 15px 16px; }
-      .price-card { padding: 24px 20px; }
       .security-panel { grid-template-columns: 1fr; }
 
       .sst-right { padding: 0 42px 0 42px; }
@@ -1277,8 +1263,11 @@
       .h-actions { gap: 8px; }
       .btn-amber { font-size: 11px; padding: 13px 22px; }
       .btn-ghost { font-size: 11px; padding: 12px 21px; }
-      .h-chips { margin-top: 14px; }
-      .h-chip { font-size: 12px; padding: 9px 14px; }
+      .h-choice-label { margin-top: 14px; }
+      .h-chips { grid-template-columns: 1fr; gap: 8px; }
+      .h-chip { min-height: 78px; padding: 13px 14px; }
+      .h-chip-title { font-size: 13px; }
+      .h-chip-desc { font-size: 11.5px; }
       .h-actions-note { margin-top: 10px; }
       .scroll-hint { display: none; }
       /* Checker */
@@ -1366,11 +1355,6 @@
       .ab-cred-divider { width: 100%; height: .5px; margin: 0; }
       .ab-cred-num { font-size: 24px; }
 
-      /* ── Pricing ── */
-      .price-grid { grid-template-columns: 1fr; gap: 10px; }
-      .price-card { padding: 22px 20px; }
-      .price-num { font-size: 28px; }
-
       /* ── Infog ── */
       /* ── CTA ── */
       .ch2 { font-size: 26px; }
@@ -1397,11 +1381,11 @@
       .btn-ghost { width: 100%; justify-content: center; }
       .h-actions-note { font-size: 10.5px; }
       .h-chips { gap: 7px; }
-      .h-chip { width: 100%; min-height: 0; padding: 8px 12px; line-height: 1.55; }
+      .h-chip { width: 100%; min-height: 0; padding: 12px; }
       .s-h2 { font-size: 25px; }
       .sst-h2 { font-size: 24px; }
       .sec { padding: 44px 16px; }
-      .sign-grid, .svc-bento, .price-grid { gap: 8px; }
+      .sign-grid, .svc-bento { gap: 8px; }
       .ch2 { font-size: 23px; }
       .hck-val { font-size: 32px; }
       .aph { max-height: 220px; }
@@ -1452,7 +1436,6 @@
     .cta-sub-link:focus-visible,
     .nav-cta:focus-visible,
     .cta-btn-amber:focus-visible,
-    .price-cta:focus-visible,
     .nav-link:focus-visible,
     .hck-slider:focus-visible,
     .entry-card:focus-visible,
@@ -1473,9 +1456,9 @@
   <noscript>
     <style>
       /* JS無効時: IntersectionObserverのリビールが動かないため、初期状態 opacity:0 の要素をすべて可視化する */
-      .h-h1, .h-actions, .h-actions-note, .h-chips, .scroll-hint, .hero-right,
+      .h-h1, .h-actions, .h-actions-note, .h-choice-label, .h-chips, .scroll-hint, .hero-right,
       .s-lbl, .s-h2, .s-desc, .sign-item, .entry-card, .sv, .case,
-      .margin-step, .phi-item, .phi-quote, .security-panel, .ar, .price-card,
+      .margin-step, .phi-item, .phi-quote, .security-panel, .ar,
       .ch2, .csub, .cq, .cta-wrap {
         opacity: 1 !important; transform: none !important;
       }
@@ -1517,7 +1500,6 @@
     <a href="#s-cases" class="nav-link">Cases</a>
     <a href="#s-philosophy" class="nav-link">Philosophy</a>
     <a href="#s-about" class="nav-link">About</a>
-    <a href="#s-price" class="nav-link">Pricing</a>
     <a href="security-ai.html" class="nav-link">Security</a>
     <a href="blog/" class="nav-link">Blog</a>
     <a href="en/" class="nav-link" lang="en" hreflang="en">English</a>
@@ -1534,7 +1516,6 @@
   <a href="#s-about">About</a>
   <a href="security-ai.html">Security</a>
   <a href="blog/">Blog</a>
-  <a href="#s-price">Pricing</a>
   <a href="#s-faq">FAQ</a>
   <a href="en/" lang="en" hreflang="en">English</a>
   <div class="nav-drawer-cta">
@@ -1555,10 +1536,23 @@
       <a href="contact.html" class="btn-ghost">無料の30分相談を申し込む</a>
     </div>
     <p class="h-actions-note">答えて整理するだけでも構いません。まとまった内容は「相談メモ」として持ち帰れます。</p>
+    <div class="h-choice-label">CHOOSE YOUR FIRST STEP</div>
     <nav class="h-chips" aria-label="相談の入り口">
-      <a href="chat.html?t=ai" class="h-chip">AIを使いたい。でも、何から始めればいいかわからない。</a>
-      <a href="chat.html?t=out" class="h-chip">外注も考えている。でも、何を頼めばいいのか。</a>
-      <a href="chat.html?t=ops" class="h-chip">作業を減らしたい。でも、見直す時間がない。</a>
+      <a href="chat.html?t=ai" class="h-chip">
+        <span class="h-chip-num">01</span>
+        <span class="h-chip-title">AIを使いたい</span>
+        <span class="h-chip-desc">何から始めるか、業務から一緒に選びます。</span>
+      </a>
+      <a href="chat.html?t=out" class="h-chip">
+        <span class="h-chip-num">02</span>
+        <span class="h-chip-title">外注・制作を相談したい</span>
+        <span class="h-chip-desc">頼む範囲と、手元に残す範囲を整理します。</span>
+      </a>
+      <a href="chat.html?t=ops" class="h-chip">
+        <span class="h-chip-num">03</span>
+        <span class="h-chip-title">作業を減らしたい</span>
+        <span class="h-chip-desc">繰り返し作業と判断業務を分けて見ます。</span>
+      </a>
     </nav>
   </div>
   <div class="hero-right">
@@ -1744,41 +1738,41 @@
   </div>
 </section>
 
-<!-- ── Cases ── -->
+<!-- ── Ways of Working ── -->
 <section class="sec sec-light" id="s-cases">
-  <div class="s-lbl">// CASES</div>
-  <h2 class="s-h2">よくある支援イメージ</h2>
-  <p class="s-desc">実際の相談で多いテーマをもとにしたモデルケースです。数字は成果を保証するものではありません。</p>
-  <div class="cases-grid" role="list" aria-label="支援イメージ一覧">
+  <div class="s-lbl">// WAYS OF WORKING</div>
+  <h2 class="s-h2">関わり方は、<br>つくる・学ぶ・一緒に進める。</h2>
+  <p class="s-desc">固定メニューではなく、必要な関わり方から選べるようにしました。内容や稼働量は、会社の状態に合わせて相談で決めます。</p>
+  <div class="cases-grid" role="list" aria-label="サービスのかたち一覧">
     <div class="case glass-card" role="listitem">
-      <div class="case-head"><span class="case-tag tag-a">AI導入支援</span><span class="case-co">製造業・従業員20名</span></div>
+      <div class="case-head"><span class="case-tag tag-a">受託開発</span><span class="case-co">PROJECT BUILD</span></div>
       <div class="case-flow">
-        <div class="case-step"><span class="case-step-k">BEFORE</span><p class="case-step-b">見積もり、問い合わせ返信、議事録が毎週同じように積み上がる。</p></div>
-        <div class="case-step"><span class="case-step-k">PROCESS</span><p class="case-step-b">繰り返す作業を書き出し、AIに任せやすい順に小さく試す。</p></div>
-        <div class="case-step"><span class="case-step-k">AFTER</span><p class="case-step-b">人が確認すべき箇所と、下書きに任せる箇所が分かれる。</p></div>
+        <div class="case-step"><span class="case-step-k">WHAT</span><p class="case-step-b">小さなWeb機能、業務用ツール、AIを使った下書き・整理の仕組みをつくります。</p></div>
+        <div class="case-step"><span class="case-step-k">PROCESS</span><p class="case-step-b">要件を一緒に分解し、まず動く形を作り、実務で使いながら調整します。</p></div>
+        <div class="case-step"><span class="case-step-k">FIT</span><p class="case-step-b">作りたいものはあるけれど、仕様書にする時間がない会社に向いています。</p></div>
       </div>
-      <div class="case-result"><span class="case-arrow">→</span>週あたり数時間の作業削減を目指す設計。</div>
+      <div class="case-result"><span class="case-arrow">→</span>納品物と運用メモまで、手元に残る形にします。</div>
     </div>
     <div class="case glass-card" role="listitem">
-      <div class="case-head"><span class="case-tag tag-p">ブランディング + 広報</span><span class="case-co">IT系スタートアップ・従業員8名</span></div>
+      <div class="case-head"><span class="case-tag tag-p">ワークショップ</span><span class="case-co">TEAM SESSION</span></div>
       <div class="case-flow">
-        <div class="case-step"><span class="case-step-k">BEFORE</span><p class="case-step-b">採用サイト、会社紹介資料、SNSの言葉が少しずつずれている。</p></div>
-        <div class="case-step"><span class="case-step-k">PROCESS</span><p class="case-step-b">初見の人が読む順番に、見た目と言葉の役割を並べ直す。</p></div>
-        <div class="case-step"><span class="case-step-k">AFTER</span><p class="case-step-b">「何をしている会社か」が、説明前に伝わる状態へ近づく。</p></div>
+        <div class="case-step"><span class="case-step-k">WHAT</span><p class="case-step-b">AI活用、情報の扱い、発信設計、業務の書き出しを、少人数で手を動かしながら学びます。</p></div>
+        <div class="case-step"><span class="case-step-k">PROCESS</span><p class="case-step-b">事前に困りごとを集め、当日は実例を使い、持ち帰れるルールやプロンプトにします。</p></div>
+        <div class="case-step"><span class="case-step-k">FIT</span><p class="case-step-b">社内でAIを使い始めたいけれど、温度差や不安があるチームに向いています。</p></div>
       </div>
-      <div class="case-result"><span class="case-arrow">→</span>問い合わせ・応募前の理解度を上げる。</div>
+      <div class="case-result"><span class="case-arrow">→</span>座学で終わらせず、翌日から試せる形にします。</div>
     </div>
     <div class="case glass-card" role="listitem">
-      <div class="case-head"><span class="case-tag tag-t">業務効率化コンサル</span><span class="case-co">飲食・小売・店舗運営</span></div>
+      <div class="case-head"><span class="case-tag tag-t">伴走型コンサル</span><span class="case-co">WEEKLY PARTNER</span></div>
       <div class="case-flow">
-        <div class="case-step"><span class="case-step-k">BEFORE</span><p class="case-step-b">SNS投稿、シフト共有、発注・請求が手元に残り続けている。</p></div>
-        <div class="case-step"><span class="case-step-k">PROCESS</span><p class="case-step-b">人が判断する仕事と、仕組みで支える仕事を分ける。</p></div>
-        <div class="case-step"><span class="case-step-k">AFTER</span><p class="case-step-b">オーナーが考える時間に戻れるよう、運用の置き場をつくる。</p></div>
+        <div class="case-step"><span class="case-step-k">WHAT</span><p class="case-step-b">毎週のミーティングを軸に、AI、業務整理、発信、制作を横断して一緒に進めます。</p></div>
+        <div class="case-step"><span class="case-step-k">PROCESS</span><p class="case-step-b">今週やることを決め、実装・文章・仕組み化を進め、次回までに検証します。</p></div>
+        <div class="case-step"><span class="case-step-k">FIT</span><p class="case-step-b">相談だけでなく、実際に手を動かす相手が継続的に必要な会社に向いています。</p></div>
       </div>
-      <div class="case-result"><span class="case-arrow">→</span>判断業務に戻れる余白をつくる。</div>
+      <div class="case-result"><span class="case-arrow">→</span>毎週の前進を、小さく確実に積み上げます。</div>
     </div>
   </div>
-  <p class="case-note">※ 上記は相談内容をもとにしたモデルケースです。成果は業種・体制・既存ツール・運用状況により異なります。</p>
+  <p class="case-note">※ 具体的な進め方は、稼働量・関わる範囲・社内体制に合わせて個別に相談します。</p>
 </section>
 <section id="s-vision" style="position:relative;background:var(--fg);padding:0;">
   <div class="sst-outer">
@@ -1975,50 +1969,6 @@
           <div class="ab-cred-lbl">マーケティング・広報・デザイン<br>領域の支援実績</div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Pricing（安い順） ── -->
-<section class="sec sec-white" id="s-price">
-  <div class="s-lbl">// PRICING</div>
-  <h2 class="s-h2">料金の目安</h2>
-  <p class="s-desc">大きな契約からではなく、小さな一歩から。合うかどうかを、試してから決められる形にしています。</p>
-  <p class="s-desc">最初の30分の相談は無料です。合いそうかどうかは、そこで一緒に確かめられます。</p>
-  <div class="price-grid">
-    <div class="price-card glass-card">
-      <h3 class="price-label">AI WORKSHOP</h3>
-      <div class="price-num">¥50,000<span class="price-num-sub">〜</span></div>
-      <div class="price-unit">半日ワークショップ</div>
-      <p class="price-desc">社員向けAI研修・導入ハンズオン。まずここから試せます。</p>
-      <div class="price-items">
-        <div class="pi"><div class="pi-dot pi-t"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>オンライン可</div>
-        <div class="pi"><div class="pi-dot pi-t"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>少人数〜チーム対応</div>
-      </div>
-      <a href="contact.html" class="price-cta">このプランで相談する →</a>
-    </div>
-    <div class="price-card glass-card featured">
-      <h3 class="price-label">MONTHLY RETAINER</h3>
-      <div class="price-num">¥80,000<span class="price-num-sub">〜/月</span></div>
-      <div class="price-unit">月額 / 伴走型</div>
-      <p class="price-desc">マーケティング・AI・デザインを横断して、月ごとの相談相手として引き受けます。</p>
-      <div class="price-items">
-        <div class="pi"><div class="pi-dot pi-p"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>月次定例MTG込み</div>
-        <div class="pi"><div class="pi-dot pi-p"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>Slack直接連絡可</div>
-        <div class="pi"><div class="pi-dot pi-p"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>3ヶ月〜</div>
-      </div>
-      <a href="contact.html" class="price-cta">このプランで相談する →</a>
-    </div>
-    <div class="price-card glass-card">
-      <h3 class="price-label">SINGLE PROJECT</h3>
-      <div class="price-num">¥150,000<span class="price-num-sub">〜</span></div>
-      <div class="price-unit">単発 / プロジェクト単位</div>
-      <p class="price-desc">LP制作、AI導入診断、広報文章制作など。</p>
-      <div class="price-items">
-        <div class="pi"><div class="pi-dot pi-a"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>納品物を明確化</div>
-        <div class="pi"><div class="pi-dot pi-a"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>契約期間なし</div>
-      </div>
-      <a href="contact.html" class="price-cta">このプランで相談する →</a>
     </div>
   </div>
 </section>
@@ -2225,7 +2175,7 @@
   });
 
   // ── Scroll observer (sections) ──
-  const sectionIds = ['s-hero','s-tools','s-pain','s-margin','s-service','s-cases','s-vision','s-philosophy','s-security','s-about','s-price','s-faq','s-blog','s-cta'];
+  const sectionIds = ['s-hero','s-tools','s-pain','s-margin','s-service','s-cases','s-vision','s-philosophy','s-security','s-about','s-faq','s-blog','s-cta'];
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -2662,8 +2612,6 @@
       }
     });
   })();
-
-  // ── Price card CTA → contact.html（実リンク化済み、JSハンドラ不要）──
 
   // ⑫ content-visibility — 未適用。アンカージャンプ・Lenis との相互作用検証が必要なため見送り（ROADMAP参照）
 
