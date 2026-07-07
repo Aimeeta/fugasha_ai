@@ -2,6 +2,12 @@
 
 新しい決定は上に追記する。形式: 日付 / 決定 / 理由 / 決定者。
 
+## 2026-07-07 — focus.html を「Focus Clock」へ全面拡張
+mihata.jp/en/clock を機能参照（コード・資産は非複製）し、focus.html を集中特化アプリへ再構築。追加: 時計の秒/12・24h/サイズ/太さ/書体、フルスクリーン(F)・スペースで開始停止・Escで閉じる、ポモドーロのスキップ/各時間・長休憩までのセッション数/自動切替/自動開始/終了音4種/ブラウザ通知/本日統計(完了数・集中時間・セッション)/タイトル残時間、Web Workerで背面時の精度維持、音源5種を Lo-fi/Jazz/**Cafe Bossa**/Fireplace/Ambient に再編(cafe-bossa.m4a を合成追加、piano-ambient を廃止)、ミニプレイヤーにミュート追加・切替フェード、背景は 単色/グラデ3/写真5/動画5(placeholder mp4→poster静止画フォールバック)/カスタム/ランダム、背景follows music、下部フローティングツールバー+右パネル/モバイルはボトムシート、JA/EN i18n、日次統計の日付リセット。
+- **背景素材の方針**: 実写真・実動画は著作権のため同梱せず、PILで合成した雰囲気ポスター5枚(`assets/backgrounds/*.jpg`)を写真背景として同梱。動画は完全なパイプライン(video autoplay muted loop playsinline object-fit:cover / poster / error時に静止画フォールバック / reduced-motionでposter)を実装し、`assets/backgrounds/<id>.mp4` を差し替え口として用意(未同梱のため現状はposterで動作)。差し替え口: 音源=`TRACKS[].src`、背景写真=`PHOTOS[].img`、動画=`assets/backgrounds/<id>.mp4`。
+- **時計の太さ**: 太さ調整のため focus.html のみ Zen Kaku(300-700)/Noto Serif JP(200-700)を追加読込。実ウェイトへスナップし疑似ボールドは回避(憲法遵守)。
+- **未実装(優先度B)**: 天気/YouTube/PWA/カレンダー/パレット自動ローテーション。スリープ防止(wake lock)のみ実装。localStorageは v2 に更新(v1のタスク・配色は移行)。
+
 ## 2026-07-07 — focus.html の音源はセルフホストの合成プレースホルダー
 Music & Ambient機能（5プリセット）の音源として、YouTube等の外部サービス連携は不採用（オーナー指定）。既存楽曲の利用は著作権確認コストが高いため、**純Pythonで合成した60秒シームレスループ**（`assets/audio/*.m4a`、各530〜730KB、AAC 96kbps）をセルフホストする方式を採用。全て合成音のため権利問題なし。`focus.html` 内の `TRACKS` 配列の `src` を書き換えるだけで後から差し替え可能（生成スクリプトは使い捨て・リポジトリ外）。`preload='none'` で選択時のみ取得し、ページ読み込みには影響しない。Lo-fi/Jazz系は合成ゆえ簡素な仮素材であり、品質を上げる場合はCC0等の実音源への差し替えを推奨。
 
