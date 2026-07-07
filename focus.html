@@ -136,6 +136,17 @@
       text-shadow: 0 1px 24px rgba(0,0,0,.55), 0 1px 3px rgba(0,0,0,.4);
     }
     body.on-media .pomo-tab { text-shadow: none; }
+    /* 明るい写真/動画の上では暗色テキスト＋淡い光の影に切替（白文字の視認性崩れを防ぐ） */
+    body.on-media.on-media-bright { --fg: #16181c; --fg2: #2b2f36; --hint: #4a4f57; }
+    body.on-media.on-media-bright .st-clock, body.on-media.on-media-bright .st-date, body.on-media.on-media-bright .pomo-time,
+    body.on-media.on-media-bright .msg, body.on-media.on-media-bright .pomo-stats, body.on-media.on-media-bright .pomo-task {
+      text-shadow: 0 1px 20px rgba(255,255,255,.7), 0 1px 3px rgba(255,255,255,.55);
+    }
+    body.on-media.on-media-bright .pomo-tabs { background: rgba(255,255,255,.42); }
+    body.on-media.on-media-bright .pomo-tab[aria-pressed="true"] { background: #16181c; color: #fff; }
+    body.on-media.on-media-bright .pomo-ring-track { stroke: rgba(0,0,0,.22); }
+    body.on-media.on-media-bright .btn-ghost { border-color: rgba(0,0,0,.28); background: rgba(255,255,255,.34); }
+    body.on-media.on-media-bright .nav-logo, body.on-media.on-media-bright .nav-link { color: #16181c; text-shadow: 0 1px 10px rgba(255,255,255,.65); }
 
     .st-date { font-family: var(--font-mono); font-size: 12px; letter-spacing: .22em; color: var(--hint); text-transform: uppercase; }
     .st-clock {
@@ -281,6 +292,9 @@
     .bg-cell-label { font-size: 10px; color: var(--hint); letter-spacing: .03em; text-align: center; }
     .bg-cat { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--hint); margin: 14px 0 8px; font-weight: 500; }
     .bg-cat:first-child { margin-top: 0; }
+    .bg-subcat { grid-column: 1 / -1; font-size: 10px; letter-spacing: .06em; color: var(--hint); margin: 2px 0 -2px; }
+    .track-cat { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--hint); margin: 12px 0 4px; font-weight: 500; }
+    .track-cat:first-child { margin-top: 0; }
 
     .up-btn { width: 100%; box-sizing: border-box; }
     .hint { font-size: 11.5px; color: var(--hint); line-height: 1.7; margin-top: 10px; }
@@ -652,6 +666,9 @@
       notify_focus_title:'集中おつかれさまでした', notify_break_title:'休憩おわり',
       bg_none:'既定', bg_mist:'靄', bg_fire:'灯', bg_water:'水面',
       bg_study:'夜の書斎', bg_jazz:'ジャズカフェ', bg_tropical:'南国カフェ', bg_fireplace:'暖炉', bg_aurora:'オーロラ',
+      bg_mountains:'遠い山並み', bg_ravine:'渓流', bg_lake:'静かな湖', bg_starry:'星空と山脈', bg_fog:'霧の谷', bg_dusk:'夕暮れの海',
+      cat_lofi:'Lo-fi', cat_cinematic:'叙情 / Cinematic', cat_cafe:'カフェ', cat_nature:'自然', cat_ambient:'抽象',
+      bg_grp_nature:'自然', bg_grp_scene:'情景',
       err_media:'この画像・動画は読み込めませんでした。別のファイルでお試しください。',
       err_audio:'音源を読み込めませんでした。時間をおいてもう一度お試しください。',
       err_type:'画像または動画ファイルを選んでください。',
@@ -683,6 +700,9 @@
       notify_focus_title:'Nice focus session', notify_break_title:'Break over',
       bg_none:'Default', bg_mist:'Mist', bg_fire:'Ember', bg_water:'Water',
       bg_study:'Night study', bg_jazz:'Jazz cafe', bg_tropical:'Tropical cafe', bg_fireplace:'Fireplace', bg_aurora:'Aurora',
+      bg_mountains:'Far mountains', bg_ravine:'Ravine', bg_lake:'Still lake', bg_starry:'Starry peaks', bg_fog:'Misty valley', bg_dusk:'Seaside dusk',
+      cat_lofi:'Lo-fi', cat_cinematic:'Cinematic', cat_cafe:'Cafe', cat_nature:'Nature', cat_ambient:'Ambient',
+      bg_grp_nature:'Nature', bg_grp_scene:'Scenes',
       err_media:'That image/video could not be loaded. Please try another file.',
       err_audio:'The track could not be loaded. Please try again later.',
       err_type:'Please choose an image or video file.',
@@ -966,19 +986,55 @@
 
   /* ================= 背景 ================= */
   var GRAD = { mist: 'mist', fire: 'fire', water: 'water' };
+  // grp: 'nature'（自然）/ 'scene'（情景）。motion: 動画カテゴリにも出す（動きが映えるシーン）
   var PHOTOS = [
-    { id: 'study-night', key: 'bg_study', img: 'assets/backgrounds/study-night.jpg' },
-    { id: 'jazz-cafe',   key: 'bg_jazz',  img: 'assets/backgrounds/jazz-cafe.jpg' },
-    { id: 'tropical-cafe', key: 'bg_tropical', img: 'assets/backgrounds/tropical-cafe.jpg' },
-    { id: 'fireplace',   key: 'bg_fireplace', img: 'assets/backgrounds/fireplace.jpg' },
-    { id: 'aurora',      key: 'bg_aurora', img: 'assets/backgrounds/aurora.jpg' }
+    { id: 'mountains',   key: 'bg_mountains', img: 'assets/backgrounds/mountains.jpg', grp: 'nature' },
+    { id: 'ravine',      key: 'bg_ravine', img: 'assets/backgrounds/ravine.jpg', grp: 'nature', motion: true },
+    { id: 'lake',        key: 'bg_lake', img: 'assets/backgrounds/lake.jpg', grp: 'nature' },
+    { id: 'starry-peaks',key: 'bg_starry', img: 'assets/backgrounds/starry-peaks.jpg', grp: 'nature', motion: true },
+    { id: 'fog-valley',  key: 'bg_fog', img: 'assets/backgrounds/fog-valley.jpg', grp: 'nature' },
+    { id: 'dusk-sea',    key: 'bg_dusk', img: 'assets/backgrounds/dusk-sea.jpg', grp: 'nature', motion: true },
+    { id: 'aurora',      key: 'bg_aurora', img: 'assets/backgrounds/aurora.jpg', grp: 'nature', motion: true },
+    { id: 'study-night', key: 'bg_study', img: 'assets/backgrounds/study-night.jpg', grp: 'scene' },
+    { id: 'jazz-cafe',   key: 'bg_jazz',  img: 'assets/backgrounds/jazz-cafe.jpg', grp: 'scene' },
+    { id: 'tropical-cafe', key: 'bg_tropical', img: 'assets/backgrounds/tropical-cafe.jpg', grp: 'scene' },
+    { id: 'fireplace',   key: 'bg_fireplace', img: 'assets/backgrounds/fireplace.jpg', grp: 'scene', motion: true }
   ];
   function photoById(id) { return PHOTOS.find(function (p) { return p.id === id; }); }
   var bgLayer = $('bgLayer'), bgA = $('bgA'), bgB = $('bgB'), activeFrame = bgA, idleFrame = bgB;
   var curObjUrl = null;
 
   function prefersReduced() { return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
-  function setBodyOnMedia(on) { document.body.classList.toggle('on-media', on); document.documentElement.style.setProperty('--scrim', on ? '0.34' : '0'); }
+  // 背景の明るさに応じてテキストのコントラストを切替（白文字が明るい背景で潰れるのを防ぐ）
+  var BRIGHT_TH = 150; // 平均輝度がこれ以上なら「明るい背景」＝暗色テキスト
+  function setMediaContrast(mode) {
+    var b = document.body, root = document.documentElement;
+    if (mode === 'none') { b.classList.remove('on-media', 'on-media-bright'); root.style.setProperty('--scrim', '0'); root.style.removeProperty('--scrim-color'); return; }
+    b.classList.add('on-media');
+    if (mode === 'bright') { b.classList.add('on-media-bright'); root.style.setProperty('--scrim-color', '255,255,255'); root.style.setProperty('--scrim', '0.34'); }
+    else { b.classList.remove('on-media-bright'); root.style.setProperty('--scrim-color', '0,0,0'); root.style.setProperty('--scrim', '0.34'); }
+  }
+  function luminanceOf(el) {
+    try {
+      var c = document.createElement('canvas'); c.width = 24; c.height = 14;
+      var ctx = c.getContext('2d'); ctx.drawImage(el, 0, 0, 24, 14);
+      var d = ctx.getImageData(0, 0, 24, 14).data, sum = 0, n = 0;
+      for (var i = 0; i < d.length; i += 4) { sum += 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]; n++; }
+      return n ? sum / n : 60;
+    } catch (e) { return 60; }
+  }
+  var lumSeq = 0; // 連打時に古い結果で上書きしないための世代カウンタ
+  function probeImageContrast(src) {
+    var seq = ++lumSeq; var im = new Image();
+    im.onload = function () { if (seq === lumSeq) setMediaContrast(luminanceOf(im) >= BRIGHT_TH ? 'bright' : 'dark'); };
+    im.onerror = function () { if (seq === lumSeq) setMediaContrast('dark'); };
+    im.src = src;
+  }
+  function probeVideoContrast(v) {
+    var seq = ++lumSeq;
+    function sample() { if (seq === lumSeq) setMediaContrast(luminanceOf(v) >= BRIGHT_TH ? 'bright' : 'dark'); }
+    if (v.readyState >= 2) sample(); else v.addEventListener('loadeddata', sample, { once: true });
+  }
 
   function swapFrame(buildInto) {
     // idleFrameに内容を作り、クロスフェードで前面へ
@@ -999,14 +1055,14 @@
     var persist = !(opts && opts.preview);
     if (desc.type === 'none') {
       swapFrame(function (f) { f.style.background = 'var(--bg)'; });
-      setBodyOnMedia(false);
+      setMediaContrast('none');
     } else if (desc.type === 'gradient') {
       swapFrame(function (f) { var g = document.createElement('div'); g.className = 'grad ' + (GRAD[desc.id] || 'mist'); f.appendChild(g); });
-      setBodyOnMedia(false);
+      setMediaContrast('none');
     } else if (desc.type === 'photo') {
       var p = photoById(desc.id) || PHOTOS[0];
       swapFrame(function (f) { var img = new Image(); img.alt = ''; img.src = p.img; f.appendChild(img); });
-      setBodyOnMedia(true);
+      setMediaContrast('dark'); probeImageContrast(p.img);
     } else if (desc.type === 'video') {
       var pv = photoById(desc.id) || PHOTOS[0];
       if (prefersReduced()) { // モーション削減時は静止画（poster）で
@@ -1022,18 +1078,18 @@
           f.appendChild(v); var pr = v.play(); if (pr && pr.catch) pr.catch(function(){});
         });
       }
-      setBodyOnMedia(true);
+      setMediaContrast('dark'); probeImageContrast(pv.img); // posterの輝度で判定（動画も概ね同傾向）
     } else if (desc.type === 'custom-image' || desc.type === 'custom-video') {
       idbGet().then(function (rec) {
         if (!rec || !rec.blob) { applyBackground({ type: 'none' }); return; }
         var url = URL.createObjectURL(rec.blob);
+        setMediaContrast('dark');
         swapFrame(function (f) {
           if (rec.mime.indexOf('video') === 0 && !prefersReduced()) {
-            var v = document.createElement('video'); v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.setAttribute('playsinline',''); v.setAttribute('aria-hidden','true'); v.src = url; f.appendChild(v); var pr=v.play(); if(pr&&pr.catch)pr.catch(function(){});
-          } else { var img = new Image(); img.alt=''; img.src = url; f.appendChild(img); }
+            var v = document.createElement('video'); v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.setAttribute('playsinline',''); v.setAttribute('aria-hidden','true'); v.src = url; f.appendChild(v); var pr=v.play(); if(pr&&pr.catch)pr.catch(function(){}); probeVideoContrast(v);
+          } else { var img = new Image(); img.alt=''; img.src = url; f.appendChild(img); probeImageContrast(url); }
         });
         clearObjUrl(); curObjUrl = url; showCustom(rec.name);
-        setBodyOnMedia(true);
       }).catch(function () { applyBackground({ type: 'none' }); });
       if (persist) { state.background = { type: desc.type, id: null }; saveState(); }
       updateBgPressed(); return;
@@ -1072,17 +1128,23 @@
       var cell = makeCell(it.label, it.thumb, handler, it.type + ':' + (it.id || ''), false);
       bgGridBase.appendChild(cell);
     });
-    PHOTOS.forEach(function (p) {
-      var handler = function () { applyBackground({ type: 'photo', id: p.id }); };
-      handler.preview = function () { applyBackground({ type: 'photo', id: p.id }, { preview: true }); };
-      var cell = makeCell(t(p.key), function (th) { th.style.backgroundImage = 'url(' + p.img + ')'; }, handler, 'photo:' + p.id, false);
-      bgGridPhoto.appendChild(cell);
+    function subHeader(grid, label) { var h = document.createElement('span'); h.className = 'bg-subcat'; h.textContent = label; grid.appendChild(h); }
+    // 写真：自然→情景 の順にサブ見出し付きで並べる
+    [['nature', t('bg_grp_nature')], ['scene', t('bg_grp_scene')]].forEach(function (grp) {
+      var items = PHOTOS.filter(function (p) { return p.grp === grp[0]; });
+      if (!items.length) return;
+      subHeader(bgGridPhoto, grp[1]);
+      items.forEach(function (p) {
+        var handler = function () { applyBackground({ type: 'photo', id: p.id }); };
+        handler.preview = function () { applyBackground({ type: 'photo', id: p.id }, { preview: true }); };
+        bgGridPhoto.appendChild(makeCell(t(p.key), function (th) { th.style.backgroundImage = 'url(' + p.img + ')'; }, handler, 'photo:' + p.id, false));
+      });
     });
-    PHOTOS.forEach(function (p) {
+    // 動画：動きが映えるシーンのみ
+    PHOTOS.filter(function (p) { return p.motion; }).forEach(function (p) {
       var handler = function () { applyBackground({ type: 'video', id: p.id }); };
       handler.preview = function () { applyBackground({ type: 'video', id: p.id }, { preview: true }); };
-      var cell = makeCell(t(p.key), function (th) { th.style.backgroundImage = 'url(' + p.img + ')'; }, handler, 'video:' + p.id, true);
-      bgGridVideo.appendChild(cell);
+      bgGridVideo.appendChild(makeCell(t(p.key), function (th) { th.style.backgroundImage = 'url(' + p.img + ')'; }, handler, 'video:' + p.id, true));
     });
     updateBgPressed();
   }
@@ -1141,15 +1203,34 @@
 
   /* ================= 音楽 ================= */
   var TRACKS = [
-    { id: 'lofi',      key:'trk_lofi', src: 'assets/audio/lofi-focus.m4a', bg: 'study-night',  cat: 'lofi' },
-    { id: 'jazz',      key:'trk_jazz', src: 'assets/audio/jazz-piano.m4a', bg: 'jazz-cafe',    cat: 'jazz' },
-    { id: 'bossa',     key:'trk_bossa',src: 'assets/audio/cafe-bossa.m4a', bg: 'tropical-cafe',cat: 'bossa' },
-    { id: 'fireplace', key:'trk_fire', src: 'assets/audio/fireplace.m4a',  bg: 'fireplace',    cat: 'ambient' },
-    { id: 'ambient',   key:'trk_amb',  src: 'assets/audio/ambient.m4a',    bg: 'aurora',       cat: 'ambient' }
+    { id: 'lofi',      src: 'assets/audio/lofi-focus.m4a',   bg: 'study-night',  cat: 'lofi' },
+    { id: 'lofi-rain', src: 'assets/audio/lofi-rain.m4a',    bg: 'study-night',  cat: 'lofi' },
+    { id: 'lofi-night',src: 'assets/audio/lofi-night.m4a',   bg: 'starry-peaks', cat: 'lofi' },
+    { id: 'lofi-morning', src: 'assets/audio/lofi-morning.m4a', bg: 'lake',      cat: 'lofi' },
+    { id: 'cine-north',src: 'assets/audio/cine-north.m4a',   bg: 'mountains',    cat: 'cinematic' },
+    { id: 'cine-ashen',src: 'assets/audio/cine-ashen.m4a',   bg: 'fog-valley',   cat: 'cinematic' },
+    { id: 'cine-resolve', src: 'assets/audio/cine-resolve.m4a', bg: 'lake',      cat: 'cinematic' },
+    { id: 'jazz',      src: 'assets/audio/jazz-piano.m4a',   bg: 'jazz-cafe',    cat: 'cafe' },
+    { id: 'bossa',     src: 'assets/audio/cafe-bossa.m4a',   bg: 'tropical-cafe',cat: 'cafe' },
+    { id: 'nat-stream',src: 'assets/audio/nat-stream.m4a',   bg: 'ravine',       cat: 'nature' },
+    { id: 'fireplace', src: 'assets/audio/fireplace.m4a',    bg: 'fireplace',    cat: 'nature' },
+    { id: 'ambient',   src: 'assets/audio/ambient.m4a',      bg: 'aurora',       cat: 'ambient' }
   ];
+  var CAT_ORDER = ['lofi', 'cinematic', 'cafe', 'nature', 'ambient'];
+  var CAT_KEY = { lofi:'cat_lofi', cinematic:'cat_cinematic', cafe:'cat_cafe', nature:'cat_nature', ambient:'cat_ambient' };
   var TRACK_META = {
-    ja: { lofi:['Lo-fi Focus','集中用の落ち着いたLo-fi'], jazz:['Jazz Piano','温かく落ち着いたスロージャズ'], bossa:['Cafe Bossa','軽やかなカフェ風ボサノバ'], fireplace:['Fireplace','暖炉の環境音'], ambient:['Ambient','浮遊感のあるアンビエント音楽'] },
-    en: { lofi:['Lo-fi Focus','Calm lo-fi for focus'], jazz:['Jazz Piano','Warm, mellow slow jazz'], bossa:['Cafe Bossa','Light cafe-style bossa nova'], fireplace:['Fireplace','Crackling fireplace ambience'], ambient:['Ambient','Floating ambient music'] }
+    ja: {
+      lofi:['Lo-fi Focus','集中用の落ち着いたLo-fi'], 'lofi-rain':['Rainy Lo-fi','雨音に沈む夜のLo-fi'], 'lofi-night':['Midnight Lo-fi','夜更けの静かなLo-fi'], 'lofi-morning':['Morning Lo-fi','朝の光にほどけるLo-fi'],
+      'cine-north':['Northern Oath','弦とドローンの遠い叙情'], 'cine-ashen':['Ashen Hymn','静かに沈む鎮魂の調べ'], 'cine-resolve':['Quiet Resolve','静かな決意を支えるピアノ'],
+      jazz:['Jazz Piano','温かく落ち着いたスロージャズ'], bossa:['Cafe Bossa','軽やかなカフェ風ボサノバ'],
+      'nat-stream':['Forest Stream','山あいの川と鳥の声'], fireplace:['Fireplace','暖炉の環境音'], ambient:['Ambient','浮遊感のあるアンビエント音楽']
+    },
+    en: {
+      lofi:['Lo-fi Focus','Calm lo-fi for focus'], 'lofi-rain':['Rainy Lo-fi','Lo-fi under quiet rain'], 'lofi-night':['Midnight Lo-fi','Lo-fi for late hours'], 'lofi-morning':['Morning Lo-fi','Lo-fi for slow mornings'],
+      'cine-north':['Northern Oath','Distant strings and drone'], 'cine-ashen':['Ashen Hymn','A hushed, mournful theme'], 'cine-resolve':['Quiet Resolve','Piano for a quiet resolve'],
+      jazz:['Jazz Piano','Warm, mellow slow jazz'], bossa:['Cafe Bossa','Light cafe-style bossa nova'],
+      'nat-stream':['Forest Stream','A stream and birds in the hills'], fireplace:['Fireplace','Crackling fireplace ambience'], ambient:['Ambient','Floating ambient music']
+    }
   };
   function trackName(id) { return (TRACK_META[state.lang] || TRACK_META.ja)[id][0]; }
   function trackDesc(id) { return (TRACK_META[state.lang] || TRACK_META.ja)[id][1]; }
@@ -1169,7 +1250,9 @@
   function renderMusic() {
     var tk = curTrack(), playing = !!(tk && !audio.paused);
     Array.prototype.forEach.call(elTrackList.children, function (li) {
-      var btn = li.firstChild, sel = tk && btn.dataset.track === tk.id;
+      var btn = li.firstChild;
+      if (!btn || !btn.classList || !btn.classList.contains('track')) return; // カテゴリ見出しは除外
+      var sel = tk && btn.dataset.track === tk.id;
       btn.setAttribute('aria-pressed', sel ? 'true' : 'false');
       btn.classList.toggle('playing', !!(sel && playing));
     });
@@ -1211,18 +1294,23 @@
   }
   function buildTrackList() {
     elTrackList.innerHTML = '';
-    TRACKS.forEach(function (tk) {
-      var li = document.createElement('li');
-      var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'track'; btn.dataset.track = tk.id; btn.setAttribute('aria-pressed', 'false');
-      var th = document.createElement('span'); th.className = 'track-thumb'; var ph = photoById(tk.bg); if (ph) th.style.backgroundImage = 'url(' + ph.img + ')';
-      var body = document.createElement('span'); body.className = 'track-body';
-      var nm = document.createElement('span'); nm.className = 'track-name'; nm.textContent = trackName(tk.id);
-      var ds = document.createElement('span'); ds.className = 'track-desc'; ds.textContent = trackDesc(tk.id);
-      body.appendChild(nm); body.appendChild(ds);
-      var eq = document.createElement('span'); eq.className = 'track-eq'; eq.setAttribute('aria-hidden','true'); eq.innerHTML = '<i></i><i></i><i></i>';
-      btn.appendChild(th); btn.appendChild(body); btn.appendChild(eq);
-      btn.addEventListener('click', function () { selectTrack(tk); });
-      li.appendChild(btn); elTrackList.appendChild(li);
+    CAT_ORDER.forEach(function (cat) {
+      var items = TRACKS.filter(function (x) { return x.cat === cat; });
+      if (!items.length) return;
+      var head = document.createElement('li'); head.className = 'track-cat'; head.setAttribute('aria-hidden','true'); head.textContent = t(CAT_KEY[cat]); elTrackList.appendChild(head);
+      items.forEach(function (tk) {
+        var li = document.createElement('li');
+        var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'track'; btn.dataset.track = tk.id; btn.setAttribute('aria-pressed', 'false');
+        var th = document.createElement('span'); th.className = 'track-thumb'; var ph = photoById(tk.bg); if (ph) th.style.backgroundImage = 'url(' + ph.img + ')';
+        var body = document.createElement('span'); body.className = 'track-body';
+        var nm = document.createElement('span'); nm.className = 'track-name'; nm.textContent = trackName(tk.id);
+        var ds = document.createElement('span'); ds.className = 'track-desc'; ds.textContent = trackDesc(tk.id);
+        body.appendChild(nm); body.appendChild(ds);
+        var eq = document.createElement('span'); eq.className = 'track-eq'; eq.setAttribute('aria-hidden','true'); eq.innerHTML = '<i></i><i></i><i></i>';
+        btn.appendChild(th); btn.appendChild(body); btn.appendChild(eq);
+        btn.addEventListener('click', function () { selectTrack(tk); });
+        li.appendChild(btn); elTrackList.appendChild(li);
+      });
     });
   }
   function updateMuteUI() {

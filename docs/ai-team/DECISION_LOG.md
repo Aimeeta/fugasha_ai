@@ -2,6 +2,13 @@
 
 新しい決定は上に追記する。形式: 日付 / 決定 / 理由 / 決定者。
 
+## 2026-07-07 — focus.html 可読性バグ修正＋音源/背景ライブラリ拡張
+**可読性バグ**: 写真/動画背景では常に白文字にしていたため、明るい背景（南国カフェ等・カスタムの明るい画像）で白文字が潰れて視認性が低下していた。修正: 背景の平均輝度をcanvasで測り（`luminanceOf`/`probeImageContrast`/`probeVideoContrast`）、明るい背景では `on-media-bright` を付与して暗色テキスト＋白系スクリム＋白光の影に自動切替。暗い背景は従来どおり明色テキスト。カスタム画像/動画も判定対象。
+**ライブラリ拡張**（creative-director + brand-copywriter の助言を統合）:
+- 音源 5→12。カテゴリ制（`cat`）で音楽パネルをグルーピング表示: Lo-fi(Focus/Rainy/Midnight/Morning) / 叙情Cinematic(Northern Oath/Ashen Hymn/Quiet Resolve — ウィッチャー/ベルセルク/アニメOSTの"気分"を、固有名詞を使わず情景語で表現) / カフェ(Jazz/Bossa) / 自然(Forest Stream/Fireplace) / 抽象(Ambient)。全てオリジナル合成・著作権フリー・60秒ループ・ボーカルなし・低ダイナミクス。
+- 背景写真 5→11。自然シーンを追加(遠い山並み/渓流/静かな湖/星空と山脈/霧の谷/夕暮れの海)。写真パネルを「自然 / 情景」でサブ分類。**各ポスターは中央帯をラジアルに暗く焼き込み**、中央の時計を白文字で常に読めるようにした(輝度判定と併用)。動画カテゴリは動きが映える5シーンに絞る。
+- 実写真・実動画・実曲は著作権のため非同梱。合成ポスター/合成音源で代替し、差し替え口(`TRACKS[].src`/`PHOTOS[].img`/`assets/backgrounds/<id>.mp4`)を維持。
+
 ## 2026-07-07 — focus.html を「Focus Clock」へ全面拡張
 mihata.jp/en/clock を機能参照（コード・資産は非複製）し、focus.html を集中特化アプリへ再構築。追加: 時計の秒/12・24h/サイズ/太さ/書体、フルスクリーン(F)・スペースで開始停止・Escで閉じる、ポモドーロのスキップ/各時間・長休憩までのセッション数/自動切替/自動開始/終了音4種/ブラウザ通知/本日統計(完了数・集中時間・セッション)/タイトル残時間、Web Workerで背面時の精度維持、音源5種を Lo-fi/Jazz/**Cafe Bossa**/Fireplace/Ambient に再編(cafe-bossa.m4a を合成追加、piano-ambient を廃止)、ミニプレイヤーにミュート追加・切替フェード、背景は 単色/グラデ3/写真5/動画5(placeholder mp4→poster静止画フォールバック)/カスタム/ランダム、背景follows music、下部フローティングツールバー+右パネル/モバイルはボトムシート、JA/EN i18n、日次統計の日付リセット。
 - **背景素材の方針**: 実写真・実動画は著作権のため同梱せず、PILで合成した雰囲気ポスター5枚(`assets/backgrounds/*.jpg`)を写真背景として同梱。動画は完全なパイプライン(video autoplay muted loop playsinline object-fit:cover / poster / error時に静止画フォールバック / reduced-motionでposter)を実装し、`assets/backgrounds/<id>.mp4` を差し替え口として用意(未同梱のため現状はposterで動作)。差し替え口: 音源=`TRACKS[].src`、背景写真=`PHOTOS[].img`、動画=`assets/backgrounds/<id>.mp4`。
