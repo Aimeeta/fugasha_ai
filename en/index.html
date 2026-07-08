@@ -169,6 +169,13 @@
       --dur-hero:  1s;
       --stagger:   .08s;
       --stagger-w: .06s;
+      /* 角丸・影トークン（カード/ボタン系。index.htmlと共通仕様） */
+      --radius-xs: 2px;
+      --radius-sm: 4px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --shadow-md: 0 12px 28px rgba(13,32,48,.08);
+      --shadow-lg: 0 12px 32px rgba(13,32,48,.25);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -194,7 +201,7 @@
     /* ── Skip link ── */
     .skip-link {
       position: fixed; top: -48px; left: 16px; z-index: 10005;
-      background: var(--fg); color: var(--bg); padding: 10px 18px; border-radius: 4px;
+      background: var(--fg); color: var(--bg); padding: 10px 18px; border-radius: var(--radius-sm);
       font-size: 12px; letter-spacing: .06em; text-decoration: none;
       transition: top .2s ease;
     }
@@ -246,7 +253,7 @@
     .nav-link.active { color: var(--fg); }
     .nav-link.active::after { transform: scaleX(1); }
     .nav-cta {
-      display: inline-block; font-size: 11px; padding: 9px 20px; border-radius: 2px;
+      display: inline-block; font-size: 11px; padding: 9px 20px; border-radius: var(--radius-xs);
       background: var(--accent); color: var(--fg); cursor: pointer; font-weight: 500;
       transition: opacity .2s; border: none; letter-spacing: .08em; text-decoration: none;
     }
@@ -278,7 +285,7 @@
     }
     .btn-amber {
       display: inline-flex; align-items: center; gap: 12px; font-size: 12px;
-      padding: 14px 28px; border-radius: 2px; background: var(--accent); color: var(--fg);
+      padding: 14px 28px; border-radius: var(--radius-xs); background: var(--accent); color: var(--fg);
       cursor: pointer; font-weight: 500; border: none; letter-spacing: .1em;
       transition: opacity .25s; text-transform: uppercase;
       font-family: var(--font-sans); text-decoration: none;
@@ -289,7 +296,7 @@
     .btn-ghost {
       display: inline-flex; align-items: center; font-size: 12px;
       padding: 13px 27px; /* btn-amber(14px 28px)と同高 — 1px borderぶん相殺 */
-      border-radius: 2px; background: transparent; color: var(--fg);
+      border-radius: var(--radius-xs); background: transparent; color: var(--fg);
       border: 1px solid var(--line); cursor: pointer; font-weight: 500;
       letter-spacing: .1em; text-transform: uppercase;
       font-family: var(--font-sans); text-decoration: none;
@@ -324,7 +331,7 @@
     }
     .h-checker {
       background: var(--glass); border: .5px solid var(--gb);
-      border-radius: 16px; overflow: hidden; backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg); overflow: hidden; backdrop-filter: blur(20px);
     }
     .h-checker-bar {
       display: flex; align-items: center; justify-content: space-between;
@@ -347,7 +354,7 @@
       font-weight: 500; backdrop-filter: blur(8px); cursor: default;
       transition: box-shadow var(--dur-tap);
     }
-    .tp:hover { box-shadow: 0 8px 22px rgba(13,32,48,.08); }
+    .tp:hover { box-shadow: var(--shadow-md); }
     /* ツールアイコンはモノクロ統一（ブランドカラー不使用 — 静けさ優先＋商標ガイドライン対策） */
     .ti {
       width: 34px; height: 34px; border-radius: 8px;
@@ -397,7 +404,7 @@
     .svc-bento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 
     .sv {
-      border-radius: 18px; padding: 24px; opacity: 0; transform: translateX(20px);
+      border-radius: var(--radius-lg); padding: 24px; opacity: 0; transform: translateX(20px);
       transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
       position: relative; overflow: hidden; cursor: default;
       display: flex; flex-direction: column; justify-content: space-between;
@@ -452,7 +459,7 @@
     /* about */
     .ab-grid { display: grid; grid-template-columns: minmax(220px, 320px) minmax(0, 1fr); gap: 44px; align-items: start; }
     .aph {
-      width: 100%; max-width: 320px; aspect-ratio: 4/5; border-radius: 18px; justify-self: center;
+      width: 100%; max-width: 320px; aspect-ratio: 4/5; border-radius: var(--radius-lg); justify-self: center;
       clip-path: inset(0 100% 0 0); opacity: 1; transform: none;
       transition: clip-path .9s cubic-bezier(.16,1,.3,1);
       position: relative; overflow: hidden;
@@ -462,7 +469,7 @@
     }
     /* Always grayscale (hover-to-color removed: unreachable on touch devices) */
     .ab-img-main {
-      width: 100%; height: 100%; object-fit: cover; border-radius: 18px; display: block;
+      width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-lg); display: block;
       object-position: center 24%;
       filter: grayscale(1) contrast(1.05);
     }
@@ -480,32 +487,10 @@
       line-height: 1.4; letter-spacing: .01em; color: var(--fg);
     }
     .about-catch span { display: block; color: var(--accent-ink); }
-    /* pricing */
-    .price-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-    .price-card {
-      padding: 28px 24px; border-radius: 18px;
-      opacity: 0; transform: translateY(22px) scale(.97);
-      transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
-      position: relative; overflow: hidden; cursor: default;
-    }
-    .price-card:hover { border-color: rgba(232,134,106,.24); }
-    .price-card.featured { border: 1.5px solid var(--accent); }
-    .price-label { font-size: 10px; letter-spacing: .12em; color: var(--hint); margin-bottom: 10px; }
-    .price-num { font-size: 30px; font-weight: 300; color: var(--fg); margin-bottom: 4px; line-height: 1; font-family: var(--font-serif); }
-    .price-num-sub { font-size: 14px; color: var(--muted); }
-    .pi-icon { width: 8px; height: 8px; }
-    .price-unit { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
-    .price-desc { font-size: 13px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; }
-    .price-items { display: flex; flex-direction: column; gap: 6px; }
-    .pi { display: flex; align-items: flex-start; gap: 7px; font-size: 12px; color: var(--fg2); }
-    .pi-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 10px; }
-    .pi-a { background: rgba(232,134,106,.1); color: var(--accent-ink); }
-    .pi-p { background: rgba(232,134,106,.1); color: var(--accent-ink); }
-    .pi-t { background: rgba(232,134,106,.1); color: var(--accent-ink); }
 
     /* FAQ */
     .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
-    .faq-item { border-radius: 4px; overflow: hidden; transition: border-color .2s; }
+    .faq-item { border-radius: var(--radius-sm); overflow: hidden; transition: border-color .2s; }
     .faq-item:hover, .faq-item.open { border-color: rgba(232,134,106,.4); }
     .faq-q {
       width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px;
@@ -528,7 +513,7 @@
     .cta-wrap { opacity: 0; transition: opacity .6s ease .35s; }
     .cta-btn-amber {
       display: inline-flex; align-items: center; gap: 12px; font-size: 12px;
-      padding: 16px 40px; border-radius: 2px; background: var(--accent2); color: var(--fg);
+      padding: 16px 40px; border-radius: var(--radius-xs); background: var(--accent2); color: var(--fg);
       cursor: pointer; font-weight: 500; border: none; letter-spacing: .12em;
       transition: opacity .25s; text-transform: uppercase; font-family: var(--font-sans);
       text-decoration: none;
@@ -568,7 +553,6 @@
     .visible .s-h2,
     .visible .s-desc,
     .visible .sv,
-    .visible .price-card,
     .visible .ar,
     .visible .ch2,
     .visible .csub,
@@ -580,12 +564,6 @@
     .sv:nth-child(4) { transition-delay: .24s; }
     .phi-item:nth-child(4) { transition-delay: .24s; }
     .phi-item:nth-child(5) { transition-delay: .32s; }
-    .price-card:nth-child(2) { transition-delay: .08s; }
-    .price-card:nth-child(3) { transition-delay: .16s; }
-
-    /* Price card CTA link */
-    .price-cta { display: block; margin-top: 14px; font-size: 11px; color: var(--accent-ink); font-weight: 500; cursor: pointer; letter-spacing: .03em; text-decoration: none; }
-    .price-cta:hover { text-decoration: underline; }
 
     /* Hamburger menu */
     .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: 0; }
@@ -599,6 +577,7 @@
       display: flex; visibility: hidden; opacity: 0; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(240,230,214,.97); backdrop-filter: blur(20px);
       z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+      padding: 88px 24px 24px; overflow-y: auto; /* 項目数が多い/画面が低い端末で閉じるボタンと重ならないように */
       transition: opacity var(--dur-open) ease, visibility 0s linear var(--dur-open);
     }
     .nav-drawer.open { visibility: visible; opacity: 1; transition: opacity var(--dur-open) ease; }
@@ -639,7 +618,7 @@
       .scroll-hint { display: none; }
       /* Profile card */
       .hero-right { opacity: 1; transform: none; }
-      .h-checker { border-radius: 12px; }
+      .h-checker { border-radius: var(--radius-md); }
 
       /* ── Sections ── */
       .sec { padding: 52px 20px; }
@@ -660,7 +639,7 @@
       /* ── Services ── */
       .svc-bento { grid-template-columns: 1fr; gap: 10px; }
       .sv-wide { grid-column: 1; }
-      .sv { border-radius: 14px; padding: 22px 18px; }
+      .sv { border-radius: var(--radius-lg); padding: 22px 18px; }
       .sv:hover { transform: none; }
 
       /* ── Philosophy ── */
@@ -670,14 +649,10 @@
 
       /* ── About ── */
       .ab-grid { grid-template-columns: 1fr; gap: 28px; }
-      .aph { aspect-ratio: 1/1; max-height: 340px; border-radius: 14px; }
+      .aph { aspect-ratio: 1/1; max-height: 340px; border-radius: var(--radius-lg); }
       .ab-img-main { object-position: center 18%; }
       .ah2 { font-size: 24px; }
       .ap { font-size: 14px; }
-      /* ── Pricing ── */
-      .price-grid { grid-template-columns: 1fr; gap: 10px; }
-      .price-card { padding: 22px 20px; }
-      .price-num { font-size: 28px; }
 
       /* ── Infog ── */
       /* ── CTA ── */
@@ -700,7 +675,7 @@
       .h-h1 { font-size: 28px; }
       .s-h2 { font-size: 25px; }
       .sec { padding: 44px 16px; }
-      .sign-grid, .svc-bento, .price-grid { gap: 8px; }
+      .sign-grid, .svc-bento { gap: 8px; }
       .ch2 { font-size: 23px; }
       .aph { max-height: 220px; }
     }
@@ -743,7 +718,6 @@
     .cta-sub-link:focus-visible,
     .nav-cta:focus-visible,
     .cta-btn-amber:focus-visible,
-    .price-cta:focus-visible,
     .nav-link:focus-visible,
     .hp-more:focus-visible,
     .cf-note a:focus-visible {
@@ -797,16 +771,13 @@
     /* ── Cases — static grid (only 3 cards: no horizontal track needed, ported from ja .case) ── */
     .cases-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
     .case {
-      padding: 22px 26px; border-radius: 16px; opacity: 0; transform: translateY(14px);
+      padding: 22px 26px; border-radius: var(--radius-lg); opacity: 0; transform: translateY(14px);
       transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
       cursor: default;
     }
     .case:hover { border-color: rgba(232,134,106,.24); }
     .case-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-    .case-tag { font-size: 10px; padding: 3px 10px; border-radius: 4px; font-weight: 500; letter-spacing: .04em; }
-    .tag-a { background: rgba(232,134,106,.1); color: var(--accent-ink); }
-    .tag-p { background: rgba(232,134,106,.1); color: var(--accent-ink); }
-    .tag-t { background: rgba(232,134,106,.1); color: var(--accent-ink); }
+    .case-tag { font-size: 10px; padding: 3px 10px; border-radius: var(--radius-sm); font-weight: 500; letter-spacing: .04em; background: rgba(232,134,106,.1); color: var(--accent-ink); }
     .case-co { font-size: 11px; color: var(--hint); }
     .case-body { font-size: 14px; color: var(--fg2); line-height: 1.7; text-wrap: pretty; margin-bottom: 14px; }
     .case-result { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; line-height: 1.6; color: var(--fg); font-weight: 500; padding-top: 10px; border-top: .5px solid rgba(13,32,48,.08); }
@@ -817,7 +788,7 @@
     .case:nth-child(3) { transition-delay: .16s; }
     @media (max-width: 900px) {
       .cases-grid { grid-template-columns: 1fr; gap: 10px; }
-      .case { border-radius: 14px; }
+      .case { border-radius: var(--radius-lg); }
       .case:hover { transform: none; }
     }
 
@@ -861,7 +832,7 @@
       /* No JS: IntersectionObserver reveals never fire, so unhide everything that starts at opacity:0 */
       .h-h1, .h-ja, .h-kicker, .h-actions, .h-actions-note, .scroll-hint, .hero-right,
       .s-lbl, .s-h2, .s-desc, .sign-item, .sv, .case,
-      .phi-item, .phi-quote, .ar, .price-card,
+      .phi-item, .phi-quote, .ar,
       .ch2, .csub, .cq, .cta-wrap {
         opacity: 1 !important; transform: none !important;
       }
@@ -887,8 +858,10 @@
     <a href="#s-about" class="nav-link">About</a>
     <a href="#s-service" class="nav-link">Services</a>
     <a href="#s-borders" class="nav-link">Working together</a>
-    <a href="#s-price" class="nav-link">Pricing</a>
     <a href="#s-faq" class="nav-link">FAQ</a>
+    <a href="../security-ai.html" class="nav-link" lang="ja" hreflang="ja">Security</a>
+    <a href="../focus.html" class="nav-link">Focus</a>
+    <a href="../blog/" class="nav-link" lang="ja" hreflang="ja">Blog</a>
     <a href="../" class="nav-link" lang="ja" hreflang="ja">日本語</a>
     <a href="#contact" class="nav-cta">Write to me</a>
     <button type="button" class="nav-ham" id="navHam" aria-label="Open menu" aria-expanded="false" aria-controls="navDrawer"><span></span><span></span><span></span></button>
@@ -900,8 +873,10 @@
     <a href="#s-about">About</a>
     <a href="#s-service">Services</a>
     <a href="#s-borders">Working together</a>
-    <a href="#s-price">Pricing</a>
     <a href="#s-faq">FAQ</a>
+    <a href="../security-ai.html" lang="ja" hreflang="ja">Security</a>
+    <a href="../focus.html">Focus</a>
+    <a href="../blog/" lang="ja" hreflang="ja">Blog</a>
     <a href="../" lang="ja" hreflang="ja">日本語</a>
   </nav>
   <div class="nav-drawer-cta">
@@ -1048,9 +1023,9 @@
   <h2 class="s-h2">What working together often looks like.</h2>
   <p class="s-desc">Model cases, drawn from the work that small businesses in Japan most often bring to me. None of the numbers are promises.</p>
   <div class="cases-grid" role="list" aria-label="Model cases">
-    <div class="case glass-card" role="listitem"><div class="case-head"><span class="case-tag tag-a">Practical AI</span><span class="case-co">Manufacturing · 20 employees</span></div><p class="case-body">We write down the work that repeats every week — quotes, inquiry replies, meeting notes — then hand over to AI wherever the handover is easy, one small piece at a time.</p><div class="case-result"><span class="case-arrow">→</span>The aim: a few hours of repeat work handed over each week.</div></div>
-    <div class="case glass-card" role="listitem"><div class="case-head"><span class="case-tag tag-p">Brand &amp; communication</span><span class="case-co">Software startup · 8 employees</span></div><p class="case-body">We sort out the words across the careers page, the company deck, and social posts — until what the company does is clear at first glance.</p><div class="case-result"><span class="case-arrow">→</span>The aim: to be understood before the first inquiry or application.</div></div>
-    <div class="case glass-card" role="listitem"><div class="case-head"><span class="case-tag tag-t">Lighter operations</span><span class="case-co">Food &amp; retail · store operations</span></div><p class="case-body">We trace how social posts, shift sharing, ordering, and invoicing actually run — then separate what needs a person from what a system can carry.</p><div class="case-result"><span class="case-arrow">→</span>The aim: time for the owner to return to the decisions only an owner can make.</div></div>
+    <div class="case glass-card" role="listitem"><div class="case-head"><span class="case-tag">Practical AI</span><span class="case-co">Manufacturing · 20 employees</span></div><p class="case-body">We write down the work that repeats every week — quotes, inquiry replies, meeting notes — then hand over to AI wherever the handover is easy, one small piece at a time.</p><div class="case-result"><span class="case-arrow">→</span>The aim: a few hours of repeat work handed over each week.</div></div>
+    <div class="case glass-card" role="listitem"><div class="case-head"><span class="case-tag">Brand &amp; communication</span><span class="case-co">Software startup · 8 employees</span></div><p class="case-body">We sort out the words across the careers page, the company deck, and social posts — until what the company does is clear at first glance.</p><div class="case-result"><span class="case-arrow">→</span>The aim: to be understood before the first inquiry or application.</div></div>
+    <div class="case glass-card" role="listitem"><div class="case-head"><span class="case-tag">Lighter operations</span><span class="case-co">Food &amp; retail · store operations</span></div><p class="case-body">We trace how social posts, shift sharing, ordering, and invoicing actually run — then separate what needs a person from what a system can carry.</p><div class="case-result"><span class="case-arrow">→</span>The aim: time for the owner to return to the decisions only an owner can make.</div></div>
   </div>
   <p class="case-note">These are model cases, based on the consultations that come up most often — not client records. Outcomes depend on your industry, your team, the tools you already have, and how the work runs today.</p>
 </section>
@@ -1115,50 +1090,6 @@
     <blockquote>The impediment to action advances action. What stands in the way becomes the way.</blockquote>
     <figcaption>— Marcus Aurelius, <cite>Meditations</cite></figcaption>
   </figure>
-</section>
-
-<!-- ── Pricing ── -->
-<section class="sec sec-white" id="s-price">
-  <div class="s-lbl">// PRICING</div>
-  <h2 class="s-h2">What it costs</h2>
-  <p class="s-desc">Start small, and decide after you’ve tried. The first thirty minutes are free — that’s where we find out whether we fit.</p>
-  <p class="s-desc">All prices in Japanese yen (JPY). Your bank converts at the day’s rate — I’m glad to estimate in your currency first.</p>
-  <div class="price-grid">
-    <div class="price-card glass-card">
-      <h3 class="price-label">AI WORKSHOP</h3>
-      <div class="price-num">¥50,000<span class="price-num-sub">+</span></div>
-      <div class="price-unit">Half-day session</div>
-      <p class="price-desc">A hands-on session for your team — the lightest way to begin.</p>
-      <div class="price-items">
-        <div class="pi"><div class="pi-dot pi-t"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>Online available</div>
-        <div class="pi"><div class="pi-dot pi-t"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>Small teams welcome</div>
-      </div>
-      <a href="#contact" class="price-cta">Ask about this plan →</a>
-    </div>
-    <div class="price-card glass-card featured">
-      <h3 class="price-label">MONTHLY RETAINER</h3>
-      <div class="price-num">¥80,000<span class="price-num-sub">+ / mo</span></div>
-      <div class="price-unit">Ongoing, month by month</div>
-      <p class="price-desc">One person to think with, across marketing, AI, and design.</p>
-      <div class="price-items">
-        <div class="pi"><div class="pi-dot pi-p"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>Monthly working session</div>
-        <div class="pi"><div class="pi-dot pi-p"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>Direct line between meetings</div>
-        <div class="pi"><div class="pi-dot pi-p"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>From three months</div>
-      </div>
-      <a href="#contact" class="price-cta">Ask about this plan →</a>
-    </div>
-    <div class="price-card glass-card">
-      <h3 class="price-label">SINGLE PROJECT</h3>
-      <div class="price-num">¥150,000<span class="price-num-sub">+</span></div>
-      <div class="price-unit">One project, one scope</div>
-      <p class="price-desc">A landing page, an AI readiness review, the words for a launch.</p>
-      <div class="price-items">
-        <div class="pi"><div class="pi-dot pi-a"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>Deliverables agreed up front</div>
-        <div class="pi"><div class="pi-dot pi-a"><svg class="pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5l10 -10"/></svg></div>No ongoing commitment</div>
-      </div>
-      <a href="#contact" class="price-cta">Ask about this plan →</a>
-    </div>
-  </div>
 </section>
 
 <!-- ── FAQ ── -->
@@ -1371,7 +1302,7 @@
   });
 
   // ── Scroll observer (sections) ──
-  const sectionIds = ['s-hero','s-tools','s-about','s-pain','s-service','s-cases','s-borders','s-philosophy','s-price','s-faq','s-cta','contact'];
+  const sectionIds = ['s-hero','s-tools','s-about','s-pain','s-service','s-cases','s-borders','s-philosophy','s-faq','s-cta','contact'];
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
