@@ -140,19 +140,16 @@
        パネル・ツールバー・ミニプレイヤーは自前の明るいパネル地の上に載るため、テーマ色（暗文字）のまま保つ。 */
     body.on-media .stage { --fg: #f7f2e8; --fg2: #e6ddcb; --hint: #cdc6b6; }
     body.on-media .st-clock, body.on-media .st-date, body.on-media .pomo-time,
-    body.on-media .msg, body.on-media .pomo-stats, body.on-media .pomo-task {
+    body.on-media .msg, body.on-media .pomo-task {
       text-shadow: 0 1px 24px rgba(0,0,0,.55), 0 1px 3px rgba(0,0,0,.4);
     }
     body.on-media .pomo-tab { text-shadow: none; }
     /* 明るい写真/動画の上では暗色テキスト＋淡い光の影に切替（白文字の視認性崩れを防ぐ） */
     body.on-media.on-media-bright .stage { --fg: #16181c; --fg2: #2b2f36; --hint: #4a4f57; }
     body.on-media.on-media-bright .st-clock, body.on-media.on-media-bright .st-date, body.on-media.on-media-bright .pomo-time,
-    body.on-media.on-media-bright .msg, body.on-media.on-media-bright .pomo-stats, body.on-media.on-media-bright .pomo-task {
+    body.on-media.on-media-bright .msg, body.on-media.on-media-bright .pomo-task {
       text-shadow: 0 1px 20px rgba(255,255,255,.7), 0 1px 3px rgba(255,255,255,.55);
     }
-    body.on-media.on-media-bright .pomo-tabs { background: rgba(255,255,255,.42); }
-    body.on-media.on-media-bright .pomo-tab[aria-pressed="true"] { background: #16181c; color: #fff; }
-    body.on-media.on-media-bright .pomo-ring-track { stroke: rgba(0,0,0,.22); }
     body.on-media.on-media-bright .stage .btn-ghost { border-color: rgba(0,0,0,.28); background: rgba(255,255,255,.34); }
     body.on-media.on-media-bright .nav-logo, body.on-media.on-media-bright .nav-link { color: #16181c; text-shadow: 0 1px 10px rgba(255,255,255,.65); }
 
@@ -168,20 +165,22 @@
     body.music-active .st-clock .sec { color: var(--accent-ink); }
 
     /* ====== ポモドーロ ====== */
-    .pomo { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 6px; }
-    .pomo-tabs { display: inline-flex; border: 1px solid var(--line); border-radius: 2px; overflow: hidden; background: color-mix(in srgb, var(--bg2) 55%, transparent); }
-    .pomo-tab { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 500; padding: 10px 16px; min-height: 42px; background: transparent; border: none; cursor: pointer; color: var(--hint); transition: color .2s, background .2s; }
-    .pomo-tab[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+    .pomo { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 6px; }
+    /* 透明なガラスのピル型タブ */
+    .pomo-tabs {
+      display: inline-flex; gap: 2px; padding: 4px; border-radius: 999px;
+      border: 1px solid var(--line); background: color-mix(in srgb, var(--bg2) 40%, transparent);
+      backdrop-filter: blur(10px) saturate(1.3); -webkit-backdrop-filter: blur(10px) saturate(1.3);
+    }
+    .pomo-tab { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 500; padding: 9px 16px; min-height: 40px; border-radius: 999px; background: transparent; border: none; cursor: pointer; color: var(--hint); transition: color .2s, background .2s, box-shadow .2s; }
+    .pomo-tab[aria-pressed="true"] { background: color-mix(in srgb, var(--fg) 10%, transparent); color: var(--fg); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 16%, transparent); }
     .pomo-tab:hover:not([aria-pressed="true"]) { color: var(--fg); }
-    body.on-media .pomo-tabs { background: rgba(0,0,0,.28); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-    body.on-media .pomo-tab[aria-pressed="true"] { background: var(--accent); color:#0d2030; }
+    body.on-media .pomo-tabs { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); }
+    body.on-media .pomo-tab[aria-pressed="true"] { background: rgba(255,255,255,.2); color: #fff; box-shadow: none; }
+    body.on-media.on-media-bright .pomo-tabs { background: rgba(0,0,0,.08); border-color: rgba(0,0,0,.16); }
+    body.on-media.on-media-bright .pomo-tab[aria-pressed="true"] { background: rgba(0,0,0,.16); color: #16181c; }
 
-    .pomo-ring-wrap { position: relative; display: flex; align-items: center; justify-content: center; width: clamp(168px, 30vw, 224px); height: clamp(168px, 30vw, 224px); }
-    .pomo-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
-    .pomo-ring-track { fill: none; stroke: var(--line); stroke-width: 2.5; }
-    .pomo-ring-fill { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; transition: stroke-dashoffset .3s linear, stroke .3s; }
-    body.on-media .pomo-ring-track { stroke: rgba(255,255,255,.28); }
-    .pomo-time { position: relative; z-index: 1; font-family: var(--font-mono); font-size: clamp(34px, 7.5vw, 54px); font-variant-numeric: tabular-nums; letter-spacing: .04em; line-height: 1.2; color: var(--fg2); }
+    .pomo-time { font-family: var(--font-mono); font-size: clamp(34px, 7.5vw, 54px); font-variant-numeric: tabular-nums; letter-spacing: .04em; line-height: 1.2; color: var(--fg2); }
     .pomo-time.done-pulse { animation: pulse 1s var(--ease) 2; }
     @keyframes pulse { 0%,100%{color:var(--fg2)} 50%{color:var(--accent)} }
     .pomo-time.start-breathe { animation: breathe .42s var(--ease); }
@@ -195,10 +194,9 @@
     body.on-media .stage .btn-ghost { border-color: rgba(255,255,255,.35); background: rgba(0,0,0,.18); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
     .btn-amber svg, .btn-ghost svg { width: 16px; height: 16px; }
 
-    .pomo-stats { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; color: var(--hint); margin-top: 2px; }
-    .pomo-stats b { color: var(--fg2); font-weight: 500; }
     .pomo-task { font-size: 13px; color: var(--fg2); line-height: 1.7; max-width: 520px; padding: 0 8px; overflow-wrap: anywhere; }
-    .pomo-task .lbl, .pomo-task .none { color: var(--hint); font-size: 12px; }
+    .pomo-task:empty { display: none; }
+    .pomo-task .lbl { color: var(--hint); font-size: 12px; }
 
     /* ====== ことば ====== */
     .msg-wrap { display: flex; align-items: center; gap: 10px; margin-top: 26px; max-width: 520px; }
@@ -345,9 +343,16 @@
     .toggle-done:hover { color: var(--fg); }
     .task-list { list-style: none; }
     .task-empty { font-size: 13px; color: var(--hint); line-height: 2; padding: 20px 6px; text-align: center; }
-    .task { display: flex; align-items: center; gap: 4px; padding: 7px 4px 7px 8px; border-radius: 2px; border-left: 2px solid transparent; transition: background .2s, border-color .2s; }
+    .task { display: flex; align-items: center; gap: 2px; padding: 7px 4px 7px 2px; border-radius: 2px; border-left: 2px solid transparent; transition: background .2s, border-color .2s; background: var(--panel); }
     .task:hover { background: var(--bg2); }
     .task.is-focus { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+    .task.dragging { opacity: .55; background: var(--bg2); box-shadow: 0 4px 14px var(--shadow); }
+    body.dragging-task { cursor: grabbing; }
+    body.dragging-task * { user-select: none; -webkit-user-select: none; }
+    .t-drag { flex: none; width: 30px; height: 38px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: grab; color: var(--line); touch-action: none; border-radius: 2px; }
+    .t-drag:hover { color: var(--hint); }
+    .t-drag:active { cursor: grabbing; }
+    .t-drag svg { width: 14px; height: 14px; }
     .t-check { flex: none; width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer; color: var(--hint); }
     .t-check .box { width: 17px; height: 17px; border: 1.5px solid var(--hint); border-radius: 2px; display: inline-flex; align-items: center; justify-content: center; transition: background .2s, border-color .2s; }
     .t-check .box svg { width: 11px; height: 11px; opacity: 0; color: var(--bg); transition: opacity .2s; }
@@ -385,11 +390,11 @@
     body.on-media .nav-logo, body.on-media .nav-link { color: #f7f2e8; text-shadow: 0 1px 12px rgba(0,0,0,.5); }
     @media (max-width: 640px) { .nav { padding-left: 20px; padding-right: 20px; } .nav-right { gap: 16px; } }
 
-    /* 背の低い画面（ノートPC等）では時計・リングを高さ基準で縮めてスクロールを避ける */
+    /* 背の低い画面（ノートPC等）では時計・タイマーを高さ基準で縮めてスクロールを避ける */
     @media (max-height: 860px) {
       .stage { padding-top: calc(env(safe-area-inset-top) + 54px); padding-bottom: calc(env(safe-area-inset-bottom) + 96px); }
       .st-clock { font-size: calc(min(clamp(58px, 16vw, 158px), 16.5vh) * var(--clock-scale)); }
-      .pomo-ring-wrap { width: min(clamp(168px, 30vw, 224px), 25vh); height: min(clamp(168px, 30vw, 224px), 25vh); }
+      .pomo-time { font-size: min(clamp(34px, 7.5vw, 54px), 8vh); }
       .msg-wrap { margin-top: 16px; }
       .pomo { gap: 10px; }
     }
@@ -397,7 +402,7 @@
     @media (max-height: 480px) and (orientation: landscape) {
       .stage { padding-top: calc(env(safe-area-inset-top) + 48px); padding-bottom: calc(env(safe-area-inset-bottom) + 84px); }
       .st-clock { font-size: calc(clamp(40px, 12vh, 92px) * var(--clock-scale)); }
-      .pomo-ring-wrap { width: clamp(120px, 22vh, 168px); height: clamp(120px, 22vh, 168px); }
+      .pomo-time { font-size: clamp(26px, 6vh, 40px); }
       .msg-wrap { display: none; }
     }
     /* フルスクリーン時は上部ナビを隠す */
@@ -433,13 +438,7 @@
       <button type="button" class="pomo-tab" data-mode="short" aria-pressed="false" data-i18n="mode_short">小休憩</button>
       <button type="button" class="pomo-tab" data-mode="long" aria-pressed="false" data-i18n="mode_long">長休憩</button>
     </div>
-    <div class="pomo-ring-wrap">
-      <svg class="pomo-ring" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
-        <circle class="pomo-ring-track" cx="60" cy="60" r="54"></circle>
-        <circle class="pomo-ring-fill" id="ringFill" cx="60" cy="60" r="54"></circle>
-      </svg>
-      <p class="pomo-time" id="pomoTime">25:00</p>
-    </div>
+    <p class="pomo-time" id="pomoTime">25:00</p>
     <div class="pomo-ctrl">
       <button type="button" class="btn-amber" id="btnStart" aria-keyshortcuts="Space">
         <svg id="icoPlay" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.53.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>
@@ -455,7 +454,6 @@
         リセット
       </button>
     </div>
-    <div class="pomo-stats" id="pomoStats" aria-live="polite"></div>
     <p class="pomo-task" id="pomoTask" aria-live="polite"></p>
   </section>
 
@@ -688,11 +686,10 @@
       font_serif:'明朝', font_sans:'ゴシック', font_mono:'等幅', theme:'配色', language:'言語 / Language',
       tasks_title:'やることリスト', task_ph:'やることを書き出す', hide_done:'完了済みを隠す', show_done:'完了済みを表示',
       task_empty:'まだタスクがありません。ひとつ、書き出してみましょう。', task_empty_filtered:'表示できるタスクがありません。',
-      focus_none:'リストからタスクを選ぶと、ここに表示されます', focus_label:'現在の集中タスク：',
+      focus_label:'現在の集中タスク：', drag_label:'「{name}」を並べ替え（ドラッグ、または上下キーで移動）',
       help_title:'使い方', shortcuts:'キーボード操作', kbd_space:'タイマー開始／一時停止', kbd_f:'全画面の切り替え', kbd_esc:'パネルを閉じる',
       help_body:'左下のツールバーから、タイマー・音楽・背景・表示を調整できます。設定はすべてこの端末のブラウザにだけ保存され、外部には送信されません。音楽と背景の連動をオンにすると、選んだ音源に合った背景へ自動で切り替わります。',
       close:'閉じる',
-      stat_today:'本日', stat_pomo:'ポモ', stat_focus:'集中', stat_session:'セッション',
       n_done_focus:'集中が終わりました。', n_break_done:'休憩が終わりました。次の集中へ。', n_recorded:'に 1 Pomodoro を記録しました。', n_rest:'ひと休みしましょう。', n_today_count:'今日、集中を{n}回重ねました。',
       notify_focus_title:'集中おつかれさまでした', notify_break_title:'休憩おわり',
       bg_none:'既定', bg_mist:'靄', bg_fire:'灯', bg_water:'水面',
@@ -729,11 +726,10 @@
       font_serif:'Serif', font_sans:'Sans', font_mono:'Mono', theme:'Palette', language:'言語 / Language',
       tasks_title:'To-do list', task_ph:'Write something to do', hide_done:'Hide completed', show_done:'Show completed',
       task_empty:'No tasks yet. Try writing one down.', task_empty_filtered:'No tasks to show.',
-      focus_none:'Pick a task from the list to show it here', focus_label:'Focusing on: ',
+      focus_label:'Focusing on: ', drag_label:'Reorder "{name}" (drag, or move with arrow keys)',
       help_title:'How to use', shortcuts:'Keyboard', kbd_space:'Start / pause timer', kbd_f:'Toggle fullscreen', kbd_esc:'Close a panel',
       help_body:'Use the toolbar at the bottom to adjust the timer, music, background and display. Everything is stored only in this browser and never sent anywhere. Turn on “background follows music” to auto-switch the scene to match the track.',
       close:'Close',
-      stat_today:'Today', stat_pomo:'pomo', stat_focus:'focus', stat_session:'Session',
       n_done_focus:'Focus finished. ', n_break_done:'Break finished. Back to focus.', n_recorded:' — recorded 1 Pomodoro.', n_rest:'Take a short rest.', n_today_count:'{n} focus sessions today.',
       notify_focus_title:'Nice focus session', notify_break_title:'Break over',
       bg_none:'Default', bg_mist:'Mist', bg_fire:'Ember', bg_water:'Water',
@@ -921,9 +917,8 @@
   }
 
   /* ================= ポモドーロ（Web Worker + endAt方式） ================= */
-  var elTime = $('pomoTime'), elStartLabel = $('btnStartLabel'), icoPlay = $('icoPlay'), icoPause = $('icoPause'), elRing = $('ringFill'), elStats = $('pomoStats');
+  var elTime = $('pomoTime'), elStartLabel = $('btnStartLabel'), icoPlay = $('icoPlay'), icoPause = $('icoPause');
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.pomo-tab'));
-  var RING_C = 2 * Math.PI * 54; elRing.style.strokeDasharray = String(RING_C);
   var timer = { running: false, endAt: 0, remaining: 0 };
   var baseTitle = '集中 | 風雅舎';
   var latePhaseShown = false;
@@ -952,20 +947,6 @@
     icoPause.style.display = timer.running ? '' : 'none';
     elStartLabel.textContent = timer.running ? t('pause') : t('start');
     tabs.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.mode === state.pomodoro.mode ? 'true' : 'false'); });
-    var total = modeSeconds(state.pomodoro.mode) || 1;
-    var frac = clamp(timer.remaining / total, 0, 1);
-    elRing.style.strokeDashoffset = String(RING_C * (1 - frac));
-  }
-  function renderStats() {
-    var mins = Math.floor(state.stats.focusSeconds / 60);
-    var focusStr = mins >= 60 ? Math.floor(mins/60) + 'h ' + (mins%60) + 'm' : mins + 'm';
-    elStats.innerHTML = '';
-    var items = [
-      t('stat_today') + ' <b>' + state.stats.completed + '</b> ' + t('stat_pomo'),
-      t('stat_focus') + ' <b>' + focusStr + '</b>',
-      t('stat_session') + ' <b>' + (state.stats.cyclePos % state.pomodoro.sessionsUntilLong + 1) + '/' + state.pomodoro.sessionsUntilLong + '</b>'
-    ];
-    items.forEach(function (h) { var s = document.createElement('span'); s.innerHTML = h; elStats.appendChild(s); });
   }
   function tick() {
     if (!timer.running) return;
@@ -983,7 +964,6 @@
   function setMode(mode, opts) {
     state.pomodoro.mode = mode; saveState(); reset();
     if (!(opts && opts.keepMsg)) pickMessage(true);
-    renderStats();
   }
   function nextModeAfterFocus() {
     state.stats.cyclePos += 1;
@@ -1009,7 +989,7 @@
       showNotice(t('n_break_done'));
       notify(t('notify_break_title'), '');
     }
-    saveState(); renderStats();
+    saveState();
     if (state.pomodoro.autoSwitch) {
       setMode(nextMode, { keepMsg: false });
       if (state.pomodoro.autoStart) start();
@@ -1463,13 +1443,67 @@
   var elList = $('taskList'), elPomoTask = $('pomoTask'), elToggleDone = $('toggleDone'), editingId = null, justDone = {};
   function uid() { return 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
   function svgIcon(paths) { var s = document.createElementNS('http://www.w3.org/2000/svg','svg'); s.setAttribute('viewBox','0 0 24 24'); s.setAttribute('fill','none'); s.setAttribute('stroke','currentColor'); s.setAttribute('stroke-width','2'); s.setAttribute('stroke-linecap','round'); s.setAttribute('stroke-linejoin','round'); s.setAttribute('aria-hidden','true'); paths.forEach(function (d) { var p = document.createElementNS('http://www.w3.org/2000/svg','path'); p.setAttribute('d', d); s.appendChild(p); }); return s; }
-  var IC = { check:['M5 12l5 5L20 7'], target:['M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0','M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0','M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0'], pencil:['M4 20h4L18.5 9.5a2.828 2.828 0 1 0-4-4L4 16v4','M13.5 6.5l4 4'], trash:['M4 7h16','M10 11v6','M14 11v6','M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12','M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3'] };
+  var IC = { check:['M5 12l5 5L20 7'], target:['M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0','M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0','M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0'], pencil:['M4 20h4L18.5 9.5a2.828 2.828 0 1 0-4-4L4 16v4','M13.5 6.5l4 4'], trash:['M4 7h16','M10 11v6','M14 11v6','M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12','M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3'], grip:['M9 6h.01M9 12h.01M9 18h.01M15 6h.01M15 12h.01M15 18h.01'] };
   function pomoLabel(n) { return n === 1 ? '1 Pomodoro' : n + ' Pomodoros'; }
+
+  /* ---- タスクの並べ替え（ドラッグ＝ポインタ操作／キーボードは↑↓） ---- */
+  function visibleTaskList() { return state.tasks.filter(function (x) { return !(state.hideDone && x.done); }); }
+  function commitVisibleOrder(newVisible) {
+    var vset = {}; newVisible.forEach(function (t) { vset[t.id] = true; });
+    var hidden = state.tasks.filter(function (t) { return !vset[t.id]; });
+    state.tasks = newVisible.concat(hidden);
+  }
+  function moveTask(id, dir) {
+    var vis = visibleTaskList();
+    var idx = vis.findIndex(function (t) { return t.id === id; });
+    var ni = idx + dir;
+    if (idx === -1 || ni < 0 || ni >= vis.length) return;
+    var tmp = vis[idx]; vis[idx] = vis[ni]; vis[ni] = tmp;
+    commitVisibleOrder(vis); saveState(); renderTasks();
+    var btn = elList.querySelector('[data-id="' + id + '"] .t-drag'); if (btn) btn.focus();
+  }
+  var dragCtx = null;
+  function taskDragStart(e, li) {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    e.preventDefault();
+    dragCtx = { li: li, pointerId: e.pointerId };
+    li.classList.add('dragging');
+    document.body.classList.add('dragging-task');
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+    document.addEventListener('pointermove', taskDragMove);
+    document.addEventListener('pointerup', taskDragEnd);
+    document.addEventListener('pointercancel', taskDragEnd);
+  }
+  function taskDragMove(e) {
+    if (!dragCtx) return;
+    var li = dragCtx.li, y = e.clientY;
+    var sibs = Array.prototype.filter.call(elList.children, function (n) { return n.classList.contains('task') && n !== li; });
+    var placed = false;
+    for (var i = 0; i < sibs.length; i++) {
+      var r = sibs[i].getBoundingClientRect();
+      if (y < r.top + r.height / 2) { elList.insertBefore(li, sibs[i]); placed = true; break; }
+    }
+    if (!placed) elList.appendChild(li);
+  }
+  function taskDragEnd() {
+    if (!dragCtx) return;
+    var li = dragCtx.li;
+    li.classList.remove('dragging');
+    document.body.classList.remove('dragging-task');
+    document.removeEventListener('pointermove', taskDragMove);
+    document.removeEventListener('pointerup', taskDragEnd);
+    document.removeEventListener('pointercancel', taskDragEnd);
+    var ids = Array.prototype.filter.call(elList.children, function (n) { return n.classList.contains('task'); }).map(function (n) { return n.dataset.id; });
+    var newVisible = ids.map(function (id) { return state.tasks.find(function (t) { return t.id === id; }); }).filter(Boolean);
+    commitVisibleOrder(newVisible); saveState();
+    dragCtx = null;
+    renderTasks();
+  }
   function renderFocusLine() {
     elPomoTask.innerHTML = '';
     var tk = state.tasks.find(function (x) { return x.id === state.selectedId; });
+    // 未選択時は何も表示しない（.pomo-task:emptyでスペースも詰める）
     if (tk) { var l = document.createElement('span'); l.className = 'lbl'; l.textContent = t('focus_label'); elPomoTask.appendChild(l); elPomoTask.appendChild(document.createTextNode(tk.name)); }
-    else { var n = document.createElement('span'); n.className = 'none'; n.textContent = t('focus_none'); elPomoTask.appendChild(n); }
   }
   function renderTasks() {
     elList.innerHTML = '';
@@ -1478,7 +1512,15 @@
     var vis = state.tasks.filter(function (x) { return !(state.hideDone && x.done); });
     if (!vis.length) { var li = document.createElement('li'); li.className = 'task-empty'; li.textContent = state.tasks.length ? t('task_empty_filtered') : t('task_empty'); elList.appendChild(li); }
     vis.forEach(function (tk) {
-      var li = document.createElement('li'); li.className = 'task' + (tk.done ? ' is-done' : '') + (tk.id === state.selectedId ? ' is-focus' : '');
+      var li = document.createElement('li'); li.className = 'task' + (tk.done ? ' is-done' : '') + (tk.id === state.selectedId ? ' is-focus' : ''); li.dataset.id = tk.id;
+      var drag = document.createElement('button'); drag.type = 'button'; drag.className = 't-drag';
+      drag.setAttribute('aria-label', t('drag_label', { name: tk.name })); drag.appendChild(svgIcon(IC.grip));
+      drag.addEventListener('pointerdown', function (e) { taskDragStart(e, li); });
+      drag.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowUp') { e.preventDefault(); moveTask(tk.id, -1); }
+        else if (e.key === 'ArrowDown') { e.preventDefault(); moveTask(tk.id, 1); }
+      });
+      li.appendChild(drag);
       var check = document.createElement('button'); check.type = 'button'; check.className = 't-check'; check.setAttribute('role','checkbox'); check.setAttribute('aria-checked', tk.done ? 'true' : 'false'); check.setAttribute('aria-label', tk.name);
       var box = document.createElement('span'); box.className = 'box'; var cs = svgIcon(IC.check); if (tk.done && justDone[tk.id]) { cs.querySelector('path').classList.add('draw-in'); delete justDone[tk.id]; } box.appendChild(cs); check.appendChild(box);
       check.addEventListener('click', function () { var was = tk.done; tk.done = !tk.done; if (tk.done && !was) justDone[tk.id] = true; if (tk.done && state.selectedId === tk.id) state.selectedId = null; saveState(); renderTasks(); });
@@ -1567,7 +1609,7 @@
       refreshTimerPanel(); if (!timer.running && state.pomodoro.mode === mode) reset(); saveState();
     }); });
   });
-  $('stepSessions').querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { state.pomodoro.sessionsUntilLong = clamp(state.pomodoro.sessionsUntilLong + Number(b.dataset.step), 1, 12); refreshTimerPanel(); renderStats(); saveState(); }); });
+  $('stepSessions').querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { state.pomodoro.sessionsUntilLong = clamp(state.pomodoro.sessionsUntilLong + Number(b.dataset.step), 1, 12); refreshTimerPanel(); saveState(); }); });
   bindSwitch('swAutoSwitch', function () { return state.pomodoro.autoSwitch; }, function (v) { state.pomodoro.autoSwitch = v; });
   bindSwitch('swAutoStart', function () { return state.pomodoro.autoStart; }, function (v) { state.pomodoro.autoStart = v; });
   bindSwitch('swSound', function () { return state.pomodoro.soundOn; }, function (v) { state.pomodoro.soundOn = v; if (v) endSound(); });
@@ -1611,7 +1653,7 @@
   function setLang(lang) {
     state.lang = (lang === 'en') ? 'en' : 'ja';
     document.querySelectorAll('#langSeg button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.lang === state.lang ? 'true' : 'false'); });
-    applyI18n(); buildBgGrids(); buildTrackList(); renderMusic(); renderTasks(); renderStats(); renderTimer();
+    applyI18n(); buildBgGrids(); buildTrackList(); renderMusic(); renderTasks(); renderTimer();
     lastClock=''; renderClock(); pickMessage(false); refreshTimerPanel();
   }
 
@@ -1633,7 +1675,7 @@
   buildBgGrids(); buildTrackList();
   applyBackgroundFromState();
   renderClock(); setInterval(renderClock, 250);
-  timer.remaining = modeSeconds(state.pomodoro.mode); renderTimer(); renderStats();
+  timer.remaining = modeSeconds(state.pomodoro.mode); renderTimer();
   pickMessage(false); renderTasks();
 
   // 音楽の前回状態を復元（自動再生はしない）
