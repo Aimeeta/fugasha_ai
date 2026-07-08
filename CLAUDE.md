@@ -16,7 +16,7 @@
 
 - 外部JS依存は **Lenis のみ**。Three.js / GSAP は「導入しない」判断済み（docs/ai-team/DECISION_LOG.md）
 - アイコンはインラインSVG（Tabler由来）。webフォントアイコンは使わない
-- フォント: Google Fonts — Zen Kaku Gothic New (300/400/500/700) / Noto Serif JP (300/400/500) / JetBrains Mono (400)。**読み込んでいないウェイトをCSSで指定しない**（疑似ボールド禁止）
+- フォント: Google Fonts — Zen Kaku Gothic New (400/500/700) / Noto Serif JP (300/400)。等幅は `--font-mono`（`ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace` のOS標準スタック。JetBrains Mono等のWebフォントは読み込まない）。**読み込んでいないウェイトをCSSで指定しない**（疑似ボールド禁止）
 - スクロール演出は IntersectionObserver + CSS transition。canvasは画面外で停止させる
 - 検証手段: `node --check`（inline JS抽出後）、タグ整合カウント、ローカルサーバーでのブラウザ確認
 - 詳細は docs/ai-team/PROJECT_FACTS.md

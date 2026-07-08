@@ -11,7 +11,7 @@
 
 ## 依存
 - **JS**: Lenis 1.1.14（CDN, defer, smooth scroll）のみ。Three.js / GSAP は不採用（DECISION_LOG参照）
-- **フォント**: Google Fonts — Zen Kaku Gothic New (300/400/500/700) / Noto Serif JP (300/400/500) / JetBrains Mono (400)。読み込んでいないウェイトをCSSで指定しない
+- **フォント**: Google Fonts — Zen Kaku Gothic New (400/500/700) / Noto Serif JP (300/400)。等幅は `--font-mono`（`ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace` のOS標準スタック。JetBrains Mono等のWebフォントは読み込まない）。読み込んでいないウェイトをCSSで指定しない
 - **アイコン**: インラインSVG（Tabler outline由来、stroke=currentColor）。webフォントアイコンは廃止済み
 - **ツールロゴ**: simpleicons CDN（`onerror` フォールバックあり）
 

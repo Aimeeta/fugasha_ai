@@ -1,6 +1,17 @@
 # ROADMAP — 優先順位つき残タスク
 
-最終更新: 2026-07-06（ブログ2カラムテンプレ実装完了・未push）
+最終更新: 2026-07-08（トップページUI/UX監査・修正完了・未push）
+
+## 2026-07-08 — トップページUI/UX監査 — 実装済み・push待ち
+6体並列監査＋実機検証の詳細はDECISION_LOG参照。高〜中優先度は実装済み（`.ph-badge`タッチ対応/フォーカストラップフォールバック/nav-drawerランドマーク/`.sst-dot`タップ領域/sitemap.xml漏れ/FAQPage inLanguage/CLAUDE.mdフォント記載修正）。
+
+**見送り・次候補（低優先度）**:
+- border-radius（10種類以上）・影の不透明度のトークン化（`--radius-sm/md/lg`等）
+- Visionセクションの装飾的h2見出し3件をAI要約向けに言い換え（index.html:1816,1823,1830 / en/index.html:979,997,1009）
+- FAQPage以外のJSON-LDノード（WebPage/WebSite）を日英で完全統一するか判断
+- Visionセクションのスクロール距離（280vh/320vh）を短縮するか、忙しい経営者ペルソナ向けに再検討
+- 日英コンタクト導線の非対称（JA=外部ページ遷移、EN=ページ内フォーム）を統一するか判断
+- 日本語版`contact.html`のa11y監査（今回のスコープ外）
 
 ## 2026-07-06 — ブログ2カラムテンプレート（Mihata参考）— 実装済み・push待ち
 ~~2カラム化（本文672px固定＋サイドバー256px sticky）/ サイドバーCTA=chat.html・末尾CTA=contact.html / 背景白化(--paper) / 参考文献欄（favicon不使用・ドメイン名テキストのみ）/ 対象4記事同一パッチ / ai-security-checkpointsのnav-cta色統一漏れも修正~~ ✅

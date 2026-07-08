@@ -602,6 +602,7 @@
       transition: opacity var(--dur-open) ease, visibility 0s linear var(--dur-open);
     }
     .nav-drawer.open { visibility: visible; opacity: 1; transition: opacity var(--dur-open) ease; }
+    .nav-drawer-links { display: flex; flex-direction: column; align-items: center; gap: 32px; }
     .nav-drawer a { font-size: 22px; font-weight: 500; color: var(--fg); text-decoration: none; letter-spacing: .04em; }
     .nav-drawer-cta { margin-top: 8px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
     .nav-drawer-close { position: absolute; top: 18px; right: 20px; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1; background: none; border: 0; padding: 4px; }
@@ -895,12 +896,14 @@
 </nav>
 <div class="nav-drawer" id="navDrawer" role="dialog" aria-modal="true" aria-label="Menu">
   <button type="button" class="nav-drawer-close" id="navClose" aria-label="Close menu">✕</button>
-  <a href="#s-about">About</a>
-  <a href="#s-service">Services</a>
-  <a href="#s-borders">Working together</a>
-  <a href="#s-price">Pricing</a>
-  <a href="#s-faq">FAQ</a>
-  <a href="../" lang="ja" hreflang="ja">日本語</a>
+  <nav class="nav-drawer-links" aria-label="Menu items">
+    <a href="#s-about">About</a>
+    <a href="#s-service">Services</a>
+    <a href="#s-borders">Working together</a>
+    <a href="#s-price">Pricing</a>
+    <a href="#s-faq">FAQ</a>
+    <a href="../" lang="ja" hreflang="ja">日本語</a>
+  </nav>
   <div class="nav-drawer-cta">
     <a href="#contact" class="btn-amber">Write to me <span class="arr">→</span></a>
   </div>
@@ -1609,8 +1612,17 @@
     }
     navHam.addEventListener('click', () => setDrawer(!navDrawer.classList.contains('open')));
     navClose && navClose.addEventListener('click', () => { setDrawer(false); navHam.focus(); });
+    // Fallback tab trap for browsers without inert support (e.g. Safari < 15.4, older Firefox)
+    const supportsInert = 'inert' in HTMLElement.prototype;
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && navDrawer.classList.contains('open')) { setDrawer(false); navHam.focus(); }
+      if (!navDrawer.classList.contains('open')) return;
+      if (e.key === 'Escape') { setDrawer(false); navHam.focus(); return; }
+      if (!supportsInert && e.key === 'Tab') {
+        const focusables = navDrawer.querySelectorAll('a, button');
+        const first = focusables[0], last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     });
     navDrawer.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
