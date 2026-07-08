@@ -176,9 +176,9 @@
     .pomo-tab[aria-pressed="true"] { background: color-mix(in srgb, var(--fg) 10%, transparent); color: var(--fg); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 16%, transparent); }
     .pomo-tab:hover:not([aria-pressed="true"]) { color: var(--fg); }
     body.on-media .pomo-tabs { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); }
-    body.on-media .pomo-tab[aria-pressed="true"] { background: rgba(255,255,255,.2); color: #fff; box-shadow: none; }
+    body.on-media .pomo-tab[aria-pressed="true"] { background: rgba(255,255,255,.2); box-shadow: none; }
     body.on-media.on-media-bright .pomo-tabs { background: rgba(0,0,0,.08); border-color: rgba(0,0,0,.16); }
-    body.on-media.on-media-bright .pomo-tab[aria-pressed="true"] { background: rgba(0,0,0,.16); color: #16181c; }
+    body.on-media.on-media-bright .pomo-tab[aria-pressed="true"] { background: rgba(0,0,0,.16); }
 
     .pomo-time { font-family: var(--font-mono); font-size: clamp(34px, 7.5vw, 54px); font-variant-numeric: tabular-nums; letter-spacing: .04em; line-height: 1.2; color: var(--fg2); }
     .pomo-time.done-pulse { animation: pulse 1s var(--ease) 2; }
@@ -186,12 +186,32 @@
     .pomo-time.start-breathe { animation: breathe .42s var(--ease); }
     @keyframes breathe { 0%{transform:scale(1)} 45%{transform:scale(1.045)} 100%{transform:scale(1)} }
 
-    .pomo-ctrl { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    /* 再生コントロールもタブと同じガラス言語（開始/スキップ/リセットはアイコンのみ） */
+    .pomo-ctrl { display: flex; align-items: center; gap: 16px; justify-content: center; }
+    .pomo-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 50px; height: 50px; border-radius: 50%; cursor: pointer; padding: 0;
+      background: color-mix(in srgb, var(--bg2) 40%, transparent); border: 1px solid var(--line);
+      backdrop-filter: blur(10px) saturate(1.3); -webkit-backdrop-filter: blur(10px) saturate(1.3);
+      color: var(--fg2); transition: background .2s, color .2s, border-color .2s, transform .15s var(--ease);
+    }
+    .pomo-btn:hover { color: var(--fg); border-color: var(--hint); }
+    .pomo-btn:active { transform: scale(.93); }
+    .pomo-btn svg { width: 19px; height: 19px; }
+    .pomo-btn--main {
+      width: 64px; height: 64px; background: var(--accent); color: #0d2030; border-color: transparent;
+      box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 40%, transparent);
+    }
+    .pomo-btn--main:hover { background: var(--accent); opacity: .88; color: #0d2030; }
+    .pomo-btn--main svg { width: 23px; height: 23px; }
+    body.on-media .pomo-btn:not(.pomo-btn--main) { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.24); }
+    body.on-media.on-media-bright .pomo-btn:not(.pomo-btn--main) { background: rgba(0,0,0,.1); border-color: rgba(0,0,0,.18); }
+
+    /* パネル内の通常ボタン（YouTube・タスク追加・アップロード等） */
     .btn-amber { display: inline-flex; align-items: center; justify-content: center; gap: 9px; font-size: 12px; padding: 12px 24px; min-height: 44px; border-radius: 2px; background: var(--accent); color: #0d2030; cursor: pointer; font-weight: 500; border: none; letter-spacing: .1em; transition: opacity .25s; text-transform: uppercase; text-decoration: none; }
     .btn-amber:hover { opacity: .85; }
     .btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; padding: 11px 18px; min-height: 44px; border-radius: 2px; background: transparent; color: var(--fg); border: 1px solid var(--line); cursor: pointer; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; transition: border-color .2s, background .2s; }
     .btn-ghost:hover { border-color: var(--hint); }
-    body.on-media .stage .btn-ghost { border-color: rgba(255,255,255,.35); background: rgba(0,0,0,.18); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
     .btn-amber svg, .btn-ghost svg { width: 16px; height: 16px; }
 
     .pomo-task { font-size: 13px; color: var(--fg2); line-height: 1.7; max-width: 520px; padding: 0 8px; overflow-wrap: anywhere; }
@@ -199,7 +219,13 @@
     .pomo-task .lbl { color: var(--hint); font-size: 12px; }
 
     /* ====== ことば ====== */
-    .msg-wrap { display: flex; align-items: center; gap: 10px; margin-top: 26px; max-width: 520px; }
+    .msg-wrap { display: flex; align-items: center; gap: 10px; margin-top: 26px; max-width: 520px; border-radius: 16px; transition: background .5s ease, border-color .5s ease; }
+    /* 写真/動画の上では、地の色に関わらず読めるようガラスの受け皿をつける */
+    body.on-media .msg-wrap {
+      padding: 12px 10px 12px 18px; border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg2) 38%, transparent);
+      backdrop-filter: blur(10px) saturate(1.3); -webkit-backdrop-filter: blur(10px) saturate(1.3);
+    }
     .msg-col { display: flex; flex-direction: column; gap: 4px; }
     .msg { font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1; font-size: 15px; line-height: 1.95; color: var(--fg2); opacity: 1; transition: opacity .4s ease; }
     .msg.fading { opacity: 0; }
@@ -210,20 +236,29 @@
     .msg-next svg { width: 16px; height: 16px; }
 
     /* ====== ミニプレイヤー ====== */
-    .mini { position: fixed; z-index: 20; bottom: calc(env(safe-area-inset-bottom) + 82px); left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; padding: 7px 10px 7px 15px; border-radius: 2px; background: color-mix(in srgb, var(--panel) 82%, transparent); border: 1px solid var(--line); backdrop-filter: blur(16px) saturate(1.5); -webkit-backdrop-filter: blur(16px) saturate(1.5); box-shadow: 0 1px 1px rgba(0,0,0,.04), 0 6px 22px var(--shadow); max-width: min(420px, calc(100vw - 32px)); opacity: 1; transition: opacity .35s var(--ease), transform .35s var(--ease); }
+    /* ミニプレイヤー: タブ／ツールバーと同じガラスのピル。ツールバーの上に十分な間隔を空けて配置 */
+    .mini {
+      position: fixed; z-index: 20; bottom: calc(env(safe-area-inset-bottom) + 92px);
+      left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 2px; padding: 5px 5px 5px 16px; border-radius: 999px;
+      background: color-mix(in srgb, var(--bg2) 42%, transparent); border: 1px solid var(--line);
+      backdrop-filter: blur(14px) saturate(1.35); -webkit-backdrop-filter: blur(14px) saturate(1.35);
+      box-shadow: 0 1px 1px rgba(0,0,0,.04), 0 8px 26px var(--shadow);
+      max-width: min(400px, calc(100vw - 32px));
+      opacity: 1; transition: opacity .35s var(--ease), transform .35s var(--ease);
+    }
     .mini[hidden] { display: none; }
     .mini.mini-off { opacity: 0; transform: translateX(-50%) translateY(8px); pointer-events: none; }
-    .mini-eq { flex: none; display: inline-flex; align-items: flex-end; gap: 2px; height: 13px; width: 13px; }
-    .mini-eq i { flex: 1; background: var(--accent-ink); border-radius: 1px; height: 30%; }
-    body.music-active .mini-eq i { animation: eq 1s ease-in-out infinite; }
-    body.music-active .mini-eq i:nth-child(2){ animation-delay:.2s } body.music-active .mini-eq i:nth-child(3){ animation-delay:.4s }
-    @keyframes eq { 0%,100%{height:30%} 50%{height:100%} }
-    .mini-name { font-size: 12px; font-weight: 500; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 4px 0 2px; max-width: 130px; }
-    .mini-btn { flex: none; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: none; border-radius: 50%; cursor: pointer; color: var(--fg2); transition: background .2s, color .2s; }
-    .mini-btn:hover { background: var(--bg2); color: var(--fg); }
-    .mini-btn svg { width: 16px; height: 16px; }
-    .mini-btn--main { background: var(--accent); color: #0d2030; }
+    .mini-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-ink); opacity: .3; margin-right: 9px; transition: opacity .3s; }
+    body.music-active .mini-dot { opacity: 1; animation: dotPulse 1.7s ease-in-out infinite; }
+    @keyframes dotPulse { 0%,100%{ transform: scale(1); opacity: .65; } 50%{ transform: scale(1.6); opacity: 1; } }
+    .mini-name { font-size: 12px; font-weight: 500; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 8px; max-width: 128px; }
+    .mini-btn { flex: none; width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: none; border-radius: 50%; cursor: pointer; color: var(--fg2); transition: background .2s, color .2s; }
+    .mini-btn:hover { background: color-mix(in srgb, var(--fg) 8%, transparent); color: var(--fg); }
+    .mini-btn svg { width: 15px; height: 15px; }
+    .mini-btn--main { width: 38px; height: 38px; background: var(--accent); color: #0d2030; }
     .mini-btn--main:hover { background: var(--accent); opacity: .85; color: #0d2030; }
+    .mini-btn--main svg { width: 17px; height: 17px; }
 
     /* ====== ツールバー ====== */
     .toolbar { position: fixed; z-index: 25; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom) + 16px); display: flex; align-items: center; gap: 2px; padding: 6px; border-radius: 4px; background: color-mix(in srgb, var(--panel) 80%, transparent); border: 1px solid var(--line); backdrop-filter: blur(20px) saturate(1.6); -webkit-backdrop-filter: blur(20px) saturate(1.6); box-shadow: 0 1px 1px rgba(0,0,0,.05), 0 8px 30px var(--shadow); max-width: calc(100vw - 20px); }
@@ -349,10 +384,10 @@
     .task.dragging { opacity: .55; background: var(--bg2); box-shadow: 0 4px 14px var(--shadow); }
     body.dragging-task { cursor: grabbing; }
     body.dragging-task * { user-select: none; -webkit-user-select: none; }
-    .t-drag { flex: none; width: 30px; height: 38px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: grab; color: var(--line); touch-action: none; border-radius: 2px; }
-    .t-drag:hover { color: var(--hint); }
+    .t-drag { flex: none; width: 30px; height: 38px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: grab; color: var(--hint); touch-action: none; border-radius: 2px; opacity: .8; transition: opacity .2s, color .2s, background .2s; }
+    .t-drag:hover, .t-drag:focus-visible { opacity: 1; color: var(--fg); background: var(--bg2); }
     .t-drag:active { cursor: grabbing; }
-    .t-drag svg { width: 14px; height: 14px; }
+    .t-drag svg { width: 15px; height: 15px; }
     .t-check { flex: none; width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer; color: var(--hint); }
     .t-check .box { width: 17px; height: 17px; border: 1.5px solid var(--hint); border-radius: 2px; display: inline-flex; align-items: center; justify-content: center; transition: background .2s, border-color .2s; }
     .t-check .box svg { width: 11px; height: 11px; opacity: 0; color: var(--bg); transition: opacity .2s; }
@@ -440,18 +475,15 @@
     </div>
     <p class="pomo-time" id="pomoTime">25:00</p>
     <div class="pomo-ctrl">
-      <button type="button" class="btn-amber" id="btnStart" aria-keyshortcuts="Space">
+      <button type="button" class="pomo-btn" id="btnReset" data-i18n-aria="reset" aria-label="リセット">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11A8.1 8.1 0 0 0 4.5 9M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg>
+      </button>
+      <button type="button" class="pomo-btn pomo-btn--main" id="btnStart" aria-keyshortcuts="Space" aria-label="開始">
         <svg id="icoPlay" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.53.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>
         <svg id="icoPause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M8 5a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1zm8 0a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1z"/></svg>
-        <span id="btnStartLabel" data-i18n="start">開始</span>
       </button>
-      <button type="button" class="btn-ghost" id="btnSkip" data-i18n="skip">
+      <button type="button" class="pomo-btn" id="btnSkip" data-i18n-aria="skip" aria-label="スキップ">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 5.6v12.8a1 1 0 0 0 1.53.85L15 14v4a1 1 0 0 0 2 0V6a1 1 0 0 0-2 0v4L6.53 4.75A1 1 0 0 0 5 5.6z"/></svg>
-        スキップ
-      </button>
-      <button type="button" class="btn-ghost" id="btnReset" data-i18n="reset">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11A8.1 8.1 0 0 0 4.5 9M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg>
-        リセット
       </button>
     </div>
     <p class="pomo-task" id="pomoTask" aria-live="polite"></p>
@@ -470,7 +502,7 @@
 
 <!-- ミニプレイヤー -->
 <div class="mini" id="miniPlayer" hidden>
-  <span class="mini-eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  <span class="mini-dot" aria-hidden="true"></span>
   <span class="mini-name" id="miniName"></span>
   <button type="button" class="mini-btn" id="miniPrev" aria-label="前の音源"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.5 5.6v12.8a1 1 0 0 1-1.53.85L8 13v5a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5l9.97-6.25a1 1 0 0 1 1.53.85z"/></svg></button>
   <button type="button" class="mini-btn mini-btn--main" id="miniPlay" aria-label="再生"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.53.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M8 5a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1zm8 0a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1z"/></svg></button>
@@ -917,7 +949,7 @@
   }
 
   /* ================= ポモドーロ（Web Worker + endAt方式） ================= */
-  var elTime = $('pomoTime'), elStartLabel = $('btnStartLabel'), icoPlay = $('icoPlay'), icoPause = $('icoPause');
+  var elTime = $('pomoTime'), btnStart = $('btnStart'), icoPlay = $('icoPlay'), icoPause = $('icoPause');
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.pomo-tab'));
   var timer = { running: false, endAt: 0, remaining: 0 };
   var baseTitle = '集中 | 風雅舎';
@@ -945,7 +977,7 @@
     document.title = timer.running ? text + ' — ' + t('mode_' + state.pomodoro.mode) + ' | 風雅舎' : baseTitle;
     icoPlay.style.display = timer.running ? 'none' : '';
     icoPause.style.display = timer.running ? '' : 'none';
-    elStartLabel.textContent = timer.running ? t('pause') : t('start');
+    btnStart.setAttribute('aria-label', timer.running ? t('pause') : t('start'));
     tabs.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.mode === state.pomodoro.mode ? 'true' : 'false'); });
   }
   function tick() {
@@ -1443,7 +1475,10 @@
   var elList = $('taskList'), elPomoTask = $('pomoTask'), elToggleDone = $('toggleDone'), editingId = null, justDone = {};
   function uid() { return 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
   function svgIcon(paths) { var s = document.createElementNS('http://www.w3.org/2000/svg','svg'); s.setAttribute('viewBox','0 0 24 24'); s.setAttribute('fill','none'); s.setAttribute('stroke','currentColor'); s.setAttribute('stroke-width','2'); s.setAttribute('stroke-linecap','round'); s.setAttribute('stroke-linejoin','round'); s.setAttribute('aria-hidden','true'); paths.forEach(function (d) { var p = document.createElementNS('http://www.w3.org/2000/svg','path'); p.setAttribute('d', d); s.appendChild(p); }); return s; }
-  var IC = { check:['M5 12l5 5L20 7'], target:['M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0','M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0','M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0'], pencil:['M4 20h4L18.5 9.5a2.828 2.828 0 1 0-4-4L4 16v4','M13.5 6.5l4 4'], trash:['M4 7h16','M10 11v6','M14 11v6','M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12','M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3'], grip:['M9 6h.01M9 12h.01M9 18h.01M15 6h.01M15 12h.01M15 18h.01'] };
+  // Notion風の並べ替えハンドル: 2列×3行の塗りドット
+  function svgDots(coords) { var s = document.createElementNS('http://www.w3.org/2000/svg','svg'); s.setAttribute('viewBox','0 0 24 24'); s.setAttribute('fill','currentColor'); s.setAttribute('aria-hidden','true'); coords.forEach(function (c) { var ci = document.createElementNS('http://www.w3.org/2000/svg','circle'); ci.setAttribute('cx', c[0]); ci.setAttribute('cy', c[1]); ci.setAttribute('r', '1.6'); s.appendChild(ci); }); return s; }
+  var GRIP_DOTS = [[9,6],[9,12],[9,18],[15,6],[15,12],[15,18]];
+  var IC = { check:['M5 12l5 5L20 7'], target:['M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0','M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0','M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0'], pencil:['M4 20h4L18.5 9.5a2.828 2.828 0 1 0-4-4L4 16v4','M13.5 6.5l4 4'], trash:['M4 7h16','M10 11v6','M14 11v6','M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12','M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3'] };
   function pomoLabel(n) { return n === 1 ? '1 Pomodoro' : n + ' Pomodoros'; }
 
   /* ---- タスクの並べ替え（ドラッグ＝ポインタ操作／キーボードは↑↓） ---- */
@@ -1514,7 +1549,7 @@
     vis.forEach(function (tk) {
       var li = document.createElement('li'); li.className = 'task' + (tk.done ? ' is-done' : '') + (tk.id === state.selectedId ? ' is-focus' : ''); li.dataset.id = tk.id;
       var drag = document.createElement('button'); drag.type = 'button'; drag.className = 't-drag';
-      drag.setAttribute('aria-label', t('drag_label', { name: tk.name })); drag.appendChild(svgIcon(IC.grip));
+      drag.setAttribute('aria-label', t('drag_label', { name: tk.name })); drag.appendChild(svgDots(GRIP_DOTS));
       drag.addEventListener('pointerdown', function (e) { taskDragStart(e, li); });
       drag.addEventListener('keydown', function (e) {
         if (e.key === 'ArrowUp') { e.preventDefault(); moveTask(tk.id, -1); }
@@ -1649,6 +1684,7 @@
     document.documentElement.setAttribute('lang', state.lang);
     document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll('[data-i18n-ph]').forEach(function (el) { el.setAttribute('placeholder', t(el.dataset.i18nPh)); });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
   }
   function setLang(lang) {
     state.lang = (lang === 'en') ? 'en' : 'ja';
