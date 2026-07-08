@@ -296,6 +296,15 @@
     .bg-subcat { grid-column: 1 / -1; font-size: 10px; letter-spacing: .06em; color: var(--hint); margin: 2px 0 -2px; }
     .track-cat { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--hint); margin: 12px 0 4px; font-weight: 500; }
     .track-cat:first-child { margin-top: 0; }
+    /* YouTube */
+    .yt-row { display: flex; gap: 8px; }
+    .yt-row input { flex: 1; min-width: 0; font-family: var(--font-sans); font-size: 14px; padding: 11px 12px; min-height: 44px; border: 1px solid var(--line); border-radius: 2px; background: var(--bg); color: var(--fg); }
+    .yt-row input::placeholder { color: var(--hint); }
+    .yt-row .btn-amber { padding: 11px 18px; }
+    .yt-holder { margin-top: 10px; }
+    .yt-holder[hidden] { display: none; }
+    .yt-holder #ytPlayer { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 4px; overflow: hidden; background: #000; }
+    .yt-holder #ytPlayer iframe { width: 100%; height: 100%; border: 0; }
 
     .up-btn { width: 100%; box-sizing: border-box; }
     .hint { font-size: 11.5px; color: var(--hint); line-height: 1.7; margin-top: 10px; }
@@ -525,9 +534,21 @@
       </div>
     </div>
     <div class="sec">
+      <div class="sec-h" data-i18n="yt_title">YouTube</div>
+      <div class="yt-row">
+        <input type="text" id="ytUrl" data-i18n-ph="yt_ph" placeholder="YouTubeのURLを貼り付け" aria-label="YouTube URL" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button type="button" class="btn-amber" id="ytLoad" data-i18n="yt_play">再生</button>
+      </div>
+      <div class="yt-holder" id="ytHolder" hidden>
+        <div id="ytPlayer"></div>
+        <button type="button" class="btn-ghost" id="ytClear" style="margin-top:8px;width:100%" data-i18n="yt_clear">消す</button>
+      </div>
+      <p class="hint" id="ytHint" data-i18n="yt_hint">お好きなLo-fi・アニメ/ゲームのサウンドトラック等を再生できます。※YouTube（外部サービス／Google）に接続します。</p>
+    </div>
+    <div class="sec">
       <div class="sec-h" data-i18n="sources">音源</div>
       <ul class="track-list" id="trackList"></ul>
-      <p class="hint" data-i18n="music_hint">音源はすべて風雅舎用に合成した仮のループです。データはこのサイトから配信され、外部サービスには接続しません。</p>
+      <p class="hint" data-i18n="music_hint">プリセットの音源は風雅舎用に合成した環境音・雰囲気のループです。このサイトから配信され、外部サービスには接続しません。</p>
     </div>
   </div>
 </aside>
@@ -546,6 +567,7 @@
       <div class="bg-grid" id="bgGridPhoto"></div>
       <div class="bg-cat" data-i18n="bg_cat_video">動画</div>
       <div class="bg-grid" id="bgGridVideo"></div>
+      <p class="hint" data-i18n="photo_credit">写真: Unsplash（無料ライセンス）</p>
     </div>
     <div class="sec">
       <div class="sec-h" data-i18n="bg_custom">自分の写真・動画</div>
@@ -651,7 +673,7 @@
       snd_bell:'ベル', snd_chime:'チャイム', snd_ding:'ディン', snd_soft:'ソフト',
       notify:'ブラウザ通知', notify_sub:'許可した場合のみ通知します',
       music_title:'音楽と環境音', show_mini:'ミニプレイヤーを表示', bg_follow:'背景を音に合わせる', volume:'音量', sources:'音源',
-      music_hint:'音源はすべて風雅舎用に合成した仮のループです。データはこのサイトから配信され、外部サービスには接続しません。',
+      music_hint:'プリセットの音源は風雅舎用に合成した環境音・雰囲気のループです。このサイトから配信され、外部サービスには接続しません。',
       bg_title:'背景', bg_random:'ランダムに選ぶ', bg_cat_solid:'単色・グラデーション', bg_cat_photo:'写真', bg_cat_video:'動画',
       bg_custom:'自分の写真・動画', bg_upload:'ファイルを選ぶ', bg_custom_hint:'端末内の画像・動画をこの画面だけの背景にできます。データはこの端末の中だけに残り、外部には送信されません。',
       display_title:'表示設定', clock_sec_h:'時計', show_seconds:'秒を表示', hour12:'12時間表示', clock_size:'文字サイズ', clock_weight:'文字の太さ', clock_font:'時計の書体',
@@ -666,10 +688,15 @@
       n_done_focus:'集中が終わりました。', n_break_done:'休憩が終わりました。次の集中へ。', n_recorded:'に 1 Pomodoro を記録しました。', n_rest:'ひと休みしましょう。', n_today_count:'今日、集中を{n}回重ねました。',
       notify_focus_title:'集中おつかれさまでした', notify_break_title:'休憩おわり',
       bg_none:'既定', bg_mist:'靄', bg_fire:'灯', bg_water:'水面',
-      bg_study:'夜の書斎', bg_jazz:'ジャズカフェ', bg_tropical:'南国カフェ', bg_fireplace:'暖炉', bg_aurora:'オーロラ',
-      bg_mountains:'遠い山並み', bg_ravine:'渓流', bg_lake:'静かな湖', bg_starry:'星空と山脈', bg_fog:'霧の谷', bg_dusk:'夕暮れの海',
+      bg_mountains:'山並み', bg_ridges:'霞の稜線', bg_highland:'朝の高原', bg_starry:'星空', bg_dusk:'夕暮れの草原',
+      bg_forest:'深い森', bg_forestvalley:'渓谷の森', bg_meadow:'花野',
+      bg_alpine:'高山の湖', bg_lake:'静かな湖', bg_waterfall:'滝', bg_seaside:'海辺',
       cat_lofi:'Lo-fi', cat_cinematic:'叙情 / Cinematic', cat_cafe:'カフェ', cat_nature:'自然', cat_ambient:'抽象',
-      bg_grp_nature:'自然', bg_grp_scene:'情景',
+      bg_grp_land:'山と森', bg_grp_water:'水辺',
+      yt_title:'YouTube', yt_ph:'YouTubeのURLを貼り付け', yt_play:'再生', yt_clear:'消す',
+      yt_hint:'お好きなLo-fi・アニメ/ゲームのサウンドトラック等を再生できます。※YouTube（外部サービス／Google）に接続します。',
+      yt_bad:'URLを確認してください。',
+      photo_credit:'写真: Unsplash（無料ライセンス）',
       err_media:'この画像・動画は読み込めませんでした。別のファイルでお試しください。',
       err_audio:'音源を読み込めませんでした。時間をおいてもう一度お試しください。',
       err_type:'画像または動画ファイルを選んでください。',
@@ -685,7 +712,7 @@
       snd_bell:'Bell', snd_chime:'Chime', snd_ding:'Ding', snd_soft:'Soft',
       notify:'Browser notifications', notify_sub:'Only when you allow them',
       music_title:'Music & Ambience', show_mini:'Show mini player', bg_follow:'Background follows music', volume:'Volume', sources:'Sources',
-      music_hint:'All tracks are placeholder loops synthesized for this site. Served locally; no external service is contacted.',
+      music_hint:'The preset sounds are ambient/environment loops synthesized for this site. Served locally; no external service is contacted.',
       bg_title:'Background', bg_random:'Pick at random', bg_cat_solid:'Solid & gradient', bg_cat_photo:'Photo', bg_cat_video:'Video',
       bg_custom:'Your photo or video', bg_upload:'Choose a file', bg_custom_hint:'Use an image or video from your device as the background for this screen only. It stays on this device and is never sent anywhere.',
       display_title:'Display', clock_sec_h:'Clock', show_seconds:'Show seconds', hour12:'12-hour clock', clock_size:'Text size', clock_weight:'Text weight', clock_font:'Clock typeface',
@@ -700,10 +727,15 @@
       n_done_focus:'Focus finished. ', n_break_done:'Break finished. Back to focus.', n_recorded:' — recorded 1 Pomodoro.', n_rest:'Take a short rest.', n_today_count:'{n} focus sessions today.',
       notify_focus_title:'Nice focus session', notify_break_title:'Break over',
       bg_none:'Default', bg_mist:'Mist', bg_fire:'Ember', bg_water:'Water',
-      bg_study:'Night study', bg_jazz:'Jazz cafe', bg_tropical:'Tropical cafe', bg_fireplace:'Fireplace', bg_aurora:'Aurora',
-      bg_mountains:'Far mountains', bg_ravine:'Ravine', bg_lake:'Still lake', bg_starry:'Starry peaks', bg_fog:'Misty valley', bg_dusk:'Seaside dusk',
+      bg_mountains:'Mountains', bg_ridges:'Misty ridges', bg_highland:'Highland dawn', bg_starry:'Starry sky', bg_dusk:'Dusk meadow',
+      bg_forest:'Deep forest', bg_forestvalley:'Forest valley', bg_meadow:'Wildflower meadow',
+      bg_alpine:'Alpine lake', bg_lake:'Still lake', bg_waterfall:'Waterfall', bg_seaside:'Seaside',
       cat_lofi:'Lo-fi', cat_cinematic:'Cinematic', cat_cafe:'Cafe', cat_nature:'Nature', cat_ambient:'Ambient',
-      bg_grp_nature:'Nature', bg_grp_scene:'Scenes',
+      bg_grp_land:'Mountains & forest', bg_grp_water:'Water',
+      yt_title:'YouTube', yt_ph:'Paste a YouTube URL', yt_play:'Play', yt_clear:'Clear',
+      yt_hint:'Play your own lo-fi, anime or game soundtracks, etc. Note: this connects to YouTube (an external service by Google).',
+      yt_bad:'Please check the URL.',
+      photo_credit:'Photos: Unsplash (free license)',
       err_media:'That image/video could not be loaded. Please try another file.',
       err_audio:'The track could not be loaded. Please try again later.',
       err_type:'Please choose an image or video file.',
@@ -724,7 +756,7 @@
     clock: { seconds: true, hour12: false, size: 1, weight: 300, font: 'serif' },
     pomodoro: { durations: { focus: 25, short: 5, long: 15 }, sessionsUntilLong: 4, autoSwitch: true, autoStart: false, soundOn: true, sound: 'bell', notify: false, mode: 'focus' },
     stats: { date: todayStr(), completed: 0, focusSeconds: 0, cyclePos: 0 },
-    music: { trackId: null, volume: 0.7, muted: false, mini: true, bgFollow: false },
+    music: { trackId: null, volume: 0.7, muted: false, mini: true, bgFollow: false, ytUrl: '' },
     background: { type: 'none', id: null },
     tasks: [], selectedId: null, hideDone: false
   };
@@ -987,19 +1019,20 @@
 
   /* ================= 背景 ================= */
   var GRAD = { mist: 'mist', fire: 'fire', water: 'water' };
-  // grp: 'nature'（自然）/ 'scene'（情景）。motion: 動画カテゴリにも出す（動きが映えるシーン）
+  // 実写真（無料ライセンス: Unsplash）。grp: 'land'（山と森）/ 'water'（水辺）。motion: 動画カテゴリにも出す
   var PHOTOS = [
-    { id: 'mountains',   key: 'bg_mountains', img: 'assets/backgrounds/mountains.jpg', grp: 'nature' },
-    { id: 'ravine',      key: 'bg_ravine', img: 'assets/backgrounds/ravine.jpg', grp: 'nature', motion: true },
-    { id: 'lake',        key: 'bg_lake', img: 'assets/backgrounds/lake.jpg', grp: 'nature' },
-    { id: 'starry-peaks',key: 'bg_starry', img: 'assets/backgrounds/starry-peaks.jpg', grp: 'nature', motion: true },
-    { id: 'fog-valley',  key: 'bg_fog', img: 'assets/backgrounds/fog-valley.jpg', grp: 'nature' },
-    { id: 'dusk-sea',    key: 'bg_dusk', img: 'assets/backgrounds/dusk-sea.jpg', grp: 'nature', motion: true },
-    { id: 'aurora',      key: 'bg_aurora', img: 'assets/backgrounds/aurora.jpg', grp: 'nature', motion: true },
-    { id: 'study-night', key: 'bg_study', img: 'assets/backgrounds/study-night.jpg', grp: 'scene' },
-    { id: 'jazz-cafe',   key: 'bg_jazz',  img: 'assets/backgrounds/jazz-cafe.jpg', grp: 'scene' },
-    { id: 'tropical-cafe', key: 'bg_tropical', img: 'assets/backgrounds/tropical-cafe.jpg', grp: 'scene' },
-    { id: 'fireplace',   key: 'bg_fireplace', img: 'assets/backgrounds/fireplace.jpg', grp: 'scene', motion: true }
+    { id: 'mountains',    key: 'bg_mountains', img: 'assets/backgrounds/mountains.jpg', grp: 'land' },
+    { id: 'ridges',       key: 'bg_ridges', img: 'assets/backgrounds/ridges.jpg', grp: 'land' },
+    { id: 'highland',     key: 'bg_highland', img: 'assets/backgrounds/highland.jpg', grp: 'land' },
+    { id: 'starry',       key: 'bg_starry', img: 'assets/backgrounds/starry.jpg', grp: 'land', motion: true },
+    { id: 'dusk',         key: 'bg_dusk', img: 'assets/backgrounds/dusk.jpg', grp: 'land' },
+    { id: 'forest',       key: 'bg_forest', img: 'assets/backgrounds/forest.jpg', grp: 'land', motion: true },
+    { id: 'forestvalley', key: 'bg_forestvalley', img: 'assets/backgrounds/forestvalley.jpg', grp: 'land' },
+    { id: 'meadow',       key: 'bg_meadow', img: 'assets/backgrounds/meadow.jpg', grp: 'land' },
+    { id: 'alpine',       key: 'bg_alpine', img: 'assets/backgrounds/alpine.jpg', grp: 'water', motion: true },
+    { id: 'lake',         key: 'bg_lake', img: 'assets/backgrounds/lake.jpg', grp: 'water' },
+    { id: 'waterfall',    key: 'bg_waterfall', img: 'assets/backgrounds/waterfall.jpg', grp: 'water', motion: true },
+    { id: 'seaside',      key: 'bg_seaside', img: 'assets/backgrounds/seaside.jpg', grp: 'water', motion: true }
   ];
   function photoById(id) { return PHOTOS.find(function (p) { return p.id === id; }); }
   var bgLayer = $('bgLayer'), bgA = $('bgA'), bgB = $('bgB'), activeFrame = bgA, idleFrame = bgB;
@@ -1130,8 +1163,8 @@
       bgGridBase.appendChild(cell);
     });
     function subHeader(grid, label) { var h = document.createElement('span'); h.className = 'bg-subcat'; h.textContent = label; grid.appendChild(h); }
-    // 写真：自然→情景 の順にサブ見出し付きで並べる
-    [['nature', t('bg_grp_nature')], ['scene', t('bg_grp_scene')]].forEach(function (grp) {
+    // 写真：山と森→水辺 の順にサブ見出し付きで並べる
+    [['land', t('bg_grp_land')], ['water', t('bg_grp_water')]].forEach(function (grp) {
       var items = PHOTOS.filter(function (p) { return p.grp === grp[0]; });
       if (!items.length) return;
       subHeader(bgGridPhoto, grp[1]);
@@ -1203,19 +1236,15 @@
   $('bgCustomRemove').addEventListener('click', function () { idbDel().catch(function(){}); applyBackground({ type: 'none' }); });
 
   /* ================= 音楽 ================= */
+  // プリセットは厳選した環境音・雰囲気のみ（実曲はYouTube入力で再生）。差し替えは src を変更するだけ。
   var TRACKS = [
-    { id: 'lofi',      src: 'assets/audio/lofi-focus.m4a',   bg: 'study-night',  cat: 'lofi' },
-    { id: 'lofi-rain', src: 'assets/audio/lofi-rain.m4a',    bg: 'study-night',  cat: 'lofi' },
-    { id: 'lofi-night',src: 'assets/audio/lofi-night.m4a',   bg: 'starry-peaks', cat: 'lofi' },
-    { id: 'lofi-morning', src: 'assets/audio/lofi-morning.m4a', bg: 'lake',      cat: 'lofi' },
+    { id: 'lofi',      src: 'assets/audio/lofi-focus.m4a',   bg: 'forest',       cat: 'lofi' },
+    { id: 'lofi-night',src: 'assets/audio/lofi-night.m4a',   bg: 'starry',       cat: 'lofi' },
     { id: 'cine-north',src: 'assets/audio/cine-north.m4a',   bg: 'mountains',    cat: 'cinematic' },
-    { id: 'cine-ashen',src: 'assets/audio/cine-ashen.m4a',   bg: 'fog-valley',   cat: 'cinematic' },
-    { id: 'cine-resolve', src: 'assets/audio/cine-resolve.m4a', bg: 'lake',      cat: 'cinematic' },
-    { id: 'jazz',      src: 'assets/audio/jazz-piano.m4a',   bg: 'jazz-cafe',    cat: 'cafe' },
-    { id: 'bossa',     src: 'assets/audio/cafe-bossa.m4a',   bg: 'tropical-cafe',cat: 'cafe' },
-    { id: 'nat-stream',src: 'assets/audio/nat-stream.m4a',   bg: 'ravine',       cat: 'nature' },
-    { id: 'fireplace', src: 'assets/audio/fireplace.m4a',    bg: 'fireplace',    cat: 'nature' },
-    { id: 'ambient',   src: 'assets/audio/ambient.m4a',      bg: 'aurora',       cat: 'ambient' }
+    { id: 'bossa',     src: 'assets/audio/cafe-bossa.m4a',   bg: 'seaside',      cat: 'cafe' },
+    { id: 'nat-stream',src: 'assets/audio/nat-stream.m4a',   bg: 'waterfall',    cat: 'nature' },
+    { id: 'fireplace', src: 'assets/audio/fireplace.m4a',    bg: 'forestvalley', cat: 'nature' },
+    { id: 'ambient',   src: 'assets/audio/ambient.m4a',      bg: 'dusk',         cat: 'ambient' }
   ];
   var CAT_ORDER = ['lofi', 'cinematic', 'cafe', 'nature', 'ambient'];
   var CAT_KEY = { lofi:'cat_lofi', cinematic:'cat_cinematic', cafe:'cat_cafe', nature:'cat_nature', ambient:'cat_ambient' };
@@ -1249,18 +1278,21 @@
     }, 40);
   }
   function renderMusic() {
-    var tk = curTrack(), playing = !!(tk && !audio.paused);
+    var tk = curTrack();
+    var localPlaying = !!(tk && !audio.paused);
+    var playing = ytActive ? ytIsPlaying : localPlaying;
     Array.prototype.forEach.call(elTrackList.children, function (li) {
       var btn = li.firstChild;
       if (!btn || !btn.classList || !btn.classList.contains('track')) return; // カテゴリ見出しは除外
-      var sel = tk && btn.dataset.track === tk.id;
+      var sel = !ytActive && tk && btn.dataset.track === tk.id;
       btn.setAttribute('aria-pressed', sel ? 'true' : 'false');
-      btn.classList.toggle('playing', !!(sel && playing));
+      btn.classList.toggle('playing', !!(sel && localPlaying));
     });
-    elMini.hidden = !tk;
+    elMini.hidden = !(tk || ytActive);
     elMini.classList.toggle('mini-off', !state.music.mini);
     document.body.classList.toggle('music-active', playing);
-    if (tk) elMiniName.textContent = trackName(tk.id);
+    if (ytActive) elMiniName.textContent = ytTitle || 'YouTube';
+    else if (tk) elMiniName.textContent = trackName(tk.id);
     elMiniPlay.setAttribute('aria-label', playing ? t('pause') : t('start'));
     elMiniPlay.querySelector('.ic-play').style.display = playing ? 'none' : '';
     elMiniPlay.querySelector('.ic-pause').style.display = playing ? '' : 'none';
@@ -1273,6 +1305,7 @@
     applyBackground({ type: 'photo', id: tk.bg });
   }
   function playTrack(tk, opts) {
+    if (ytActive) stopYT(); // YouTube再生中ならローカルに切り替え
     var switching = audio.src.indexOf(tk.src) === -1;
     if (switching) { audio.src = tk.src; audio.volume = 0; }
     state.music.trackId = tk.id;
@@ -1322,13 +1355,89 @@
   }
   $('miniPrev').addEventListener('click', function () { stepTrack(-1); });
   $('miniNext').addEventListener('click', function () { stepTrack(1); });
-  $('miniPlay').addEventListener('click', function () { var tk = curTrack(); if (!tk) return; if (audio.paused) playTrack(tk); else pauseTrack(); });
-  $('miniMute').addEventListener('click', function () { state.music.muted = !state.music.muted; saveState(); if (!audio.paused) fadeTo(targetVol(), 150); updateMuteUI(); });
-  elVol.addEventListener('input', function () { state.music.volume = Number(elVol.value); if (state.music.volume > 0) state.music.muted = false; if (!audio.paused) audio.volume = targetVol(); saveState(); updateMuteUI(); });
+  $('miniPlay').addEventListener('click', function () {
+    if (ytActive) { if (ytPlayer) { ytIsPlaying ? ytPlayer.pauseVideo() : ytPlayer.playVideo(); } return; }
+    var tk = curTrack(); if (!tk) return; if (audio.paused) playTrack(tk); else pauseTrack();
+  });
+  $('miniMute').addEventListener('click', function () {
+    state.music.muted = !state.music.muted; saveState();
+    if (ytActive && ytPlayer) { state.music.muted ? ytPlayer.mute() : ytPlayer.unMute(); }
+    else if (!audio.paused) fadeTo(targetVol(), 150);
+    updateMuteUI();
+  });
+  elVol.addEventListener('input', function () {
+    state.music.volume = Number(elVol.value); if (state.music.volume > 0) state.music.muted = false;
+    if (ytActive && ytPlayer) { ytPlayer.setVolume(Math.round(targetVol() * 100)); if (!state.music.muted) ytPlayer.unMute(); }
+    else if (!audio.paused) audio.volume = targetVol();
+    saveState(); updateMuteUI();
+  });
   $('swMini').addEventListener('click', function () { state.music.mini = !state.music.mini; saveState(); renderMusic(); });
   $('swBgFollow').addEventListener('click', function () { state.music.bgFollow = !state.music.bgFollow; saveState(); followBg(curTrack()); renderMusic(); });
   audio.addEventListener('play', renderMusic); audio.addEventListener('pause', renderMusic);
   audio.addEventListener('error', function () { showNotice(t('err_audio')); renderMusic(); });
+
+  /* ================= YouTube（任意・外部接続） ================= */
+  var ytPlayer = null, ytActive = false, ytIsPlaying = false, ytTitle = '', ytApiLoading = false, ytApiCbs = [];
+  var elYtUrl = $('ytUrl'), elYtHolder = $('ytHolder'), elYtHint = $('ytHint');
+  function parseYouTube(url) {
+    if (!url) return null;
+    url = url.trim();
+    var pl = url.match(/[?&]list=([A-Za-z0-9_-]+)/);
+    var v = url.match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/)([A-Za-z0-9_-]{11})/);
+    if (v) return { type: 'video', id: v[1], list: pl ? pl[1] : null };
+    if (pl) return { type: 'playlist', id: pl[1] };
+    if (/^[A-Za-z0-9_-]{11}$/.test(url)) return { type: 'video', id: url }; // 生のID
+    return null;
+  }
+  function loadYTApi(cb) {
+    if (window.YT && window.YT.Player) { cb(); return; }
+    ytApiCbs.push(cb);
+    if (ytApiLoading) return; ytApiLoading = true;
+    window.onYouTubeIframeAPIReady = function () { var cbs = ytApiCbs; ytApiCbs = []; cbs.forEach(function (f) { try { f(); } catch (e) {} }); };
+    var s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
+  }
+  function stopYT() {
+    ytActive = false; ytIsPlaying = false;
+    if (ytPlayer && ytPlayer.pauseVideo) { try { ytPlayer.pauseVideo(); } catch (e) {} }
+    document.body.classList.remove('music-active');
+  }
+  function clearYT() {
+    if (ytPlayer && ytPlayer.destroy) { try { ytPlayer.destroy(); } catch (e) {} }
+    ytPlayer = null; ytActive = false; ytIsPlaying = false; ytTitle = '';
+    elYtHolder.hidden = true; renderMusic();
+  }
+  function loadYouTube(url) {
+    var p = parseYouTube(url);
+    if (!p) { elYtHint.textContent = t('yt_bad'); return; }
+    elYtHint.textContent = t('yt_hint');
+    state.music.ytUrl = url; saveState();
+    if (!audio.paused) pauseTrack();       // ローカル音源を止める
+    state.music.trackId = null;
+    elYtHolder.hidden = false;
+    loadYTApi(function () {
+      var vars = { autoplay: 1, playsinline: 1, modestbranding: 1, rel: 0 };
+      var opts = { width: '100%', height: '100%', playerVars: vars, events: {
+        onReady: function (e) {
+          try { e.target.setVolume(Math.round(targetVol() * 100)); if (state.music.muted) e.target.mute(); } catch (err) {}
+          try { e.target.playVideo(); } catch (err) {}
+        },
+        onStateChange: function (e) {
+          ytIsPlaying = (e.data === 1);
+          if (e.data === 1) { ytActive = true; if (!audio.paused) pauseTrack(); try { ytTitle = e.target.getVideoData().title || 'YouTube'; } catch (err) { ytTitle = 'YouTube'; } }
+          renderMusic();
+        }
+      } };
+      if (p.type === 'playlist') { vars.listType = 'playlist'; vars.list = p.id; }
+      else { opts.videoId = p.id; if (p.list) { vars.list = p.list; } }
+      if (ytPlayer && ytPlayer.destroy) { try { ytPlayer.destroy(); } catch (e) {} }
+      ytActive = true;
+      ytPlayer = new YT.Player('ytPlayer', opts);
+      renderMusic();
+    });
+  }
+  $('ytLoad').addEventListener('click', function () { loadYouTube(elYtUrl.value); });
+  elYtUrl.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); loadYouTube(elYtUrl.value); } });
+  $('ytClear').addEventListener('click', function () { state.music.ytUrl = ''; saveState(); elYtUrl.value = ''; clearYT(); });
 
   /* ================= タスク ================= */
   var elList = $('taskList'), elPomoTask = $('pomoTask'), elToggleDone = $('toggleDone'), editingId = null, justDone = {};
@@ -1510,6 +1619,7 @@
   // 音楽の前回状態を復元（自動再生はしない）
   elVol.value = String(state.music.volume); audio.volume = 0;
   var saved = curTrack(); if (saved) audio.src = saved.src; else state.music.trackId = null;
+  if (state.music.ytUrl) elYtUrl.value = state.music.ytUrl; // URLだけ復元（自動再生はしない）
   renderMusic();
   requestWake();
 })();
