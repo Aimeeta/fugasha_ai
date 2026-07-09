@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIの下書きは、そのまま出さない | 風雅舎</title>
+  <meta name="description" content="生成AIは下書きを出すのは速いけれど、そのまま使うと事故が起きる。事実・声・判断——手を入れる3つの視点で見直すだけで、AIの速さを活かしながら、あなたの言葉として仕上げられます。">
+  <meta property="og:title" content="AIの下書きは、そのまま出さない">
+  <meta property="og:description" content="生成AIは下書きが速い。でもそのまま使うと事故が起きる。事実・声・判断の3つの視点で手を入れると、AIの速さを活かしながらあなたの言葉として仕上げられる。">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/blog/editing-ai-drafts/">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/blog/editing-ai-drafts/ogp.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="風雅舎">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#fdfbf7">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/blog/editing-ai-drafts/">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": "https://aimeeta.github.io/fugasha_ai/blog/editing-ai-drafts/#article",
+        "headline": "AIの下書きは、そのまま出さない",
+        "description": "生成AIは下書きを出すのは速いけれど、そのまま使うと事故が起きる。事実・声・判断——手を入れる3つの視点で見直すだけで、AIの速さを活かしながら、あなたの言葉として仕上げられます。",
+        "image": "https://aimeeta.github.io/fugasha_ai/blog/editing-ai-drafts/ogp.jpg",
+        "datePublished": "2026-07-09",
+        "dateModified": "2026-07-09",
+        "articleSection": "AI導入・業務効率化",
+        "inLanguage": "ja",
+        "author": { "@type": "Person", "@id": "https://aimeeta.github.io/fugasha_ai/#person", "name": "Aimee", "jobTitle": "代表" },
+        "publisher": { "@type": "Organization", "@id": "https://aimeeta.github.io/fugasha_ai/#organization", "name": "風雅舎" },
+        "mainEntityOfPage": "https://aimeeta.github.io/fugasha_ai/blog/editing-ai-drafts/"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://aimeeta.github.io/fugasha_ai/" },
+          { "@type": "ListItem", "position": 2, "name": "ブログ", "item": "https://aimeeta.github.io/fugasha_ai/blog/" },
+          { "@type": "ListItem", "position": 3, "name": "AIの下書きは、そのまま出さない", "item": "https://aimeeta.github.io/fugasha_ai/blog/editing-ai-drafts/" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      --bg:      #f0e6d6;
+      --bg2:     #e8dcc8;
+      --fg:      #0d2030;
+      --fg2:     #1e3a50;
+      --muted:   #5a5f66;       /* index.htmlと同値 — 読みやすさ向上 */
+      --hint:    #5f646c;       /* クリーム上で約4.6:1 — WCAG AA準拠 */
+      --accent:  #e8866a;
+      --accent2: #f0a882;
+      --line:    rgba(13,32,48,.1);
+      --paper:   #fdfbf7;
+      --accent-ink: #7a4025;
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+    body { font-family: var(--font-sans); background: var(--paper); color: var(--fg); }
+    a { color: inherit; }
+    ::selection { background: rgba(232,134,106,.3); color: var(--fg); }
+    .icn { display: inline-block; vertical-align: -0.125em; flex-shrink: 0; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    /* reading progress */
+    .pb { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 1001; width: 0%; }
+
+    /* ── Navigation (shared pattern) ── */
+    .nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 48px; position: sticky; top: 0; z-index: 1000;
+      background: rgba(253,251,247,.92);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-bottom: .5px solid var(--line);
+    }
+    .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--fg); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 32px; }
+    .nav-link { font-size: 11px; color: var(--hint); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; }
+    .nav-link:hover { color: var(--fg); }
+    .nav-link.active { color: var(--fg); }
+    .nav-cta {
+      display: inline-block; font-size: 11px; padding: 9px 20px; border-radius: 2px;
+      background: var(--accent); color: var(--fg); font-weight: 500;
+      transition: opacity .2s; border: none; letter-spacing: .08em; text-decoration: none;
+    }
+    .nav-cta:hover { opacity: .8; }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: 0; }
+    .nav-ham span { display: block; width: 20px; height: 1.5px; background: var(--fg); border-radius: 1px; transition: all .25s; }
+    .nav-ham.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
+    .nav-ham.open span:nth-child(2) { opacity: 0; }
+    .nav-ham.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
+    .nav-drawer {
+      display: none; position: fixed; inset: 0;
+      background: rgba(253,251,247,.97); backdrop-filter: blur(20px);
+      z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a { font-size: 22px; font-weight: 500; color: var(--fg); text-decoration: none; letter-spacing: .04em; }
+    .nav-drawer-close { position: absolute; top: 18px; right: 20px; font-size: 24px; cursor: pointer; color: var(--muted); line-height: 1; background: none; border: none; }
+    @media (max-width: 768px) {
+      .nav { padding: 14px 20px; }
+      .nav-right > .nav-link, .nav-right > .nav-cta { display: none; }
+      .nav-ham { display: flex; }
+    }
+
+    /* ── Article shell ── */
+    .wrap { max-width: 1024px; margin: 0 auto; padding: 0 24px; }
+    .crumb { display: flex; gap: 6px; align-items: center; font-size: 11px; color: var(--hint); letter-spacing: .04em; margin: 40px 0 28px; flex-wrap: wrap; }
+    .crumb a { color: var(--hint); text-decoration: none; }
+    .crumb a:hover { color: var(--fg); }
+    .crumb span.sep { opacity: .5; }
+    .crumb span.cur { color: var(--fg2); }
+
+    /* ── Two-column layout ── */
+    .art-layout { display: flex; align-items: flex-start; gap: 48px; }
+    .art-main   { flex: 1 1 auto; max-width: 672px; min-width: 0; }
+    .art-sidebar { flex: 0 0 256px; width: 256px; position: sticky; top: 96px; }
+    @media (max-width: 1024px) {
+      .art-layout { flex-direction: column; gap: 40px; }
+      .art-main { max-width: 100%; }
+      .art-sidebar { width: 100%; position: static; flex: 0 0 auto; }
+    }
+
+    /* ── Sidebar CTA ── */
+    .sidebar-cta { padding: 20px 20px 22px; border-radius: 10px; background: rgba(255,255,255,.55); border: .5px solid var(--line); transition: border-color .2s, background .2s; }
+    .sidebar-cta:hover { border-color: rgba(232,134,106,.28); }
+    .sidebar-cta-kicker { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 10px; }
+    .sidebar-cta-title { font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.6; margin-bottom: 8px; }
+    .sidebar-cta-body { font-size: 12px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; }
+    .sidebar-cta-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--fg); text-decoration: none; border-bottom: 1px solid rgba(13,32,48,.24); padding-bottom: 2px; transition: border-color .2s, color .2s; }
+    .sidebar-cta-link:hover { color: var(--accent-ink); border-color: var(--accent-ink); }
+    .sidebar-cta-link .arr { display: inline-block; transition: transform .2s; }
+    .sidebar-cta-link:hover .arr { transform: translateX(3px); }
+
+    /* ── Sources ── */
+    .source-list { margin: 48px 0 0; padding-top: 22px; border-top: 1px solid var(--line); }
+    .source-list-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .source-list-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--hint); }
+    .source-list-title { font-size: 13px; font-weight: 700; color: var(--fg); }
+    .source-list-count { font-family: var(--font-mono); font-size: 11px; color: var(--hint); }
+    .source-list-items { list-style: none; border-top: 1px solid var(--line); }
+    .source-item { border-bottom: 1px solid var(--line); }
+    .source-link { display: grid; grid-template-columns: 22px 18px minmax(0,1fr) 16px; align-items: center; column-gap: 10px; min-height: 52px; padding: 12px 2px; text-decoration: none; }
+    .source-num { font-family: var(--font-mono); font-size: 10px; color: var(--hint); text-align: right; font-variant-numeric: tabular-nums; }
+    .source-favicon { width: 18px; height: 18px; border-radius: 4px; background: var(--bg2); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+    .source-favicon img { width: 14px; height: 14px; display: block; object-fit: contain; }
+    .source-text { min-width: 0; }
+    .source-name { display: block; font-size: 12.5px; font-weight: 500; color: var(--fg2); line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .2s; }
+    .source-domain { display: block; font-family: var(--font-mono); font-size: 10.5px; color: var(--hint); margin-top: 2px; }
+    .source-ext { width: 14px; height: 14px; color: var(--hint); opacity: .6; transition: opacity .2s, color .2s, transform .2s; }
+    .source-link:hover .source-name { color: var(--accent-ink); }
+    .source-link:hover .source-ext { opacity: 1; color: var(--accent-ink); transform: translate(1px, -1px); }
+
+    /* ── Table of contents ── */
+    .art-toc { margin: 0 0 44px; padding: 18px 22px 20px; border: .5px solid var(--line); border-radius: 6px; background: rgba(255,255,255,.4); }
+    .art-toc-eyebrow { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--hint); margin-bottom: 6px; }
+    .art-toc-heading { font-size: 13px; font-weight: 700; color: var(--fg); margin: 0 0 12px; }
+    .art-toc-list { list-style: none; counter-reset: toc; display: flex; flex-direction: column; gap: 9px; }
+    .art-toc-list li { counter-increment: toc; }
+    .art-toc-link { display: flex; align-items: baseline; gap: 8px; font-size: 13px; line-height: 1.6; color: var(--fg2); text-decoration: none; transition: color .2s; }
+    .art-toc-link::before { content: counter(toc, decimal-leading-zero); font-family: var(--font-mono); font-size: 10.5px; color: var(--hint); flex-shrink: 0; }
+    .art-toc-link:hover { color: var(--accent-ink); }
+
+    /* ── Inline CTA ── */
+    .inline-cta { margin: 40px 0 44px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 20px; }
+    .inline-cta-text { font-size: 14px; line-height: 1.8; color: var(--fg2); margin: 0; flex: 1 1 260px; }
+    .inline-cta-link { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; color: var(--fg); text-decoration: none; border-bottom: 1px solid rgba(13,32,48,.24); padding-bottom: 2px; white-space: nowrap; transition: border-color .2s, color .2s; }
+    .inline-cta-link:hover { color: var(--accent-ink); border-color: var(--accent-ink); }
+    .inline-cta-link .arr { display: inline-block; transition: transform .2s; }
+    .inline-cta-link:hover .arr { transform: translateX(3px); }
+    @media (max-width: 480px) { .inline-cta { flex-direction: column; align-items: flex-start; } }
+
+    .art-badge {
+      display: inline-block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid rgba(232,134,106,.4); border-radius: 100px;
+      padding: 5px 14px; font-weight: 500; margin-bottom: 18px;
+    }
+    .art-h1 {
+      font-family: var(--font-serif); font-weight: 400;
+      font-size: clamp(26px, 4.2vw, 38px); line-height: 1.45; color: var(--fg);
+      margin-bottom: 20px; font-feature-settings: 'palt' 1;
+    }
+    .art-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--hint); margin-bottom: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
+    .art-meta span { display: inline-flex; align-items: center; gap: 5px; }
+
+    .art-lead {
+      font-family: var(--font-serif); font-size: 17px; line-height: 1.9; color: var(--fg2);
+      background: var(--bg2); border-left: 3px solid var(--accent);
+      padding: 22px 24px; border-radius: 4px; margin-bottom: 44px;
+    }
+
+    .art-body h2 {
+      font-family: var(--font-serif); font-weight: 400; font-size: 23px; color: var(--fg);
+      margin: 52px 0 20px; line-height: 1.5; font-feature-settings: 'palt' 1;
+    }
+    .art-body h3 {
+      font-size: 16px; font-weight: 700; color: var(--fg); margin: 32px 0 12px;
+      display: flex; align-items: baseline; gap: 10px;
+    }
+    .art-body h3 .num { font-family: var(--font-mono); font-size: 12px; color: var(--accent); font-weight: 400; }
+    .art-body p { font-size: 15px; line-height: 2; color: var(--fg2); margin-bottom: 18px; }
+    .art-body strong { color: var(--fg); font-weight: 700; }
+
+    .cta-box {
+      margin: 56px 0; padding: 32px; background: var(--fg); border-radius: 8px; text-align: center;
+    }
+    .cta-box p { color: rgba(240,230,214,.85); font-size: 14px; margin-bottom: 18px; line-height: 1.8; }
+    .cta-box .btn-amber {
+      display: inline-flex; align-items: center; gap: 10px; font-size: 12px;
+      padding: 14px 28px; border-radius: 2px; background: var(--accent); color: var(--fg);
+      font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none; transition: opacity .25s;
+    }
+    .cta-box .btn-amber:hover { opacity: .8; }
+
+    .art-foot-nav { display: flex; justify-content: space-between; align-items: center; margin: 48px 0 80px; padding-top: 24px; border-top: 1px solid var(--line); }
+    .back-blog { font-size: 12px; color: var(--hint); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .back-blog:hover { color: var(--fg); }
+
+    /* ── Footer ── */
+    .ft { padding: 48px 48px 24px; background: var(--fg); display: flex; flex-direction: column; gap: 24px; }
+    .ft-tagline-big { font-family: var(--font-serif); font-weight: 400; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
+    .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 18px; border-top: 1px solid rgba(240,230,214,.1); }
+    .ftl { font-size: 10px; color: rgba(240,230,214,.5); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
+    .ftc { font-size: 10px; color: rgba(240,230,214,.45); letter-spacing: .08em; }
+    .ft-links { display: flex; gap: 20px; align-items: center; }
+    .ft-link { font-size: 10px; color: rgba(240,230,214,.62); text-decoration: none; }
+    .ft-link:hover { color: rgba(240,230,214,.9); }
+    @media (max-width: 768px) {
+      .ft { padding: 36px 20px 20px; gap: 18px; }
+      .ft-tagline-big { font-size: 26px; }
+      .ft-bottom { flex-direction: column; text-align: center; gap: 12px; }
+      .wrap { padding: 0 20px; }
+    }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="pb" id="pb"></div>
+
+<nav class="nav" id="nav">
+  <a href="../../index.html" class="nav-logo">風雅舎</a>
+  <div class="nav-right">
+    <a href="../../index.html#s-service" class="nav-link">Services</a>
+    <a href="../" class="nav-link active">Blog</a>
+    <a href="../../index.html#s-about" class="nav-link">About</a>
+    <a href="../../contact.html" class="nav-cta">無料相談</a>
+    <button type="button" class="nav-ham" id="navHam" aria-label="メニューを開く" aria-expanded="false" aria-controls="navDrawer"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+  <button class="nav-drawer-close" id="navClose" aria-label="閉じる">✕</button>
+  <a href="../../index.html#s-service">Services</a>
+  <a href="../">Blog</a>
+  <a href="../../index.html#s-about">About</a>
+  <a href="../../contact.html">無料相談 →</a>
+</div>
+
+<main class="wrap">
+  <nav class="crumb" aria-label="パンくずリスト">
+    <a href="../../index.html">ホーム</a>
+    <span class="sep">/</span>
+    <a href="../">ブログ</a>
+    <span class="sep">/</span>
+    <span class="cur">AIの下書きは、そのまま出さない</span>
+  </nav>
+
+  <div class="art-layout">
+  <article class="art-main">
+    <div class="art-badge">AI導入・業務効率化</div>
+    <h1 class="art-h1">AIの下書きは、そのまま出さない</h1>
+    <div class="art-meta">
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg> 2026年7月9日</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約5分で読めます</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/></svg> Aimee — 風雅舎代表</span>
+    </div>
+
+    <p class="art-lead">
+      AIに文章を書いてもらうと、驚くほど速く、それらしい下書きが返ってきます。そのまま使いたくなる——その気持ちはよくわかります。でも、AIが得意なのは「下書きを速く出すこと」であって、「そのまま出せる完成品をつくること」ではありません。事実・声・判断。この3つの視点で手を入れるだけで、速さを活かしながら、ちゃんとあなたの言葉として仕上げられます。
+    </p>
+
+    <nav class="art-toc" aria-labelledby="art-toc-heading" hidden>
+      <span class="art-toc-eyebrow">Contents</span>
+      <h2 class="art-toc-heading" id="art-toc-heading">目次</h2>
+      <ol class="art-toc-list"></ol>
+    </nav>
+
+    <div class="art-body">
+      <h2>AIは「完成品」ではなく「下書き」に強い</h2>
+      <p>
+        生成AIの本当の価値は、白紙の状態から抜け出させてくれることにあると思っています。何もないところから書き始めるのは、誰にとっても重い作業です。AIに一度たたき台を出してもらえば、「ここは違う」「ここはいい」と、手を動かしながら考えられる。ゼロをイチにするより、イチを直すほうが、ずっと速い。
+      </p>
+      <p>
+        問題は、その下書きがあまりに整って見えることです。文法は正しく、構成も整い、自信たっぷりに書かれている。だから、つい「もう完成でいいか」と思ってしまう。けれど、整った見た目と、中身が正しいことは、別の話です。
+      </p>
+      <p>
+        だから、AIの出力を受け取ったら、必ず一度、次の3つの視点で読み直します。全部を書き直す必要はありません。見るべき順番さえ決めておけば、確認は数分で終わります。
+      </p>
+
+      <h2>① 事実を、疑って確かめる</h2>
+      <p>
+        最初に見るのは、事実です。生成AIは、もっともらしく、しかし事実と異なる内容を生成することがあります。実在しない制度、少しずれた数字、それっぽいけれど間違った固有名詞——こうした誤りは、しばしば「もっともらしい嘘」と呼ばれ、AIの出力に必ずついてまわる性質だと理解しておくのが安全です。
+      </p>
+      <p>
+        だから、<strong>数字・固有名詞・日付・出典は、必ず自分で裏を取ります。</strong>「〇〇法の第△条によれば」と書かれていても、その条文を確かめずに信じない。「導入で生産性が3割上がる」と書かれていても、その根拠を確かめずに載せない。とくに社外に出す文書では、ここが信頼を左右します。
+      </p>
+      <p>
+        コツは、AI自身に「その情報の出典は？」と聞き返しても、確認にはならないと知っておくことです。AIは出典すら、それらしく作ってしまうことがあります。確かめるのは、あくまで一次情報にあたる自分の目です。
+      </p>
+
+      <h2>② 声を、自分のものに戻す</h2>
+      <p>
+        事実を直したら、次は「声」です。AIが書く文章は、平均的で、なめらかで、そして——どこかで読んだような印象を残します。間違ってはいないのに、心に残らない。それは、あなたやあなたの会社の言葉ではなく、無数の文章を均した「平均の声」で書かれているからです。
+      </p>
+      <p>
+        ここで手を入れます。自社ならではの言い回し、実際に使っている言葉、お客様によく話している例え。そういった具体を一つ二つ入れるだけで、文章は急に「その会社の声」になります。抽象的な美辞麗句を足すのではなく、<strong>具体的な事実や経験を戻す</strong>のがポイントです。
+      </p>
+      <p>
+        私自身、AIに出してもらった文章を読み返して、「言っていることは正しいけれど、これは私の言葉じゃないな」と感じることがよくあります。そのときは、きれいな一文を削ってでも、自分が普段使う言い方に書き直します。少し不格好でも、そのほうが伝わるからです。
+      </p>
+
+      <div class="inline-cta">
+        <p class="inline-cta-text">どこまでAIに任せ、どこから自分の言葉にするか。一度、整理してみませんか。</p>
+        <a href="../../chat.html?t=out" class="inline-cta-link">相談メモをつくる <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+
+      <h2>③ 何を残すかは、あなたが決める</h2>
+      <p>
+        最後の視点は、判断です。AIは、頼めばいくらでも書いてくれます。5つの理由を、と言えば5つ出す。もっと詳しく、と言えば長くする。けれど、「この場面で、この相手に、本当に必要なのはどれか」を決めるのは、AIの仕事ではありません。
+      </p>
+      <p>
+        出てきた下書きを、足すのではなく<strong>削る目で</strong>読みます。この段落は本当にいるか。この例は相手に響くか。長く、網羅的なことと、伝わることは違います。何を残し、何を捨てるか——その判断こそが、あなたにしかできない仕事であり、文章の質を最後に決めるところです。
+      </p>
+      <p>
+        言い換えれば、AIに任せるのは「選択肢を速く広げること」で、あなたが担うのは「そこから選び、絞ること」です。この役割分担がはっきりしていると、AIを使うほど、かえって自分の判断が際立つようになります。
+      </p>
+
+      <h2>手を入れる前提だから、速く出していい</h2>
+      <p>
+        3つの視点——事実を確かめ、声を戻し、判断で絞る。慣れれば、ひととおり数分で回せるようになります。この一手間があるという前提に立てるからこそ、最初の下書きは、荒くても速く出してしまっていい。完璧を目指して指示を練り込むより、雑な下書きを早くもらって、自分の手で仕上げるほうが、たいてい速く、質も上がります。
+      </p>
+      <p>
+        AIは、完成品を出す相手ではなく、考え始めるための余白をつくる相手です。最後にあなたの手が入るからこそ、その文章は、あなたの仕事になります。速さはAIから借りて、責任と声は自分が持つ。その線を引いておけば、AIは安心して使える、頼れる下書き係になってくれます。
+      </p>
+    </div>
+
+    <div class="cta-box">
+      <p>AIをどう使えば、発信や資料づくりが軽くなるか。<br>今ある業務に合わせて、一緒に考えます。</p>
+      <a href="../../contact.html" class="btn-amber">無料で話してみる <span>→</span></a>
+    </div>
+
+    <section class="source-list" aria-labelledby="source-list-heading">
+      <div class="source-list-header">
+        <span class="source-list-eyebrow">Sources</span>
+        <h2 class="source-list-title" id="source-list-heading">参考文献</h2>
+        <span class="source-list-count" data-source-count></span>
+      </div>
+      <ol class="source-list-items">
+        <li class="source-item">
+          <a href="https://www.ipa.go.jp/jinzai/ics/core_human_resource/final_project/2024/generative-ai-guideline.html" target="_blank" rel="noopener noreferrer" class="source-link">
+            <span class="source-num">01</span>
+            <span class="source-favicon" aria-hidden="true"><img src="../../assets/favicons/ipa.png" width="14" height="14" alt="" loading="lazy" decoding="async"></span>
+            <span class="source-text">
+              <span class="source-name">テキスト生成AIの導入・運用ガイドライン — IPA</span>
+              <span class="source-domain">ipa.go.jp</span>
+            </span>
+            <span class="source-ext" aria-hidden="true"><svg class="icn" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6"/><path d="M11 13l9 -9"/><path d="M15 4h5v5"/></svg></span>
+            <span class="sr-only">（外部サイトが新しいタブで開きます）</span>
+          </a>
+        </li>
+        <li class="source-item">
+          <a href="https://www.soumu.go.jp/main_content/001002576.pdf" target="_blank" rel="noopener noreferrer" class="source-link">
+            <span class="source-num">02</span>
+            <span class="source-favicon" aria-hidden="true"><img src="../../assets/favicons/soumu.png" width="14" height="14" alt="" loading="lazy" decoding="async"></span>
+            <span class="source-text">
+              <span class="source-name">AI事業者ガイドライン（第1.1版） — 総務省・経済産業省</span>
+              <span class="source-domain">soumu.go.jp</span>
+            </span>
+            <span class="source-ext" aria-hidden="true"><svg class="icn" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6"/><path d="M11 13l9 -9"/><path d="M15 4h5v5"/></svg></span>
+            <span class="sr-only">（外部サイトが新しいタブで開きます）</span>
+          </a>
+        </li>
+      </ol>
+    </section>
+
+    <div class="art-foot-nav">
+      <a href="../" class="back-blog"><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l14 0"/><path d="M5 12l6 6"/><path d="M5 12l6 -6"/></svg> ブログ一覧に戻る</a>
+    </div>
+  </article>
+
+  <aside class="art-sidebar" aria-label="相談の入り口">
+    <div class="sidebar-cta">
+      <span class="sidebar-cta-kicker">MEMO — 送信なし</span>
+      <p class="sidebar-cta-title">読みながら、考えていることを一枚に整理できます。</p>
+      <p class="sidebar-cta-body">4つの質問に答えるだけです。入力内容はどこにも送信されません。</p>
+      <a href="../../chat.html?t=out" class="sidebar-cta-link">相談メモをつくる <span class="arr" aria-hidden="true">→</span></a>
+    </div>
+  </aside>
+  </div>
+</main>
+
+<footer class="ft">
+  <div class="ft-tagline-big">Less friction. More you.</div>
+  <div class="ft-bottom">
+    <span class="ftl">風雅舎 FUGASHA</span>
+    <div class="ft-links">
+      <a href="../../contact.html" class="ft-link">お問い合わせ</a>
+      <a href="../../privacy.html" class="ft-link">プライバシーポリシー</a>
+      <a href="../" class="ft-link">ブログ</a>
+    </div>
+    <span class="ftc">© <span id="yr"></span> 風雅舎</span>
+  </div>
+</footer>
+
+<script>
+  'use strict';
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  var srcCount = document.querySelector('[data-source-count]');
+  var srcItems = document.querySelectorAll('.source-item');
+  if (srcCount && srcItems.length) srcCount.textContent = srcItems.length + '件';
+
+  const navHam = document.getElementById('navHam');
+  const navDrawer = document.getElementById('navDrawer');
+  const navClose = document.getElementById('navClose');
+  function setDrawer(open) {
+    navHam.classList.toggle('open', open);
+    navDrawer.classList.toggle('open', open);
+    navHam.setAttribute('aria-expanded', String(open));
+  }
+  navHam.addEventListener('click', () => setDrawer(!navDrawer.classList.contains('open')));
+  navClose.addEventListener('click', () => { setDrawer(false); navHam.focus(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navDrawer.classList.contains('open')) { setDrawer(false); navHam.focus(); }
+  });
+  navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
+
+  const pb = document.getElementById('pb');
+  function updateProgress() {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const height = h.scrollHeight - h.clientHeight;
+    pb.style.width = (height > 0 ? (scrolled / height) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  (function () {
+    var toc = document.querySelector('.art-toc');
+    var list = document.querySelector('.art-toc-list');
+    var headings = document.querySelectorAll('.art-body > h2');
+    if (!toc || !list || headings.length < 2) return;
+    headings.forEach(function (h, i) {
+      var id = 'sec-' + (i + 1);
+      h.id = id;
+      var a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = h.textContent;
+      a.className = 'art-toc-link';
+      var li = document.createElement('li');
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    toc.hidden = false;
+  })();
+</script>
+
+</body>
+</html>
