@@ -387,7 +387,7 @@
     .glass-card { background: rgba(255,255,255,.6); border: .5px solid rgba(13,32,48,.08); }
 
     /* SIGNS — 上罫線＋番号＋余白の語彙を維持しつつ、内容の重さに見合う視覚の強さに調整 */
-    .sign-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; max-width: 980px; }
+    .sign-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
     .sign-item {
       padding-top: 24px; border-top: 1.5px solid rgba(13,32,48,.18);
       opacity: 0; transform: translateY(12px);
@@ -437,7 +437,7 @@
 
 
     /* philosophy */
-    .phi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; max-width: 980px; }
+    .phi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
     .phi-item {
       padding-top: 22px; border-top: 1px solid rgba(13,32,48,.14);
       opacity: 0; transform: translateY(12px);
@@ -494,7 +494,7 @@
     .about-catch span { display: block; color: var(--accent-ink); }
 
     /* FAQ */
-    .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
+    .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 960px; }
     .faq-item { border-radius: var(--radius-sm); overflow: hidden; transition: border-color .2s; }
     .faq-item:hover, .faq-item.open { border-color: rgba(232,134,106,.4); }
     .faq-q {
