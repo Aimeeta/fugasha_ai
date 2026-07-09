@@ -199,6 +199,7 @@
       --radius-lg: 18px;  /* 主役カード・写真枠 */
       --shadow-md: 0 12px 28px rgba(13,32,48,.08);
       --shadow-lg: 0 12px 32px rgba(13,32,48,.25);
+      --page-max: 1600px; /* 超ワイド画面でコンテンツが片側に寄って見えないための実質コンテナ幅 */
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -261,7 +262,7 @@
     /* ── Navigation ── */
     .nav {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 20px 48px; position: sticky; top: 0; z-index: 1000;
+      padding: 20px max(48px, calc((100% - var(--page-max)) / 2)); position: sticky; top: 0; z-index: 1000;
       background: rgba(240,230,214,.92);
       backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
       transition: border-color .3s;
@@ -296,7 +297,7 @@
 
     /* ── Hero ── */
     .hero {
-      padding: 72px 40px 80px; position: relative; overflow: hidden;
+      padding: 72px max(40px, calc((100% - var(--page-max)) / 2)) 80px; position: relative; overflow: hidden;
       min-height: 500px; display: grid; grid-template-columns: 1fr 1fr;
       gap: 48px; align-items: center;
     }
@@ -499,32 +500,9 @@
       background: var(--fg); color: rgba(240,230,214,.92);
     }
     .ti svg { width: 24px; height: 24px; display: block; }
-    .tool-thoughts {
-      max-width: 980px; margin: 24px auto 0; padding: 24px;
-      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px;
-      background: rgba(13,32,48,.08); border: .5px solid rgba(13,32,48,.08);
-    }
-    .tool-thought {
-      background: rgba(240,230,214,.72); padding: 18px 18px 20px;
-      min-height: 142px; opacity: 0; transform: translateY(8px);
-      transition: opacity .75s var(--ease), transform .75s var(--ease);
-    }
-    .visible .tool-thought { opacity: 1; transform: none; }
-    .tool-thought:nth-child(2) { transition-delay: .08s; }
-    .tool-thought:nth-child(3) { transition-delay: .16s; }
-    .tool-thought:nth-child(4) { transition-delay: .24s; }
-    .tool-thought-k {
-      display: block; font-family: var(--font-mono); font-size: 10px;
-      letter-spacing: .14em; color: var(--accent-ink); margin-bottom: 12px;
-    }
-    .tool-thought-t {
-      font-family: var(--font-serif); font-size: 18px; font-weight: 400;
-      line-height: 1.55; color: var(--fg); margin-bottom: 8px;
-    }
-    .tool-thought-b { font-size: 12.5px; line-height: 1.85; color: var(--muted); }
 
     /* ── Sections ── */
-    .sec { padding: clamp(80px, 9vw, 120px) 48px; position: relative; overflow: hidden; }
+    .sec { padding: clamp(80px, 9vw, 120px) max(48px, calc((100% - var(--page-max)) / 2)); position: relative; overflow: hidden; }
     .sec::before {
       content: ''; position: absolute; top: clamp(28px, 4vw, 44px); left: 48px;
       width: min(168px, calc(100% - 96px)); height: 1px;
@@ -626,19 +604,23 @@
     #s-blog .blog-prev-title { color: var(--fg); }
     #s-blog .blog-prev-more { color: rgba(240,230,214,.9); }
 
-    /* SIGNS — Philosophy語彙（上罫線＋番号＋余白）に統一。視覚の重さはbc-t/bc-bの値を踏襲 */
+    /* SIGNS — 上罫線＋番号＋余白の語彙を維持しつつ、内容の重さに見合う視覚の強さに調整 */
     .sign-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; max-width: 980px; }
     .sign-item {
-      padding-top: 22px; border-top: 1px solid rgba(13,32,48,.14);
+      padding-top: 24px; border-top: 1.5px solid rgba(13,32,48,.18);
       opacity: 0; transform: translateY(12px);
       transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
     }
-    .sign-item:hover { border-color: rgba(232,134,106,.24); }
+    .sign-item:hover { border-color: rgba(232,134,106,.4); }
     .sign-item:nth-child(2) { transition-delay: var(--stagger); }
     .sign-item:nth-child(3) { transition-delay: calc(var(--stagger) * 2); }
     .visible .sign-item { opacity: 1; transform: none; }
-    .sign-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--accent-ink); display: block; margin-bottom: 14px; }
-    .sign-t { font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.55; margin-bottom: 8px; }
+    .sign-num {
+      width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(232,134,106,.4); border-radius: 50%;
+      font-family: var(--font-mono); font-size: 12px; color: var(--accent-ink); margin-bottom: 18px;
+    }
+    .sign-t { font-family: var(--font-serif); font-size: 19px; font-weight: 400; color: var(--fg); line-height: 1.5; letter-spacing: -.01em; margin-bottom: 10px; }
     .sign-b { font-size: 14px; color: var(--fg2); line-height: 1.9; }
 
     /* services */
@@ -1139,7 +1121,7 @@
     .cta-sub-link:hover { color: rgba(240,230,214,.9); border-color: rgba(240,230,214,.5); }
 
     /* Footer */
-    .ft { padding: 48px 48px 24px; background: var(--fg); border-top: none; display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; }
+    .ft { padding: 48px max(48px, calc((100% - var(--page-max)) / 2)) 24px; background: var(--fg); border-top: none; display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; }
     .ft-tagline-big {
       font-family: var(--font-serif); font-weight: 400; text-transform: none;
       font-size: 16px; line-height: 1.6; letter-spacing: .06em;
@@ -1227,7 +1209,6 @@
       .sec { padding-left: 30px; padding-right: 30px; }
       .sign-grid,
       .phi-grid { gap: 28px; }
-      .tool-thoughts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .margin-map { grid-template-columns: 1fr; gap: 22px; }
       .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .service-entry { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1307,8 +1288,6 @@
       .ti { width: 28px; height: 28px; border-radius: 7px; font-size: 15px; }
       .ti svg { width: 20px; height: 20px; }
       .sec-tools { padding: 24px 0; }
-      .tool-thoughts { grid-template-columns: 1fr; padding: 1px; margin: 18px 20px 0; }
-      .tool-thought { min-height: 0; padding: 16px; }
 
       /* ── Margin Map ── */
       .margin-map { grid-template-columns: 1fr; gap: 18px; }
@@ -1621,28 +1600,6 @@
     <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M13.966 22.624l-1.69-4.281H8.122l3.892-9.144 5.662 13.425zM8.884 1.376H0v21.248zm15.116 0h-8.884L24 22.624Z"/></svg></span>Adobe Express</li>
     <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg></span>Notion</li>
   </ul>
-  <div class="tool-thoughts" aria-label="道具の使い方">
-    <div class="tool-thought">
-      <span class="tool-thought-k">WRITE</span>
-      <h3 class="tool-thought-t">下書きを、早く出す。</h3>
-      <p class="tool-thought-b">AIは完成品を出す相手ではなく、考え始めるための余白をつくる相手として使います。</p>
-    </div>
-    <div class="tool-thought">
-      <span class="tool-thought-k">SEE</span>
-      <h3 class="tool-thought-t">形にして、眺める。</h3>
-      <p class="tool-thought-b">FigmaやCanvaは、頭の中の曖昧さを外に置くための机です。整える前に、まず見えるように。</p>
-    </div>
-    <div class="tool-thought">
-      <span class="tool-thought-k">KEEP</span>
-      <h3 class="tool-thought-t">残すものを、選ぶ。</h3>
-      <p class="tool-thought-b">NotionやDocsには、判断の跡を残します。あとから読み返せることも、仕組みの一部です。</p>
-    </div>
-    <div class="tool-thought">
-      <span class="tool-thought-k">HAND OFF</span>
-      <h3 class="tool-thought-t">人に戻す場所を決める。</h3>
-      <p class="tool-thought-b">任せる仕事と、あなたが持つ仕事を分ける。道具選びは、そのあとで十分です。</p>
-    </div>
-  </div>
 </section>
 
 <!-- ── Pain Points ── -->
