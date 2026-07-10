@@ -2,6 +2,14 @@
 
 新しい決定は上に追記する。形式: 日付 / 決定 / 理由 / 決定者。
 
+## 2026-07-10 — サイト全体監査（5エージェント）＋高優先4件の修正
+リリース前レビュー分隊のWave1（frontend-engineer / project-architect / a11y-auditor / performance-auditor / seo-aeo-auditor）を並列起動し、全18ページを読み取り専用で監査。矛盾する指摘は主スレッドで裏取りして裁定（frontend「モバイルでナビ全消失」はindex/en/blogにハンバーガーがあり誤検出、副次ページは"戻る"リンク型ヘッダで機能＝広範な欠陥ではないと確認）。オーナー承認により高優先4件を実装:
+- **ai-security-checkpoints記事のテンプレ同期漏れ是正**: 個別OGP画像を生成・配置（セキュリティ=紫の`category-n2`下地）、og:image/JSON-LD imageを個別URL化、不足していたog:image:width/height/locale/site_nameを補完、JSON-LDのauthor/publisherを他7記事と同じname/jobTitle入りインライン形式に統一。
+- **contact.htmlフォームのa11y**: 必須2項目に`required`/`aria-required`/`aria-describedby`、エラー文言に`role="alert"`、バリデーションで`aria-invalid`をトグルし最初のエラー項目へフォーカス移動（WCAG 3.3.1/3.3.2/4.1.3）。
+- **focus.htmlパネルのフォーカストラップ**: openPanel/closePanelで背後のbody子要素に`inert`付与・解除（backdropは除外）、inert非対応ブラウザ向けにTabトラップのフォールバックを追加。既存のEsc・閉時フォーカス復帰と併せて実機検証。
+- **focus.html背景サムネの遅延読込**: 初期化時に18枚の原寸背景JPGを読み込んでいた問題（`buildBgGrids`/`buildTrackList`が`th.style.backgroundImage=url(原寸)`を即設定、パネルは`display:none`でなく`translateX`）を修正。URLを`data-lazybg`に退避し、**そのパネルを開いたとき**に`loadLazyThumbs`で初めて読む方式に変更（IObserverはこの環境で`.open`のtransform非適用のため不採用、パネル開トリガーの方が決定的）。実機で「初期の背景画像リクエスト0件／パネル開で18件」を確認。
+- 未対応の中〜低優先（トークンドリフト`--accent-ink`、skip-link横展開、記事間相互リンク、chat.htmlのrobots、sitemap lastmod同期、CTA文言統一等）はROADMAP行き。
+
 ## 2026-07-08 — トップページ（index.html / en/index.html）UI/UX監査＋修正
 オーナー指示「トップページのUI/UXを改善したい、レスポンシブか確認、デバッグしてほしい」を受け、6体のエージェント（first-visit-researcher/visual-designer/interaction-designer/a11y-auditor/performance-auditor/seo-aeo-auditor）を並列起動して監査し、私自身もブラウザ実機（モバイル375px/タブレット768px/デスクトップ1024px、日英両方）で検証。確実なバグのうち高〜中優先度を実装、a11y-auditorでクロスレビュー。
 - **日英の構造差異について**: 日本語版はビジネスLP（業務時間チェッカー/Margin Map/Vision演出等）、英語版は創業者プロフィール型ページで、実質的に別ページ構成であることが判明。オーナー確認の結果「現状のまま維持する」（意図的な差別化として継続）。

@@ -1164,6 +1164,16 @@
 
   // 背景グリッド生成
   var bgGridBase = $('bgGridBase'), bgGridPhoto = $('bgGridPhoto'), bgGridVideo = $('bgGridVideo');
+  // サムネ画像は、そのパネルを実際に開いたときだけ読み込む（初期表示で全背景の原寸JPGを取得しない）。
+  // 読み込みはURLを data-lazybg に退避しておき、openPanel から loadLazyThumbs で解決する。
+  function lazyThumb(el, url) { el.dataset.lazybg = url; }
+  function loadLazyThumbs(container) {
+    if (!container) return;
+    container.querySelectorAll('[data-lazybg]').forEach(function (el) {
+      el.style.backgroundImage = 'url(' + el.dataset.lazybg + ')';
+      el.removeAttribute('data-lazybg');
+    });
+  }
   function makeCell(label, thumbBuild, onClick, matchFn, isVideo) {
     var b = document.createElement('button'); b.type = 'button'; b.className = 'bg-cell';
     var th = document.createElement('span'); th.className = 'bg-thumb'; thumbBuild(th);
@@ -1201,14 +1211,14 @@
       items.forEach(function (p) {
         var handler = function () { applyBackground({ type: 'photo', id: p.id }); };
         handler.preview = function () { applyBackground({ type: 'photo', id: p.id }, { preview: true }); };
-        bgGridPhoto.appendChild(makeCell(t(p.key), function (th) { th.style.backgroundImage = 'url(' + p.img + ')'; }, handler, 'photo:' + p.id, false));
+        bgGridPhoto.appendChild(makeCell(t(p.key), (function (img) { return function (th) { lazyThumb(th, img); }; })(p.img), handler, 'photo:' + p.id, false));
       });
     });
     // 動画：動きが映えるシーンのみ
     PHOTOS.filter(function (p) { return p.motion; }).forEach(function (p) {
       var handler = function () { applyBackground({ type: 'video', id: p.id }); };
       handler.preview = function () { applyBackground({ type: 'video', id: p.id }, { preview: true }); };
-      bgGridVideo.appendChild(makeCell(t(p.key), function (th) { th.style.backgroundImage = 'url(' + p.img + ')'; }, handler, 'video:' + p.id, true));
+      bgGridVideo.appendChild(makeCell(t(p.key), (function (img) { return function (th) { lazyThumb(th, img); }; })(p.img), handler, 'video:' + p.id, true));
     });
     updateBgPressed();
   }
@@ -1367,7 +1377,7 @@
       items.forEach(function (tk) {
         var li = document.createElement('li');
         var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'track'; btn.dataset.track = tk.id; btn.setAttribute('aria-pressed', 'false');
-        var th = document.createElement('span'); th.className = 'track-thumb'; var ph = photoById(tk.bg); if (ph) th.style.backgroundImage = 'url(' + ph.img + ')';
+        var th = document.createElement('span'); th.className = 'track-thumb'; var ph = photoById(tk.bg); if (ph) lazyThumb(th, ph.img);
         var body = document.createElement('span'); body.className = 'track-body';
         var nm = document.createElement('span'); nm.className = 'track-name'; nm.textContent = trackName(tk.id);
         var ds = document.createElement('span'); ds.className = 'track-desc'; ds.textContent = trackDesc(tk.id);
@@ -1587,16 +1597,27 @@
   /* ================= パネル制御 ================= */
   var backdrop = $('backdrop'), openEl = null, openBtn = null;
   var tbButtons = Array.prototype.slice.call(document.querySelectorAll('.tb-btn[data-panel]'));
+  var supportsInert = 'inert' in HTMLElement.prototype;
+  // パネルを開いている間、背後の要素へTabで抜けないようにする（aria-modalの実体）
+  function setPanelInert(on, exceptEl) {
+    Array.prototype.forEach.call(document.body.children, function (el) {
+      if (el === exceptEl || (el.classList && el.classList.contains('backdrop'))) { el.inert = false; return; }
+      el.inert = on;
+    });
+  }
   function openPanel(panelEl, btn) {
     if (openEl && openEl !== panelEl) closePanel();
     panelEl.classList.add('open'); backdrop.classList.add('open'); panelEl.setAttribute('aria-hidden','false');
     if (btn) btn.setAttribute('aria-expanded','true');
     openEl = panelEl; openBtn = btn || null;
+    setPanelInert(true, panelEl);
+    loadLazyThumbs(panelEl); // このパネル内のサムネ画像を、開いたこのタイミングで初めて読み込む
     var c = panelEl.querySelector('[data-close]'); if (c) c.focus();
   }
   function closePanel() {
     if (!openEl) return;
     var wasBg = openEl.id === 'bgPanel';
+    setPanelInert(false, null); // フォーカスを戻す前にinertを解除
     openEl.classList.remove('open'); openEl.setAttribute('aria-hidden','true');
     if (openBtn) { openBtn.setAttribute('aria-expanded','false'); openBtn.focus(); }
     backdrop.classList.remove('open'); editingId = null; openEl = null; openBtn = null;
@@ -1673,6 +1694,16 @@
   /* ================= キーボード ================= */
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && openEl) { closePanel(); return; }
+    // inert非対応ブラウザ向けのTabトラップ・フォールバック
+    if (openEl && e.key === 'Tab' && !supportsInert) {
+      var f = openEl.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])');
+      if (f.length) {
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+      return;
+    }
     var tag = (e.target && e.target.tagName) || '';
     if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
     if (e.code === 'Space' || e.key === ' ') { e.preventDefault(); toggleTimer(); }
@@ -1691,6 +1722,7 @@
     document.querySelectorAll('#langSeg button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.lang === state.lang ? 'true' : 'false'); });
     applyI18n(); buildBgGrids(); buildTrackList(); renderMusic(); renderTasks(); renderTimer();
     lastClock=''; renderClock(); pickMessage(false); refreshTimerPanel();
+    if (openEl) loadLazyThumbs(openEl); // 言語切替でグリッド再構築後、開いているパネルのサムネは即読み込む
   }
 
   /* ================= 初期化 ================= */

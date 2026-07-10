@@ -322,8 +322,8 @@
     <div class="fields">
       <div class="field-group">
         <label class="field-label" for="fname">お名前 <span class="field-req">必須</span></label>
-        <input type="text" id="fname" placeholder="例：山田 太郎">
-        <span class="err" id="fnameErr">お名前を入力してください</span>
+        <input type="text" id="fname" placeholder="例：山田 太郎" required aria-required="true" aria-describedby="fnameErr" autocomplete="name">
+        <span class="err" id="fnameErr" role="alert">お名前を入力してください</span>
       </div>
       <div class="field-group">
         <label class="field-label" for="fcompany">会社名 <span class="field-opt">任意</span></label>
@@ -331,8 +331,8 @@
       </div>
       <div class="field-group">
         <label class="field-label" for="femail">メールアドレス <span class="field-req">必須</span></label>
-        <input type="email" id="femail" placeholder="例：hello@example.com">
-        <span class="err" id="femailErr">正しいメールアドレスを入力してください</span>
+        <input type="email" id="femail" placeholder="例：hello@example.com" required aria-required="true" aria-describedby="femailErr" autocomplete="email">
+        <span class="err" id="femailErr" role="alert">正しいメールアドレスを入力してください</span>
       </div>
       <div class="field-group">
         <label class="field-label" for="fmessage">ひとこと <span class="field-opt">任意</span></label>
@@ -611,22 +611,27 @@
     const email = document.getElementById('femail').value.trim();
     let ok = true;
 
-    document.getElementById('fname').classList.remove('invalid');
-    document.getElementById('femail').classList.remove('invalid');
+    const fnameEl = document.getElementById('fname');
+    const femailEl = document.getElementById('femail');
+    fnameEl.classList.remove('invalid'); fnameEl.setAttribute('aria-invalid', 'false');
+    femailEl.classList.remove('invalid'); femailEl.setAttribute('aria-invalid', 'false');
     document.getElementById('fnameErr').style.display = 'none';
     document.getElementById('femailErr').style.display = 'none';
 
+    let firstInvalid = null;
     if (!name) {
-      document.getElementById('fname').classList.add('invalid');
+      fnameEl.classList.add('invalid'); fnameEl.setAttribute('aria-invalid', 'true');
       document.getElementById('fnameErr').style.display = 'block';
+      firstInvalid = firstInvalid || fnameEl;
       ok = false;
     }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      document.getElementById('femail').classList.add('invalid');
+      femailEl.classList.add('invalid'); femailEl.setAttribute('aria-invalid', 'true');
       document.getElementById('femailErr').style.display = 'block';
+      firstInvalid = firstInvalid || femailEl;
       ok = false;
     }
-    if (!ok) return;
+    if (!ok) { if (firstInvalid) firstInvalid.focus(); return; }
 
     buildConfirm(name, email);
     setStep(3);
