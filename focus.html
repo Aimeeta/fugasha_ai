@@ -82,6 +82,11 @@
 
     /* ====== 背景 ====== */
     .bg-layer { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: var(--bg); }
+    /* 集中を1本やり切った瞬間の静かな余韻：情景が時計の背後でふっと明るむ */
+    .afterglow { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0;
+      background: radial-gradient(58% 48% at 50% 46%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 72%); }
+    .afterglow.show { animation: afterglow 3s var(--ease); }
+    @keyframes afterglow { 0% { opacity: 0; } 22% { opacity: .55; } 100% { opacity: 0; } }
     .bg-frame {
       position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease;
       background-size: cover; background-position: center;
@@ -97,7 +102,7 @@
           rgba(var(--scrim-color), calc(var(--scrim) * 0.42)) 20%,
           rgba(var(--scrim-color), calc(var(--scrim) * 0.42)) 58%,
           rgba(var(--scrim-color), calc(var(--scrim) * 1.3)) 100%);
-      transition: background .9s ease;
+      transition: background .9s var(--ease);
     }
     /* グラデーション背景 */
     .grad { position: absolute; inset: 0; }
@@ -158,6 +163,7 @@
       font-family: var(--clock-font); font-weight: var(--clock-weight);
       font-size: calc(clamp(58px, 16vw, 158px) * var(--clock-scale));
       line-height: 1.04; font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+      font-feature-settings: 'palt' 1;
       color: var(--fg); margin: 4px 0 6px;
     }
     .st-clock .sec { font-size: .32em; color: var(--hint); opacity: .82; margin-left: .12em; transition: color .6s ease; }
@@ -180,6 +186,13 @@
     body.on-media.on-media-bright .pomo-tabs { background: rgba(0,0,0,.08); border-color: rgba(0,0,0,.16); }
     body.on-media.on-media-bright .pomo-tab[aria-pressed="true"] { background: rgba(0,0,0,.16); }
 
+    /* 残り時間を示す進捗リング（時計を囲む細い弧。時間が減るとほどけていく） */
+    .pomo-ring-wrap { position: relative; width: min(230px, 58vw); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; }
+    .pomo-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+    .pomo-ring-track { fill: none; stroke: color-mix(in srgb, var(--fg) 12%, transparent); stroke-width: 2; }
+    .pomo-ring-fill { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 289.03; stroke-dashoffset: 0; transition: stroke-dashoffset .3s linear, stroke .4s var(--ease); }
+    body.on-media .pomo-ring-track { stroke: rgba(255,255,255,.28); }
+    body.on-media.on-media-bright .pomo-ring-track { stroke: rgba(0,0,0,.2); }
     .pomo-time { font-family: var(--font-mono); font-size: clamp(34px, 7.5vw, 54px); font-variant-numeric: tabular-nums; letter-spacing: .04em; line-height: 1.2; color: var(--fg2); }
     .pomo-time.done-pulse { animation: pulse 1s var(--ease) 2; }
     @keyframes pulse { 0%,100%{color:var(--fg2)} 50%{color:var(--accent)} }
@@ -231,8 +244,10 @@
     .msg.fading { opacity: 0; }
     .msg-author { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; color: var(--hint); opacity: 1; transition: opacity .4s ease; min-height: 1em; }
     .msg-author.fading { opacity: 0; }
-    .msg-next { flex: none; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--line); border-radius: 50%; cursor: pointer; color: var(--hint); transition: color .2s, border-color .2s, transform .4s var(--ease); }
-    .msg-next:hover { color: var(--fg); border-color: var(--hint); transform: rotate(180deg); }
+    .msg-next { flex: none; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--line); border-radius: 50%; cursor: pointer; color: var(--hint); transition: color .2s, border-color .2s, transform .2s var(--ease); }
+    .msg-next:hover { color: var(--fg); border-color: var(--hint); }
+    .msg-next:hover svg { transform: translateX(2px); }
+    .msg-next svg { transition: transform .2s var(--ease); }
     .msg-next svg { width: 16px; height: 16px; }
 
     /* ====== ミニプレイヤー ====== */
@@ -270,7 +285,7 @@
     @media (max-width: 560px) { .tb-btn { min-width: 46px; } .tb-btn span { font-size: 9px; } .toolbar { gap: 0; } }
 
     /* ====== パネル ====== */
-    .backdrop { position: fixed; inset: 0; z-index: 40; background: rgba(13,32,48,.35); opacity: 0; pointer-events: none; transition: opacity .35s; }
+    .backdrop { position: fixed; inset: 0; z-index: 40; background: rgba(13,32,48,.35); opacity: 0; pointer-events: none; transition: opacity .42s var(--ease); }
     .backdrop.open { opacity: 1; pointer-events: auto; }
     .panel { position: fixed; z-index: 50; background: color-mix(in srgb, var(--panel) 94%, transparent); backdrop-filter: blur(26px) saturate(1.4); -webkit-backdrop-filter: blur(26px) saturate(1.4); display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 12px 48px var(--shadow); top: 0; right: 0; bottom: 0; width: min(390px, 94vw); transform: translateX(105%); transition: transform .42s var(--ease); padding-top: env(safe-area-inset-top); }
     .panel.open { transform: translateX(0); }
@@ -292,6 +307,8 @@
     .row + .row { margin-top: 13px; }
     .row-label { font-size: 13px; color: var(--fg2); }
     .row-sub { display: block; font-size: 11px; color: var(--hint); margin-top: 1px; }
+    .stat-line { font-size: 13px; color: var(--fg2); line-height: 1.7; }
+    .stat-line .stat-num { font-family: var(--font-serif); font-size: 18px; color: var(--fg); margin: 0 2px; }
 
     /* スイッチ */
     .switch { flex: none; width: 40px; height: 22px; border-radius: 11px; border: 1px solid var(--line); background: var(--bg2); cursor: pointer; position: relative; padding: 0; transition: background .25s, border-color .25s; }
@@ -452,6 +469,7 @@
   <div class="bg-frame" id="bgB"></div>
 </div>
 <div class="bg-scrim" aria-hidden="true"></div>
+<div class="afterglow" id="afterglow" aria-hidden="true"></div>
 
 <nav class="nav">
   <a href="index.html" class="nav-logo">風雅舎</a>
@@ -473,16 +491,22 @@
       <button type="button" class="pomo-tab" data-mode="short" aria-pressed="false" data-i18n="mode_short">小休憩</button>
       <button type="button" class="pomo-tab" data-mode="long" aria-pressed="false" data-i18n="mode_long">長休憩</button>
     </div>
-    <p class="pomo-time" id="pomoTime">25:00</p>
+    <div class="pomo-ring-wrap">
+      <svg class="pomo-ring" viewBox="0 0 100 100" aria-hidden="true">
+        <circle class="pomo-ring-track" cx="50" cy="50" r="46"></circle>
+        <circle class="pomo-ring-fill" id="ringFill" cx="50" cy="50" r="46"></circle>
+      </svg>
+      <p class="pomo-time" id="pomoTime">25:00</p>
+    </div>
     <div class="pomo-ctrl">
-      <button type="button" class="pomo-btn" id="btnReset" data-i18n-aria="reset" aria-label="リセット">
+      <button type="button" class="pomo-btn" id="btnReset" data-i18n-aria="reset" aria-label="リセット" aria-keyshortcuts="R">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11A8.1 8.1 0 0 0 4.5 9M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg>
       </button>
       <button type="button" class="pomo-btn pomo-btn--main" id="btnStart" aria-keyshortcuts="Space" aria-label="開始">
         <svg id="icoPlay" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.53.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>
         <svg id="icoPause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M8 5a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1zm8 0a1 1 0 0 1 1 1v12a1 1 0 0 1-2 0V6a1 1 0 0 1 1-1z"/></svg>
       </button>
-      <button type="button" class="pomo-btn" id="btnSkip" data-i18n-aria="skip" aria-label="スキップ">
+      <button type="button" class="pomo-btn" id="btnSkip" data-i18n-aria="skip" aria-label="スキップ" aria-keyshortcuts="S">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 5.6v12.8a1 1 0 0 0 1.53.85L15 14v4a1 1 0 0 0 2 0V6a1 1 0 0 0-2 0v4L6.53 4.75A1 1 0 0 0 5 5.6z"/></svg>
       </button>
     </div>
@@ -494,8 +518,8 @@
       <p class="msg" id="msg"></p>
       <p class="msg-author" id="msgAuthor"></p>
     </div>
-    <button type="button" class="msg-next" id="msgNext" aria-label="次のことばを表示">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11A8.1 8.1 0 0 0 4.5 9M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg>
+    <button type="button" class="msg-next" id="msgNext" aria-label="次のことばを表示" aria-keyshortcuts="N">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
     </button>
   </div>
 </main>
@@ -552,6 +576,10 @@
     <div class="sec">
       <div class="row"><span class="row-label"><span data-i18n="notify">ブラウザ通知</span><span class="row-sub" data-i18n="notify_sub">許可した場合のみ通知します</span></span><button type="button" class="switch" id="swNotify" role="switch" aria-checked="false"></button></div>
     </div>
+    <div class="sec">
+      <div class="sec-h" data-i18n="today_h">今日の集中</div>
+      <p class="stat-line" id="statLine"></p>
+    </div>
   </div>
 </aside>
 
@@ -568,6 +596,7 @@
       <div class="slider-row">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 8a5 5 0 0 1 0 8"/><path d="M6 15H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2l3.5-4.5A.8.8 0 0 1 11 5v14a.8.8 0 0 1-1.5.5L6 15"/></svg>
         <input type="range" class="slider" id="volSlider" min="0" max="1" step="0.01" value="0.7" aria-label="音量">
+        <span class="slider-val" id="volVal">70%</span>
       </div>
     </div>
     <div class="sec">
@@ -647,7 +676,7 @@
       <div class="swatches" role="group" aria-label="配色を選ぶ">
         <button type="button" class="swatch" data-theme="kinari" aria-label="生成り" aria-pressed="true" style="background:#f0e6d6"></button>
         <button type="button" class="swatch" data-theme="yoi" aria-label="宵" aria-pressed="false" style="background:#0d2030"></button>
-        <button type="button" class="swatch" data-theme="koke" aria-label="苔" aria-pressed="false" style="background:#d8ddc9"></button>
+        <button type="button" class="swatch" data-theme="koke" aria-label="苔" aria-pressed="false" style="background:#e3e8d6"></button>
         <button type="button" class="swatch" data-theme="kasumi" aria-label="霞" aria-pressed="false" style="background:#dadde2"></button>
       </div>
     </div>
@@ -681,6 +710,13 @@
     <div class="sec">
       <div class="sec-h" data-i18n="shortcuts">キーボード操作</div>
       <div class="kbd-row"><span data-i18n="kbd_space">タイマー開始／一時停止</span><kbd>Space</kbd></div>
+      <div class="kbd-row"><span data-i18n="kbd_reset">タイマーをリセット</span><kbd>R</kbd></div>
+      <div class="kbd-row"><span data-i18n="kbd_skip">次のモードへスキップ</span><kbd>S</kbd></div>
+      <div class="kbd-row"><span data-i18n="kbd_mode">集中／小休憩／長休憩</span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd></div>
+      <div class="kbd-row"><span data-i18n="kbd_music">音楽の再生／停止</span><kbd>M</kbd></div>
+      <div class="kbd-row"><span data-i18n="kbd_track">前の曲／次の曲</span><kbd>←</kbd><kbd>→</kbd></div>
+      <div class="kbd-row"><span data-i18n="kbd_quote">次のことば</span><kbd>N</kbd></div>
+      <div class="kbd-row"><span data-i18n="kbd_help">この使い方を開く</span><kbd>?</kbd></div>
       <div class="kbd-row"><span data-i18n="kbd_f">全画面の切り替え</span><kbd>F</kbd></div>
       <div class="kbd-row"><span data-i18n="kbd_esc">パネルを閉じる</span><kbd>Esc</kbd></div>
     </div>
@@ -720,6 +756,8 @@
       task_empty:'まだタスクがありません。ひとつ、書き出してみましょう。', task_empty_filtered:'表示できるタスクがありません。',
       focus_label:'現在の集中タスク：', drag_label:'「{name}」を並べ替え（ドラッグ、または上下キーで移動）',
       help_title:'使い方', shortcuts:'キーボード操作', kbd_space:'タイマー開始／一時停止', kbd_f:'全画面の切り替え', kbd_esc:'パネルを閉じる',
+      kbd_reset:'タイマーをリセット', kbd_skip:'次のモードへスキップ', kbd_mode:'集中／小休憩／長休憩', kbd_music:'音楽の再生／停止', kbd_track:'前の曲／次の曲', kbd_quote:'次のことば', kbd_help:'この使い方を開く',
+      today_h:'今日の集中', stat_sessions:'回', stat_total:'合計', stat_min:'分', stat_none:'まだ記録はありません。ひとつ集中を終えると、ここに残ります。',
       help_body:'左下のツールバーから、タイマー・音楽・背景・表示を調整できます。設定はすべてこの端末のブラウザにだけ保存され、外部には送信されません。音楽と背景の連動をオンにすると、選んだ音源に合った背景へ自動で切り替わります。',
       close:'閉じる',
       n_done_focus:'集中が終わりました。', n_break_done:'休憩が終わりました。次の集中へ。', n_recorded:'に 1 Pomodoro を記録しました。', n_rest:'ひと休みしましょう。', n_today_count:'今日、集中を{n}回重ねました。',
@@ -760,6 +798,8 @@
       task_empty:'No tasks yet. Try writing one down.', task_empty_filtered:'No tasks to show.',
       focus_label:'Focusing on: ', drag_label:'Reorder "{name}" (drag, or move with arrow keys)',
       help_title:'How to use', shortcuts:'Keyboard', kbd_space:'Start / pause timer', kbd_f:'Toggle fullscreen', kbd_esc:'Close a panel',
+      kbd_reset:'Reset the timer', kbd_skip:'Skip to next mode', kbd_mode:'Focus / short / long break', kbd_music:'Play / pause music', kbd_track:'Previous / next track', kbd_quote:'Next words', kbd_help:'Open this help',
+      today_h:'Focus today', stat_sessions:'sessions', stat_total:'total', stat_min:'min', stat_none:'Nothing recorded yet. Finish one focus session and it will show here.',
       help_body:'Use the toolbar at the bottom to adjust the timer, music, background and display. Everything is stored only in this browser and never sent anywhere. Turn on “background follows music” to auto-switch the scene to match the track.',
       close:'Close',
       n_done_focus:'Focus finished. ', n_break_done:'Break finished. Back to focus.', n_recorded:' — recorded 1 Pomodoro.', n_rest:'Take a short rest.', n_today_count:'{n} focus sessions today.',
@@ -950,6 +990,13 @@
 
   /* ================= ポモドーロ（Web Worker + endAt方式） ================= */
   var elTime = $('pomoTime'), btnStart = $('btnStart'), icoPlay = $('icoPlay'), icoPause = $('icoPause');
+  var ringFill = $('ringFill'), RING_C = 289.03; // 2πr, r=46
+  function renderRing() {
+    if (!ringFill) return;
+    var total = modeSeconds(state.pomodoro.mode) || 1;
+    var frac = Math.max(0, Math.min(1, timer.remaining / total));
+    ringFill.style.strokeDashoffset = (RING_C * (1 - frac)).toFixed(1);
+  }
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.pomo-tab'));
   var timer = { running: false, endAt: 0, remaining: 0 };
   var baseTitle = '集中 | 風雅舎';
@@ -979,6 +1026,18 @@
     icoPause.style.display = timer.running ? '' : 'none';
     btnStart.setAttribute('aria-label', timer.running ? t('pause') : t('start'));
     tabs.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.mode === state.pomodoro.mode ? 'true' : 'false'); });
+    renderRing();
+  }
+  var elStatLine = $('statLine');
+  function renderStats() {
+    if (!elStatLine) return;
+    var c = state.stats.completed, mins = Math.round(state.stats.focusSeconds / 60);
+    if (!c) { elStatLine.textContent = t('stat_none'); return; }
+    if (state.lang === 'en') {
+      elStatLine.innerHTML = '<span class="stat-num">' + c + '</span> ' + t('stat_sessions') + ' · ' + t('stat_total') + ' <span class="stat-num">' + mins + '</span> ' + t('stat_min');
+    } else {
+      elStatLine.innerHTML = '集中 <span class="stat-num">' + c + '</span>' + t('stat_sessions') + ' ・ ' + t('stat_total') + ' <span class="stat-num">' + mins + '</span>' + t('stat_min');
+    }
   }
   function tick() {
     if (!timer.running) return;
@@ -1008,6 +1067,7 @@
     elTime.classList.remove('done-pulse'); void elTime.offsetWidth; elTime.classList.add('done-pulse');
     var nextMode;
     if (wasFocus) {
+      var ag = $('afterglow'); if (ag) { ag.classList.remove('show'); void ag.offsetWidth; ag.classList.add('show'); }
       state.stats.completed += 1; state.stats.focusSeconds += modeSeconds('focus');
       nextMode = nextModeAfterFocus();
       var sel = state.tasks.find(function (x) { return x.id === state.selectedId; });
@@ -1021,7 +1081,7 @@
       showNotice(t('n_break_done'));
       notify(t('notify_break_title'), '');
     }
-    saveState();
+    saveState(); renderStats();
     if (state.pomodoro.autoSwitch) {
       setMode(nextMode, { keepMsg: false });
       if (state.pomodoro.autoStart) start();
@@ -1397,21 +1457,24 @@
   }
   $('miniPrev').addEventListener('click', function () { stepTrack(-1); });
   $('miniNext').addEventListener('click', function () { stepTrack(1); });
-  $('miniPlay').addEventListener('click', function () {
+  function toggleMusic() {
     if (ytActive) { if (ytPlayer) { ytIsPlaying ? ytPlayer.pauseVideo() : ytPlayer.playVideo(); } return; }
     var tk = curTrack(); if (!tk) return; if (audio.paused) playTrack(tk); else pauseTrack();
-  });
+  }
+  $('miniPlay').addEventListener('click', toggleMusic);
   $('miniMute').addEventListener('click', function () {
     state.music.muted = !state.music.muted; saveState();
     if (ytActive && ytPlayer) { state.music.muted ? ytPlayer.mute() : ytPlayer.unMute(); }
     else if (!audio.paused) fadeTo(targetVol(), 150);
     updateMuteUI();
   });
+  var elVolVal = $('volVal');
+  function renderVolVal() { if (elVolVal) elVolVal.textContent = Math.round(Number(elVol.value) * 100) + '%'; }
   elVol.addEventListener('input', function () {
     state.music.volume = Number(elVol.value); if (state.music.volume > 0) state.music.muted = false;
     if (ytActive && ytPlayer) { ytPlayer.setVolume(Math.round(targetVol() * 100)); if (!state.music.muted) ytPlayer.unMute(); }
     else if (!audio.paused) audio.volume = targetVol();
-    saveState(); updateMuteUI();
+    renderVolVal(); saveState(); updateMuteUI();
   });
   $('swMini').addEventListener('click', function () { state.music.mini = !state.music.mini; saveState(); renderMusic(); });
   $('swBgFollow').addEventListener('click', function () { state.music.bgFollow = !state.music.bgFollow; saveState(); followBg(curTrack()); renderMusic(); });
@@ -1612,6 +1675,7 @@
     openEl = panelEl; openBtn = btn || null;
     setPanelInert(true, panelEl);
     loadLazyThumbs(panelEl); // このパネル内のサムネ画像を、開いたこのタイミングで初めて読み込む
+    if (panelEl.id === 'timerPanel') renderStats();
     var c = panelEl.querySelector('[data-close]'); if (c) c.focus();
   }
   function closePanel() {
@@ -1706,8 +1770,20 @@
     }
     var tag = (e.target && e.target.tagName) || '';
     if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
-    if (e.code === 'Space' || e.key === ' ') { e.preventDefault(); toggleTimer(); }
-    else if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleFullscreen(); }
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (e.code === 'Space' || k === ' ') { e.preventDefault(); toggleTimer(); }
+    else if (k === 'f' || k === 'F') { e.preventDefault(); toggleFullscreen(); }
+    else if (k === 'r' || k === 'R') { e.preventDefault(); reset(); }
+    else if (k === 's' || k === 'S') { e.preventDefault(); skip(); }
+    else if (k === '1') { e.preventDefault(); if (state.pomodoro.mode !== 'focus') setMode('focus'); }
+    else if (k === '2') { e.preventDefault(); if (state.pomodoro.mode !== 'short') setMode('short'); }
+    else if (k === '3') { e.preventDefault(); if (state.pomodoro.mode !== 'long') setMode('long'); }
+    else if (k === 'm' || k === 'M') { e.preventDefault(); toggleMusic(); }
+    else if (k === 'ArrowLeft') { e.preventDefault(); stepTrack(-1); }
+    else if (k === 'ArrowRight') { e.preventDefault(); stepTrack(1); }
+    else if (k === 'n' || k === 'N') { e.preventDefault(); pickMessage(true); }
+    else if (k === '?') { e.preventDefault(); var hb = document.querySelector('.tb-btn[data-panel="helpPanel"]'); if (hb) openPanel($('helpPanel'), hb); }
   });
 
   /* ================= i18n適用 ================= */
@@ -1721,7 +1797,7 @@
     state.lang = (lang === 'en') ? 'en' : 'ja';
     document.querySelectorAll('#langSeg button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.lang === state.lang ? 'true' : 'false'); });
     applyI18n(); buildBgGrids(); buildTrackList(); renderMusic(); renderTasks(); renderTimer();
-    lastClock=''; renderClock(); pickMessage(false); refreshTimerPanel();
+    lastClock=''; renderClock(); pickMessage(false); refreshTimerPanel(); renderStats();
     if (openEl) loadLazyThumbs(openEl); // 言語切替でグリッド再構築後、開いているパネルのサムネは即読み込む
   }
 
@@ -1747,10 +1823,11 @@
   pickMessage(false); renderTasks();
 
   // 音楽の前回状態を復元（自動再生はしない）
-  elVol.value = String(state.music.volume); audio.volume = 0;
+  elVol.value = String(state.music.volume); audio.volume = 0; renderVolVal();
   var saved = curTrack(); if (saved) audio.src = saved.src; else state.music.trackId = null;
   if (state.music.ytUrl) elYtUrl.value = state.music.ytUrl; // URLだけ復元（自動再生はしない）
   renderMusic();
+  renderStats();
   requestWake();
 })();
 </script>

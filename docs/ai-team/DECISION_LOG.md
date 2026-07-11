@@ -2,6 +2,16 @@
 
 新しい決定は上に追記する。形式: 日付 / 決定 / 理由 / 決定者。
 
+## 2026-07-11 — focus.html 磨き込み（4エージェント精査＋Aセット実装）
+creative-director / design-critic / interaction-designer / first-visit-researcher の4体を並列起動しfocus.htmlを精査。指摘は「進捗リング不在／主役の階層弱い／完了演出が貧弱／統計が埋もれる／良い機能が発見されない」に収束。オーナー承認で"すぐ効く磨き込み（Aセット）"を実装:
+- **進捗リング新設**: `.pomo-time`をSVGリング（r=46, C=289.03）で囲み、残り時間に応じて弧がほどける（`renderRing`をrenderTimerから毎回呼ぶ／`stroke-dashoffset`, `.3s linear`）。写真背景では`body.on-media`でトラック色を白/黒系に自動切替。
+- **完了の余韻**: 集中完了時のみ`#afterglow`（z-index 1、stage z-2の下）に`.show`を付け、accent色の放射が3sで淡く明滅（`@keyframes afterglow`）。reduced-motionは既存の一括ルールで自然停止。文字は鮮明なまま。
+- **静かな統計1行**: 既存`state.stats`（completed/focusSeconds、日次リセット済み）を`renderStats`でタイマーパネルに1行表示。棒グラフ・連続日数は入れない（誇大/ゲーミフィケーション回避）。init/finish/パネル開/言語切替で更新。
+- **ショートカット拡充＋チートシート**: Space/F/Escのみ→ R(リセット)/S(スキップ)/1・2・3(モード)/M(音楽)/←→(曲送り)/N(次のことば)/?(ヘルプ) を追加。keydownに集約、`toggleMusic`を抽出しミニプレイヤーと共用。ヘルプ表を3→10行、`aria-keyshortcuts`付与。
+- **トランジション統一**: backdrop `.35s` linear・スクリム `.9s` ease を`--ease`へ。
+- **小修正**: kokeスウォッチ見本色`#d8ddc9`→実地`#e3e8d6`、`.st-clock`に`palt`、音量スライダーに数値表示、名言送りアイコンをリセット(↻)と別の「→」に。
+- **見送り/別タスク**: 音楽・背景の拡充（雨/夜の虫/和の環境音/室内背景＝合法素材の調達とライセンス確認が必要）、ことばの拡充（開始フェーズのことばが1つで「N」で変わらない既存の限界）、発見性の初回導線。呼吸ガイド・週次グラフ・連続日数は憲法（Calm/Minimal、誇大回避）により不採用で合意。
+
 ## 2026-07-10 — サイト全体監査（5エージェント）＋高優先4件の修正
 リリース前レビュー分隊のWave1（frontend-engineer / project-architect / a11y-auditor / performance-auditor / seo-aeo-auditor）を並列起動し、全18ページを読み取り専用で監査。矛盾する指摘は主スレッドで裏取りして裁定（frontend「モバイルでナビ全消失」はindex/en/blogにハンバーガーがあり誤検出、副次ページは"戻る"リンク型ヘッダで機能＝広範な欠陥ではないと確認）。オーナー承認により高優先4件を実装:
 - **ai-security-checkpoints記事のテンプレ同期漏れ是正**: 個別OGP画像を生成・配置（セキュリティ=紫の`category-n2`下地）、og:image/JSON-LD imageを個別URL化、不足していたog:image:width/height/locale/site_nameを補完、JSON-LDのauthor/publisherを他7記事と同じname/jobTitle入りインライン形式に統一。
