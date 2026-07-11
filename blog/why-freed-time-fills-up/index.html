@@ -240,7 +240,7 @@
 
     /* ── Footer ── */
     .ft { padding: 48px 48px 24px; background: var(--fg); display: flex; flex-direction: column; gap: 24px; }
-    .ft-tagline-big { font-family: var(--font-serif); font-weight: 400; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
+    .ft-tagline-big { font-family: var(--font-serif); font-weight: 300; font-size: clamp(26px, 4vw, 44px); line-height: 1.3; letter-spacing: .02em; color: rgba(240,230,214,.94); }
     .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 18px; border-top: 1px solid rgba(240,230,214,.1); }
     .ftl { font-size: 10px; color: rgba(240,230,214,.5); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
     .ftc { font-size: 10px; color: rgba(240,230,214,.45); letter-spacing: .08em; }
@@ -260,6 +260,14 @@
     @media (prefers-reduced-motion: reduce) {
       ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
     }
+
+    /* ── Author（書き手の顔 — 2026-07監査で追加） ── */
+    .art-author { display: flex; gap: 16px; align-items: flex-start; margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--line); }
+    .art-author-img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: center 28%; flex-shrink: 0; }
+    .art-author-name { display: block; font-family: var(--font-serif); font-size: 15px; color: var(--fg); margin-bottom: 6px; }
+    .art-author-bio { font-size: 12.5px; line-height: 1.9; color: var(--hint); margin-bottom: 8px; }
+    .art-author-bio a { color: inherit; }
+    .art-author-stamp { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; color: var(--hint); }
   </style>
 </head>
 <body>
@@ -319,7 +327,7 @@
         たとえばの話ですが、週次の報告書づくりにAIを使うようになって、仮にその作業が30〜50%ほど短くなったとします（削減幅は業務内容によって大きく変わるはずです）。すると浮くのは、週に1〜2時間ほど。ここで起きたのは、休むことでも、考える時間が増えることでもなく——その時間が、べつの作業にそのまま置き換わっただけでした。
       </p>
       <p>
-        空白を見ると、人は埋めたくなるものだと思います。予定表に何も書かれていない時間帯は、なんとなく落ち着かない。手を止めていいはずなのに、次にやることを探してしまう。これは、怠けたくないという気持ちの裏返しのような気もします。
+        空白を見ると、人は埋めたくなるものだと思います。予定表に何も書かれていない時間帯は、なんとなく落ち着かない。手を止めていいはずなのに、次にやることを探してしまう。「仕事は、使える時間を満たすまで膨らむ」——パーキンソンの法則と呼ばれる古い観察がありますが、あれは組織だけでなく、個人の予定表の上でもそのまま起きているように見えます。空白を埋めたくなるのは、怠けたくないという気持ちの裏返しのような気もします。
       </p>
 
       <h2>「空いた時間で何をするか」を、誰も決めていない</h2>
@@ -338,7 +346,7 @@
         もうひとつ気づいたことがあります。「効率化すること」自体が目的になると、空いた時間を見て「もっと効率化できないか」と考え始めてしまう、ということです。
       </p>
       <p>
-        一見、前向きに見えます。でも実際には、次の作業を探しているだけのことが多い。浮いた時間で何かに没頭するのではなく、浮いた時間をどう使えば「もっと効率的」に見えるかを考えてしまう。効率化が入り口ではなく、目的そのものになった瞬間、この循環が始まる気がしています。
+        一見、前向きに見えます。でも実際には、次の作業を探しているだけのことが多い。浮いた時間で何かに没頭するのではなく、浮いた時間をどう使えば「もっと効率的」に見えるかを考えてしまう。石炭を効率よく使えるようになったら、かえって石炭の消費量が増えた——経済学でジェボンズのパラドックスと呼ばれる話に、形がよく似ています。効率化が入り口ではなく、目的そのものになった瞬間、この循環が始まる気がしています。
       </p>
 
       <div class="inline-cta">
@@ -359,7 +367,7 @@
         抽象的な話で終えたくないので、自分の話を書きます。
       </p>
       <p>
-        提案書の下書きをAIに任せるようになって、仮に1件あたりの作業時間が30〜50%ほど短くなったとします（案件の複雑さによって差はあります）。最初の数週間、私はその浮いた時間を、そのまま別件の対応にあてていました。空いたなら、次を進める。当然のようにそうしていました。
+        提案書の下書きをAIに任せるようになって、1件にかかる時間は目に見えて短くなりました。何割か、と正確に言えないのは、測っていなかったからです。ただ最初の数週間、私はその浮いた時間を、そのまま別件の対応にあてていました。空いたなら、次を進める。当然のようにそうしていました。
       </p>
       <p>
         数週間たって、ふと気づきました。仕事の総量は減っていないのに、扱う案件の数だけが増えていた。効率化したはずなのに、忙しさの質は何も変わっていませんでした。
@@ -443,6 +451,15 @@
         </li>
       </ol>
     </section>
+
+    <div class="art-author">
+      <img src="../../aimee-portrait-144.jpg" alt="" class="art-author-img" width="112" height="144" loading="lazy" decoding="async">
+      <div class="art-author-txt">
+        <span class="art-author-name">Aimee ／ 風雅舎代表</span>
+        <p class="art-author-bio">チェンマイの机で、AIと業務整理の仕事のあいまに書いています。哲学書と、未来を描く物語が好き。感想は <a href="mailto:hello@fugasha.jp">hello@fugasha.jp</a> へ——雑談も歓迎です。</p>
+        <span class="art-author-stamp">2026年7月・チェンマイの机から</span>
+      </div>
+    </div>
 
     <div class="art-foot-nav">
       <a href="../" class="back-blog"><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l14 0"/><path d="M5 12l6 6"/><path d="M5 12l6 -6"/></svg> ブログ一覧に戻る</a>

@@ -239,7 +239,7 @@
 
     /* ── Footer ── */
     .ft { padding: 48px 48px 24px; background: var(--fg); display: flex; flex-direction: column; gap: 24px; }
-    .ft-tagline-big { font-family: var(--font-serif); font-weight: 400; text-transform: uppercase; font-size: clamp(28px, 4.6vw, 56px); line-height: 1.1; letter-spacing: -.01em; color: rgba(240,230,214,.94); }
+    .ft-tagline-big { font-family: var(--font-serif); font-weight: 300; font-size: clamp(26px, 4vw, 44px); line-height: 1.3; letter-spacing: .02em; color: rgba(240,230,214,.94); }
     .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 18px; border-top: 1px solid rgba(240,230,214,.1); }
     .ftl { font-size: 10px; color: rgba(240,230,214,.3); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
     .ftc { font-size: 10px; color: rgba(240,230,214,.2); letter-spacing: .08em; }
@@ -259,6 +259,14 @@
     @media (prefers-reduced-motion: reduce) {
       ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
     }
+
+    /* ── Author（書き手の顔 — 2026-07監査で追加） ── */
+    .art-author { display: flex; gap: 16px; align-items: flex-start; margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--line); }
+    .art-author-img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: center 28%; flex-shrink: 0; }
+    .art-author-name { display: block; font-family: var(--font-serif); font-size: 15px; color: var(--fg); margin-bottom: 6px; }
+    .art-author-bio { font-size: 12.5px; line-height: 1.9; color: var(--hint); margin-bottom: 8px; }
+    .art-author-bio a { color: inherit; }
+    .art-author-stamp { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; color: var(--hint); }
   </style>
 </head>
 <body>
@@ -432,6 +440,15 @@
         </li>
       </ol>
     </section>
+
+    <div class="art-author">
+      <img src="../../aimee-portrait-144.jpg" alt="" class="art-author-img" width="112" height="144" loading="lazy" decoding="async">
+      <div class="art-author-txt">
+        <span class="art-author-name">Aimee ／ 風雅舎代表</span>
+        <p class="art-author-bio">チェンマイの机で、AIと業務整理の仕事のあいまに書いています。哲学書と、未来を描く物語が好き。感想は <a href="mailto:hello@fugasha.jp">hello@fugasha.jp</a> へ——雑談も歓迎です。</p>
+        <span class="art-author-stamp">2026年7月・チェンマイの机から</span>
+      </div>
+    </div>
 
     <div class="art-foot-nav">
       <a href="../" class="back-blog"><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l14 0"/><path d="M5 12l6 6"/><path d="M5 12l6 -6"/></svg> ブログ一覧に戻る</a>

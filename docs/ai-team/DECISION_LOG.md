@@ -2,6 +2,21 @@
 
 新しい決定は上に追記する。形式: 日付 / 決定 / 理由 / 決定者。
 
+## 2026-07-11 — 人間味監査 Phase 2 実装（構造的リズム改修）
+Phase 0/1 に続き、オーナー指示「着手」を受けて Phase 2 を実装。frontend-engineer がクロスレビューし、指摘4件（詳細度バグ・sign-grid巻き添え・間奏の孤立行・noscript漏れ）を修正済み:
+- **余白の間奏（#s-interlude）新設**: SERVICES と WAYS OF WORKING の間に、min-height 54vh・中央一文「この、なにもない場所が、余白です。」（serif、初使用の --text-4xl 60px）＋小さな一言のみのセクション。罫線リビールも持たない `.sec-quiet` で、13回同じだった幕開けの完全な例外。モバイルは clamp(22px,7vw,27px) に落として孤立行を防止
+- **PHILOSOPHY の骨格例外化**: s-lbl・s-desc を廃止し中央寄せ大見出し（.phi-head）から開始。**3つ組を崩す「4つ目の未完項」**（破線ボーダー・「4つ目を、探しています。決まったら、ここに書き足します。」）を追加し4カラム化（タブレット2×2）。⚠️ 将来の更新約束なので放置しないこと（運用リスクとして記録）
+- **タイポのジャンプ率**: .s-h2 38px固定→clamp(32px,4vw,48px)、.ch2 42px→clamp(38px,5vw,60px)。モバイル上書き（28/25px・26/23px）は維持
+- **blogフィーチャード記事**: 最新記事を全幅・タイトル clamp(26px,3.6vw,40px)・serif kicker「いちばん新しい記事」。⚠️ 手動運用（新記事追加時にクラスとkickerを移す — グリッド先頭にHTMLコメントで運用メモ記載）。リンクでない飾りの cat-tags は削除
+- **見送り**: 2-5（実物写真投入）は本人素材待ち。en/index.html は Phase 0/1/2 とも未反映（JA/EN乖離をROADMAPに記録済み）
+
+## 2026-07-11 — 人間味監査（5エージェント）＋ Phase 0/1 実装
+オーナー指摘「AIで作った感が拭えない。単調。遊び心・人間味・私らしさが欲しい」を受け、brand-philosopher / design-critic / first-visit-researcher / Webリサーチ（general-purpose）の4体で監査し、lead-product-designer が統合（報告書: docs/ai-team/humanity-audit-2026-07-11/）。診断の核心は「**例外率ゼロの反復**（同一骨格×11・3つ組×11・格言見出し×5・mono番号9系統）と**人間味の隠し要素への隔離**」。オーナー承認のもと Phase 0（バグ級）＋ Phase 1（人の可視化）を実装、frontend-engineer がクロスレビュー:
+- **Phase 0**: contact送信エラー文言に hello@fugasha.jp を明記（従来はアドレス記載ゼロの行き止まり）＋ ft-mini に mailto 追加＋ #submitErr に role="alert"／hover跳ね上げ違反3箇所除去（blog card / h-chip / check-item）／footerタグライン統一（index 16px→大型serif clamp、blog側の uppercase 廃止）
+- **Phase 1**: JAヒーローに顔写真バイライン（EN の hp-photo に相当。「このサイトを書いているのも、相談を受けるのも、私です」）／ポートレートの grayscale 解除（彩度.92でトーン維持）／mono英字ラベル間引き＝**「番号=手順、無番号=思想」の原則を導入**（sign-num・phi-num・entry-kicker 撤去、margin-step-num は番号のみ、sv-num は番号なしカテゴリ名）／和語ラベル `.s-lbl-ja` 新設（focus.html の語彙感覚を輸入: 兆し・余白の地図・根にある考え・小さな診断・どこから話しますか？・ふだん使っている道具）／SERVICES見出しを平叙文化（格言構文の声域分散）／SIGNSリードに「以前の私も、そうでした。」（About既存コピーと整合）／blog全8記事に著者ボックス＋「2026年7月・チェンマイの机から」スタンプ／why-freed記事の参考文献（パーキンソンの法則・ジェボンズ）を本文に接続、二重ヘッジ「仮に〜とします」の2箇所目を「測っていなかった」形に／contact Step1 アバターを「風」→顔写真に／footerに正直の一行「風雅舎は、私ひとりの事務所です。このサイトもAIと一緒につくりました——外部スクリプトは、スクロールをなめらかにするひとつだけ。」（クロスレビュー指摘により「私がひとりで書いています」から変更。AIエージェント体制で作られたリポジトリで「ひとりで書いた」は検証可能な虚偽になり得るため、正しさ優先＋AI支援業のドッグフーディングとして開示する判断）
+- **却下・保留**: Vision scene01 の一人称化（オーナー確認の結果「深夜2時」は実話でないため**書かない**）／自筆署名SVG・手書きメモ写真（素材保留）／mono番号のセクション見出しへの追加（間引きと逆行）／モーション多様化（Calmに貢献中）／カーソル演出・効果音（声量不整合）／BLOGセクションのサーモン面化（ダーク3面のリズムが痩せるため Phase 2 で再評価）
+- **残タスク**: Phase 2（骨格の例外2〜3箇所・余白の間奏・タイポジャンプ率・数の非対称・blogフィーチャード記事）と Phase 3（404・now・マニフェスト等）は ROADMAP 参照。**en/index.html は今回未反映**（sign-num・grayscale・旧footerが残存、JA/EN差異として要判断）
+
 ## 2026-07-11 — focus.html 磨き込み（4エージェント精査＋Aセット実装）
 creative-director / design-critic / interaction-designer / first-visit-researcher の4体を並列起動しfocus.htmlを精査。指摘は「進捗リング不在／主役の階層弱い／完了演出が貧弱／統計が埋もれる／良い機能が発見されない」に収束。オーナー承認で"すぐ効く磨き込み（Aセット）"を実装:
 - **進捗リング新設**: `.pomo-time`をSVGリング（r=46, C=289.03）で囲み、残り時間に応じて弧がほどける（`renderRing`をrenderTimerから毎回呼ぶ／`stroke-dashoffset`, `.3s linear`）。写真背景では`body.on-media`でトラック色を白/黒系に自動切替。

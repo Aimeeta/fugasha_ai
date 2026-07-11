@@ -343,10 +343,17 @@
       font-size: 11px; color: var(--hint); line-height: 1.7; margin-top: 12px;
       opacity: 0; transition: all .6s ease .5s;
     }
+    .h-byline {
+      display: flex; align-items: center; gap: 12px; margin-top: 18px; max-width: 560px;
+      opacity: 0; transition: opacity .6s ease .5s;
+    }
+    .h-byline-img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; object-position: center 28%; flex-shrink: 0; }
+    .h-byline-txt { font-size: 12px; color: var(--muted); line-height: 1.75; }
+    .h-byline-name { display: block; font-family: var(--font-serif); font-size: 13px; color: var(--fg); letter-spacing: .02em; }
     .h-choice-label {
       margin-top: 18px; margin-bottom: 8px;
-      font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em;
-      color: var(--accent-ink); text-transform: uppercase;
+      font-family: var(--font-serif); font-size: 12px; letter-spacing: .18em;
+      color: var(--accent-ink);
       opacity: 0; transition: opacity .6s ease .52s;
     }
     .h-chips {
@@ -358,7 +365,7 @@
       min-height: 78px; padding: 14px 14px 13px;
       color: var(--fg2); text-decoration: none;
       background: rgba(255,255,255,.34); border: .5px solid var(--gb); border-radius: var(--radius-md);
-      transition: background .2s, border-color .2s, transform .2s, box-shadow .2s;
+      transition: background .2s, border-color .2s, box-shadow .2s;
     }
     .h-chip::after {
       content: '→'; position: absolute; right: 12px; bottom: 10px;
@@ -366,7 +373,7 @@
     }
     .h-chip:hover {
       background: rgba(255,255,255,.58); border-color: rgba(232,134,106,.34);
-      transform: translateY(-2px); box-shadow: var(--shadow-md);
+      box-shadow: var(--shadow-md);
     }
     .h-chip:hover::after { transform: translateX(3px); }
     .h-chip-num {
@@ -469,7 +476,7 @@
       padding: 34px 0; background: rgba(255,255,255,.55);
       border-bottom: .5px solid rgba(255,255,255,.6); backdrop-filter: blur(10px);
     }
-    .tools-lbl { font-size: 10px; letter-spacing: .18em; color: var(--hint); text-align: center; margin-bottom: 18px; }
+    .tools-lbl { font-family: var(--font-serif); font-size: 12px; letter-spacing: .22em; color: var(--hint); text-align: center; margin-bottom: 18px; }
     .tools-grid {
       list-style: none; margin: 0 auto; padding: 0 24px; max-width: 1200px;
       display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;
@@ -513,6 +520,22 @@
     .sec-light { background: var(--bg); }
     .sec-white { background: #f8f3ea; }
     .sec-dark  { background: var(--fg); }
+    /* 開始儀式（罫線リビール）を持たない例外セクション（2026-07監査 Phase2: 13回同じ幕開けの解体） */
+    .sec-quiet::before { display: none; }
+    /* 余白の間奏 — 「余白を売るサイト」の主張をデザインで一度だけ証明する、ほぼ空のセクション */
+    .sec-interlude {
+      min-height: 54vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center; gap: 20px;
+    }
+    .interlude-line {
+      font-family: var(--font-serif); font-weight: 300;
+      font-size: clamp(30px, 4.5vw, var(--text-4xl)); line-height: 1.8; letter-spacing: .04em;
+      color: var(--fg); opacity: 0; transform: translateY(10px);
+      transition: opacity 1.2s var(--ease) .15s, transform 1.2s var(--ease) .15s;
+    }
+    .visible .interlude-line { opacity: 1; transform: none; }
+    .interlude-sub { font-size: 12px; letter-spacing: .1em; color: var(--hint); opacity: 0; transition: opacity 1s ease .7s; }
+    .visible .interlude-sub { opacity: 1; }
     .sec-dark::before,
     #s-blog::before { background: rgba(240,230,214,.22); }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
@@ -524,7 +547,10 @@
       padding: 4px 9px; border-radius: 999px; background: rgba(232,134,106,.1);
       border: .5px solid rgba(232,134,106,.2);
     }
-    .s-h2 { font-size: 38px; font-weight: 300; line-height: 1.42; margin-bottom: 16px; color: var(--fg); opacity: 0; transform: translateY(12px); transition: all .8s cubic-bezier(.16,1,.3,1) .08s; font-family: var(--font-serif); letter-spacing: -.02em; }
+    /* 和語ラベル — focus.html（生成り・宵・苔・霞）の語彙感覚をLPへ。英語monoラベルの一部を置換 */
+    .s-lbl-ja { font-family: var(--font-serif); font-size: 12px; letter-spacing: .24em; text-transform: none; padding: 4px 12px 4px 14px; }
+    /* 38px固定→clamp: 中間帯に密集していた見出しのジャンプ率を上げる（2026-07監査 Phase2） */
+    .s-h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 300; line-height: 1.42; margin-bottom: 16px; color: var(--fg); opacity: 0; transform: translateY(12px); transition: all .8s cubic-bezier(.16,1,.3,1) .08s; font-family: var(--font-serif); letter-spacing: -.02em; }
     .s-h2-l { color: rgba(240,230,214,.9); }
     .s-desc { font-size: 15px; color: var(--muted); margin-bottom: 48px; opacity: 0; transition: all .6s ease .16s; line-height: 2; max-width: 480px; font-weight: 400; }
 
@@ -542,7 +568,7 @@
         linear-gradient(90deg, rgba(232,134,106,.08), transparent 62%),
         rgba(255,255,255,.32);
     }
-    .margin-note-k { font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--accent-ink); margin-bottom: 14px; }
+    .margin-note-k { font-family: var(--font-serif); font-size: 12px; letter-spacing: .22em; color: var(--accent-ink); margin-bottom: 14px; }
     .margin-note-t { font-family: var(--font-serif); font-size: 24px; font-weight: 400; line-height: 1.55; margin-bottom: 12px; }
     .margin-note-b { font-size: 14px; color: var(--muted); line-height: 2; }
     .margin-board {
@@ -603,7 +629,7 @@
     #s-blog .blog-prev-title { color: var(--fg); }
     #s-blog .blog-prev-more { color: rgba(240,230,214,.9); }
 
-    /* SIGNS — 上罫線＋番号＋余白の語彙を維持しつつ、内容の重さに見合う視覚の強さに調整 */
+    /* SIGNS — 上罫線＋余白の語彙。番号は撤去（番号=手順、無番号=思想の使い分け — 2026-07監査） */
     .sign-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
     .sign-item {
       padding-top: 24px; border-top: 1.5px solid rgba(13,32,48,.18);
@@ -614,11 +640,6 @@
     .sign-item:nth-child(2) { transition-delay: var(--stagger); }
     .sign-item:nth-child(3) { transition-delay: calc(var(--stagger) * 2); }
     .visible .sign-item { opacity: 1; transform: none; }
-    .sign-num {
-      width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
-      border: 1px solid rgba(232,134,106,.4); border-radius: 50%;
-      font-family: var(--font-mono); font-size: 12px; color: var(--accent-ink); margin-bottom: 18px;
-    }
     .sign-t { font-family: var(--font-serif); font-size: 19px; font-weight: 400; color: var(--fg); line-height: 1.5; letter-spacing: -.01em; margin-bottom: 10px; }
     .sign-b { font-size: 14px; color: var(--fg2); line-height: 1.9; }
 
@@ -635,7 +656,6 @@
       transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
     }
     .entry-card:hover { background: var(--bg2); border-color: rgba(232,134,106,.24); }
-    .entry-kicker { display: block; font-size: 10px; letter-spacing: .12em; color: var(--accent-ink); font-family: var(--font-mono); margin-bottom: 8px; text-transform: uppercase; }
     .entry-title { font-size: 14px; color: var(--fg); font-weight: 500; line-height: 1.55; margin-bottom: 6px; }
     .entry-body { font-size: 12px; color: var(--muted); line-height: 1.7; }
     .sv {
@@ -957,7 +977,13 @@
     /* SCENE mobile → メインmedia queryに統合 */
 
     /* philosophy */
-    .phi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+    /* 3→4カラム: 「3つ組の支配」を崩す非対称（4つ目は未完の項 — 2026-07監査 Phase2） */
+    .phi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+    .phi-head { text-align: center; margin-left: auto; margin-right: auto; max-width: 22em; margin-bottom: clamp(44px, 6vw, 72px); }
+    .phi-item.phi-item-open { border-top-style: dashed; }
+    .phi-item.phi-item-open::before { display: none; } /* 後続の .phi-item::before (display:block) と同点にならないよう詳細度を上げる */
+    .phi-item-open .phi-t { color: var(--fg2); }
+    .phi-item-open .phi-b { color: var(--hint); }
     .phi-item {
       padding-top: 22px; border-top: 1px solid rgba(13,32,48,.14);
       opacity: 0; transform: translateY(12px);
@@ -970,9 +996,9 @@
     }
     .phi-item:nth-child(2) { transition-delay: .08s; }
     .phi-item:nth-child(3) { transition-delay: .16s; }
+    .phi-item:nth-child(4) { transition-delay: .24s; }
     .visible .phi-item { opacity: 1; transform: none; }
     .visible .phi-item::before { transform: scaleX(1); }
-    .phi-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--accent-ink); display: block; margin-bottom: 14px; }
     .phi-t, .phi-b {
       opacity: 0; filter: blur(3px); transform: translateY(4px);
       transition: opacity .9s var(--ease), filter .9s var(--ease), transform .9s var(--ease);
@@ -1003,11 +1029,11 @@
     .visible .aph {
       clip-path: inset(0 0% 0 0);
     }
-    /* 常時モノクロ（hoverでのカラー化はタッチ端末で到達不能のため廃止） */
+    /* カラー表示。モノクロは「唯一の人の顔から色を抜いている」ため廃止（2026-07監査）。彩度はわずかに抑えてトーンを揃える */
     .ab-img-main {
       width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-lg); display: block;
       object-position: center 24%;
-      filter: grayscale(1) contrast(1.05);
+      filter: saturate(.92) contrast(1.03);
     }
     .ph-badge { position: absolute; bottom: 16px; right: 16px; width: 54px; height: 54px; cursor: pointer; perspective: 400px; z-index: 3; }
     .ph-badge-face {
@@ -1097,7 +1123,7 @@
     /* CTA */
     .cta-c { position: relative; z-index: 2; text-align: center; }
     .cta-star { font-size: 28px; display: block; margin-bottom: 14px; color: var(--bg); opacity: .55; }
-    .ch2 { font-size: 42px; font-weight: 300; line-height: 1.42; color: rgba(240,230,214,.95); margin-bottom: 22px; opacity: 0; transform: translateY(14px); transition: all .8s cubic-bezier(.16,1,.3,1); font-family: var(--font-serif); letter-spacing: -.02em; }
+    .ch2 { font-size: clamp(38px, 5vw, var(--text-4xl)); font-weight: 300; line-height: 1.42; color: rgba(240,230,214,.95); margin-bottom: 22px; opacity: 0; transform: translateY(14px); transition: all .8s cubic-bezier(.16,1,.3,1); font-family: var(--font-serif); letter-spacing: -.02em; }
     .csub { font-size: 14px; color: rgba(240,230,214,.6); margin-bottom: 12px; opacity: 0; transform: translateY(9px); transition: all .6s ease .15s; font-weight: 400; }
     .cq { font-size: 13px; color: rgba(240,230,214,.62); font-style: italic; margin-bottom: 36px; opacity: 0; transition: opacity .6s ease .25s; font-family: var(--font-serif); }
     .cta-wrap { opacity: 0; transition: opacity .6s ease .35s; }
@@ -1121,11 +1147,13 @@
 
     /* Footer */
     .ft { padding: 48px max(48px, calc((100% - var(--page-max)) / 2)) 24px; background: var(--fg); border-top: none; display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; }
+    /* サイト最後の一画面を「声」にする — blog側の大型serifと統一（16px時代はジャンプ率不足だった） */
     .ft-tagline-big {
-      font-family: var(--font-serif); font-weight: 400; text-transform: none;
-      font-size: 16px; line-height: 1.6; letter-spacing: .06em;
-      color: rgba(240,230,214,.8); width: 100%; text-align: center;
+      font-family: var(--font-serif); font-weight: 300; text-transform: none;
+      font-size: clamp(24px, 3.5vw, 40px); line-height: 1.45; letter-spacing: .02em;
+      color: rgba(240,230,214,.92); width: 100%; text-align: center;
     }
+    .ft-note { font-size: 12px; color: rgba(240,230,214,.55); line-height: 1.9; text-align: center; }
     .ft-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 22px; border-top: 1px solid rgba(240,230,214,.1); }
     .ftl { font-size: 10px; color: rgba(240,230,214,.62); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
     .ftc { font-size: 10px; color: rgba(240,230,214,.62); letter-spacing: .08em; }
@@ -1134,6 +1162,7 @@
     .visible .h-h1,
     .visible .h-actions,
     .visible .h-actions-note,
+    .visible .h-byline,
     .visible .h-choice-label,
     .visible .h-chips,
     .visible .scroll-hint,
@@ -1206,8 +1235,8 @@
       .hck-r-num { font-size: 22px; }
 
       .sec { padding-left: 30px; padding-right: 30px; }
-      .sign-grid,
-      .phi-grid { gap: 28px; }
+      .sign-grid { gap: 28px; } /* 3項目のため2カラム化しない（孤立セル回避） */
+      .phi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
       .margin-map { grid-template-columns: 1fr; gap: 22px; }
       .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .service-entry { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1279,6 +1308,7 @@
       .sec::before { left: 20px; width: min(132px, calc(100% - 40px)); }
       .s-h2 { font-size: 28px; }
       .s-desc { font-size: 13px; margin-bottom: 28px; }
+      .interlude-line { font-size: clamp(22px, 7vw, 27px); } /* 30px下限のままだと375pxで「が、」の孤立行が出る */
 
       /* ── Tools ── */
       .tools-lbl { font-size: 10px; margin-bottom: 12px; }
@@ -1446,13 +1476,15 @@
   <noscript>
     <style>
       /* JS無効時: IntersectionObserverのリビールが動かないため、初期状態 opacity:0 の要素をすべて可視化する */
-      .h-h1, .h-actions, .h-actions-note, .h-choice-label, .h-chips, .scroll-hint, .hero-right,
+      .h-h1, .h-actions, .h-actions-note, .h-byline, .h-choice-label, .h-chips, .scroll-hint, .hero-right,
       .s-lbl, .s-h2, .s-desc, .sign-item, .entry-card, .sv, .case,
       .margin-step, .phi-item, .phi-quote, .security-panel, .ar,
+      .interlude-line, .interlude-sub,
       .ch2, .csub, .cq, .cta-wrap {
         opacity: 1 !important; transform: none !important;
       }
       .aph { clip-path: none !important; }
+      .phi-t, .phi-b { opacity: 1 !important; transform: none !important; filter: none !important; }
       /* Vision(sst): JSの場面切替が動かないため、重ねた3場面を縦に流して全文を可視化する */
       .sst-outer { height: auto !important; }
       .sst-sticky { position: static !important; height: auto !important; }
@@ -1521,7 +1553,11 @@
       <a href="contact.html" class="btn-ghost">無料の30分相談を申し込む</a>
     </div>
     <p class="h-actions-note">答えて整理するだけでも構いません。まとまった内容は「相談メモ」として持ち帰れます。</p>
-    <div class="h-choice-label">CHOOSE YOUR FIRST STEP</div>
+    <div class="h-byline">
+      <img src="aimee-portrait-144.jpg" alt="" class="h-byline-img" width="112" height="144" loading="eager" decoding="async">
+      <p class="h-byline-txt"><span class="h-byline-name">Aimee ／ 風雅舎代表</span>このサイトを書いているのも、相談を受けるのも、私です。いまはチェンマイの机から。</p>
+    </div>
+    <div class="h-choice-label">どこから話しますか？</div>
     <nav class="h-chips" aria-label="相談の入り口">
       <a href="chat.html?t=ai" class="h-chip">
         <span class="h-chip-num">01</span>
@@ -1586,7 +1622,7 @@
 
 <!-- ── Tools ── -->
 <section class="sec-tools" id="s-tools">
-  <div class="tools-lbl">TOOLS WE THINK WITH</div>
+  <div class="tools-lbl">ふだん使っている道具</div>
   <ul class="tools-grid">
     <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></span>ChatGPT</li>
     <li class="tp"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg></span>Claude</li>
@@ -1603,25 +1639,25 @@
 
 <!-- ── Pain Points ── -->
 <section class="sec sec-light" id="s-pain">
-  <div class="s-lbl">// SIGNS</div>
+  <div class="s-lbl s-lbl-ja">兆し</div>
   <h2 class="s-h2">忙しさは、いつから<br>「当たり前」になったのでしょう。</h2>
-  <p class="s-desc">多くの経営者と話すなかで、繰り返し出会う3つの状態があります。解決の前に、まず名前をつけるところから。</p>
+  <p class="s-desc">経営者の方と話すなかで、繰り返し出会う3つの状態があります。以前の私も、そうでした。解決の前に、まず名前をつけるところから。</p>
   <div class="sign-grid">
-    <div class="sign-item"><span class="sign-num">01</span><h3 class="sign-t">目の前の仕事に追われて、経営のことを考えられない</h3><p class="sign-b">やるべきことはわかっている。でも今日も、作業で終わった。</p></div>
-    <div class="sign-item"><span class="sign-num">02</span><h3 class="sign-t">発信やデザインが、ずっと「後回し」になっている</h3><p class="sign-b">会社の顔となるべき部分が、なんとなくのまま放置されている。</p></div>
-    <div class="sign-item"><span class="sign-num">03</span><h3 class="sign-t">AIが使えそうなのはわかるけど、調べる時間を確保できない</h3><p class="sign-b">興味はある。でも、誰かに整理して持ってきてほしい。</p></div>
+    <div class="sign-item"><h3 class="sign-t">目の前の仕事に追われて、経営のことを考えられない</h3><p class="sign-b">やるべきことはわかっている。でも今日も、作業で終わった。</p></div>
+    <div class="sign-item"><h3 class="sign-t">発信やデザインが、ずっと「後回し」になっている</h3><p class="sign-b">会社の顔となるべき部分が、なんとなくのまま放置されている。</p></div>
+    <div class="sign-item"><h3 class="sign-t">AIが使えそうなのはわかるけど、調べる時間を確保できない</h3><p class="sign-b">興味はある。でも、誰かに整理して持ってきてほしい。</p></div>
   </div>
 
 </section>
 
 <!-- ── Margin Map ── -->
 <section class="sec sec-white" id="s-margin">
-  <div class="s-lbl">// MARGIN MAP</div>
+  <div class="s-lbl s-lbl-ja">余白の地図</div>
   <h2 class="s-h2">余白は、探すものではなく、<br>書き出して戻すもの。</h2>
   <p class="s-desc">忙しさを責めるのではなく、仕事の流れを一枚の地図にします。どこで詰まり、どこを手放せるかを、静かに見える形へ。</p>
   <div class="margin-map">
     <div class="margin-note">
-      <div class="margin-note-k">A SMALL DIAGNOSTIC</div>
+      <div class="margin-note-k">小さな診断</div>
       <h3 class="margin-note-t">最初の相談では、答えより先に、現在地を見ます。</h3>
       <p class="margin-note-b">何を減らすかは、外から決めません。日々の作業、判断、発信を分けて、あなたにしか戻せない時間を探します。</p>
       <a href="chat.html?t=ops" class="margin-link">相談メモで現在地をつくる <span class="arr">→</span></a>
@@ -1629,17 +1665,17 @@
     <div class="margin-board" aria-label="余白を取り戻す3つの流れ">
       <div class="margin-steps">
         <div class="margin-step">
-          <span class="margin-step-num">01 / WRITE</span>
+          <span class="margin-step-num">01</span>
           <h3 class="margin-step-t">書き出す</h3>
           <p class="margin-step-b">繰り返している作業、止まっている判断、後回しの発信を一枚に置きます。</p>
         </div>
         <div class="margin-step">
-          <span class="margin-step-num">02 / SORT</span>
+          <span class="margin-step-num">02</span>
           <h3 class="margin-step-t">分ける</h3>
           <p class="margin-step-b">AIに任せること、人に頼むこと、あなたが持つことを分けます。</p>
         </div>
         <div class="margin-step">
-          <span class="margin-step-num">03 / RETURN</span>
+          <span class="margin-step-num">03</span>
           <h3 class="margin-step-t">戻す</h3>
           <p class="margin-step-b">空いた時間を、判断、発信、学び、休むことへ戻していきます。</p>
         </div>
@@ -1651,21 +1687,18 @@
 <!-- ── Services ── -->
 <section class="sec sec-white" id="s-service">
   <div class="s-lbl">// SERVICES</div>
-  <h2 class="s-h2">整えるのは業務ではなく、<br>時間の使い道。</h2>
+  <h2 class="s-h2">やっていることは、<br>この3つです。</h2>
   <p class="s-desc">AI、発信、業務整理。別々に手を打つ前に、「どこから整えると一番効くか」を一緒に見極めます。</p>
   <div class="service-entry" aria-label="よくある相談内容">
     <a class="entry-card" href="chat.html?t=ai">
-      <span class="entry-kicker">START 01</span>
       <div class="entry-title">AIで何を効率化できるか知りたい</div>
       <p class="entry-body">業務を書き出して、すぐ試せる自動化・文章生成・資料作成の入り口を見つけます。</p>
     </a>
     <a class="entry-card" href="chat.html?t=brand">
-      <span class="entry-kicker">START 02</span>
       <div class="entry-title">サイトや資料を整えたい</div>
       <p class="entry-body">見た目だけでなく、伝わる順番と言葉、読み手が迷わない道筋まで、まとめて整えます。</p>
     </a>
     <a class="entry-card" href="chat.html?t=ops">
-      <span class="entry-kicker">START 03</span>
       <div class="entry-title">手元に残っている作業を軽くしたい</div>
       <p class="entry-body">手放せる作業を見つけて、外注・AI・仕組み化のどれで支えるかを整理します。</p>
     </a>
@@ -1674,7 +1707,7 @@
     <div class="sv sv1 glass-card">
       <div class="sv-ln"></div>
       <div class="sv-top">
-        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><svg class="icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25"/><path d="M8.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/></svg></div><span class="sv-num">01 / デザイン・発信</span></div>
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><svg class="icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25"/><path d="M8.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/></svg></div><span class="sv-num">デザイン・発信</span></div>
         <h3 class="sv-t">伝わる見た目と、言葉を整える。</h3>
         <div class="sv-b">LP、営業資料、SNS、広報文。きれいにするだけでなく、初見で「何の会社か」が伝わる順番に組み直します。</div>
         <div class="sv-tags"><span>LP</span><span>営業資料</span><span>発信設計</span></div>
@@ -1683,7 +1716,7 @@
     <div class="sv sv2 glass-card">
       <div class="sv-ln"></div>
       <div class="sv-top">
-        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><svg class="icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z"/></svg></div><span class="sv-num">02 / AI活用</span></div>
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><svg class="icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z"/></svg></div><span class="sv-num">AI活用</span></div>
         <h3 class="sv-t">AIを、現場で使える形にする。</h3>
         <div class="sv-b">「何から始めるか」を一緒に洗い出すところから、プロンプト、運用ルール、日々の習慣になるまで。無理のない小さな一歩から始めます。</div>
         <div class="sv-tags"><span>業務の書き出し</span><span>生成AI</span><span>社内ルール</span></div>
@@ -1692,13 +1725,19 @@
     <div class="sv sv4 glass-card sv-wide">
       <div class="sv-ln"></div>
       <div class="sv-top">
-        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><svg class="icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M10 9v6l5 -3z"/></svg></div><span class="sv-num">03 / 業務整理</span></div>
+        <div class="sv-head"><div class="sv-ic" aria-hidden="true"><svg class="icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M10 9v6l5 -3z"/></svg></div><span class="sv-num">業務整理</span></div>
         <h3 class="sv-t">手放せる仕事を、自然に回る仕組みへ。</h3>
         <div class="sv-b">日々の作業を一枚に書き出して、人が集中することと、AIや外部に任せることを分けていきます。無理なく続く形へ。</div>
         <div class="sv-tags"><span>業務整理</span><span>自動化</span><span>運用改善</span></div>
       </div>
     </div>
   </div>
+</section>
+
+<!-- ── Interlude（余白の間奏） ── -->
+<section class="sec sec-white sec-quiet sec-interlude" id="s-interlude">
+  <p class="interlude-line">この、なにもない場所が、<br>余白です。</p>
+  <p class="interlude-sub">スクロールの手を、少しだけ休めてください。</p>
 </section>
 
 <!-- ── Ways of Working ── -->
@@ -1710,27 +1749,27 @@
     <div class="case glass-card" role="listitem">
       <div class="case-head"><span class="case-tag">受託開発</span><span class="case-co">PROJECT BUILD</span></div>
       <div class="case-flow">
-        <div class="case-step"><span class="case-step-k">WHAT</span><p class="case-step-b">小さなWeb機能、業務用ツール、AIを使った下書き・整理の仕組みをつくります。</p></div>
-        <div class="case-step"><span class="case-step-k">PROCESS</span><p class="case-step-b">要件を一緒に分解し、まず動く形を作り、実務で使いながら調整します。</p></div>
-        <div class="case-step"><span class="case-step-k">FIT</span><p class="case-step-b">作りたいものはあるけれど、仕様書にする時間がない会社に向いています。</p></div>
+        <div class="case-step"><span class="case-step-k">内容</span><p class="case-step-b">小さなWeb機能、業務用ツール、AIを使った下書き・整理の仕組みをつくります。</p></div>
+        <div class="case-step"><span class="case-step-k">進め方</span><p class="case-step-b">要件を一緒に分解し、まず動く形を作り、実務で使いながら調整します。</p></div>
+        <div class="case-step"><span class="case-step-k">合う会社</span><p class="case-step-b">作りたいものはあるけれど、仕様書にする時間がない会社に向いています。</p></div>
       </div>
       <div class="case-result"><span class="case-arrow">→</span>納品物と運用メモまで、手元に残る形にします。</div>
     </div>
     <div class="case glass-card" role="listitem">
       <div class="case-head"><span class="case-tag">ワークショップ</span><span class="case-co">TEAM SESSION</span></div>
       <div class="case-flow">
-        <div class="case-step"><span class="case-step-k">WHAT</span><p class="case-step-b">AI活用、情報の扱い、発信設計、業務の書き出しを、少人数で手を動かしながら学びます。</p></div>
-        <div class="case-step"><span class="case-step-k">PROCESS</span><p class="case-step-b">事前に困りごとを集め、当日は実例を使い、持ち帰れるルールやプロンプトにします。</p></div>
-        <div class="case-step"><span class="case-step-k">FIT</span><p class="case-step-b">社内でAIを使い始めたいけれど、温度差や不安があるチームに向いています。</p></div>
+        <div class="case-step"><span class="case-step-k">内容</span><p class="case-step-b">AI活用、情報の扱い、発信設計、業務の書き出しを、少人数で手を動かしながら学びます。</p></div>
+        <div class="case-step"><span class="case-step-k">進め方</span><p class="case-step-b">事前に困りごとを集め、当日は実例を使い、持ち帰れるルールやプロンプトにします。</p></div>
+        <div class="case-step"><span class="case-step-k">合う会社</span><p class="case-step-b">社内でAIを使い始めたいけれど、温度差や不安があるチームに向いています。</p></div>
       </div>
       <div class="case-result"><span class="case-arrow">→</span>座学で終わらせず、翌日から試せる形にします。</div>
     </div>
     <div class="case glass-card" role="listitem">
       <div class="case-head"><span class="case-tag">伴走型コンサル</span><span class="case-co">WEEKLY PARTNER</span></div>
       <div class="case-flow">
-        <div class="case-step"><span class="case-step-k">WHAT</span><p class="case-step-b">毎週のミーティングを軸に、AI、業務整理、発信、制作を横断して一緒に進めます。</p></div>
-        <div class="case-step"><span class="case-step-k">PROCESS</span><p class="case-step-b">今週やることを決め、実装・文章・仕組み化を進め、次回までに検証します。</p></div>
-        <div class="case-step"><span class="case-step-k">FIT</span><p class="case-step-b">相談だけでなく、実際に手を動かす相手が継続的に必要な会社に向いています。</p></div>
+        <div class="case-step"><span class="case-step-k">内容</span><p class="case-step-b">毎週のミーティングを軸に、AI、業務整理、発信、制作を横断して一緒に進めます。</p></div>
+        <div class="case-step"><span class="case-step-k">進め方</span><p class="case-step-b">今週やることを決め、実装・文章・仕組み化を進め、次回までに検証します。</p></div>
+        <div class="case-step"><span class="case-step-k">合う会社</span><p class="case-step-b">相談だけでなく、実際に手を動かす相手が継続的に必要な会社に向いています。</p></div>
       </div>
       <div class="case-result"><span class="case-arrow">→</span>毎週の前進を、小さく確実に積み上げます。</div>
     </div>
@@ -1817,26 +1856,25 @@
   </div><!-- /sst-outer -->
 </section>
 
-<!-- ── Philosophy ── -->
-<section class="sec sec-light" id="s-philosophy">
-  <div class="s-lbl">// PHILOSOPHY</div>
-  <h2 class="s-h2">効率化は目的ではなく、<br>入り口だと考えています。</h2>
-  <p class="s-desc">風雅舎の仕事の根にある、3つの考え方です。</p>
+<!-- ── Philosophy — 開始儀式（ラベル＋リード文）を持たない例外セクション（2026-07監査 Phase2） ── -->
+<section class="sec sec-light sec-quiet" id="s-philosophy">
+  <h2 class="s-h2 phi-head">効率化は目的ではなく、<br>入り口だと考えています。</h2>
   <div class="phi-grid">
     <div class="phi-item">
-      <span class="phi-num">01</span>
       <h3 class="phi-t">足す前に、引く。</h3>
       <p class="phi-b">新しい道具を入れる前に、やめられる仕事を探します。減らした分だけ、大切なことの輪郭が見えてきます。</p>
     </div>
     <div class="phi-item">
-      <span class="phi-num">02</span>
       <h3 class="phi-t">熱中は、資源である。</h3>
       <p class="phi-b">人が本当に集中しているときの力は、どんな自動化よりも大きい。仕組みの役目は、その状態を守ることです。</p>
     </div>
     <div class="phi-item">
-      <span class="phi-num">03</span>
       <h3 class="phi-t">余白が、判断をつくる。</h3>
       <p class="phi-b">予定と作業で埋まった頭では、考えは進みません。空白は怠けではなく、次の一手の置き場所です。</p>
+    </div>
+    <div class="phi-item phi-item-open">
+      <h3 class="phi-t">4つ目を、探しています。</h3>
+      <p class="phi-b">仕事のたびに輪郭が変わるので、無理に名前をつけずに置いてあります。決まったら、ここに書き足します。</p>
     </div>
   </div>
   <figure class="phi-quote">
@@ -1864,7 +1902,6 @@
 
 <!-- ── About ── -->
 <section class="sec sec-light" id="s-about">
-  <div class="s-lbl">// ABOUT</div>
   <div class="ab-grid">
     <div class="aph">
       <img src="aimee-portrait.jpg" alt="風雅舎 代表 Aimee のプロフィール写真" class="ab-img-main" width="600" height="771" loading="lazy" decoding="async">
@@ -2041,6 +2078,7 @@
 <!-- ── Footer ── -->
 <footer class="ft">
   <div class="ft-tagline-big">Less friction. More you.</div>
+  <p class="ft-note">風雅舎は、私ひとりの事務所です。このサイトもAIと一緒につくりました——外部スクリプトは、スクロールをなめらかにするひとつだけ。</p>
   <div class="ft-bottom">
     <span class="ftl">風雅舎 FUGASHA</span>
     <div class="ft-links">
@@ -2138,7 +2176,7 @@
   });
 
   // ── Scroll observer (sections) ──
-  const sectionIds = ['s-hero','s-tools','s-pain','s-margin','s-service','s-cases','s-vision','s-philosophy','s-security','s-about','s-faq','s-blog','s-cta'];
+  const sectionIds = ['s-hero','s-tools','s-pain','s-margin','s-service','s-interlude','s-cases','s-vision','s-philosophy','s-security','s-about','s-faq','s-blog','s-cta'];
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {

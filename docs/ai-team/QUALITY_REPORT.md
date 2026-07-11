@@ -1,6 +1,34 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-06（ブログ4記事拡充・未push）
+最終検証: 2026-07-11（人間味監査 Phase 0/1/2・未push）
+
+## 人間味監査 Phase 2（2026-07-11）
+変更: index.html（間奏セクション・PHILOSOPHY再構成・タイポclamp）/ blog/index.html（featured・cat-tags削除）
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| inline JS / タグ整合 | node --check＋開閉カウント | ✅ OK |
+| 間奏・PHILOSOPHY・featured の表示 | ローカルサーバー＋ブラウザ（1280px）でスクリーンショット目視 | ✅ 間奏60px中央・4カラム＋破線の未完項・全幅featured |
+| タイポ計測 | computed style（1280/900/375、リサイズ後は再読込） | ✅ s-h2 48→36→25px / ch2 60→23px / interlude 60→26.25px |
+| クロスレビュー | frontend-engineer（read-only） | 指摘4件を修正: ①.phi-item-open::before の詳細度負け（線が残るバグ）②.sign-grid のタブレット2カラム巻き添え（3カラム復帰を900pxで計測確認）③375pxで間奏が「が、」の孤立行（clamp(22px,7vw,27px)で2行組を計測確認）④noscript に .phi-t/.phi-b＋filter解除を追加 |
+| sectionIds / noscript / reduced-motion | コード読解＋レビュー計測 | ✅ 's-interlude' 追加済み・interlude/phi ともフォールバックあり・グローバル reduce ルールが適用 |
+
+未検証（開示）: ブラウザペインのビューポートが断続的に幅0になる既知の不安定挙動のため、CTAセクション60px見出しとタブレット帯の**スクリーンショット**は取得できず computed style 計測で代替。Safari・実機・JS無効の実機トグルは未実施。
+
+## 人間味監査 Phase 0/1（2026-07-11）
+変更: index.html / contact.html / blog/index.html / blog/全8記事/index.html（＋docs/ai-team/humanity-audit-2026-07-11/ 新規）
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| inline JS 構文（index/contact/blog） | script抽出→node --check（JSON-LDはjson.loadsで別途検証） | ✅ ALL OK |
+| タグ整合 | 主要タグ開閉カウント（変更11ファイル） | ✅ 不整合なし |
+| 削除クラスの参照残り | grep（sign-num/phi-num/entry-kicker、@media・JS含む） | ✅ 0件 |
+| 実ブラウザ表示 | ローカルサーバー＋ブラウザペイン（デスクトップ/モバイル375px）。ヒーローバイライン・兆し/余白の地図ラベル・カラーポートレート・footer・記事著者ボックス・contact顔アバターを目視 | ✅ 崩れなし・コンソールエラー0件 |
+| クロスレビュー | frontend-engineer（read-only）が全変更をレビュー | 指摘5件を修正済み（noscriptへ.h-byline追加／alt重複解消／.tools-lbl serif化／#submitErr role="alert"／記事挿入文の指示語） |
+| コピーの事実性 | 「外部スクリプトはひとつだけ」= script src は Lenis 1件のみで事実。「ひとりで書いています」はAIエージェント体制と矛盾するため「AIと一緒につくりました」に変更 | ✅ 裁定済み |
+| hover跳ね上げ違反 | 全HTMLで `:hover`+translateY を grep | ✅ 0件（跳ね上げ非該当のアイコン微動等のみ） |
+
+未検証（開示）: JS無効・reduced-motion はコード読解ベース（noscriptフォールバックに .h-byline を追加済みだが実機トグル未実施）／Safari・実機タッチ端末／ブラウザペインのスクリーンショットが後半フレーク（viewport幅0になる既知の不安定挙動）したため、レビュー後の footer 文言・.tools-lbl は computed style で確認（スクショなし）。
 
 ## ブログ4記事拡充（favicon・目次・inline CTA・本文加筆）
 変更: blog/{margin-is-not-laziness, why-freed-time-fills-up, finding-your-first-ai-task, ai-security-checkpoints}/index.html、assets/favicons/（新規5画像）
