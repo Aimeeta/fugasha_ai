@@ -116,13 +116,22 @@ jobs:
           git checkout -b "$BRANCH"
           git add -A
           git commit -m "AI Daily Brief: $DATE のニュースまとめ（下書き）"
-          # force pushしない（レビュアーがPRブランチに積んだ修正を消さない）。
-          # 同名ブランチが残っている場合はpushが失敗し、workflowの失敗として気づける
-          git push origin "$BRANCH"
-          gh pr create \
-            --title "AI Daily Brief: $DATE（要確認）" \
-            --body "自動生成されたAIニュースまとめの下書きです。内容・出典を確認し、問題なければマージしてください（マージ＝公開）。実行ログはこのworkflow runのartifactにあります。" \
-            --base main --head "$BRANCH" || echo "::notice::PRは既に存在します"
+          # 同名ブランチが残っている場合に備えて -u。force pushはしない（CLAUDE.md）
+          git push -u origin "$BRANCH" || echo "::warning::ブランチのpushに失敗（既に存在の可能性）"
+          # PR作成の失敗は握りつぶさず、原因を画面に出す（権限不足が定番）
+          if PR_URL=$(gh pr create \
+                --title "AI Daily Brief: $DATE（要確認）" \
+                --body "自動生成されたAIニュースまとめの下書きです。内容・出典を確認し、問題なければマージしてください（マージ＝公開）。実行ログはこのworkflow runのartifactにあります。" \
+                --base main --head "$BRANCH" 2>pr_err.txt); then
+            echo "::notice::PRを作成しました: $PR_URL"
+          elif grep -qi "already exists" pr_err.txt; then
+            echo "::notice::PRは既に存在します（$BRANCH）"
+          else
+            cat pr_err.txt
+            REPO_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
+            echo "::error::PRの自動作成に失敗しました。記事はブランチ「$BRANCH」に保存済みです。対処: リポジトリの Settings → Actions → General → Workflow permissions で『Allow GitHub Actions to create and approve pull requests』にチェックを入れてください。今回の記事は ${REPO_URL}/compare/main...${BRANCH}?expand=1 から手動でPRを作成できます。"
+            exit 1
+          fi
 
       # publish: main へ直接コミット（即公開）
       - name: Commit to main (publish mode)
