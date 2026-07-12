@@ -68,6 +68,21 @@ function log(msg) {
   console.log(line);
   logLines.push(line);
 }
+/* GitHub Actions の Annotations（画面上の赤/黄ボックス）に理由を1行で出す。ログを掘らなくても原因が見える */
+function ghAnnotate(level, msg) {
+  if (!process.env.GITHUB_ACTIONS) return;
+  const clean = String(msg).replace(/\r?\n/g, ' ').replace(/::/g, ':').slice(0, 800);
+  console.log(`::${level}::${clean}`);
+}
+/* よくあるAPIエラーを初心者にも分かる日本語に翻訳する */
+function humanizeError(err) {
+  const m = err && err.message ? err.message : String(err || '');
+  if (/credit balance is too low|insufficient|billing|HTTP 402/i.test(m)) return 'Anthropicの残高不足の可能性が高いです。console.anthropic.com の Billing でクレジットをチャージしてください。';
+  if (/authentication|invalid x-api-key|unauthorized|HTTP 401/i.test(m)) return 'APIキーが正しくありません。GitHubのSecret「ANTHROPIC_API_KEY」を、前後の空白なしで登録し直してください。';
+  if (/not_found|model|HTTP 404/i.test(m)) return 'モデル名が使えない可能性があります（config.jsonのmodel）。開発者に連絡してください。';
+  if (/HTTP 429/i.test(m)) return 'APIのレート制限です。しばらく待って再実行してください。';
+  return '';
+}
 async function notifySlack(text) {
   if (!SLACK_WEBHOOK) return;
   try {
@@ -91,14 +106,18 @@ function writeRunLog(status, extra) {
 }
 async function exitSkip(reason, extra) {
   log(`SKIP: ${reason}`);
+  ghAnnotate('notice', `AI Daily News: この日はスキップしました（${reason}）。記事は作成していません。`);
   writeRunLog('skipped', Object.assign({ reason }, extra));
   await notifySlack(`⏭ ${DATE} はスキップしました（${reason}）`);
   process.exit(0);
 }
 async function exitFail(reason, err) {
-  log(`FAIL: ${reason}${err ? ' — ' + err.message : ''}`);
+  const detail = err && err.message ? ' — ' + err.message : '';
+  log(`FAIL: ${reason}${detail}`);
+  const hint = humanizeError(err);
+  ghAnnotate('error', `AI Daily News 失敗: ${reason}${detail}${hint ? '  ▶ ' + hint : ''}`);
   writeRunLog('failed', { reason, error: err ? String(err.stack || err) : undefined });
-  await notifySlack(`❌ ${DATE} の生成に失敗しました（${reason}）。不完全な記事は作成していません。`);
+  await notifySlack(`❌ ${DATE} の生成に失敗しました（${reason}）。${hint || '不完全な記事は作成していません。'}`);
   process.exit(1);
 }
 
