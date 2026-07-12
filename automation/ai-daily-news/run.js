@@ -328,13 +328,14 @@ async function callLLM(candidates) {
         'anthropic-version': '2023-06-01',
         'content-type': 'application/json'
       },
-      body: JSON.stringify({
+      body: JSON.stringify(Object.assign({
         model: MODEL,
         max_tokens: CONFIG.llm.maxTokens,
-        temperature: CONFIG.llm.temperature,
         system: sys,
         messages: [{ role: 'user', content: user }]
-      })
+        // temperature は Sonnet 5 以降で廃止されたため送らない。
+        // 古いモデルを使いたい場合のみ config.llm.temperature を数値で指定すると付与される。
+      }, typeof CONFIG.llm.temperature === 'number' ? { temperature: CONFIG.llm.temperature } : {}))
     }, 120000);
     if (res.status === 429 || res.status >= 500) {
       lastError = `HTTP ${res.status}（レート制限またはサーバーエラー）`;

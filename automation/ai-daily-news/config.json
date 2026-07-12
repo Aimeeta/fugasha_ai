@@ -26,8 +26,8 @@
     "articleDirPrefix": "ai-daily"
   },
   "llm": {
+    "_comment": "temperature は Sonnet 5 以降で廃止されたため設定しない。古いモデルを使う場合のみ temperature を数値で足すと送信される",
     "model": "claude-sonnet-5",
-    "maxTokens": 3500,
-    "temperature": 0.2
+    "maxTokens": 3500
   }
 }
