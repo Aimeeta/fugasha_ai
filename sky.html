@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>今夜の空 | 風雅舎</title>
+  <meta name="description" content="今夜の月の名前、月齢、流星群ごよみ、日の入りの時刻。外部APIを使わず、ブラウザの中の天文計算だけで動く、今夜空を見上げる理由をひとつくれるページ。">
+  <meta property="og:title" content="今夜の空 | 風雅舎">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/sky.html">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="風雅舎">
+  <meta name="theme-color" content="#0d2030">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/sky.html">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    /* 夜のページ。インクは words.html の night テーマ実測値（fg>=8.9 / fg2>=6.3 / hint>=4.5）を継承 */
+    :root {
+      --bg:      #0d2030;
+      --fg:      #f0e6d6;
+      --fg2:     #d9cfba;
+      --hint:    #b4ad9d;
+      --accent:  #e8866a;
+      --accent2: #f0a882;
+      --line:    rgba(240,230,214,.18);
+      --panel:   #182028;
+      --shadow:  rgba(0,0,0,.4);
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+      --ease: cubic-bezier(.16,1,.3,1);
+      --maxw: 720px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; transition-delay: 0ms !important; scroll-behavior: auto !important; }
+    }
+    html { scroll-behavior: smooth; }
+    html, body { min-height: 100%; }
+    body {
+      font-family: var(--font-sans); color: var(--fg);
+      background: radial-gradient(45% 35% at 72% 12%, rgba(190,210,235,.08), transparent 70%), linear-gradient(180deg, #10151f 0%, #0d2030 100%);
+      background-attachment: fixed;
+      line-height: 1.8; overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    ::selection { background: rgba(232,134,106,.35); color: var(--fg); }
+    :focus-visible { outline: 2px solid var(--accent2); outline-offset: 3px; border-radius: 2px; }
+    button, select { font-family: var(--font-sans); color: inherit; }
+    .u-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+    .skip-link { position: absolute; left: 16px; top: -48px; z-index: 90; background: var(--fg); color: #0d2030; padding: 10px 16px; border-radius: 0 0 4px 4px; font-size: 12px; text-decoration: none; transition: top .2s; }
+    .skip-link:focus { top: 0; }
+
+    /* ====== ナビ ====== */
+    .nav { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; padding: calc(env(safe-area-inset-top) + 18px) 40px 16px; }
+    .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 26px; }
+    .nav-link { font-size: 11px; color: var(--fg2); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; padding: 7px 2px; }
+    .nav-link:hover { color: var(--fg); }
+    @media (max-width: 640px) { .nav { padding-left: 20px; padding-right: 20px; } .nav-right { gap: 14px; } }
+    @media (max-width: 460px) { .nav-right .nav-opt { display: none; } }
+
+    /* ====== レイアウト ====== */
+    main { position: relative; z-index: 2; }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+    @media (max-width: 640px) { .wrap { padding: 0 20px; } }
+    .sec { padding: 64px 0; border-top: 1px solid var(--line); }
+    @media (max-width: 640px) { .sec { padding: 50px 0; } }
+    .sec-head { margin-bottom: 32px; }
+    .eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .24em; color: var(--fg2); text-transform: uppercase; display: block; }
+    .sec-title { font-family: var(--font-serif); font-weight: 400; font-feature-settings: 'palt' 1; font-size: clamp(22px, 3.4vw, 30px); line-height: 1.5; margin-top: 12px; letter-spacing: .01em; }
+    .sec-lead { font-size: 14px; color: var(--fg2); margin-top: 12px; max-width: 34em; line-height: 1.9; }
+
+    /* エントランス。fail-open: 既定は表示、JSが .pre を付けたときだけ隠す（today.html と同方針） */
+    .reveal { transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.pre { opacity: 0; transform: translateY(16px); }
+    .reveal.pre.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal.pre { opacity: 1; transform: none; } }
+
+    .src-link { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .04em; color: var(--hint); text-decoration: none; border-bottom: 1px dotted var(--line); padding-bottom: 1px; transition: color .2s, border-color .2s; }
+    .src-link:hover { color: var(--fg); border-color: var(--hint); }
+    .src-link svg { width: 11px; height: 11px; vertical-align: -1px; margin-left: 2px; }
+
+    /* ====== ヒーロー ====== */
+    .hero { position: relative; min-height: 96vh; min-height: 96dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: calc(env(safe-area-inset-top) + 110px) 28px 64px; overflow: hidden; }
+    .stars { position: absolute; inset: 0; pointer-events: none; }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .24em; color: var(--fg2); text-transform: uppercase; }
+    .moon-wrap { margin: 34px 0 6px; }
+    .moon-svg { width: clamp(150px, 32vw, 210px); height: auto; display: block; }
+    .hero-name { font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1; font-size: clamp(38px, 8vw, 64px); line-height: 1.3; letter-spacing: .04em; margin-top: 18px; }
+    .hero-yomi { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .16em; color: var(--fg2); margin-top: 12px; }
+    .hero-note { font-family: var(--font-serif); font-weight: 300; font-size: clamp(14px, 2.2vw, 17px); color: var(--fg2); margin-top: 18px; max-width: 26em; line-height: 2; }
+    .hero-scroll { margin-top: 44px; display: inline-flex; flex-direction: column; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; color: var(--hint); font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; padding: 8px; transition: color .2s; }
+    .hero-scroll:hover { color: var(--fg); }
+    .hero-scroll svg { width: 18px; height: 18px; }
+
+    /* ====== 今夜のひとこと ====== */
+    .word { max-width: 30em; margin: 0 auto; text-align: center; }
+    .word-text { font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1; font-size: clamp(19px, 3vw, 25px); line-height: 2; }
+    .word-sub { font-size: 13px; color: var(--hint); margin-top: 14px; }
+
+    /* ====== 月の暦 ====== */
+    .mooncal { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 480px; }
+    @media (max-width: 480px) { .mooncal { grid-template-columns: 1fr; } }
+    .mc-card { border: 1px solid var(--line); border-radius: 10px; padding: 20px 20px 18px; background: color-mix(in srgb, var(--panel) 55%, transparent); }
+    .mc-label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--hint); }
+    .mc-date { font-family: var(--font-serif); font-weight: 300; font-size: 26px; margin-top: 8px; }
+    .mc-days { font-size: 12.5px; color: var(--fg2); margin-top: 4px; }
+
+    /* ====== 流星群ごよみ ====== */
+    .showers { list-style: none; }
+    .shower { display: grid; grid-template-columns: 96px 1fr; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .shower:last-child { border-bottom: none; }
+    @media (max-width: 480px) { .shower { grid-template-columns: 1fr; gap: 4px; } }
+    .sh-when { font-family: var(--font-mono); font-size: 12px; color: var(--fg2); line-height: 1.6; }
+    .sh-when b { display: block; font-size: 14px; color: var(--fg); font-weight: 400; }
+    .sh-name { font-weight: 500; font-size: 14.5px; }
+    .sh-name .en { font-family: var(--font-mono); font-size: 10.5px; font-weight: 400; letter-spacing: .06em; color: var(--hint); margin-left: 8px; }
+    .sh-note { font-size: 12.5px; color: var(--fg2); line-height: 1.8; margin-top: 4px; }
+    .sh-meta { display: flex; align-items: center; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+    .badge { display: inline-block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; border-radius: 999px; padding: 2px 10px; }
+    .badge--active { color: var(--accent2); border: 1px solid color-mix(in srgb, var(--accent2) 40%, transparent); }
+    .badge--peak { color: #0d2030; background: var(--accent); border: 1px solid transparent; }
+    .badge--major { color: var(--hint); border: 1px solid var(--line); }
+
+    /* ====== 特集（待つ月） ====== */
+    .story { border-left: 2px solid var(--accent); padding: 4px 0 4px 24px; }
+    .story-title { font-family: var(--font-serif); font-weight: 400; font-size: clamp(19px, 2.8vw, 24px); line-height: 1.55; }
+    .story-body { font-size: 15px; line-height: 2.05; color: var(--fg2); margin-top: 14px; }
+    .story-body p + p { margin-top: 12px; }
+    .story-src { margin-top: 14px; }
+
+    /* ====== 三十夜の名前 ====== */
+    .nights details { border: 1px solid var(--line); border-radius: 10px; padding: 0 18px; background: color-mix(in srgb, var(--panel) 40%, transparent); }
+    .nights summary { cursor: pointer; font-size: 13px; color: var(--fg2); letter-spacing: .04em; padding: 15px 0; list-style: none; display: flex; align-items: center; gap: 10px; min-height: 44px; }
+    .nights summary::-webkit-details-marker { display: none; }
+    .nights summary svg { width: 13px; height: 13px; transition: transform .2s var(--ease); flex: none; }
+    .nights details[open] summary svg { transform: rotate(90deg); }
+    .night-list { list-style: none; padding: 4px 0 16px; display: grid; gap: 2px; }
+    .night-row { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 8px 10px; border-radius: 6px; font-size: 13px; line-height: 1.7; }
+    .night-row.tonight { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+    .night-row .no { font-family: var(--font-mono); font-size: 11px; color: var(--hint); padding-top: 2px; }
+    .night-row .nm { color: var(--fg); }
+    .night-row .nm .yomi { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em; color: var(--hint); margin-left: 8px; }
+    .night-row .nt { display: block; font-size: 12px; color: var(--fg2); }
+    .night-row.tonight .no::after { content: " ●"; color: var(--accent2); }
+
+    /* ====== 日の入り ====== */
+    .sunrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 560px; margin-top: 22px; }
+    @media (max-width: 560px) { .sunrow { grid-template-columns: 1fr; } }
+    .sun-card { border: 1px solid var(--line); border-radius: 10px; padding: 18px; background: color-mix(in srgb, var(--panel) 55%, transparent); }
+    .sun-label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--hint); }
+    .sun-time { font-family: var(--font-serif); font-weight: 300; font-size: 28px; margin-top: 8px; font-variant-numeric: tabular-nums; }
+    .sun-sub { font-size: 11.5px; color: var(--fg2); margin-top: 2px; }
+    .city-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .city-row label { font-size: 12.5px; color: var(--fg2); }
+    .city-select { appearance: none; -webkit-appearance: none; background: color-mix(in srgb, var(--panel) 70%, transparent); border: 1px solid var(--line); border-radius: 6px; color: var(--fg); font-size: 13px; padding: 9px 34px 9px 14px; min-height: 40px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b4ad9d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 14px; }
+    .city-select:hover { border-color: var(--hint); }
+
+    /* ====== 精度・出典 ====== */
+    .refs summary { cursor: pointer; font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--fg2); padding: 12px 0; list-style: none; display: flex; align-items: center; gap: 10px; min-height: 44px; }
+    .refs summary::-webkit-details-marker { display: none; }
+    .refs summary svg { width: 14px; height: 14px; transition: transform .2s var(--ease); }
+    .refs[open] summary svg { transform: rotate(90deg); }
+    .ref-list { list-style: none; margin-top: 8px; display: grid; gap: 4px; }
+    .ref-item { padding: 12px 0; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.75; color: var(--fg2); }
+    .ref-item b { color: var(--fg); font-weight: 500; }
+    .ref-item .ref-org { color: var(--hint); }
+    .ref-item a { color: var(--accent2); text-decoration: none; border-bottom: 1px dotted color-mix(in srgb, var(--accent2) 40%, transparent); word-break: break-all; }
+    .refs-note { font-size: 11.5px; color: var(--hint); line-height: 1.9; margin-top: 18px; }
+
+    /* ====== フッター導線 ====== */
+    .footcta { text-align: center; padding: 68px 28px calc(env(safe-area-inset-bottom) + 76px); border-top: 1px solid var(--line); }
+    .footcta-lead { font-family: var(--font-serif); font-weight: 300; font-size: clamp(19px, 3vw, 26px); line-height: 1.6; }
+    .footcta-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 12px 26px; transition: border-color .2s, background .2s; }
+    .footcta-link:hover { border-color: var(--hint); background: color-mix(in srgb, var(--fg) 6%, transparent); }
+    .footcta-link svg { width: 15px; height: 15px; }
+    .footmeta { margin-top: 40px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em; color: var(--hint); }
+    .footmeta a { color: var(--hint); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .footmeta a:hover { color: var(--fg); }
+
+    /* ====== 通知トースト ====== */
+    .notice { position: fixed; top: calc(env(safe-area-inset-top) + 16px); left: 50%; z-index: 60; transform: translate(-50%, -16px); opacity: 0; visibility: hidden; pointer-events: none; background: var(--fg); color: #0d2030; font-size: 13px; line-height: 1.7; padding: 14px 20px 14px 17px; border-radius: 8px; border-left: 3px solid var(--accent); display: flex; align-items: center; gap: 14px; max-width: min(480px, calc(100vw - 32px)); box-shadow: 0 8px 32px var(--shadow); transition: opacity .4s, transform .4s var(--ease), visibility 0s .4s; }
+    .notice.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); pointer-events: auto; transition: opacity .4s, transform .4s var(--ease); }
+    .notice button { background: transparent; border: none; color: inherit; opacity: .7; cursor: pointer; font-size: 12px; letter-spacing: .08em; padding: 6px; min-height: 32px; }
+    .notice button:hover { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<a href="#hero" class="skip-link">本文へ移動</a>
+
+<nav class="nav" aria-label="サイト">
+  <a href="index.html" class="nav-logo">風雅舎</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link nav-opt">Home</a>
+    <a href="focus.html" class="nav-link">Focus</a>
+    <a href="today.html" class="nav-link">Today</a>
+    <a href="colors.html" class="nav-link nav-opt">Colors</a>
+    <a href="blog/" class="nav-link nav-opt">Blog</a>
+  </div>
+</nav>
+
+<main>
+  <!-- 1. ヒーロー: 今夜の月 -->
+  <header class="hero" id="hero">
+    <svg class="stars" id="starField" aria-hidden="true"></svg>
+    <h1 class="u-hidden">今夜の空を見上げるためのページ</h1>
+    <p class="hero-eyebrow" id="heroDate"></p>
+    <div class="moon-wrap">
+      <svg class="moon-svg" id="moonSvg" viewBox="-120 -120 240 240" aria-hidden="true">
+        <defs>
+          <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="55%" stop-color="rgba(240,230,214,.16)"/>
+            <stop offset="100%" stop-color="rgba(240,230,214,0)"/>
+          </radialGradient>
+        </defs>
+        <circle cx="0" cy="0" r="118" fill="url(#moonGlow)"/>
+        <circle cx="0" cy="0" r="100" fill="#233040"/>
+        <path id="moonLit" d="" fill="#f0e6d6"/>
+        <circle cx="0" cy="0" r="100" fill="none" stroke="rgba(240,230,214,.22)" stroke-width="1"/>
+      </svg>
+    </div>
+    <p class="hero-name" id="heroName"></p>
+    <p class="hero-yomi" id="heroYomi"></p>
+    <p class="hero-note" id="heroNote"></p>
+    <button type="button" class="hero-scroll" id="heroScroll" aria-label="下へスクロールして読み進める">
+      <span>Scroll</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6-6-6 6 6 6-6"/></svg>
+    </button>
+  </header>
+
+  <!-- 2. 今夜のひとこと -->
+  <section class="sec" aria-labelledby="wdHead">
+    <div class="wrap">
+      <div class="word reveal">
+        <span class="eyebrow" id="wdHead" style="display:block;margin-bottom:26px">Tonight</span>
+        <p class="word-text" id="wordText"></p>
+        <p class="word-sub" id="wordSub"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 月の暦 -->
+  <section class="sec" aria-labelledby="mcHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Moon Calendar</span>
+        <h2 class="sec-title" id="mcHead">月の暦</h2>
+      </div>
+      <div class="mooncal reveal">
+        <div class="mc-card">
+          <p class="mc-label">次の満月</p>
+          <p class="mc-date" id="mcFull"></p>
+          <p class="mc-days" id="mcFullDays"></p>
+        </div>
+        <div class="mc-card">
+          <p class="mc-label">次の新月</p>
+          <p class="mc-date" id="mcNew"></p>
+          <p class="mc-days" id="mcNewDays"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 流星群ごよみ -->
+  <section class="sec" aria-labelledby="shHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Meteor Showers</span>
+        <h2 class="sec-title" id="shHead">流星群ごよみ</h2>
+        <p class="sec-lead">一年でめぐる主な流星群。極大日は年により1日ほど前後します。月明かりが少ない年ほど、よく見えます。</p>
+      </div>
+      <ul class="showers reveal" id="showerList"></ul>
+    </div>
+  </section>
+
+  <!-- 5. 特集: 待つ月 -->
+  <section class="sec" aria-labelledby="stHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">The Waiting Moons</span>
+        <h2 class="sec-title" id="stHead">月を、待つ</h2>
+      </div>
+      <article class="story reveal">
+        <h3 class="story-title">立って待ち、座って待ち、寝て待つ</h3>
+        <div class="story-body">
+          <p>満月をすぎると、月の出は一日におよそ50分ずつ遅くなっていく。昔の人はその遅れに、名前をつけた。十六夜（いざよい）は「ためらう」月。十七日の夜は立って待つうちに昇るから立待月。十八日は座って待つ居待月。十九日は横になって待つ寝待月。二十日には、夜更けにようやく昇る更待月。</p>
+          <p>時計のない時代、月の出は夜の時刻そのものだった。遅れてくる月を苛立つのではなく、待つ姿勢ごと名前にして愛でる——この並びには、そんな夜との付き合い方が残っている。今夜の月がどの名前でも、それは何百年も呼ばれてきた名前だ。</p>
+        </div>
+        <div class="story-src" id="storySrc"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 6. 三十夜の名前 -->
+  <section class="sec" aria-labelledby="ntHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Thirty Nights</span>
+        <h2 class="sec-title" id="ntHead">月の呼び名、三十夜</h2>
+        <p class="sec-lead">旧暦のひと月、それぞれの夜の月の名前。今夜の名前に印がついています。</p>
+      </div>
+      <div class="nights reveal">
+        <details id="nightsBox">
+          <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>三十夜の名前をすべて見る</summary>
+          <ol class="night-list" id="nightList"></ol>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 日の入りと星の時間 -->
+  <section class="sec" aria-labelledby="snHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Sunset &amp; Dark Sky</span>
+        <h2 class="sec-title" id="snHead">日の入りと、星の時間</h2>
+        <p class="sec-lead">空が十分に暗くなるのは、日の入りからしばらくあと。星を見るなら、その頃からが本番です。</p>
+      </div>
+      <div class="reveal">
+        <div class="city-row">
+          <label for="citySelect">計算する地点</label>
+          <select class="city-select" id="citySelect"></select>
+        </div>
+        <div class="sunrow">
+          <div class="sun-card"><p class="sun-label">今日の日の入り</p><p class="sun-time" id="sunSet">—</p><p class="sun-sub">太陽が地平線に沈む</p></div>
+          <div class="sun-card"><p class="sun-label">星が見えそろう頃</p><p class="sun-time" id="sunDark">—</p><p class="sun-sub">空が十分に暗くなる目安</p></div>
+          <div class="sun-card"><p class="sun-label">あすの日の出</p><p class="sun-time" id="sunRise">—</p><p class="sun-sub">夜の終わり</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. 精度と出典 -->
+  <section class="sec" aria-labelledby="refHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Accuracy &amp; Sources</span>
+        <h2 class="sec-title" id="refHead">この計算について</h2>
+        <p class="sec-lead">このページは外部のAPIを使いません。月齢・輝面比・日の出入りはすべて、いまブラウザの中で動いた簡易的な天文計算です。</p>
+      </div>
+      <details class="refs reveal" id="refsBox">
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>出典と精度の詳細を開く</summary>
+        <ul class="ref-list" id="refList"></ul>
+      </details>
+      <p class="refs-note">計算式は Jean Meeus『Astronomical Algorithms』の略式によります。誤差の目安: 月齢 ±0.1日程度、日の出入り ±数分。流星群の極大日・月の和名は国立天文台の解説と歳時記に広く見える記載を参照しています。正確な暦は国立天文台 暦計算室でご確認ください。</p>
+    </div>
+  </section>
+
+  <!-- フッター導線 -->
+  <div class="footcta">
+    <p class="footcta-lead">空を見上げたら、<br>今日という日もひらいてみる。</p>
+    <a href="today.html" class="footcta-link">Open Today
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+    </a>
+    <p class="footmeta"><span id="footDate"></span> ・ <a href="focus.html">Focus</a> ・ <a href="index.html">風雅舎</a></p>
+  </div>
+</main>
+
+<div class="notice" id="notice"><span id="noticeText"></span><button type="button" id="noticeClose">閉じる</button></div>
+<div class="u-hidden" id="srLive" aria-live="polite"></div>
+
+<script>
+/* =========================================================================
+   Sky Tonight — 今夜の空
+   - 外部API不使用。月齢・輝面比・朔望・日の出入りはブラウザ内の簡易天文計算
+     （Jean Meeus, Astronomical Algorithms の略式。検証は QUALITY_REPORT 参照）
+   - 月の和名は旧暦の夜数（直近の新月からの日数+1）で引く。±1日程度の目安
+   ========================================================================= */
+'use strict';
+
+/* ---- 出典（機関単位） ---- */
+var SKY_SOURCES = {
+  naoj:   { t: '国立天文台（ほしぞら情報・流星群解説）', o: 'National Astronomical Observatory of Japan', u: 'https://www.nao.ac.jp' },
+  koyomi: { t: '国立天文台 暦計算室（朔弦望・暦Wiki）', o: 'National Astronomical Observatory of Japan', u: 'https://eco.mtk.nao.ac.jp/koyomi/' },
+  meeus:  { t: 'Jean Meeus, Astronomical Algorithms, 2nd ed.', o: 'Willmann-Bell, 1998（計算式の出典）', u: '' }
+};
+
+/* ---- 月の和名（旧暦の夜数 1..30）。よく知られた伝統名以外は「◯日月」の中立表記 ---- */
+var NIGHT_NAMES = [
+  { n: 1,  name: '新月（朔）',        yomi: 'しんげつ・さく',      note: '太陽と同じ方向にあって、見えない月。' },
+  { n: 2,  name: '二日月',            yomi: 'ふつかづき',          note: '日没直後の西の低空に、糸のような光。' },
+  { n: 3,  name: '三日月',            yomi: 'みかづき',            note: '夕空の細い弧。眉月とも呼ばれた。' },
+  { n: 4,  name: '四日月',            yomi: 'よっかづき',          note: '宵の空に、舟のかたちで浮かぶ。' },
+  { n: 5,  name: '五日月',            yomi: 'いつかづき',          note: '光が少しずつ太っていく。' },
+  { n: 6,  name: '六日月',            yomi: 'むいかづき',          note: '半月まで、あとすこし。' },
+  { n: 7,  name: '七日月',            yomi: 'なのかづき',          note: '弓のかたちに張っていく。' },
+  { n: 8,  name: '上弦の月',          yomi: 'じょうげん',          note: '夕方に南の空へ。真夜中に沈む半月。' },
+  { n: 9,  name: '九夜月',            yomi: 'くやづき',            note: '弓張りをすぎて、ふくらみはじめる。' },
+  { n: 10, name: '十日夜の月',        yomi: 'とおかんや',          note: '東日本の収穫の祭「十日夜」の月。' },
+  { n: 11, name: '十日余の月',        yomi: 'とおかあまりのつき',  note: '満ちる途中の、明るい月。' },
+  { n: 12, name: '十二日月',          yomi: 'じゅうににちづき',    note: '満月まであと三夜。' },
+  { n: 13, name: '十三夜月',          yomi: 'じゅうさんや',        note: '満月に次いで美しいとされた月。' },
+  { n: 14, name: '小望月',            yomi: 'こもちづき',          note: '望（満月）の前夜。幾望とも。' },
+  { n: 15, name: '十五夜・望月',      yomi: 'もちづき',            note: '満月。秋なら中秋の名月。' },
+  { n: 16, name: '十六夜',            yomi: 'いざよい',            note: '「ためらう」の意。少し遅れて昇る。' },
+  { n: 17, name: '立待月',            yomi: 'たちまちづき',        note: '立って待つうちに昇る月。' },
+  { n: 18, name: '居待月',            yomi: 'いまちづき',          note: '座って待つほどに、月の出が遅い。' },
+  { n: 19, name: '寝待月',            yomi: 'ねまちづき',          note: '横になって待つ月。臥待月とも。' },
+  { n: 20, name: '更待月',            yomi: 'ふけまちづき',        note: '夜更けに、ようやく昇る。' },
+  { n: 21, name: '二十一日月',        yomi: 'にじゅういちにちづき', note: '満月の名残りをひいて。' },
+  { n: 22, name: '二十二日月',        yomi: 'にじゅうににちづき',  note: '夜半すぎに昇る。' },
+  { n: 23, name: '二十三夜・下弦の月', yomi: 'かげん',              note: '真夜中に昇る半月。「二十三夜待ち」の信仰も。' },
+  { n: 24, name: '二十四日月',        yomi: 'にじゅうよっかづき',  note: '明け方の月へと向かう。' },
+  { n: 25, name: '二十五日月',        yomi: 'にじゅうごにちづき',  note: '暁の空に近づいていく。' },
+  { n: 26, name: '二十六夜',          yomi: 'にじゅうろくや',      note: '明け方の細い月。江戸では「二十六夜待ち」が流行した。' },
+  { n: 27, name: '二十七日月',        yomi: 'にじゅうしちにちづき', note: '有明の空に、細く。' },
+  { n: 28, name: '二十八日月',        yomi: 'にじゅうはちにちづき', note: '夜明け前、東の低空に。' },
+  { n: 29, name: '二十九日月',        yomi: 'にじゅうくにちづき',  note: '見えるかどうかの、際の月。' },
+  { n: 30, name: '晦・三十日月',      yomi: 'つごもり',            note: '「月隠り」の転。月の見えない晦日。' }
+];
+
+/* ---- 主な流星群（極大日は年により±1日ほど前後。出典: 国立天文台） ---- */
+var SHOWERS = [
+  { name: 'しぶんぎ座流星群',        en: 'Quadrantids',        pm: 1,  pd: 4,  from: [12,28], to: [1,12],  major: true,  note: '三大流星群のひとつ。極大が鋭く、見頃は数時間と短い。' },
+  { name: '4月こと座流星群',         en: 'Lyrids',             pm: 4,  pd: 22, from: [4,14],  to: [4,30],  major: false, note: '明るい流星がまじる、春の流星群。' },
+  { name: 'みずがめ座η流星群',       en: 'Eta Aquariids',      pm: 5,  pd: 6,  from: [4,19],  to: [5,28],  major: false, note: 'ハレー彗星のかけら。明け方に多い。' },
+  { name: 'みずがめ座δ南流星群',     en: 'S. Delta Aquariids', pm: 7,  pd: 30, from: [7,12],  to: [8,23],  major: false, note: '夏の夜をゆっくり流れる。ペルセウス座流星群と時期が重なる。' },
+  { name: 'ペルセウス座流星群',      en: 'Perseids',           pm: 8,  pd: 13, from: [7,17],  to: [8,24],  major: true,  note: '三大流星群のひとつ。夏の夜、もっとも親しまれている。' },
+  { name: '10月りゅう座流星群',      en: 'Draconids',          pm: 10, pd: 8,  from: [10,6],  to: [10,10], major: false, note: '宵のうちに見える、めずらしい流星群。' },
+  { name: 'オリオン座流星群',        en: 'Orionids',           pm: 10, pd: 21, from: [10,2],  to: [11,7],  major: false, note: 'これもハレー彗星のかけら。速く、鋭い。' },
+  { name: 'おうし座南・北流星群',    en: 'Taurids',            pm: 11, pd: 8,  from: [9,10],  to: [12,10], major: false, note: '数は少ないが、火球と呼ばれる明るい流星が出る。' },
+  { name: 'しし座流星群',            en: 'Leonids',            pm: 11, pd: 18, from: [11,6],  to: [11,30], major: false, note: '2001年に大出現。ふだんは静かな流星群。' },
+  { name: 'ふたご座流星群',          en: 'Geminids',           pm: 12, pd: 14, from: [12,4],  to: [12,17], major: true,  note: '三大流星群のひとつ。一年でもっとも数が多く、宵から見える。' },
+  { name: 'こぐま座流星群',          en: 'Ursids',             pm: 12, pd: 22, from: [12,17], to: [12,26], major: false, note: '一年をしめくくる、静かな流星群。' }
+];
+
+/* ---- 日の出入りの計算地点 ---- */
+var CITIES = [
+  { id: 'sapporo',  name: '札幌',   lat: 43.062, lon: 141.354 },
+  { id: 'sendai',   name: '仙台',   lat: 38.269, lon: 140.872 },
+  { id: 'tokyo',    name: '東京',   lat: 35.681, lon: 139.767 },
+  { id: 'nagoya',   name: '名古屋', lat: 35.181, lon: 136.906 },
+  { id: 'osaka',    name: '大阪',   lat: 34.694, lon: 135.502 },
+  { id: 'hiroshima',name: '広島',   lat: 34.396, lon: 132.459 },
+  { id: 'fukuoka',  name: '福岡',   lat: 33.590, lon: 130.402 },
+  { id: 'naha',     name: '那覇',   lat: 26.212, lon: 127.679 }
+];
+
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var reduced = function () { return matchMedia('(prefers-reduced-motion: reduce)').matches; };
+  function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+
+  /* ================= 天文計算（scratchpadのハーネスで検証済み） ================= */
+  var RAD = Math.PI / 180;
+  var SYNODIC = 29.530588853;
+  function norm360(x) { x = x % 360; return x < 0 ? x + 360 : x; }
+  function toJD(ms) { return ms / 86400000 + 2440587.5; }
+  function sunLon(jd) {
+    var T = (jd - 2451545) / 36525;
+    var L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
+    var M = (357.52911 + 35999.05029 * T - 0.0001537 * T * T) * RAD;
+    var C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M)
+          + (0.019993 - 0.000101 * T) * Math.sin(2 * M)
+          + 0.000289 * Math.sin(3 * M);
+    return norm360(L0 + C);
+  }
+  function moonLonDeg(jd) {
+    var T = (jd - 2451545) / 36525;
+    var Lp = 218.3164477 + 481267.88123421 * T;
+    var Dm = (297.8501921 + 445267.1114034 * T) * RAD;
+    var M  = (357.5291092 + 35999.0502909 * T) * RAD;
+    var Mp = (134.9633964 + 477198.8675055 * T) * RAD;
+    var F  = (93.2720950 + 483202.0175233 * T) * RAD;
+    var lon = Lp
+      + 6.288774 * Math.sin(Mp) + 1.274027 * Math.sin(2 * Dm - Mp) + 0.658314 * Math.sin(2 * Dm)
+      + 0.213618 * Math.sin(2 * Mp) - 0.185116 * Math.sin(M) - 0.114332 * Math.sin(2 * F)
+      + 0.058793 * Math.sin(2 * Dm - 2 * Mp) + 0.057066 * Math.sin(2 * Dm - M - Mp)
+      + 0.053322 * Math.sin(2 * Dm + Mp) + 0.045758 * Math.sin(2 * Dm - M)
+      - 0.040923 * Math.sin(M - Mp) - 0.034720 * Math.sin(Dm) - 0.030383 * Math.sin(M + Mp);
+    return norm360(lon);
+  }
+  function elongation(jd) { return norm360(moonLonDeg(jd) - sunLon(jd)); }
+  function moonAge(jd) { return elongation(jd) / 360 * SYNODIC; }
+  function illumination(jd) { return (1 - Math.cos(elongation(jd) * RAD)) / 2; }
+  /* target離角の通過時刻を探す（dir=+1未来/-1過去。1時間刻み→線形補間） */
+  function findPhase(jdStart, targetDeg, dir) {
+    var step = dir / 24;
+    var prev = norm360(elongation(jdStart) - targetDeg);
+    for (var i = 1; i <= 24 * 40; i++) {
+      var jd = jdStart + step * i;
+      var cur = norm360(elongation(jd) - targetDeg);
+      if (dir > 0 ? (prev > 300 && cur < 60) : (prev < 60 && cur > 300)) {
+        var a = dir > 0 ? prev - 360 : prev;
+        var b = dir > 0 ? cur : cur - 360;
+        return jd - step + step * (a / (a - b));
+      }
+      prev = cur;
+    }
+    return null;
+  }
+  /* 日の出入り（NOAA/Spencer近似）。UTC分を返す */
+  function sunEventUTCmin(doy, latDeg, lonEastDeg, h0Deg, isRise) {
+    var g = 2 * Math.PI / 365 * (doy - 1 + 0.5);
+    var eot = 229.18 * (0.000075 + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g)
+            - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+    var decl = 0.006918 - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g)
+             - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g)
+             - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g);
+    var lat = latDeg * RAD, h0 = h0Deg * RAD;
+    var cosHa = (Math.sin(h0) - Math.sin(lat) * Math.sin(decl)) / (Math.cos(lat) * Math.cos(decl));
+    if (cosHa < -1 || cosHa > 1) return null;
+    var haDeg = Math.acos(cosHa) / RAD;
+    var noon = 720 - 4 * lonEastDeg - eot;
+    return isRise ? noon - 4 * haDeg : noon + 4 * haDeg;
+  }
+
+  /* ================= 今夜の状態 ================= */
+  var now = new Date();
+  /* 「今夜」= きょうの21時（見上げる頃）を代表時刻に */
+  var tonight = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 21, 0, 0);
+  var jdT = toJD(tonight.getTime());
+  var age = moonAge(jdT);
+  var elong = elongation(jdT);
+  var illum = illumination(jdT);
+  /* 旧暦の夜数: 直近の新月の「日付」からの経過日数 + 1（±1日程度の目安） */
+  var lastNewJd = findPhase(jdT, 0, -1);
+  var lastNewDate = new Date((lastNewJd - 2440587.5) * 86400000);
+  var d0 = new Date(lastNewDate.getFullYear(), lastNewDate.getMonth(), lastNewDate.getDate());
+  var d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var night = Math.round((d1 - d0) / 86400000) + 1;
+  if (night < 1) night = 1; if (night > 30) night = 30;
+  var tonightName = NIGHT_NAMES[night - 1];
+
+  /* ================= トースト & SR ================= */
+  var notice = $('notice'), noticeText = $('noticeText'), noticeTimer = null, lastLive = '';
+  function announce(text) { var l = $('srLive'); l.textContent = (text === lastLive) ? text + ' ' : text; lastLive = l.textContent; }
+  function showNotice(text, ms) {
+    noticeText.textContent = text; announce(text); notice.classList.add('show');
+    clearTimeout(noticeTimer); noticeTimer = setTimeout(function () { notice.classList.remove('show'); }, ms || 2600);
+  }
+  $('noticeClose').addEventListener('click', function () { clearTimeout(noticeTimer); notice.classList.remove('show'); });
+
+  /* ================= localStorage ================= */
+  var LS_KEY = 'fugasha_sky_v1';
+  var store = { city: 'tokyo' };
+  (function () {
+    var raw; try { raw = localStorage.getItem(LS_KEY); } catch (e) { return; }
+    if (!raw) return;
+    try { var s = JSON.parse(raw); if (s && CITIES.some(function (c) { return c.id === s.city; })) store.city = s.city; } catch (e) {}
+  })();
+  function saveStore() { try { localStorage.setItem(LS_KEY, JSON.stringify(store)); } catch (e) {} }
+
+  /* ================= 出典リンク ================= */
+  var usedSources = {};
+  function markSource(id) { if (id && SKY_SOURCES[id]) usedSources[id] = true; }
+  function srcLink(id, label) {
+    if (!id || !SKY_SOURCES[id]) return '';
+    var s = SKY_SOURCES[id];
+    if (!s.u) return '<span class="src-link">Source: ' + esc(s.t) + '</span>';
+    var a = document.createElement('a');
+    a.className = 'src-link'; a.href = s.u; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.setAttribute('aria-label', (label || 'この項目') + 'の出典: ' + s.t + '（新しいタブで開く）');
+    a.innerHTML = 'Source: ' + esc(s.t.split('（')[0]) + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15 20 4M15 4h5v5M19 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>';
+    return a.outerHTML;
+  }
+
+  /* ================= 星空（静的・アニメーションなし） ================= */
+  (function starField() {
+    var svg = $('starField');
+    var seed = 20260712; /* 固定シード: 開くたびに星が動かない */
+    function rnd() { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }
+    var frag = '';
+    for (var i = 0; i < 90; i++) {
+      var x = (rnd() * 100).toFixed(2), y = (rnd() * 100).toFixed(2);
+      var r = (0.4 + rnd() * 1.0).toFixed(2), o = (0.15 + rnd() * 0.5).toFixed(2);
+      frag += '<circle cx="' + x + '%" cy="' + y + '%" r="' + r + '" fill="rgba(240,230,214,' + o + ')"/>';
+    }
+    svg.innerHTML = frag;
+  })();
+
+  /* ================= 月のSVG ================= */
+  function moonPath(elongDeg) {
+    /* 北半球の見え方: 満ちる月は右から、欠ける月は左が残る */
+    var e = norm360(elongDeg);
+    var R = 100, rx = Math.abs(Math.cos(e * RAD)) * R;
+    if (e < 0.6 || e > 359.4) return '';                        /* 新月: 光なし */
+    if (Math.abs(e - 180) < 0.6) return 'M0,-' + R + ' A' + R + ',' + R + ' 0 0 1 0,' + R + ' A' + R + ',' + R + ' 0 0 1 0,-' + R + ' Z'; /* 満月 */
+    var waxing = e < 180;
+    var limbSweep = waxing ? 1 : 0;                              /* 満ち: 右の輪郭 / 欠け: 左の輪郭 */
+    var crescent = waxing ? (e < 90) : (e > 270);
+    /* 三日月型: 明暗境界は輪郭と同じ側へ膨らむ / 半月すぎ: 反対側へ */
+    var termSweep = waxing ? (crescent ? 0 : 1) : (crescent ? 1 : 0);
+    return 'M0,-' + R + ' A' + R + ',' + R + ' 0 0 ' + limbSweep + ' 0,' + R +
+           ' A' + rx.toFixed(2) + ',' + R + ' 0 0 ' + termSweep + ' 0,-' + R + ' Z';
+  }
+  $('moonLit').setAttribute('d', moonPath(elong));
+
+  /* ================= ヒーロー ================= */
+  var pad = function (n) { return String(n).padStart(2, '0'); };
+  $('heroDate').textContent = 'SKY TONIGHT — ' + now.getFullYear() + '.' + pad(now.getMonth() + 1) + '.' + pad(now.getDate());
+  $('heroName').textContent = tonightName.name;
+  $('heroYomi').textContent = tonightName.yomi + ' ・ 月齢 ' + age.toFixed(1) + ' ・ 輝面比 ' + Math.round(illum * 100) + '%';
+  $('heroNote').textContent = tonightName.note;
+  $('footDate').textContent = now.getFullYear() + '.' + pad(now.getMonth() + 1) + '.' + pad(now.getDate()) + ' ' + tonightName.name;
+  $('heroScroll').addEventListener('click', function () {
+    var t = document.querySelector('.sec');
+    if (t) t.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  /* ================= 流星群の状態判定 ================= */
+  function doyOf(m, d) { return Math.floor((new Date(now.getFullYear(), m - 1, d) - new Date(now.getFullYear(), 0, 1)) / 86400000) + 1; }
+  var todayDoy = doyOf(now.getMonth() + 1, now.getDate());
+  function showerState(s) {
+    var f = doyOf(s.from[0], s.from[1]), t = doyOf(s.to[0], s.to[1]), p = doyOf(s.pm, s.pd);
+    var active = (f <= t) ? (todayDoy >= f && todayDoy <= t) : (todayDoy >= f || todayDoy <= t); /* 年またぎ対応 */
+    var dp = Math.min(Math.abs(todayDoy - p), 365 - Math.abs(todayDoy - p));
+    return { active: active, nearPeak: dp <= 2, daysToPeak: dp };
+  }
+
+  /* ================= 今夜のひとこと ================= */
+  (function tonightWord() {
+    var peakShower = null, activeShower = null;
+    SHOWERS.forEach(function (s) {
+      var st = showerState(s);
+      if (st.nearPeak && !peakShower) peakShower = s;
+      if (st.active && !activeShower) activeShower = s;
+    });
+    var text, sub = '';
+    if (peakShower && illum < 0.5) {
+      text = '今夜は' + peakShower.name + 'が極大のころ。月明かりも少なく、条件のよい夜です。';
+      sub = '街の光を避けて、空の広いところへ。目が慣れるまで15分ほどかかります。';
+    } else if (peakShower) {
+      text = peakShower.name + 'が極大のころ。今夜は月が明るいので、月に背を向けて暗い方角を。';
+    } else if (Math.abs(age - SYNODIC / 2) < 0.5) {
+      text = '今夜は満月。月の海の模様がいちばんよく見える夜です。';
+      sub = '満月の光は、星を少し隠すかわりに、地上を照らします。';
+    } else if (age < 1 || age > 28.8) {
+      text = '月のほとんど見えない夜。空がいちばん深くなります。';
+      sub = '星を見るなら、月のない夜がいちばん。';
+    } else if (night >= 16 && night <= 20) {
+      text = '今夜は' + tonightName.name + '。月の出は日ごとに50分ずつ遅くなっていきます。';
+      sub = '下の「月を、待つ」に、この名前の物語があります。';
+    } else if (activeShower && illum < 0.35) {
+      text = '月明かりの少ない夜。' + activeShower.name + 'の活動期間でもあり、ふと流れるかもしれません。';
+      sub = '流れ星は、探すものではなく、待つもの。';
+    } else if (illum < 0.35) {
+      text = '月明かりの少ない、星のための夜です。';
+      sub = '見上げる時間が長いほど、見える星は増えていきます。';
+    } else {
+      text = '今夜の月は' + tonightName.name + '。' + tonightName.note;
+    }
+    $('wordText').textContent = text;
+    $('wordSub').textContent = sub;
+  })();
+
+  /* ================= 月の暦 ================= */
+  (function moonCal() {
+    function jdToDate(jd) { return new Date((jd - 2440587.5) * 86400000); }
+    function fmt(d) { return (d.getMonth() + 1) + '月' + d.getDate() + '日'; }
+    function daysFromToday(d) {
+      var a = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      var b = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      return Math.round((b - a) / 86400000);
+    }
+    var nf = jdToDate(findPhase(jdT, 180, 1)), nn = jdToDate(findPhase(jdT, 0, 1));
+    var df = daysFromToday(nf), dn = daysFromToday(nn);
+    $('mcFull').textContent = fmt(nf);
+    $('mcFullDays').textContent = df === 0 ? '今夜' : 'あと' + df + '日';
+    $('mcNew').textContent = fmt(nn);
+    $('mcNewDays').textContent = dn === 0 ? '今夜' : 'あと' + dn + '日（星のいちばん見える頃）';
+  })();
+
+  /* ================= 流星群ごよみ ================= */
+  (function showers() {
+    markSource('naoj');
+    var ul = $('showerList');
+    SHOWERS.forEach(function (s) {
+      var st = showerState(s);
+      var li = document.createElement('li'); li.className = 'shower';
+      var badges = '';
+      if (st.nearPeak) badges += '<span class="badge badge--peak">見頃</span>';
+      else if (st.active) badges += '<span class="badge badge--active">活動中</span>';
+      if (s.major) badges += '<span class="badge badge--major">三大流星群</span>';
+      li.innerHTML =
+        '<div class="sh-when">極大<b>' + s.pm + '月' + s.pd + '日ごろ</b>' + s.from[0] + '/' + s.from[1] + '〜' + s.to[0] + '/' + s.to[1] + '</div>' +
+        '<div><p class="sh-name">' + esc(s.name) + '<span class="en" lang="en">' + esc(s.en) + '</span></p>' +
+        '<p class="sh-note">' + esc(s.note) + '</p>' +
+        '<div class="sh-meta">' + badges + srcLink('naoj', s.name) + '</div></div>';
+      ul.appendChild(li);
+    });
+  })();
+
+  /* ================= 特集の出典 ================= */
+  markSource('koyomi');
+  $('storySrc').innerHTML = srcLink('koyomi', '月の呼び名');
+
+  /* ================= 三十夜の名前 ================= */
+  (function nights() {
+    var ol = $('nightList');
+    NIGHT_NAMES.forEach(function (nn) {
+      var li = document.createElement('li');
+      li.className = 'night-row' + (nn.n === night ? ' tonight' : '');
+      li.innerHTML = '<span class="no">' + nn.n + '</span>' +
+        '<span class="nm">' + esc(nn.name) + '<span class="yomi">' + esc(nn.yomi) + '</span>' +
+        '<span class="nt">' + esc(nn.note) + '</span></span>';
+      ol.appendChild(li);
+    });
+    if (night >= 1) $('nightsBox').querySelector('summary').textContent = '三十夜の名前をすべて見る（今夜は ' + night + ' 夜目）';
+  })();
+
+  /* ================= 日の入りと星の時間 ================= */
+  (function sunTimes() {
+    var sel = $('citySelect');
+    CITIES.forEach(function (c) {
+      var o = document.createElement('option');
+      o.value = c.id; o.textContent = c.name;
+      if (c.id === store.city) o.selected = true;
+      sel.appendChild(o);
+    });
+    function fmtMin(utcMin) {
+      if (utcMin == null) return '—';
+      var m = Math.round(utcMin + 540); m = ((m % 1440) + 1440) % 1440; /* JST */
+      return Math.floor(m / 60) + ':' + pad(m % 60);
+    }
+    function render() {
+      var c = CITIES.filter(function (x) { return x.id === store.city; })[0] || CITIES[2];
+      var start = new Date(now.getFullYear(), 0, 1);
+      var doy = Math.floor((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - start) / 86400000) + 1;
+      $('sunSet').textContent = fmtMin(sunEventUTCmin(doy, c.lat, c.lon, -0.833, false));
+      $('sunDark').textContent = fmtMin(sunEventUTCmin(doy, c.lat, c.lon, -12, false));
+      $('sunRise').textContent = fmtMin(sunEventUTCmin(doy + 1, c.lat, c.lon, -0.833, true));
+    }
+    sel.addEventListener('change', function () {
+      store.city = sel.value; saveStore(); render();
+      var c = CITIES.filter(function (x) { return x.id === store.city; })[0];
+      if (c) announce(c.name + 'の時刻に切り替えました。');
+    });
+    render();
+  })();
+
+  /* ================= 出典一覧 ================= */
+  (function refs() {
+    markSource('meeus');
+    var ul = $('refList');
+    Object.keys(SKY_SOURCES).forEach(function (id) {
+      if (!usedSources[id]) return;
+      var s = SKY_SOURCES[id];
+      var li = document.createElement('li'); li.className = 'ref-item';
+      var link = s.u ? '<a href="' + esc(s.u) + '" target="_blank" rel="noopener noreferrer">' + esc(s.u) + '</a><br>' : '';
+      li.innerHTML = '<b>' + esc(s.t) + '</b> <span class="ref-org">／ ' + esc(s.o) + '</span><br>' + link +
+        '<span class="ref-org">閲覧日: 2026-07-12</span>';
+      ul.appendChild(li);
+    });
+  })();
+
+  /* ================= エントランス（fail-open: today.htmlと同方針） ================= */
+  (function reveal() {
+    var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    if (reduced() || !('IntersectionObserver' in window)) return;
+    els.forEach(function (el) { el.classList.add('pre'); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    els.forEach(function (el) { io.observe(el); });
+    var onScroll = function () { els.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top < window.innerHeight * 0.95 && r.bottom > 0) el.classList.add('in'); }); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    setTimeout(function () { els.forEach(function (el) { el.classList.add('in'); }); }, 2500);
+  })();
+})();
+</script>
+</body>
+</html>

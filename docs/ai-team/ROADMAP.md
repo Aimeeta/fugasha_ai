@@ -1,14 +1,22 @@
 # ROADMAP — 優先順位つき残タスク
 
-最終更新: 2026-07-12（Today ページ新設・Focus 名言撤去。**未push**）
+最終更新: 2026-07-12（Sky Tonight 新設。**未push**。Today はpush済み）
 
-## 2026-07-12 — Today ページ新設 — 実装済み・レビュー/公開前確認待ち（未push）
+## 2026-07-12 — Sky Tonight（sky.html）— 実装済み・未push
+今夜の月の和名・月齢・流星群ごよみ・日の入り。外部API不使用、天文計算はハーネス検証済み。詳細は DECISION_LOG / QUALITY_REPORT。
+
+**公開前の確認候補**: 実機での見た目 / 流星群データの2026年個別予報との照合（任意）
+**フェーズ2候補**: 惑星の見え方（宵の金星等）/ 月の出時刻 / 「庭」ハブ導入時のナビ組み込み
+
+## 検討中 — 「庭」ハブ（garden.html）
+静かなページ群（Focus・Today・Colors・Words・Sky・将来のSeasons/Reading/Unhurry）を一枚の目次に集め、グローバルナビを Home / Garden / Blog / Contact に整理する構想。オーナーに提案済み・承認待ち。承認後は全ページのナビ差し替えが必要（対象: index/en/focus/today/colors/words/sky/blog群/contact/privacy/security-ai）。
+
+## 2026-07-12 — Today ページ新設 — **push済み・公開中**
 デジタル・アルマナック `today.html` を新設。words.html の名言を統合、Focus から名言を撤去、ナビ/sitemap を配線。詳細は DECISION_LOG / QUALITY_REPORT。
 
-**公開前にオーナー（または担当分隊）がやること**:
-1. **出典の実確認** — 各歴史・雑学・人物の内容はアシスタント知識ベース。機関URLは"参考"。push＝本番のため、少なくとも当月（7月）の日付・主要事実・URLをスポット確認する
+**公開後の残タスク**:
+1. **出典のスポット確認** — 各歴史・雑学・人物の内容はアシスタント知識ベース。機関URLは"参考"。少なくとも当月（7月）の日付・主要事実・URLを確認する
 2. ブラウザ実機（iOS Safari / Android Chrome）でスクロール演出・横スクロールrail・localStorage を確認
-3. 問題なければ push で公開（CLAUDE.md: push は明示指示があるまで行わない）
 
 **フォローアップ候補**:
 - 7月以外の月のコンテンツ拡充（現状は各月 events≥5/people≥3/facts≥3/story≥1 の堅実な最小構成。7月のみリッチ）
