@@ -244,6 +244,9 @@
     .msg.fading { opacity: 0; }
     .msg-author { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; color: var(--hint); opacity: 1; transition: opacity .4s ease; min-height: 1em; }
     .msg-author.fading { opacity: 0; }
+    /* words.html への静かな導線 */
+    .msg-more { display: inline-block; align-self: center; margin-top: 6px; font-size: 11px; color: var(--hint); letter-spacing: .05em; text-decoration: none; border-bottom: 1px solid var(--line); padding: 4px 1px; transition: color .2s, border-color .2s; }
+    .msg-more:hover { color: var(--fg); border-color: var(--hint); }
     .msg-next { flex: none; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--line); border-radius: 50%; cursor: pointer; color: var(--hint); transition: color .2s, border-color .2s, transform .2s var(--ease); }
     .msg-next:hover { color: var(--fg); border-color: var(--hint); }
     .msg-next:hover svg { transform: translateX(2px); }
@@ -476,6 +479,7 @@
   <div class="nav-right">
     <a href="index.html" class="nav-link" data-i18n="nav_home">Home</a>
     <a href="colors.html" class="nav-link">Colors</a>
+    <a href="words.html" class="nav-link">Words</a>
     <a href="blog/" class="nav-link" data-i18n="nav_blog">Blog</a>
     <a href="contact.html" class="nav-link" data-i18n="nav_contact">Contact</a>
   </div>
@@ -518,6 +522,7 @@
     <div class="msg-col">
       <p class="msg" id="msg"></p>
       <p class="msg-author" id="msgAuthor"></p>
+      <a class="msg-more" href="words.html" data-i18n="msg_more">もっとことばを →</a>
     </div>
     <button type="button" class="msg-next" id="msgNext" aria-label="次のことばを表示" aria-keyshortcuts="N">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
@@ -758,6 +763,7 @@
       focus_label:'現在の集中タスク：', drag_label:'「{name}」を並べ替え（ドラッグ、または上下キーで移動）',
       help_title:'使い方', shortcuts:'キーボード操作', kbd_space:'タイマー開始／一時停止', kbd_f:'全画面の切り替え', kbd_esc:'パネルを閉じる',
       kbd_reset:'タイマーをリセット', kbd_skip:'次のモードへスキップ', kbd_mode:'集中／小休憩／長休憩', kbd_music:'音楽の再生／停止', kbd_track:'前の曲／次の曲', kbd_quote:'次のことば', kbd_help:'この使い方を開く',
+      msg_more:'もっとことばを →',
       today_h:'今日の集中', stat_sessions:'回', stat_total:'合計', stat_min:'分', stat_none:'まだ記録はありません。ひとつ集中を終えると、ここに残ります。',
       help_body:'左下のツールバーから、タイマー・音楽・背景・表示を調整できます。設定はすべてこの端末のブラウザにだけ保存され、外部には送信されません。音楽と背景の連動をオンにすると、選んだ音源に合った背景へ自動で切り替わります。',
       close:'閉じる',
@@ -800,6 +806,7 @@
       focus_label:'Focusing on: ', drag_label:'Reorder "{name}" (drag, or move with arrow keys)',
       help_title:'How to use', shortcuts:'Keyboard', kbd_space:'Start / pause timer', kbd_f:'Toggle fullscreen', kbd_esc:'Close a panel',
       kbd_reset:'Reset the timer', kbd_skip:'Skip to next mode', kbd_mode:'Focus / short / long break', kbd_music:'Play / pause music', kbd_track:'Previous / next track', kbd_quote:'Next words', kbd_help:'Open this help',
+      msg_more:'More words →',
       today_h:'Focus today', stat_sessions:'sessions', stat_total:'total', stat_min:'min', stat_none:'Nothing recorded yet. Finish one focus session and it will show here.',
       help_body:'Use the toolbar at the bottom to adjust the timer, music, background and display. Everything is stored only in this browser and never sent anywhere. Turn on “background follows music” to auto-switch the scene to match the track.',
       close:'Close',

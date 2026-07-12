@@ -1,6 +1,16 @@
 # ROADMAP — 優先順位つき残タスク
 
-最終更新: 2026-07-12（colors.html 追加・未push）
+最終更新: 2026-07-12（words.html 追加・未push / colors.html はpush済み＋a11y波及修正が未push）
+
+## 2026-07-12 — ことばページ（words.html）追加・push待ち
+名言84件の没入型ページ。企画2体＋実装＋クロスレビュー2体で完了。colors.html にも同根のa11y修正2件を波及（この分も未push）。詳細は DECISION_LOG / QUALITY_REPORT 参照。
+
+**フォローアップ候補（低優先）**:
+- 実機（iOS VoiceOver / TalkBack）での没入モード脱出確認
+- noscript フォールバック（focus/colors/words 三兄弟まとめて一文）
+- 名言カード画像の書き出し（PNG/SVG — オーナー了承済みの後回し項目）
+- 名言の追加運用: QUOTES は**末尾追記のみ**（並べ替え・削除は共有リンクとお気に入りを壊す）。追記日に「本日のことば」が変わる点とヘルプ内件数の更新に注意
+
 
 ## 2026-07-12 — Color Generator（colors.html）追加・push待ち
 65篇のカラーパレット生成ツールを新設。企画4体＋実装＋クロスレビュー2体で完了。詳細は DECISION_LOG / QUALITY_REPORT 参照。

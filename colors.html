@@ -353,6 +353,7 @@
   <div class="nav-right">
     <a href="index.html" class="nav-link">Home</a>
     <a href="focus.html" class="nav-link">Focus</a>
+    <a href="words.html" class="nav-link">Words</a>
     <a href="blog/" class="nav-link">Blog</a>
     <a href="contact.html" class="nav-link">Contact</a>
   </div>
@@ -641,7 +642,8 @@
   </div>
 </aside>
 
-<div class="notice" id="notice" role="status" aria-live="polite"><span id="noticeText"></span><button type="button" id="noticeClose">閉じる</button></div>
+<!-- SR通知は #srLive が担う（visibility切替中のライブ領域は読まれないため、ここにlive属性は付けない） -->
+<div class="notice" id="notice"><span id="noticeText"></span><button type="button" id="noticeClose">閉じる</button></div>
 <div class="u-hidden" id="srLive" aria-live="polite"></div>
 
 <script>
@@ -713,8 +715,8 @@ const PALETTES = [
   { n: "The Quiet Argument", l: "Nobody raised a voice. The room remembers anyway.", t: ["Emotion"], m: ["Moody", "Cool", "Mysterious"], c: ["eaecec", "dee1e1", "4f6a72", "2e7d74", "272e30"] },
   { n: "Small Brave Morning", l: "Getting up anyway, and the light approves.", t: ["Emotion", "Bright"], m: ["Warm", "Soft", "Playful"], c: ["faf5e2", "f3ecce", "94742e", "3f95c6", "3a3322"] }
 ];
-'use strict';
 (function () {
+  'use strict';
   var $ = function (id) { return document.getElementById(id); };
   var ROLES = ['Background', 'Surface', 'Primary', 'Accent', 'Text'];
   var THEMES = ['Time', 'Nature', 'Memory', 'Emotion', 'Places', 'Seasons', 'Dream', 'Minimal', 'Vintage', 'Romantic', 'Dark', 'Bright', 'Earthy', 'Futuristic'];
@@ -831,15 +833,23 @@ const PALETTES = [
   }
 
   /* ================= トースト・SR通知 ================= */
-  var notice = $('notice'), noticeText = $('noticeText'), noticeTimer = null;
+  /* トーストは visibility:hidden で隠す間 a11yツリーから外れるため、SR通知は常時可視の #srLive が担う。
+     同一文字列の連続通知が無視されるSRがあるため、直前と同じ文なら空白1字を足して変化をつける
+     （rAF/timer依存にしない: タブが背面のときも確実に反映させる） */
+  var notice = $('notice'), noticeText = $('noticeText'), noticeTimer = null, lastLive = '';
+  function announce(text) {
+    var live = $('srLive');
+    live.textContent = (text === lastLive) ? text + ' ' : text;
+    lastLive = live.textContent;
+  }
   function showNotice(text, ms) {
     noticeText.textContent = text;
+    announce(text);
     notice.classList.add('show');
     clearTimeout(noticeTimer);
     noticeTimer = setTimeout(function () { notice.classList.remove('show'); }, ms || 2400);
   }
   $('noticeClose').addEventListener('click', function () { clearTimeout(noticeTimer); notice.classList.remove('show'); });
-  function announce(text) { $('srLive').textContent = text; }
 
   /* ================= 生成 ================= */
   function pool() {
@@ -1083,7 +1093,10 @@ const PALETTES = [
   // パネルを開いている間、背後の要素を支援技術・Tabから隔離する（aria-modalの実体。focus.htmlのsetPanelInertと同型）
   function setPanelInert(on, exceptEl) {
     Array.prototype.forEach.call(document.body.children, function (el) {
-      if (el === exceptEl || (el.classList && el.classList.contains('backdrop'))) { el.inert = false; return; }
+      /* トーストとSRライブ領域はパネル開中も生かす（inertにするとパネル内操作の通知が死ぬ） */
+      if (el === exceptEl ||
+          (el.classList && (el.classList.contains('backdrop') || el.classList.contains('notice'))) ||
+          el.id === 'srLive') { el.inert = false; return; }
       el.inert = on;
     });
   }
@@ -1126,7 +1139,7 @@ const PALETTES = [
     /* フォーカストラップ（focus.htmlと同パターン） */
     panel.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab') return;
-      var focusables = panel.querySelectorAll('button, a[href], input:not([type="file"]), [tabindex]:not([tabindex="-1"])');
+      var focusables = panel.querySelectorAll('button, a[href], input:not([type="file"]), select, textarea, [tabindex]:not([tabindex="-1"])');
       if (!focusables.length) return;
       var first = focusables[0], last = focusables[focusables.length - 1];
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }

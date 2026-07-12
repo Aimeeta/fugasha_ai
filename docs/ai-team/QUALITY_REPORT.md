@@ -1,6 +1,36 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-12（colors.html 新規追加・未push）
+最終検証: 2026-07-12（words.html 新規追加・未push）
+
+## ことばページ新規追加（2026-07-12・未push）
+新規: `words.html`（単一HTML・約990行・外部依存ゼロ）。名言84件の没入型表示ページ。
+変更: focus.html（「もっとことばを →」導線＋ナビ）/ index.html・colors.html（ナビ）/ sitemap.xml / **colors.html（words監査で見つかった同根Serious 2件の波及修正）**
+
+### 分隊（4体・波状）
+企画並列2体: creative-director（コンセプト・8背景の裁定・禁じ手）/ brand-copywriter（84件・出典検証・自訳）→ 主スレッド実装 → クロスレビュー並列2体: frontend-engineer / a11y-auditor
+
+### 実行した検証
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| データ整合 | node で84件の構造・カテゴリ・背景・重複を機械検証（FEが独立再実行） | ✅ エラー0・全10カテゴリ7件以上・全8背景6件以上 |
+| 背景×インクのコントラスト | WCAG式（グラデ端点＋光の最濃部ブレンド） | ✅ 全テーマ fg≥8.9 / fg2≥6.3 / hint≥4.5（dusk専用--hint #454a51 で担保） |
+| inline JS / タグ整合 | 抽出→node --check＋開閉カウント（words/colors/focus/index） | ✅ 全て OK |
+| 全機能 | ローカルサーバー＋ブラウザ（デスクトップ/モバイル375px） | ✅ 本日のことば・次へ・にじみ遷移・背景クロスフェード・気分フィルタ（Calm選択→全件適合を確認）・言語3モード・お気に入り・書き置き・没入モード・ハッシュ復元・導線 |
+| コンソール | 両ページ・全操作後 | ✅ エラーゼロ |
+
+### クロスレビュー指摘への対応（FE 15件＋a11y 15件を統合）
+- **S（words・colorsに波及）**: トーストがvisibility:hidden中SRに読まれない → SR通知を常時可視の#srLiveへ一本化（rAF非依存・同一文回避付き。プレビュー環境でrAF不発を実測し同期方式へ）/ パネル開中に notice・srLive がinert → 除外リストに追加。**両ファイル修正・ブラウザで確認**
+- **高（FEがブラウザ再現したデータバグ）**: 書き置きdebounce中の「次へ」で別のことばに保存 → 入力時点のidx捕捉＋切替時フラッシュ。修正後に保存先が正しいことを実測確認
+- **中**: 連打時の出フェーズタイマー未追跡（outTimer追加）/ 'use strict'が無効位置（両ファイルIIFE先頭へ）/ ?・→キーのスコープをcolorsと統一（2.1.4）/ QUOTES末尾追記のみ運用の設計コメント追記 / qPromptのlang付与範囲 / fav削除後のフォーカス喪失（panel-close等へ復帰＋通知）/ 気分選択のモード変更通知（next後に通知）
+- **低**: 没入中トーストの閉じるで没入解除される / eyebrowがフィルタ外のことばに誤ラベル / Nキー未記載 / aria-haspopup=dialog付与 / フォーカストラップselector統一（textarea/select、colorsも）/ qSubをblockquote内へ（視覚順: 本文→原文→著者）/ reduced-motionのtransition-delay全体打消し / q-anim-outにfilter/transform追加 / openPanelのlastFocus上書きガード
+
+### 見送り・未検証（開示）
+- 実機（iOS VoiceOver / Android TalkBack）での没入モード脱出経路 — コード上はクリック/Esc/focusinの三重脱出だが実機未検証（a11y M-4）
+- お気に入り一覧はENモードでも日本語表示（保存物は原典表示という意図的判断）
+- noscriptフォールバック（三兄弟共通の別タスク候補）/ aria-labelledbyへの統一 / eyebrow英語部分のlangスパン
+- 名言カード画像の書き出し（オーナー了承済みの後回し）/ 実機スワイプ
+
+## Color Generator ページ新規追加（2026-07-12・未push）
 
 ## Color Generator ページ新規追加（2026-07-12・未push）
 新規: `colors.html`（単一HTML・CSS/JSインライン・約1420行・外部依存ゼロ）。65篇のカラーパレット生成ツール。
