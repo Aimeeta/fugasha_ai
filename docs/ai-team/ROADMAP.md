@@ -1,15 +1,18 @@
 # ROADMAP — 優先順位つき残タスク
 
-最終更新: 2026-07-12（Sky Tonight 新設。**未push**。Today はpush済み）
+最終更新: 2026-07-12（余白ハブ新設・ナビ統合。**未push**。Today はpush済み）
+
+## 2026-07-12 — 余白（yohaku.html）ハブ＋ナビ統合 — 実装済み・未push
+静かなページ群を一枚の目次に集約。全ページのグローバルナビを Home / 余白 / Colors / Blog（/Contact）へ。EN は Yohaku。詳細は DECISION_LOG / QUALITY_REPORT。
+**フォローアップ候補**: 索引に将来ページ（Seasons/Reading/Unhurry）を追加 / 実機での見た目確認
 
 ## 2026-07-12 — Sky Tonight（sky.html）— 実装済み・未push
 今夜の月の和名・月齢・流星群ごよみ・日の入り。外部API不使用、天文計算はハーネス検証済み。詳細は DECISION_LOG / QUALITY_REPORT。
-
 **公開前の確認候補**: 実機での見た目 / 流星群データの2026年個別予報との照合（任意）
-**フェーズ2候補**: 惑星の見え方（宵の金星等）/ 月の出時刻 / 「庭」ハブ導入時のナビ組み込み
+**フェーズ2候補**: 惑星の見え方（宵の金星等）/ 月の出時刻
 
-## 検討中 — 「庭」ハブ（garden.html）
-静かなページ群（Focus・Today・Colors・Words・Sky・将来のSeasons/Reading/Unhurry）を一枚の目次に集め、グローバルナビを Home / Garden / Blog / Contact に整理する構想。オーナーに提案済み・承認待ち。承認後は全ページのナビ差し替えが必要（対象: index/en/focus/today/colors/words/sky/blog群/contact/privacy/security-ai）。
+## 「庭」シリーズ 未実装のアイデア（オーナーと合意済みの候補）
+Seasons（七十二候）/ Slow Reading（今日の一節・縦書き）/ Unhurry（何もしない5分）/ Life in Weeks。着手順の目安は Unhurry→（Skyは実装済み）→Seasons→Life in Weeks→Slow Reading。実装時は yohaku.html の索引に追加する。
 
 ## 2026-07-12 — Today ページ新設 — **push済み・公開中**
 デジタル・アルマナック `today.html` を新設。words.html の名言を統合、Focus から名言を撤去、ナビ/sitemap を配線。詳細は DECISION_LOG / QUALITY_REPORT。

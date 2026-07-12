@@ -1,6 +1,28 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-12（Sky Tonight 新設）
+最終検証: 2026-07-12（余白ハブ新設・ナビ統合）
+
+## 余白（yohaku.html）ハブ新設・グローバルナビ統合（2026-07-12）
+新規: `yohaku.html`。ナビ変更: index/focus/today/colors/sky/words/privacy/security-ai/en。sitemap更新。
+
+### 実行した検証
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| inline JS 構文 | yohaku 抽出 → `node --check` / focus.js 再検証 | ✅ 両OK |
+| タグ整合 | yohaku マークアップ開閉カウント | ✅ 全一致 |
+| コンソール | yohaku / focus | ✅ エラーゼロ |
+| ライブ状態 | 集中=時計23:14 / 今日=JULY 12 / 今夜の空=二十八日月 / ことば=—モンテーニュ | ✅ 各ページと一致（月＝sky.html、著者＝seed%84） |
+| ナビ配線 | 全9ページ＋enが yohaku を指す / Focus・Today の旧nav項目残存なし | ✅ grep一致・残存0 |
+| i18n | focus.html EN切替で 余白→Yohaku | ✅ 切替動作 |
+| リンク解決 | 索引4項目の href（focus/today/sky/words） | ✅ 正 |
+| モバイル | 375px横溢れ判定 | ✅ 溢れなし |
+| エントランス | fail-open（.pre＋2.5sバックストップ、スタッガー付） | ✅ 5/5表示 |
+
+### 未検証（開示）
+- contact.html は独自の最小ナビ（戻るリンクのみ）のため 余白 未追加（意図的）
+- 実機（iOS/Android）・スクリーンリーダー通し — 未実行
+
+## Sky Tonight（sky.html）新設（2026-07-12）
 
 ## Sky Tonight（sky.html）新設（2026-07-12）
 新規: `sky.html`。変更: `today.html`（フッターに導線）、`sitemap.xml`。

@@ -87,6 +87,7 @@
     .nav-right { display: flex; align-items: center; gap: 26px; }
     .nav-link { font-size: 11px; color: var(--fg2); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; padding: 7px 2px; }
     .nav-link:hover { color: var(--fg); }
+    .nav-link.active { color: var(--fg); border-bottom: 1px solid var(--accent); }
     @media (max-width: 640px) { .nav { padding-left: 20px; padding-right: 20px; } .nav-right { gap: 14px; } }
 
     /* ====== 舞台 ====== */
@@ -253,8 +254,7 @@
   <a href="index.html" class="nav-logo">風雅舎</a>
   <div class="nav-right">
     <a href="index.html" class="nav-link">Home</a>
-    <a href="focus.html" class="nav-link">Focus</a>
-    <a href="today.html" class="nav-link">Today</a>
+    <a href="yohaku.html" class="nav-link active" aria-current="page">余白</a>
     <a href="colors.html" class="nav-link">Colors</a>
     <a href="blog/" class="nav-link">Blog</a>
   </div>
