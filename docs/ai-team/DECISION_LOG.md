@@ -2,6 +2,21 @@
 
 新しい決定は上に追記する。形式: 日付 / 決定 / 理由 / 決定者。
 
+## 2026-07-12 — Today ページ新設（デジタル・アルマナック）／words.html の名言を統合
+オーナー指示「今日と今月を少し特別にする Today ページを追加。名言専用ページ(words.html)の内容を統合。Focus から名言セクションを削除」に基づく実装。
+
+- **新規: `today.html`** — 単一HTML（CSS/JSインライン・ビルドなし）。既存デザインシステム（トークン/ナビ/背景/トースト）を再利用。10セクション: 日付ヒーロー / Quote of the Day / Today in History / This Month in History / Did You Know / The Story of This Month / Born This Month / A Question for Today / Daily Action / Sources & References
+- **データ構造**: `MONTHS[1..12]`（events/people/facts/story）+ `SOURCES`（機関単位）+ `QUOTES`（words.htmlの84編を移設）+ `QUESTIONS`/`ACTIONS`。日替りシードは colors/words と共通（`Y*372+(M-1)*31+D`）。日別コンテンツが無い日は月別で埋め、ページが空にならない設計
+- **本文はJA主体・見出し/ラベル/カテゴリはEN**（アルマナックの編集的トーン。多言語の作成量も抑制）。名言のみ英日併記
+- **出典厳守**: 出典が確認できない出来事・雑学・名言は載せない。名言は出典の確かな古典（パブリックドメイン）＋風雅舎オリジナルのみ（words.htmlの方針を踏襲）。戦争・災害偏重を避け発明/文化/科学/探検を広く採用。**注意: 各出来事の内容はアシスタントの知識ベースで、機関URLは"参考"として提示。公開前に日付・URLの実確認を推奨（push＝本番のため）**
+- **背景は全月ライトテーマ固定**（長スクロールの可読性・コントラストを最優先。夜系テーマは不採用）
+- **エントランス演出は fail-open**: 既定で表示、JSが `.pre` を付けたときだけ隠す。IntersectionObserver＋スクロール＋2.5秒の無条件バックストップの三重で、JS/IOが動かない環境でも本文が隠れたままにならない（アクセシビリティ＞演出）
+- **words.html は残置**（URL直アクセスは可）だがグローバルナビからは Today に置換。共有リンク(#q=)・お気に入りindexを壊さないため削除・リダイレクトはしない
+- **ナビ**: index/focus/colors/words の "Words" を "Today" に置換、sitemap に today.html 追加（changefreq=daily）。Focus→Today の控えめな導線を新設、Today→Focus はフッターCTA
+
+## 2026-07-12 — Focus から名言（.msg）機能を撤去
+名言・歴史・雑学・日々のインスピレーションは Today に集約する方針のため。Focus はポモドーロ/時計/ToDo/音楽/背景/集中操作に専念。撤去範囲: `.msg-*` CSS・`.msg-wrap` HTML・`MESSAGES`/`pickMessage`/`msgNext`/Nキー/関連呼び出し・i18n(`kbd_quote`/`msg_more`)・ヘルプのNキー行。共有セレクタの `.pomo-task` は保持。
+
 ## 2026-07-12 — AI Daily News 自動生成パイプライン（GitHub Actions採用・n8n/microCMS不採用）
 オーナー指示「毎日のAIニュースまとめ記事の自動生成・投稿」。推奨構成は n8n + microCMS だったが、「現構成でよりシンプルで安全な方法があればそちらを選択」の委任に基づき裁定:
 

@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Today | 風雅舎</title>
+  <meta name="description" content="今日と今月を、少し特別にする一枚。今日の出来事、今月の歴史、雑学、名言、そして小さな問いと行動を集めた、静かなデジタル・アルマナック。">
+  <meta property="og:title" content="Today | 風雅舎">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/today.html">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="風雅舎">
+  <meta name="theme-color" content="#f6f2e4" id="metaTheme">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/today.html">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #f0e6d6;
+      --bg2:     #e8dcc8;
+      --fg:      #0d2030;
+      --fg2:     #1e3a50;
+      --hint:    #4d525a;
+      --accent:  #e8866a;
+      --accent2: #f0a882;
+      --accent-ink: #7a4025;
+      --line:    rgba(13,32,48,.12);
+      --panel:   #f4ecdf;
+      --shadow:  rgba(13,32,48,.14);
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+      --ease: cubic-bezier(.16,1,.3,1);
+      --maxw: 720px;
+    }
+    /* dusk は光の最濃部で hint 4.2:1 まで落ちるため、専用に一段暗く（words.htmlと同方針） */
+    [data-bg="dusk"] { --hint: #454a51; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; transition-delay: 0ms !important; scroll-behavior: auto !important; }
+    }
+    html { scroll-behavior: smooth; }
+    html, body { min-height: 100%; }
+    body {
+      font-family: var(--font-sans); color: var(--fg);
+      background: var(--bg);
+      line-height: 1.8;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    ::selection { background: rgba(232,134,106,.3); color: var(--fg); }
+    :focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 3px; border-radius: 2px; }
+    button { font-family: var(--font-sans); color: inherit; }
+    .u-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+    .skip-link { position: absolute; left: 16px; top: -48px; z-index: 90; background: var(--fg); color: var(--bg); padding: 10px 16px; border-radius: 0 0 4px 4px; font-size: 12px; text-decoration: none; transition: top .2s; }
+    .skip-link:focus { top: 0; }
+
+    /* ====== 背景（words.html と同じ2層クロスフェード。Todayは月ごとに1テーマ固定） ====== */
+    .bgl { position: fixed; inset: 0; z-index: 0; opacity: 0; transition: opacity 1.6s ease; pointer-events: none; }
+    .bgl.show { opacity: 1; }
+    .bg-dawn   { background: radial-gradient(55% 40% at 50% 82%, rgba(235,160,100,.30), transparent 70%), linear-gradient(180deg, #e6e2e8 0%, #f3e3cc 55%, #f1d8b9 100%); }
+    .bg-noon   { background: radial-gradient(60% 45% at 50% 12%, rgba(255,255,255,.50), transparent 70%), linear-gradient(180deg, #eff3f4 0%, #f6f2e4 100%); }
+    .bg-mist   { background: radial-gradient(70% 50% at 50% 40%, rgba(255,255,255,.35), transparent 75%), linear-gradient(180deg, #e8eaeb 0%, #e9e7e0 100%); }
+    .bg-forest { background: radial-gradient(60% 45% at 32% 20%, rgba(210,225,170,.35), transparent 70%), linear-gradient(180deg, #e5ebe1 0%, #eeeedd 100%); }
+    .bg-bloom  { background: radial-gradient(50% 40% at 68% 26%, rgba(240,180,150,.28), transparent 70%), linear-gradient(160deg, #f5efe6 0%, #f0e6ef 60%, #e9e9f4 100%); }
+    .bg-dusk   { background: radial-gradient(55% 40% at 50% 76%, rgba(232,134,106,.22), transparent 72%), linear-gradient(180deg, #ecdcd2 0%, #e5c6b4 100%); }
+
+    /* ====== ナビ ====== */
+    .nav { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; padding: calc(env(safe-area-inset-top) + 18px) 40px 16px; }
+    .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 26px; }
+    .nav-link { font-size: 11px; color: var(--fg2); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; padding: 7px 2px; }
+    .nav-link:hover { color: var(--fg); }
+    .nav-link.active { color: var(--fg); border-bottom: 1px solid var(--accent); }
+    @media (max-width: 640px) { .nav { padding-left: 20px; padding-right: 20px; } .nav-right { gap: 14px; } }
+    @media (max-width: 460px) { .nav-right .nav-opt { display: none; } }
+
+    /* ====== 全体レイアウト ====== */
+    main { position: relative; z-index: 2; }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+    @media (max-width: 640px) { .wrap { padding: 0 20px; } }
+
+    .sec { padding: 68px 0; border-top: 1px solid var(--line); }
+    .sec:first-of-type { border-top: none; }
+    @media (max-width: 640px) { .sec { padding: 52px 0; } }
+    .sec-head { margin-bottom: 34px; }
+    .eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .24em; color: var(--fg2); text-transform: uppercase; display: block; }
+    .sec-title { font-family: var(--font-serif); font-weight: 400; font-feature-settings: 'palt' 1; font-size: clamp(22px, 3.4vw, 30px); line-height: 1.5; margin-top: 12px; letter-spacing: .01em; }
+    .sec-lead { font-size: 14px; color: var(--fg2); margin-top: 12px; max-width: 34em; line-height: 1.9; }
+
+    /* エントランス（IntersectionObserver + CSS transition）。
+       fail-open 設計: 既定は表示。JSが .pre を付けたときだけ隠し、演出は純粋な上乗せ。
+       JS/IOが動かない環境でも本文は必ず読める。 */
+    .reveal { transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.pre { opacity: 0; transform: translateY(16px); }
+    .reveal.pre.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal.pre { opacity: 1; transform: none; } }
+
+    .cat { display: inline-block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); border: 1px solid color-mix(in srgb, var(--accent-ink) 30%, transparent); border-radius: 999px; padding: 2px 9px; }
+    .src-link { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .04em; color: var(--hint); text-decoration: none; border-bottom: 1px dotted var(--line); padding-bottom: 1px; transition: color .2s, border-color .2s; }
+    .src-link:hover { color: var(--fg); border-color: var(--hint); }
+    .src-link svg { width: 11px; height: 11px; vertical-align: -1px; margin-left: 2px; }
+
+    /* ====== 1. 日付ヒーロー ====== */
+    .hero { min-height: 92vh; min-height: 92dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: calc(env(safe-area-inset-top) + 120px) 28px 64px; }
+    .hero-month { font-family: var(--font-serif); font-weight: 300; font-size: clamp(52px, 15vw, 128px); line-height: .98; letter-spacing: .01em; text-transform: uppercase; color: var(--fg); }
+    .hero-sub { font-family: var(--font-mono); font-size: clamp(13px, 2.4vw, 16px); letter-spacing: .18em; color: var(--fg2); margin-top: 20px; text-transform: uppercase; }
+    .hero-copy { font-family: var(--font-serif); font-weight: 300; font-size: clamp(15px, 2.4vw, 19px); line-height: 1.9; color: var(--fg2); max-width: 24em; margin: 34px auto 0; }
+    .hero-copy .ja { display: block; font-size: 13.5px; color: var(--hint); margin-top: 8px; }
+    .hero-scroll { margin-top: 52px; display: inline-flex; flex-direction: column; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; color: var(--hint); font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; padding: 8px; transition: color .2s; }
+    .hero-scroll:hover { color: var(--fg); }
+    .hero-scroll svg { width: 18px; height: 18px; animation: nudge 2.4s var(--ease) infinite; }
+    @keyframes nudge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+    @media (prefers-reduced-motion: reduce) { .hero-scroll svg { animation: none; } }
+
+    /* ====== 2. Quote of the Day ====== */
+    .qsec { text-align: center; padding: 80px 0; }
+    .q-fig { margin: 0 auto; max-width: 24em; }
+    .q-text { font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1; font-size: clamp(24px, 4.2vw, 40px); line-height: 1.72; letter-spacing: .015em; color: var(--fg); transition: opacity .7s var(--ease), filter .7s var(--ease); }
+    .q-sub { font-family: var(--font-serif); font-weight: 300; font-size: 15px; line-height: 1.9; color: var(--fg2); max-width: 30em; margin: 18px auto 0; transition: opacity .7s var(--ease) .08s, filter .7s var(--ease) .08s; }
+    .q-sub:empty { display: none; }
+    .q-author { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .12em; color: var(--fg2); margin-top: 26px; transition: opacity .7s var(--ease) .16s; }
+    .q-author-desc { font-size: 12.5px; color: var(--hint); margin-top: 6px; line-height: 1.8; transition: opacity .7s var(--ease) .16s; }
+    .q-source { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .06em; color: var(--hint); margin-top: 10px; }
+    .q-anim-out .q-text, .q-anim-out .q-sub, .q-anim-out .q-author, .q-anim-out .q-author-desc { opacity: 0; filter: blur(4px); }
+    .q-ctrl { display: flex; align-items: center; gap: 14px; justify-content: center; margin-top: 40px; }
+    .q-btn { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; padding: 0; background: color-mix(in srgb, var(--panel) 46%, transparent); border: 1px solid var(--line); backdrop-filter: blur(10px) saturate(1.3); -webkit-backdrop-filter: blur(10px) saturate(1.3); color: var(--fg2); transition: background .2s, color .2s, border-color .2s, transform .15s var(--ease); }
+    .q-btn:hover { color: var(--fg); border-color: var(--hint); }
+    .q-btn:active { transform: scale(.93); }
+    .q-btn svg { width: 18px; height: 18px; }
+    .q-btn--main { width: 62px; height: 62px; background: var(--accent); color: #0d2030; border-color: transparent; box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 40%, transparent); }
+    .q-btn--main:hover { background: var(--accent); opacity: .88; color: #0d2030; }
+    .q-btn--main svg { width: 22px; height: 22px; }
+    .q-btn[aria-pressed="true"] { color: var(--accent-ink); border-color: color-mix(in srgb, var(--accent-ink) 45%, transparent); }
+    .q-btn[aria-pressed="true"] .ic-heart { fill: currentColor; }
+    .q-savedlink { display: inline-block; margin-top: 22px; background: none; border: none; border-bottom: 1px solid var(--line); cursor: pointer; font-size: 12px; color: var(--hint); letter-spacing: .05em; padding: 5px 2px; min-height: 32px; transition: color .2s, border-color .2s; }
+    .q-savedlink:hover { color: var(--fg); border-color: var(--hint); }
+
+    /* ====== 3. Today in History（縦タイムライン） ====== */
+    .timeline { list-style: none; position: relative; padding-left: 26px; }
+    .timeline::before { content: ""; position: absolute; left: 4px; top: 6px; bottom: 6px; width: 1px; background: var(--line); }
+    .tl-item { position: relative; padding: 0 0 30px; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-item::before { content: ""; position: absolute; left: -25px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+    .tl-year { font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: .08em; color: var(--fg); }
+    .tl-title { font-family: var(--font-serif); font-weight: 400; font-size: 17px; line-height: 1.6; margin-top: 4px; }
+    .tl-sum { font-size: 13.5px; color: var(--fg2); line-height: 1.85; margin-top: 6px; }
+    .tl-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+    .empty-note { font-size: 13.5px; color: var(--hint); line-height: 1.9; padding: 14px 16px; border: 1px dashed var(--line); border-radius: 6px; }
+
+    /* ====== 4. This Month in History（横スクロールカード） ====== */
+    /* rail-wrap はセクション直下の全幅要素。負マージンは付けず、rail 内側の padding で先頭カードを本文左端にそろえる */
+    .rail-wrap { position: relative; }
+    .rail { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 28px 18px; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+    @media (max-width: 640px) { .rail { padding-left: 20px; padding-right: 20px; } }
+    .rail::-webkit-scrollbar { height: 6px; }
+    .rail::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+    .rail-card { scroll-snap-align: start; flex: 0 0 260px; background: color-mix(in srgb, var(--panel) 60%, transparent); border: 1px solid var(--line); border-radius: 10px; padding: 20px 18px; display: flex; flex-direction: column; gap: 8px; }
+    .rc-date { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; color: var(--accent-ink); }
+    .rc-year { font-family: var(--font-serif); font-weight: 300; font-size: 30px; line-height: 1; color: var(--fg); }
+    .rc-title { font-weight: 500; font-size: 15px; line-height: 1.55; margin-top: 2px; }
+    .rc-sum { font-size: 12.5px; color: var(--fg2); line-height: 1.8; flex: 1; }
+    .rc-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; }
+    .rail-all { list-style: none; margin-top: 22px; display: grid; gap: 14px; }
+    .rail-all[hidden] { display: none; }
+    .allrow { display: grid; grid-template-columns: 66px 1fr; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .allrow:last-child { border-bottom: none; }
+    .allrow .ar-when { font-family: var(--font-mono); font-size: 12px; color: var(--fg2); line-height: 1.5; }
+    .allrow .ar-when b { display: block; font-size: 15px; color: var(--fg); }
+    .allrow .ar-title { font-weight: 500; font-size: 14.5px; line-height: 1.55; }
+    .allrow .ar-sum { font-size: 12.5px; color: var(--fg2); line-height: 1.8; margin-top: 4px; }
+    .allrow .tl-meta { margin-top: 8px; }
+
+    .btn-ghost { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; background: none; border: 1px solid var(--line); border-radius: 999px; cursor: pointer; font-size: 12.5px; letter-spacing: .04em; color: var(--fg2); padding: 10px 20px; min-height: 42px; transition: color .2s, border-color .2s, background .2s; }
+    .btn-ghost:hover { color: var(--fg); border-color: var(--hint); background: color-mix(in srgb, var(--fg) 5%, transparent); }
+    .btn-ghost svg { width: 14px; height: 14px; transition: transform .2s var(--ease); }
+    .btn-ghost[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+    /* ====== 5. Did You Know（小さなカード） ====== */
+    .fact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+    .fact-card { background: color-mix(in srgb, var(--panel) 50%, transparent); border: 1px solid var(--line); border-radius: 10px; padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 10px; }
+    .fact-icon { width: 22px; height: 22px; color: var(--accent-ink); }
+    .fact-text { font-size: 14px; line-height: 1.85; color: var(--fg); flex: 1; }
+    .fact-cat { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--hint); }
+    .fact-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+    /* ====== 6. The Story of This Month（エディトリアル） ====== */
+    .story { border-left: 2px solid var(--accent); padding: 4px 0 4px 24px; }
+    .story + .story { margin-top: 40px; }
+    .story-title { font-family: var(--font-serif); font-weight: 400; font-size: clamp(19px, 2.8vw, 24px); line-height: 1.55; }
+    .story-body { font-size: 15px; line-height: 2; color: var(--fg2); margin-top: 14px; }
+    .story-body p + p { margin-top: 12px; }
+    .story-src { margin-top: 14px; }
+
+    /* ====== 7. Born This Month（人物カード） ====== */
+    .people { display: grid; gap: 16px; }
+    .person { background: color-mix(in srgb, var(--panel) 46%, transparent); border: 1px solid var(--line); border-radius: 12px; padding: 22px 22px; }
+    .person-top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .person-name { font-family: var(--font-serif); font-weight: 400; font-size: 20px; }
+    .person-name .en { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; color: var(--hint); margin-left: 8px; }
+    .person-meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; color: var(--fg2); margin-top: 6px; }
+    .person-bio { font-size: 14px; line-height: 1.9; color: var(--fg2); margin-top: 12px; }
+    .person-work { font-size: 13px; line-height: 1.8; color: var(--fg); margin-top: 10px; }
+    .person-work b { font-weight: 500; }
+    .person-quote { font-family: var(--font-serif); font-weight: 300; font-style: italic; font-size: 14.5px; line-height: 1.85; color: var(--fg); border-top: 1px solid var(--line); margin-top: 14px; padding-top: 14px; }
+    .person-foot { margin-top: 14px; }
+
+    /* ====== 8. A Question for Today ====== */
+    .qa { max-width: 30em; }
+    .qa-q { font-family: var(--font-serif); font-weight: 300; font-size: clamp(20px, 3.2vw, 27px); line-height: 1.7; color: var(--fg); }
+    .qa-q .ja { display: block; font-size: 15px; color: var(--fg2); margin-top: 10px; }
+    .qa-form { margin-top: 22px; }
+    .qa-input { width: 100%; font-family: var(--font-sans); font-size: 15px; line-height: 1.9; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: color-mix(in srgb, var(--panel) 60%, transparent); color: var(--fg); resize: vertical; min-height: 72px; }
+    .qa-input::placeholder { color: var(--hint); }
+    .qa-row { display: flex; align-items: center; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
+    .qa-hint { font-size: 11.5px; color: var(--hint); letter-spacing: .02em; flex: 1; min-width: 180px; }
+    .qa-history { margin-top: 26px; }
+    .qa-history summary { cursor: pointer; font-size: 12.5px; color: var(--fg2); letter-spacing: .04em; padding: 8px 2px; min-height: 34px; list-style: none; display: inline-flex; align-items: center; gap: 8px; }
+    .qa-history summary::-webkit-details-marker { display: none; }
+    .qa-history summary svg { width: 13px; height: 13px; transition: transform .2s var(--ease); }
+    .qa-history[open] summary svg { transform: rotate(90deg); }
+    .qa-history ul { list-style: none; margin-top: 12px; display: flex; flex-direction: column; gap: 12px; }
+    .qa-hist-item { border-left: 2px solid var(--line); padding: 2px 0 2px 14px; }
+    .qa-hist-date { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .06em; color: var(--hint); }
+    .qa-hist-q { font-size: 12px; color: var(--hint); margin-top: 2px; }
+    .qa-hist-a { font-size: 14px; color: var(--fg); line-height: 1.8; margin-top: 3px; white-space: pre-wrap; }
+    .qa-hist-empty { font-size: 12.5px; color: var(--hint); }
+
+    /* ====== 9. Daily Action ====== */
+    .action { display: flex; align-items: flex-start; gap: 16px; max-width: 30em; padding: 22px 22px; border: 1px solid var(--line); border-radius: 12px; background: color-mix(in srgb, var(--panel) 46%, transparent); transition: border-color .5s var(--ease), background .5s var(--ease); }
+    .action.done { border-color: color-mix(in srgb, var(--accent-ink) 40%, transparent); background: color-mix(in srgb, var(--accent) 9%, transparent); }
+    .action-check { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--hint); background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: transparent; transition: border-color .3s var(--ease), color .3s var(--ease), transform .2s var(--ease); margin-top: 2px; }
+    .action-check:hover { border-color: var(--accent-ink); }
+    .action-check svg { width: 16px; height: 16px; stroke-dasharray: 22; stroke-dashoffset: 22; transition: stroke-dashoffset .4s var(--ease); }
+    .action.done .action-check { border-color: var(--accent-ink); color: var(--accent-ink); }
+    .action.done .action-check svg { stroke-dashoffset: 0; }
+    .action.pulse .action-check { animation: chk 0.5s var(--ease); }
+    @keyframes chk { 0% { transform: scale(1); } 40% { transform: scale(1.16); } 100% { transform: scale(1); } }
+    @media (prefers-reduced-motion: reduce) { .action.pulse .action-check { animation: none; } .action-check svg { transition: none; } }
+    .action-body .en { font-size: 15.5px; font-weight: 500; line-height: 1.6; }
+    .action-body .ja { font-size: 13.5px; color: var(--fg2); margin-top: 4px; }
+    .action-done-msg { font-size: 12px; color: var(--accent-ink); letter-spacing: .04em; margin-top: 8px; opacity: 0; transition: opacity .4s ease; }
+    .action.done .action-done-msg { opacity: 1; }
+
+    /* ====== 10. Sources & References ====== */
+    .refs summary { cursor: pointer; font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--fg2); padding: 12px 0; list-style: none; display: flex; align-items: center; gap: 10px; }
+    .refs summary::-webkit-details-marker { display: none; }
+    .refs summary svg { width: 14px; height: 14px; transition: transform .2s var(--ease); }
+    .refs[open] summary svg { transform: rotate(90deg); }
+    .ref-list { list-style: none; margin-top: 8px; display: grid; gap: 4px; }
+    .ref-item { padding: 12px 0; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.75; color: var(--fg2); }
+    .ref-item b { color: var(--fg); font-weight: 500; }
+    .ref-item .ref-org { color: var(--hint); }
+    .ref-item a { color: var(--accent-ink); text-decoration: none; border-bottom: 1px dotted color-mix(in srgb, var(--accent-ink) 40%, transparent); word-break: break-all; }
+    .ref-item .ref-acc { font-family: var(--font-mono); font-size: 10.5px; color: var(--hint); }
+    .refs-note { font-size: 11.5px; color: var(--hint); line-height: 1.9; margin-top: 18px; }
+
+    /* ====== フッター導線（Focusへ） ====== */
+    .footcta { text-align: center; padding: 72px 28px calc(env(safe-area-inset-bottom) + 80px); border-top: 1px solid var(--line); }
+    .footcta-lead { font-family: var(--font-serif); font-weight: 300; font-size: clamp(19px, 3vw, 26px); line-height: 1.6; color: var(--fg); }
+    .footcta-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 12px 26px; transition: border-color .2s, background .2s; }
+    .footcta-link:hover { border-color: var(--hint); background: color-mix(in srgb, var(--fg) 5%, transparent); }
+    .footcta-link svg { width: 15px; height: 15px; }
+    .footmeta { margin-top: 40px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em; color: var(--hint); }
+    .footmeta a { color: var(--hint); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .footmeta a:hover { color: var(--fg); }
+
+    /* ====== 通知トースト ====== */
+    .notice { position: fixed; top: calc(env(safe-area-inset-top) + 16px); left: 50%; z-index: 60; transform: translate(-50%, -16px); opacity: 0; visibility: hidden; pointer-events: none; background: var(--fg); color: var(--bg); font-size: 13px; line-height: 1.7; padding: 14px 20px 14px 17px; border-radius: 8px; border-left: 3px solid var(--accent); display: flex; align-items: center; gap: 14px; max-width: min(480px, calc(100vw - 32px)); box-shadow: 0 8px 32px var(--shadow); transition: opacity .4s, transform .4s var(--ease), visibility 0s .4s; }
+    .notice.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); pointer-events: auto; transition: opacity .4s, transform .4s var(--ease); }
+    .notice button { background: transparent; border: none; color: inherit; opacity: .7; cursor: pointer; font-size: 12px; letter-spacing: .08em; padding: 6px; min-height: 32px; }
+    .notice button:hover { opacity: 1; }
+  </style>
+</head>
+<body data-bg="noon">
+
+<a href="#hero" class="skip-link">本文へ移動</a>
+
+<div class="bgl" id="bgLayer" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="サイト">
+  <a href="index.html" class="nav-logo">風雅舎</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link nav-opt">Home</a>
+    <a href="focus.html" class="nav-link">Focus</a>
+    <a href="today.html" class="nav-link active" aria-current="page">Today</a>
+    <a href="colors.html" class="nav-link nav-opt">Colors</a>
+    <a href="blog/" class="nav-link nav-opt">Blog</a>
+  </div>
+</nav>
+
+<main>
+  <!-- 1. 日付ヒーロー -->
+  <header class="hero" id="hero">
+    <h1 class="u-hidden">Today — 今日と今月のアルマナック</h1>
+    <p class="hero-month" id="heroMonth" aria-live="off"></p>
+    <p class="hero-sub" id="heroSub"></p>
+    <p class="hero-copy"><span id="heroCopyEn"></span><span class="ja" id="heroCopyJa"></span></p>
+    <button type="button" class="hero-scroll" id="heroScroll" aria-label="下へスクロールして読み進める">
+      <span>Scroll</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+    </button>
+  </header>
+
+  <!-- 2. Quote of the Day -->
+  <section class="qsec" aria-labelledby="qHead">
+    <div class="wrap">
+      <span class="eyebrow" id="qHead" style="display:block;margin-bottom:34px">Quote of the Day</span>
+      <figure class="q-fig" id="qFig">
+        <blockquote>
+          <p class="q-text" id="qText"></p>
+          <p class="q-sub" id="qSub" lang="en"></p>
+        </blockquote>
+        <figcaption>
+          <p class="q-author" id="qAuthor"></p>
+          <p class="q-author-desc" id="qAuthorDesc"></p>
+          <p class="q-source" id="qSource"></p>
+        </figcaption>
+      </figure>
+      <div class="q-ctrl">
+        <button type="button" class="q-btn" id="qFav" aria-pressed="false" aria-label="この名言をお気に入りに保存">
+          <svg class="ic-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 12.572 12 20l-7.5-7.428A5 5 0 1 1 12 6.006a5 5 0 1 1 7.5 6.572"/></svg>
+        </button>
+        <button type="button" class="q-btn q-btn--main" id="qNext" aria-label="次の名言へ">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+        </button>
+        <button type="button" class="q-btn" id="qCopy" aria-label="この名言をコピー">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+        </button>
+        <button type="button" class="q-btn" id="qShare" aria-label="この名言を共有">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15 20 4M15 4h5v5M19 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+        </button>
+      </div>
+      <button type="button" class="q-savedlink" id="qSavedBtn" aria-expanded="false">お気に入りを見る（<span id="qSavedCount">0</span>）</button>
+      <div id="qSavedWrap" hidden></div>
+    </div>
+  </section>
+
+  <!-- 3. Today in History -->
+  <section class="sec" aria-labelledby="thHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Today in History</span>
+        <h2 class="sec-title" id="thHead">この日、世界では</h2>
+        <p class="sec-lead" id="thLead"></p>
+      </div>
+      <ol class="timeline reveal" id="thList"></ol>
+      <div id="thEmpty" hidden></div>
+    </div>
+  </section>
+
+  <!-- 4. This Month in History -->
+  <section class="sec" aria-labelledby="tmHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">This Month in History</span>
+        <h2 class="sec-title" id="tmHead">今月の出来事</h2>
+        <p class="sec-lead">アクセスした日だけでなく、この月ぜんたいに起きた出来事から。まずは代表的なものを、横にたどれます。</p>
+      </div>
+    </div>
+    <div class="rail-wrap reveal">
+      <ul class="rail" id="tmRail" aria-label="今月の出来事（横スクロール）"></ul>
+    </div>
+    <div class="wrap">
+      <button type="button" class="btn-ghost" id="tmToggle" aria-expanded="false" aria-controls="tmAll">
+        <span id="tmToggleLabel">すべての出来事を見る</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <ul class="rail-all" id="tmAll" hidden></ul>
+    </div>
+  </section>
+
+  <!-- 5. Did You Know -->
+  <section class="sec" aria-labelledby="dyHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Did You Know?</span>
+        <h2 class="sec-title" id="dyHead">今月・季節の雑学</h2>
+        <p class="sec-lead">確かな出典で確認できたものだけを。「別の雑学へ」で入れ替わります。</p>
+      </div>
+      <div class="fact-grid reveal" id="dyGrid" aria-live="polite"></div>
+      <button type="button" class="btn-ghost" id="dyMore">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+        <span>別の雑学へ</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 6. The Story of This Month -->
+  <section class="sec" aria-labelledby="stHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">The Story of This Month</span>
+        <h2 class="sec-title" id="stHead">今月の物語</h2>
+      </div>
+      <div class="reveal" id="stList"></div>
+    </div>
+  </section>
+
+  <!-- 7. Born This Month -->
+  <section class="sec" aria-labelledby="bnHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Born This Month</span>
+        <h2 class="sec-title" id="bnHead">今月に生まれた人</h2>
+        <p class="sec-lead">時代・国・分野が偏らないように。文化、科学、芸術、思想、技術に足あとを残した人たちを。</p>
+      </div>
+      <div class="people reveal" id="bnList"></div>
+    </div>
+  </section>
+
+  <!-- 8. A Question for Today -->
+  <section class="sec" aria-labelledby="qaHead">
+    <div class="wrap qa">
+      <div class="sec-head reveal">
+        <span class="eyebrow">A Question for Today</span>
+        <h2 class="sec-title" id="qaHead">今日の問い</h2>
+      </div>
+      <div class="reveal">
+        <p class="qa-q" id="qaQuestion"><span id="qaQEn" lang="en"></span><span class="ja" id="qaQJa"></span></p>
+        <div class="qa-form">
+          <label class="u-hidden" for="qaInput">今日の問いへの答え</label>
+          <textarea class="qa-input" id="qaInput" rows="3" maxlength="500" placeholder="ひとことだけ、ここに。"></textarea>
+          <div class="qa-row">
+            <button type="button" class="btn-ghost" id="qaSave" style="margin-top:0">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>
+              <span>書き留める</span>
+            </button>
+            <p class="qa-hint">答えはこの端末のブラウザにだけ保存されます。外部には送信されません。</p>
+          </div>
+        </div>
+        <details class="qa-history" id="qaHistory">
+          <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>これまでの答えを見る</summary>
+          <ul id="qaHistList"></ul>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Daily Action -->
+  <section class="sec" aria-labelledby="daHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Daily Action</span>
+        <h2 class="sec-title" id="daHead">今日の小さな一歩</h2>
+      </div>
+      <div class="action reveal" id="daBox">
+        <button type="button" class="action-check" id="daCheck" role="checkbox" aria-checked="false" aria-labelledby="daText">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>
+        </button>
+        <div class="action-body">
+          <p id="daText"><span class="en" id="daEn" lang="en"></span><span class="ja" id="daJa"></span></p>
+          <p class="action-done-msg" id="daMsg" aria-live="polite">できました。今日のぶんは、これで十分。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Sources & References -->
+  <section class="sec" aria-labelledby="refHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Sources &amp; References</span>
+        <h2 class="sec-title" id="refHead">参考文献</h2>
+        <p class="sec-lead">このページの出来事・雑学・人物で参照した情報源です。各項目の「Source」からも辿れます。</p>
+      </div>
+      <details class="refs reveal" id="refsBox">
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>参照した情報源の一覧を開く（<span id="refCount">0</span>）</summary>
+        <ul class="ref-list" id="refList"></ul>
+      </details>
+      <p class="refs-note">出典は信頼できる機関（Encyclopaedia Britannica / NASA / Smithsonian / Library of Congress / The Nobel Prize / 国立国会図書館 ほか）を優先しています。出典が確認できない出来事・雑学・名言は掲載していません。名言は出典の確かな古典（パブリックドメイン）と風雅舎のオリジナルに限っています。</p>
+    </div>
+  </section>
+
+  <!-- フッター導線 -->
+  <div class="footcta">
+    <p class="footcta-lead">はじめる準備ができたら。<br>Ready to begin?</p>
+    <a href="focus.html" class="footcta-link">Start focusing
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+    </a>
+    <p class="footmeta"><span id="footDate"></span> ・ <a href="index.html">風雅舎</a></p>
+  </div>
+</main>
+
+<div class="notice" id="notice"><span id="noticeText"></span><button type="button" id="noticeClose">閉じる</button></div>
+<div class="u-hidden" id="srLive" aria-live="polite"></div>
+
+<script>
+/* =========================================================================
+   Today — デジタル・アルマナック
+   データ方針:
+   - 日付別: events の d（日）が今日と一致するものを Today in History に。
+   - 月別: 現在の月の events / people / facts / story を表示（その月のあいだ固定）。
+   - 名言: words.html と同じ84編（出典の確かな古典＋風雅舎オリジナル）を移設。日替り＋手動切替。
+   - 出典が確認できない情報は載せない。src は SOURCES のキーを指す。
+   注意: 追加は末尾へ。QUOTES はお気に入り(index基準)を壊さないため並べ替え禁止。
+   ========================================================================= */
+'use strict';
+
+/* ---- 参考文献（機関単位。各コンテンツは src でこのキーを参照） ---- */
+var ACC = '2026-07-12';
+var SOURCES = {
+  britannica: { t: 'Encyclopaedia Britannica', o: 'Encyclopaedia Britannica, Inc.', u: 'https://www.britannica.com' },
+  nasa:       { t: 'NASA', o: 'National Aeronautics and Space Administration', u: 'https://www.nasa.gov' },
+  si:         { t: 'Smithsonian Institution', o: 'Smithsonian Institution', u: 'https://www.si.edu' },
+  loc:        { t: 'Library of Congress', o: 'Library of Congress', u: 'https://www.loc.gov' },
+  nobel:      { t: 'The Nobel Prize', o: 'Nobel Prize Outreach', u: 'https://www.nobelprize.org' },
+  unesco:     { t: 'UNESCO', o: 'United Nations Educational, Scientific and Cultural Organization', u: 'https://www.unesco.org' },
+  un:         { t: 'United Nations', o: 'United Nations', u: 'https://www.un.org' },
+  ndl:        { t: '国立国会図書館', o: 'National Diet Library', u: 'https://www.ndl.go.jp' },
+  royalsoc:   { t: 'The Royal Society', o: 'The Royal Society', u: 'https://royalsociety.org' },
+  met:        { t: 'The Metropolitan Museum of Art', o: 'The Metropolitan Museum of Art', u: 'https://www.metmuseum.org' }
+};
+
+/* ---- 名言（words.html より移設。並べ替え・削除禁止＝共有/お気に入りindexを保つ） ---- */
+var QUOTES = [
+  { q: "A journey of a thousand miles begins beneath your feet.", a: "Laozi", aj: "老子", j: "千里の行も、足下より始まる。" },
+  { q: "An imperfect line beats a perfect plan.", a: "Fugasha", aj: "風雅舎", j: "完璧な計画より、不完全な一行。" },
+  { q: "At dawn, when you are slow to rise, remember: I am getting up to do the work of a human being.", a: "Marcus Aurelius", aj: "マルクス・アウレリウス", j: "起きるのがつらい夜明けには、思い出そう。「私は、人間の仕事をするために起きるのだ」と。" },
+  { q: "You have walked far enough already. Today, let that be acknowledged.", a: "Fugasha", aj: "風雅舎", j: "もう十分歩いてきた。今日は、それを認める日。" },
+  { q: "Those who know it are not the equal of those who love it; those who love it are not the equal of those who delight in it.", a: "Confucius", aj: "孔子", j: "これを知る者はこれを好む者に如かず。これを好む者はこれを楽しむ者に如かず。" },
+  { q: "Deep focus grows only in quiet.", a: "Fugasha", aj: "風雅舎", j: "深い集中は、静けさの中でしか育たない。" },
+  { q: "It is not that we have a short time to live, but that we waste much of it.", a: "Seneca", aj: "セネカ", j: "人生が短いのではない。私たちが、その多くを流してしまうのだ。" },
+  { q: "Fear mostly stands only at the entrance.", a: "Fugasha", aj: "風雅舎", j: "怖さは、たいてい入り口にだけ立っている。" },
+  { q: "Every day is a journey, and the journey itself is home.", a: "Matsuo Basho", aj: "松尾芭蕉", j: "日々旅にして、旅を栖とす。" },
+  { q: "Creation visits where there is room.", a: "Fugasha", aj: "風雅舎", j: "創造は、余白のあるところに訪れる。" },
+  { q: "All know the use of the useful, but none know the use of the useless.", a: "Zhuangzi", aj: "荘子", j: "人みな有用の用を知りて、無用の用を知ることなし。" },
+  { q: "One thing at a time is the fastest path.", a: "Fugasha", aj: "風雅舎", j: "一度にひとつ。それがいちばん速い道になる。" },
+  { q: "Look within; within is the fountain of good, ever ready to bubble up if you keep digging.", a: "Marcus Aurelius", aj: "マルクス・アウレリウス", j: "内に目を向けよ。掘り続ける限り、そこには尽きぬ善の泉がある。" },
+  { q: "Speak to yourself as you would to a friend.", a: "Fugasha", aj: "風雅舎", j: "自分にかける言葉を、友にかける言葉と同じにする。" },
+  { q: "If one advances confidently in the direction of his dreams, he will meet with a success unexpected in common hours.", a: "Henry David Thoreau", aj: "ソロー", j: "自分の夢の方角へ確かな足どりで進む人は、ふだんの時間には思いもよらない実りに出会う。" },
+  { q: "Resting, too, is part of the work.", a: "Fugasha", aj: "風雅舎", j: "休むことも、仕事のうち。" },
+  { q: "One who knows contentment is rich.", a: "Laozi", aj: "老子", j: "足るを知る者は富む。" },
+  { q: "A good question stays with you longer than its answer.", a: "Fugasha", aj: "風雅舎", j: "良い問いは、答えより長く手元に残る。" },
+  { q: "If you hear a voice within you say 'you cannot paint,' then by all means paint, and that voice will be silenced.", a: "Vincent van Gogh", aj: "ファン・ゴッホ", j: "心の中で「おまえには描けない」と声がするなら、なおのこと描くといい。その声は、やがて静かになる。" },
+  { q: "A small step is enough, if the direction is right.", a: "Fugasha", aj: "風雅舎", j: "小さな一歩でいい。方向が合っているなら。" },
+  { q: "The river flows on without pause, and its waters are never the same.", a: "Kamo no Chomei", aj: "鴨長明", j: "ゆく河の流れは絶えずして、しかももとの水にあらず。" },
+  { q: "In the span of one deep breath, most urgency cools.", a: "Fugasha", aj: "風雅舎", j: "深呼吸ひとつぶんの間に、たいていの急ぎは冷める。" },
+  { q: "Hope is the thing with feathers that perches in the soul.", a: "Emily Dickinson", aj: "エミリー・ディキンソン", j: "希望とは、魂にとまる羽のあるもの。" },
+  { q: "To continue is another name for talent.", a: "Fugasha", aj: "風雅舎", j: "続けることは、才能のもうひとつの名前。" },
+  { q: "People are disturbed not by things, but by the opinions they hold about them.", a: "Epictetus", aj: "エピクテトス", j: "人を乱すのは物事そのものではなく、物事についての考えである。" },
+  { q: "To change is not betrayal. It is another name for growth.", a: "Fugasha", aj: "風雅舎", j: "変わることは、裏切りではない。育つことの別の名前。" },
+  { q: "Begin at once to live, and count each day as a separate life.", a: "Seneca", aj: "セネカ", j: "今日から生き始めよう。一日一日を、それぞれ一つの生として数えながら。" },
+  { q: "A cup of tea. Time to look far.", a: "Fugasha", aj: "風雅舎", j: "一杯のお茶。遠くを見る時間。" },
+  { q: "Never forget the beginner's heart.", a: "Zeami", aj: "世阿弥", j: "初心忘るべからず。" },
+  { q: "Write down the doubts, and the desk clears a little.", a: "Fugasha", aj: "風雅舎", j: "迷いを書き出すと、机の上が少し広くなる。" },
+  { q: "I am larger, better than I thought; I did not know I held so much goodness.", a: "Walt Whitman", aj: "ホイットマン", j: "私は、思っていたより大きく、良い人間だった。これほどの善を抱えていたとは、知らなかった。" },
+  { q: "Tiredness is not proof of laziness, but of distance walked.", a: "Fugasha", aj: "風雅舎", j: "疲れは、怠けの証拠ではなく、歩いた距離の証拠。" },
+  { q: "Like a star: without haste, but without rest.", a: "Goethe", aj: "ゲーテ", j: "星のように。急がず、しかし休まず。" },
+  { q: "Beginnings are always quiet and small. Only later do we see that it was a beginning.", a: "Fugasha", aj: "風雅舎", j: "始まりはいつも、静かで小さい。あとから振り返って、それが始まりだったと知る。" },
+  { q: "Confine yourself to the present.", a: "Marcus Aurelius", aj: "マルクス・アウレリウス", j: "いまこの時に、自分をとどめよ。" },
+  { q: "A tool with no play in it cannot go far. Neither can a mind.", a: "Fugasha", aj: "風雅舎", j: "遊びのない道具は、遠くまで行けない。心も同じ。" },
+  { q: "The swiftest horse cannot cover ten paces in a single leap; the slow horse arrives by not giving up.", a: "Xunzi", aj: "荀子", j: "騏驥も一躍にして十歩なる能わず。駑馬も十駕、功は舎てざるに在り。" },
+  { q: "Their pace is theirs. Your pace is yours.", a: "Fugasha", aj: "風雅舎", j: "誰かの速さは、誰かの速さ。あなたの速さは、あなたの速さ。" },
+  { q: "A beginner should not hold two arrows; trusting the second, you grow careless with the first.", a: "Yoshida Kenko", aj: "吉田兼好", j: "初心の人、二つの矢を持つことなかれ。後の矢を頼みて、初めの矢に等閑の心あり。" },
+  { q: "Big work is made of small twenty-five minutes.", a: "Fugasha", aj: "風雅舎", j: "大きな仕事は、小さな二十五分の積み重ねでできている。" },
+  { q: "Be patient with all that is unresolved in your heart, and try to love the questions themselves.", a: "Rainer Maria Rilke", aj: "リルケ", j: "心の中の解けないものすべてに、寛容であること。そして、問いそのものを愛してみること。" },
+  { q: "Keep the small light burning. That alone will carry you through the night.", a: "Fugasha", aj: "風雅舎", j: "灯を絶やさない。それだけで、夜は越えられる。" },
+  { q: "One who conquers others has force; one who conquers oneself is strong.", a: "Laozi", aj: "老子", j: "人に勝つ者は力あり、自ら勝つ者は強し。" },
+  { q: "Those who rest well go on to focus well.", a: "Fugasha", aj: "風雅舎", j: "よく休んだ人から、よく集中していく。" },
+  { q: "The years teach much which the days never know.", a: "Ralph Waldo Emerson", aj: "エマソン", j: "歳月は、日々が知らない多くのことを教えてくれる。" },
+  { q: "A hand that lets go has room to hold what comes next.", a: "Fugasha", aj: "風雅舎", j: "手放した手には、次のものをつかむ余白がある。" },
+  { q: "Stillness — the cry of cicadas seeps into the rocks.", a: "Matsuo Basho", aj: "松尾芭蕉", j: "閑さや岩にしみ入る蝉の声" },
+  { q: "A quiet desk is practice for a quiet mind.", a: "Fugasha", aj: "風雅舎", j: "机の上の静けさは、心の静けさの練習になる。" },
+  { q: "Although the world is full of suffering, it is full also of the overcoming of it.", a: "Helen Keller", aj: "ヘレン・ケラー", j: "世界は苦しみに満ちている。けれど同時に、苦しみを乗り越えた物語にも満ちている。" },
+  { q: "Days that did not go well are part of life too. The line can continue tomorrow.", a: "Fugasha", aj: "風雅舎", j: "できなかった日も、暮らしの一部。線は、また明日から引ける。" },
+  { q: "Water, when still, reflects clearly — how much more the mind and spirit.", a: "Zhuangzi", aj: "荘子", j: "水は静かなれば、明らかに照らす。心もまた然り。" },
+  { q: "Not in a hurry. Just never stopping.", a: "Fugasha", aj: "風雅舎", j: "急がない。ただ、止まらない。" },
+  { q: "There is no easy way from the earth to the stars.", a: "Seneca", aj: "セネカ", j: "地上から星々へ、たやすい道はない。" },
+  { q: "A blank page is not an enemy. It is a field of morning snow no one has crossed.", a: "Fugasha", aj: "風雅舎", j: "真っ白な紙は、敵ではない。まだ誰も来ていない、朝の雪原。" },
+  { q: "The greatest thing in the world is to know how to belong to oneself.", a: "Michel de Montaigne", aj: "モンテーニュ", j: "この世でもっとも偉大なことは、自分自身のものであるすべを知ることだ。" },
+  { q: "Almost there. What you have walked is already adding up.", a: "Fugasha", aj: "風雅舎", j: "あと少し。ここまでの歩みは、もう十分に積み上がっている。" },
+  { q: "Iron rusts from disuse, and water that does not flow loses its purity; even so does inaction sap the vigor of the mind.", a: "Leonardo da Vinci", aj: "レオナルド・ダ・ヴィンチ", j: "鉄は使われねば錆び、水は流れねば濁る。動かぬ心もまた、その力を失っていく。" },
+  { q: "Work, like the seasons, has its change of clothes.", a: "Fugasha", aj: "風雅舎", j: "季節が変わるように、仕事にも衣替えがある。" },
+  { q: "To err and not amend — that is the error.", a: "Confucius", aj: "孔子", j: "過ちて改めざる、是を過ちと謂う。" },
+  { q: "Night exists not to extinguish, but to kindle tomorrow.", a: "Fugasha", aj: "風雅舎", j: "夜は、消すためではなく、明日を灯すためにある。" },
+  { q: "Great things are not done by impulse, but by a series of small things brought together.", a: "Vincent van Gogh", aj: "ファン・ゴッホ", j: "偉大なことは、衝動では成らない。小さなことが、一つずつ集まってできていく。" },
+  { q: "Your voice may tremble. Saying it at all is already the first step.", a: "Fugasha", aj: "風雅舎", j: "声は震えていていい。言葉にしたことが、もう一歩目。" },
+  { q: "Time is long by nature; it is the busy who make it short.", a: "Hong Zicheng", aj: "洪自誠", j: "歳月はもとより長し。されど忙しき者は、自らこれを促む。" },
+  { q: "Learning is a quiet dialogue with yesterday.", a: "Fugasha", aj: "風雅舎", j: "学びとは、昨日の自分との静かな対話。" },
+  { q: "What stands in the way becomes the way.", a: "Marcus Aurelius", aj: "マルクス・アウレリウス", j: "行く手をふさぐものが、道になる。" },
+  { q: "Confidence is not loudness. It is being able to sit quietly.", a: "Fugasha", aj: "風雅舎", j: "自信は、大声ではない。静かに座っていられること。" },
+  { q: "Now, voyager, sail thou forth, to seek and find.", a: "Walt Whitman", aj: "ホイットマン", j: "さあ、航海者よ、船出せよ。求め、見いだすために。" },
+  { q: "I dwell in Possibility.", a: "Emily Dickinson", aj: "エミリー・ディキンソン", j: "私は「可能性」という家に住んでいる。" },
+  { q: "No great thing is created suddenly, any more than a bunch of grapes or a fig.", a: "Epictetus", aj: "エピクテトス", j: "偉大なものは、突然には生まれない。一房の葡萄や一つの無花果と同じように。" },
+  { q: "Having examined myself and found myself upright, I will go forward, though thousands stand against me.", a: "Mencius", aj: "孟子", j: "自ら反みて縮くんば、千万人と雖も吾往かん。" },
+  { q: "All of humanity's unhappiness comes from one thing: not knowing how to sit quietly in a room.", a: "Blaise Pascal", aj: "パスカル", j: "人間の不幸はすべて、部屋にひとり静かに座っていられないことから生まれる。" },
+  { q: "One ought, every day, to hear a little song, read a good poem, and see a fine picture.", a: "Goethe", aj: "ゲーテ", j: "毎日、小さな歌を聴き、良い詩を読み、美しい絵を見ること。" },
+  { q: "The softest thing in the world overcomes the hardest.", a: "Laozi", aj: "老子", j: "天下の至柔は、天下の至堅を馳騁す。" },
+  { q: "As long as you live, keep learning how to live.", a: "Seneca", aj: "セネカ", j: "生きているかぎり、生き方を学びつづけること。" },
+  { q: "It is not enough to be industrious; so are the ants. What are you industrious about?", a: "Henry David Thoreau", aj: "ソロー", j: "勤勉なだけでは足りない。蟻も勤勉だ——何のための勤勉なのか。" },
+  { q: "Self-trust is the first secret of success.", a: "Ralph Waldo Emerson", aj: "エマソン", j: "自分を信じることが、実りの最初の秘訣である。" },
+  { q: "Every obstacle is destroyed by obstinate rigor.", a: "Leonardo da Vinci", aj: "レオナルド・ダ・ヴィンチ", j: "あらゆる障害は、たゆまぬ根気の前に崩れていく。" },
+  { q: "I keep on making what I cannot do yet, in order to learn how to do it.", a: "Vincent van Gogh", aj: "ファン・ゴッホ", j: "まだできないことを、やり続けている。できるようになるために。" },
+  { q: "Let everything happen to you: beauty and terror. No feeling is final.", a: "Rainer Maria Rilke", aj: "リルケ", j: "美しさも恐れも、来るものは来させておけばいい。どんな感情も、最後のものではないのだから。" },
+  { q: "Dripping water hollows out stone, not by force but by often falling.", a: "Ovid", aj: "オウィディウス", j: "したたる水が石をうがつのは、力ではなく、繰り返し落ちるからだ。" },
+  { q: "Do not seek the traces of the ancients; seek what they sought.", a: "Matsuo Basho", aj: "松尾芭蕉", j: "古人の跡を求めず、古人の求めしところを求めよ。" },
+  { q: "A great vessel takes long to complete.", a: "Laozi", aj: "老子", j: "大器は晩成す。" },
+  { q: "Learning without thought is labor lost; thought without learning is perilous.", a: "Confucius", aj: "孔子", j: "学びて思わざれば則ち罔し、思いて学ばざれば則ち殆し。" },
+  { q: "Very little is needed to make a happy life; it is all within yourself.", a: "Marcus Aurelius", aj: "マルクス・アウレリウス", j: "幸福な生に必要なものは、ごくわずかだ。そのすべては、あなた自身の内にある。" }
+];
+
+/* ---- 著者の短い説明（EN名でキー） ---- */
+var AUTHORS = {
+  "Fugasha": "風雅舎オリジナル。",
+  "Laozi": "古代中国の思想家。道家の祖とされ、『道徳経』に言葉が伝わる。",
+  "Confucius": "古代中国の思想家。『論語』に弟子たちが言葉を書き留めた。",
+  "Zhuangzi": "戦国時代の中国の思想家。寓話で「無為」と自由を説いた。",
+  "Xunzi": "戦国時代の中国の儒家。努力と学びの積み重ねを重んじた。",
+  "Mencius": "戦国時代の中国の儒家。人の善性を説いた『孟子』で知られる。",
+  "Hong Zicheng": "明代の中国の文人。処世訓『菜根譚』の著者とされる。",
+  "Marcus Aurelius": "ローマ皇帝にして哲人。内省の記録『自省録』を残した。",
+  "Seneca": "古代ローマのストア派の哲学者・劇作家。時間論の書簡で知られる。",
+  "Epictetus": "元奴隷から身を起こしたローマのストア派の哲学者。",
+  "Ovid": "古代ローマの詩人。『変身物語』などで西洋文学に影響を残した。",
+  "Matsuo Basho": "江戸前期の俳人。俳諧を芸術へ高め、『おくのほそ道』を残した。",
+  "Kamo no Chomei": "鎌倉前期の歌人・随筆家。無常を綴った『方丈記』の著者。",
+  "Zeami": "室町期の能役者・能作者。能楽論『風姿花伝』を著した。",
+  "Yoshida Kenko": "鎌倉末〜南北朝期の随筆家。『徒然草』を残した。",
+  "Henry David Thoreau": "19世紀アメリカの作家・思想家。森の生活『ウォールデン』で知られる。",
+  "Ralph Waldo Emerson": "19世紀アメリカの思想家。自己信頼を説いた超越主義の中心人物。",
+  "Walt Whitman": "19世紀アメリカの詩人。『草の葉』で自由詩の可能性を広げた。",
+  "Emily Dickinson": "19世紀アメリカの詩人。生前はほぼ無名ながら、簡潔な詩を多く残した。",
+  "Helen Keller": "20世紀アメリカの作家・社会活動家。三重苦を越えて言葉を届けた。",
+  "Vincent van Gogh": "19世紀オランダの画家。弟テオへの書簡に多くの言葉を残した。",
+  "Leonardo da Vinci": "ルネサンス期イタリアの画家・技術者。手稿に膨大な観察を綴った。",
+  "Michel de Montaigne": "16世紀フランスの思想家。随筆というかたち『エセー』を創始した。",
+  "Blaise Pascal": "17世紀フランスの数学者・思想家。断章集『パンセ』を残した。",
+  "Rainer Maria Rilke": "20世紀の詩人。『若き詩人への手紙』で問いに生きることを説いた。",
+  "Goethe": "18〜19世紀ドイツの文人・自然研究者。『ファウスト』の作者。"
+};
+
+/* ---- 月データ（1..12）。events: {d日, y年, t題, s要約, cat分類, src}。d=0 は月全体 ---- */
+var MONTHS = {
+  1: {
+    bg: 'mist', name: 'JANUARY', jp: '睦月',
+    en: 'A month of quiet beginnings and clear, cold light.',
+    ja: '静かな始まりと、澄んだ冷たい光の月。',
+    events: [
+      { d: 1, y: 1901, t: 'オーストラリア連邦が成立', s: '6つの植民地が一つの連邦国家として歩み出した。', cat: 'Society', src: 'britannica' },
+      { d: 9, y: 2007, t: 'アップルが初代 iPhone を発表', s: 'スティーブ・ジョブズが公開し、スマートフォンの時代を大きく前へ動かした。', cat: 'Technology', src: 'britannica' },
+      { d: 15, y: 2001, t: 'ウィキペディアが公開', s: '誰もが編集できる百科事典として始まり、知識の共有の形を変えた。', cat: 'Technology', src: 'britannica' },
+      { d: 21, y: 1976, t: 'コンコルドが商業運航を開始', s: '超音速の旅客機がロンドン・パリから同時に初就航した。', cat: 'Technology', src: 'britannica' },
+      { d: 24, y: 1984, t: 'アップルが初代 Macintosh を発表', s: 'マウスと画面上のアイコンで操作する、家庭向けの新しいコンピューターが登場した。', cat: 'Technology', src: 'britannica' },
+      { d: 31, y: 1958, t: 'アメリカ初の人工衛星エクスプローラー1号', s: '観測データからヴァン・アレン帯（地球を取り巻く放射線帯）の存在が示された。', cat: 'Exploration', src: 'nasa' }
+    ],
+    people: [
+      { n: 'ヴォルフガング・アマデウス・モーツァルト', en: 'W. A. Mozart', b: '1756年1月27日', field: '作曲家（オーストリア）', bio: '幼少から才能を示し、35年の生涯に600を超える作品を残した。', work: '交響曲第41番《ジュピター》、オペラ《フィガロの結婚》', quote: '', src: 'britannica' },
+      { n: 'マーティン・ルーサー・キング・ジュニア', en: 'M. L. King Jr.', b: '1929年1月15日', field: '牧師・公民権運動指導者（アメリカ）', bio: '非暴力を掲げて公民権運動を導いた。', work: '「I Have a Dream」演説（1963）', quote: 'The time is always right to do what is right.', src: 'loc' },
+      { n: 'ヴァージニア・ウルフ', en: 'Virginia Woolf', b: '1882年1月25日', field: '作家（イギリス）', bio: '意識の流れを描く手法で近代小説を切りひらいた。', work: '『ダロウェイ夫人』『灯台へ』', quote: '', src: 'britannica' }
+    ],
+    facts: [
+      { f: '「January」の名は、ローマ神話の門の神ヤヌス（Janus）に由来する。過去と未来、二つの方向を同時に見つめる神とされた。', cat: 'Words', src: 'britannica' },
+      { f: '雪の結晶は基本的に六方対称。水の分子が結びつく角度が、六角形の骨格を生む。', cat: 'Nature', src: 'britannica' },
+      { f: '南半球では1月は真夏にあたる。季節は地軸の傾きによって、北と南で逆になる。', cat: 'Nature', src: 'nasa' }
+    ],
+    story: [
+      { title: '1月の名 — 二つの顔を持つ神', body: ['1月（January）の名は、ローマ神話のヤヌス神に由来する。ヤヌスは扉や入り口をつかさどる神で、前と後ろ、二つの顔を持つ姿で描かれた。','一年の最初の月に、去りゆく年と来たる年の両方を見わたす神の名が置かれたのは、偶然ではない。始まりとは、振り返ることと踏み出すことが同時に起きる時間なのだ、と古代の人々は考えたのかもしれない。'], src: 'britannica' }
+    ]
+  },
+  2: {
+    bg: 'mist', name: 'FEBRUARY', jp: '如月',
+    en: 'The shortest month — a pause before the turning of the year.',
+    ja: '一年でいちばん短い月。季節が動きだす前の、ひと呼吸。',
+    events: [
+      { d: 3, y: 1966, t: 'ルナ9号が月面に軟着陸', s: '無人探査機として世界で初めて月面に降り、地表の写真を送った。', cat: 'Exploration', src: 'nasa' },
+      { d: 6, y: 1952, t: 'エリザベス2世が即位', s: 'のちに英国史上もっとも長く在位する女王となった。', cat: 'Society', src: 'britannica' },
+      { d: 18, y: 1930, t: '冥王星が発見される', s: 'クライド・トンボーが太陽系外縁に新天体を見つけた（現在は準惑星に分類）。', cat: 'Science', src: 'nasa' },
+      { d: 20, y: 1962, t: 'ジョン・グレンが地球を周回', s: 'アメリカ人として初めて地球軌道を回り、宇宙開発の流れを加速させた。', cat: 'Exploration', src: 'nasa' },
+      { d: 28, y: 1953, t: 'DNAの二重らせん構造が示される', s: 'ワトソンとクリックが生命の設計図の形を突きとめたとされる日。', cat: 'Science', src: 'britannica' }
+    ],
+    people: [
+      { n: 'チャールズ・ダーウィン', en: 'Charles Darwin', b: '1809年2月12日', field: '博物学者（イギリス）', bio: 'ビーグル号での観察から自然選択による進化の考えをまとめた。', work: '『種の起源』（1859）', quote: '', src: 'britannica' },
+      { n: 'ガリレオ・ガリレイ', en: 'Galileo Galilei', b: '1564年2月15日', field: '天文学者・物理学者（イタリア）', bio: '自作の望遠鏡で木星の衛星などを観測し、近代科学の礎を築いた。', work: '木星の四大衛星の発見', quote: '', src: 'britannica' },
+      { n: 'トーマス・エジソン', en: 'Thomas Edison', b: '1847年2月11日', field: '発明家（アメリカ）', bio: '実用的な発明を数多く生み、研究所という仕組みそのものを発明した。', work: '蓄音機、実用的な白熱電球', quote: '', src: 'britannica' }
+    ],
+    facts: [
+      { f: '2月は1年でもっとも短い月で、うるう年には29日になる。', cat: 'Calendar', src: 'britannica' },
+      { f: 'うるう年があるのは、地球が太陽を一周するのに約365.24日かかるため。約4年に一度、1日を足してずれを直す。', cat: 'Science', src: 'nasa' },
+      { f: '「February」は、古代ローマの浄めの儀式フェブルア（Februa）に由来するとされる。', cat: 'Words', src: 'britannica' }
+    ],
+    story: [
+      { title: 'なぜ2月だけ短いのか', body: ['2月が28日と短いのは、古代ローマの暦の名残りだと言われる。当時の1年は春の3月から数え始め、冬の終わりにあたる時期はいわば「余り」として扱われた。','その後、ユリウス・カエサルやアウグストゥスの時代に日数の調整が重ねられ、2月にしわ寄せが残った——という説が広く知られている。短い月には、暦をめぐる人々の長い試行錯誤が畳み込まれている。'], src: 'britannica' }
+    ]
+  },
+  3: {
+    bg: 'bloom', name: 'MARCH', jp: '弥生',
+    en: 'A month of thaw, first blossoms, and equal light.',
+    ja: '雪どけと、最初の花と、昼夜が並ぶ光の月。',
+    events: [
+      { d: 2, y: 1969, t: 'コンコルドが初飛行', s: '英仏共同開発の超音速旅客機が初めて空を飛んだ。', cat: 'Technology', src: 'britannica' },
+      { d: 8, y: 1857, t: '国際女性デーの起源', s: '3月8日は女性の権利と平等を考える国際デーとして受け継がれている。', cat: 'Society', src: 'un' },
+      { d: 10, y: 1876, t: 'ベルが電話で初めて通話', s: 'アレクサンダー・グラハム・ベルが助手に声を届け、遠くと話す時代が始まった。', cat: 'Technology', src: 'loc' },
+      { d: 12, y: 1989, t: 'ワールド・ワイド・ウェブが提案される', s: 'ティム・バーナーズ=リーが情報共有の仕組みを提案し、のちのウェブが生まれた。', cat: 'Technology', src: 'britannica' },
+      { d: 20, y: 0, t: '春分（およそ3月20日ごろ）', s: '昼と夜の長さがほぼ等しくなり、北半球では春が始まる。', cat: 'Nature', src: 'nasa' }
+    ],
+    people: [
+      { n: 'アルベルト・アインシュタイン', en: 'Albert Einstein', b: '1879年3月14日', field: '物理学者（ドイツ→アメリカ）', bio: '時間と空間の見方を根底から変えた。', work: '特殊・一般相対性理論', quote: '', src: 'nobel' },
+      { n: 'ミケランジェロ・ブオナローティ', en: 'Michelangelo', b: '1475年3月6日', field: '彫刻家・画家（イタリア）', bio: 'ルネサンスを代表し、彫刻・絵画・建築に足あとを残した。', work: 'システィーナ礼拝堂天井画、彫刻《ダビデ像》', quote: '', src: 'met' },
+      { n: 'アントニオ・ヴィヴァルディ', en: 'Antonio Vivaldi', b: '1678年3月4日', field: '作曲家（イタリア）', bio: 'バロック期に多数の協奏曲を書いた。', work: 'ヴァイオリン協奏曲集《四季》', quote: '', src: 'britannica' }
+    ],
+    facts: [
+      { f: '「March」は軍神マルス（Mars）に由来する。古代ローマでは、この月が一年の始まりだった。', cat: 'Words', src: 'britannica' },
+      { f: '春分の日は、太陽がほぼ真東から昇り、真西へ沈む。昼と夜の長さがほぼ等しくなる。', cat: 'Science', src: 'nasa' },
+      { f: '桜の開花は、南から北へ、また平地から山地へと順に進んでいく。', cat: 'Nature', src: 'ndl' }
+    ],
+    story: [
+      { title: '一年の始まりだった月', body: ['いまでこそ3月は年の三番目の月だが、古代ローマの暦では、この月こそが一年の最初だった。だからこそ、9月（September＝7）から12月（December＝10）の名には、いまと二つずれた数字が残っている。','冬が去り、農作業と軍事行動が再び動きだす季節。芽吹きの月に「始まり」を置いた感覚は、暦が変わったいまも、どこかで私たちの春の心もちに残っているのかもしれない。'], src: 'britannica' }
+    ]
+  },
+  4: {
+    bg: 'bloom', name: 'APRIL', jp: '卯月',
+    en: 'A month of opening — buds, books, and first flights.',
+    ja: 'ひらく月。芽と、本と、はじめての飛翔と。',
+    events: [
+      { d: 1, y: 1976, t: 'アップルが創業', s: 'ジョブズとウォズニアックらが小さなコンピューター会社を起こした。', cat: 'Technology', src: 'britannica' },
+      { d: 12, y: 1961, t: 'ガガーリンが人類初の宇宙飛行', s: 'ボストーク1号で地球を一周し、「地球は青かった」の言葉を残したとされる。', cat: 'Exploration', src: 'nasa' },
+      { d: 22, y: 1970, t: '最初のアースデイ', s: '地球環境を考える日として、世界に広がるきっかけとなった。', cat: 'Nature', src: 'un' },
+      { d: 23, y: 0, t: '世界図書・著作権デー', s: 'ユネスコが定めた、本と読書を祝う日。', cat: 'Culture', src: 'unesco' },
+      { d: 24, y: 1990, t: 'ハッブル宇宙望遠鏡が打ち上げ', s: '大気のゆらぎの外から宇宙を見つめ、遠い銀河の姿を届け続けている。', cat: 'Science', src: 'nasa' }
+    ],
+    people: [
+      { n: 'レオナルド・ダ・ヴィンチ', en: 'Leonardo da Vinci', b: '1452年4月15日', field: '画家・技術者（イタリア）', bio: '絵画から解剖・工学まで、境界を越えて観察と記録を続けた。', work: '《モナ・リザ》《最後の晩餐》、膨大な手稿', quote: 'あらゆる障害は、たゆまぬ根気の前に崩れていく。', src: 'met' },
+      { n: 'ウィリアム・シェイクスピア', en: 'William Shakespeare', b: '1564年4月（洗礼26日）', field: '劇作家・詩人（イギリス）', bio: '喜劇から悲劇まで、人間の姿を言葉で描ききった。', work: '『ハムレット』『ロミオとジュリエット』', quote: '', src: 'britannica' },
+      { n: 'イマヌエル・カント', en: 'Immanuel Kant', b: '1724年4月22日', field: '哲学者（プロイセン）', bio: '認識のあり方を問い直し、近代哲学の流れを変えた。', work: '『純粋理性批判』', quote: '', src: 'britannica' }
+    ],
+    facts: [
+      { f: '「April」は、開くことを意味するラテン語 aperire に由来するという説がある。芽や花がひらく季節にふさわしい。', cat: 'Words', src: 'britannica' },
+      { f: '4月の誕生石はダイヤモンド。炭素が地中深くの高い圧力と熱で結晶したもの。', cat: 'Nature', src: 'britannica' },
+      { f: '世界図書デー（4月23日）は、シェイクスピアやセルバンテスの命日に由来するとされる。', cat: 'Culture', src: 'unesco' }
+    ],
+    story: [
+      { title: '空へ、宇宙へ — 開かれた4月', body: ['4月は「ひらく」月だ。語源とされるラテン語 aperire は「開く」を意味する。芽がほどけ、花がひらくこの季節に、人類は空の外へも扉を開いてきた。','1961年4月12日、ガガーリンが人類として初めて宇宙を飛んだ。1990年の同じ月には、ハッブル宇宙望遠鏡が打ち上げられ、私たちの視界は数十億光年の彼方まで広がった。ひらくことは、外へ出ることでもある。'], src: 'nasa' }
+    ]
+  },
+  5: {
+    bg: 'forest', name: 'MAY', jp: '皐月',
+    en: 'A month of green, summits, and long daylight.',
+    ja: '緑と、頂と、のびていく陽の月。',
+    events: [
+      { d: 5, y: 1961, t: 'シェパードがアメリカ初の宇宙飛行', s: '弾道飛行で宇宙へ到達し、アメリカの有人宇宙開発が動きだした。', cat: 'Exploration', src: 'nasa' },
+      { d: 11, y: 1997, t: 'ディープ・ブルーがチェス王者に勝利', s: 'IBMのコンピューターが世界王者カスパロフを破り、AIの節目となった。', cat: 'Technology', src: 'britannica' },
+      { d: 20, y: 1927, t: 'リンドバーグが大西洋横断飛行に出発', s: '単独無着陸でニューヨークからパリへ。翌日、無事に到達した。', cat: 'Exploration', src: 'si' },
+      { d: 25, y: 1961, t: 'ケネディが月着陸計画を宣言', s: '「10年以内に人を月へ」と議会で表明し、アポロ計画を後押しした。', cat: 'Exploration', src: 'nasa' },
+      { d: 29, y: 1953, t: 'エベレスト初登頂', s: 'ヒラリーとテンジン・ノルゲイが世界最高峰の頂に立った。', cat: 'Exploration', src: 'britannica' }
+    ],
+    people: [
+      { n: 'ピョートル・チャイコフスキー', en: 'P. Tchaikovsky', b: '1840年5月7日', field: '作曲家（ロシア）', bio: '旋律の美しさで愛されるバレエ音楽を残した。', work: 'バレエ《白鳥の湖》《くるみ割り人形》', quote: '', src: 'britannica' },
+      { n: 'フローレンス・ナイチンゲール', en: 'F. Nightingale', b: '1820年5月12日', field: '看護師・統計家（イギリス）', bio: '衛生とデータで看護を専門職へと変えた。', work: '近代看護の確立、統計による医療改善', quote: '', src: 'britannica' },
+      { n: 'アーサー・コナン・ドイル', en: 'A. Conan Doyle', b: '1859年5月22日', field: '作家（イギリス）', bio: '観察と推理の名探偵を生み出した。', work: '『シャーロック・ホームズ』シリーズ', quote: '', src: 'britannica' }
+    ],
+    facts: [
+      { f: '「May」は、ローマ神話で成長をつかさどる女神マイア（Maia）に由来するとされる。', cat: 'Words', src: 'britannica' },
+      { f: 'フランスには、5月1日にスズラン（幸福の花）を贈り合う習慣がある。', cat: 'Culture', src: 'britannica' },
+      { f: '5月は北半球では晩春、南半球では晩秋にあたる。', cat: 'Nature', src: 'nasa' }
+    ],
+    story: [
+      { title: '頂へ向かった5月', body: ['1953年5月29日、エドモンド・ヒラリーとテンジン・ノルゲイは、標高8,849メートルのエベレストの頂に立った。人類が地上でもっとも高い場所に足を置いた瞬間だった。','その数年後の5月、ケネディは「月へ」と宣言し、リンドバーグはこの月に大西洋を越えた。5月は、なぜか人が「まだ届かない場所」へ手を伸ばしてきた月でもある。緑が伸びていくように。'], src: 'britannica' }
+    ]
+  },
+  6: {
+    bg: 'forest', name: 'JUNE', jp: '水無月',
+    en: 'A month of full green and the longest days.',
+    ja: '緑が満ちて、昼がいちばん長くなる月。',
+    events: [
+      { d: 2, y: 1953, t: 'エリザベス2世の戴冠式', s: 'ウェストミンスター寺院での式典が、初めてテレビで広く中継された。', cat: 'Society', src: 'britannica' },
+      { d: 16, y: 1963, t: 'テレシコワが女性初の宇宙飛行', s: 'ボストーク6号で地球を周回し、女性として初めて宇宙へ出た。', cat: 'Exploration', src: 'nasa' },
+      { d: 18, y: 1983, t: 'サリー・ライドが宇宙へ', s: 'アメリカ人女性として初めてスペースシャトルで宇宙飛行した。', cat: 'Exploration', src: 'nasa' },
+      { d: 21, y: 0, t: '夏至（およそ6月21日ごろ）', s: '北半球で昼がもっとも長くなる日。', cat: 'Nature', src: 'nasa' },
+      { d: 26, y: 1945, t: '国連憲章に署名', s: 'サンフランシスコで51か国が署名し、国際連合の土台が置かれた。', cat: 'Society', src: 'un' }
+    ],
+    people: [
+      { n: 'アラン・チューリング', en: 'Alan Turing', b: '1912年6月23日', field: '数学者（イギリス）', bio: '計算とは何かを定式化し、コンピューター科学の礎を築いた。', work: '計算可能性の理論、暗号解読への貢献', quote: '', src: 'britannica' },
+      { n: 'ブレーズ・パスカル', en: 'Blaise Pascal', b: '1623年6月19日', field: '数学者・思想家（フランス）', bio: '確率論に貢献し、断章に人間を見つめた。', work: '『パンセ』、計算機の考案', quote: '人間の不幸はすべて、部屋にひとり静かに座っていられないことから生まれる。', src: 'britannica' },
+      { n: 'アンネ・フランク', en: 'Anne Frank', b: '1929年6月12日', field: '日記の書き手（ドイツ→オランダ）', bio: '隠れ家での日々を綴り、その言葉は世界中で読み継がれている。', work: '『アンネの日記』', quote: '', src: 'britannica' }
+    ],
+    facts: [
+      { f: '「June」は、結婚を守護するローマの女神ユノ（Juno）に由来するとされる。ジューンブライドの言い伝えのもと。', cat: 'Words', src: 'britannica' },
+      { f: '夏至は、北半球で一年のうちもっとも昼が長い日。以後、日はゆっくりと短くなっていく。', cat: 'Science', src: 'nasa' },
+      { f: '6月の誕生石は真珠。貝の中で、砂などの核を包んで少しずつ育つ。', cat: 'Nature', src: 'britannica' }
+    ],
+    story: [
+      { title: '結婚の月と、女神ユノ', body: ['6月（June）の名は、ローマ神話の女神ユノに由来するとされる。ユノは結婚と家庭を守る神であり、この月に結ばれると幸せになる——というジューンブライドの言い伝えの源にもなった。','もっとも、ヨーロッパで6月の結婚が好まれた背景には、農作業の合間で気候がよい、という実際的な理由もあったらしい。神話と暮らしの都合が、ひとつの習慣に溶け合っている。'], src: 'britannica' }
+    ]
+  },
+  7: {
+    bg: 'noon', name: 'JULY', jp: '文月',
+    en: 'A month of light, exploration, and new beginnings.',
+    ja: '光と、探検と、新しい始まりの月。',
+    events: [
+      { d: 1, y: 1979, t: 'ソニーが初代ウォークマンを発売', s: '音楽を持ち歩くという習慣を生み、聴き方そのものを変えた。', cat: 'Technology', src: 'britannica' },
+      { d: 4, y: 1776, t: 'アメリカ独立宣言が採択', s: '13の植民地が独立を宣言し、新しい国のかたちが動きだした。', cat: 'Society', src: 'loc' },
+      { d: 5, y: 1996, t: 'クローン羊ドリーが誕生', s: '成体の細胞から哺乳類を初めて複製し、生命科学に大きな問いを投げかけた。', cat: 'Science', src: 'britannica' },
+      { d: 6, y: 1885, t: 'パスツールが狂犬病ワクチンを接種', s: '発症前の少年に初めて用い、ワクチンによる予防医学を大きく前へ進めた。', cat: 'Science', src: 'britannica' },
+      { d: 12, y: 1817, t: 'ヘンリー・デイヴィッド・ソローが誕生', s: '森での簡素な暮らしを綴り、自然と自立の思想を残した作家。', cat: 'Nature', src: 'britannica' },
+      { d: 12, y: 1854, t: 'ジョージ・イーストマンが誕生', s: 'ロールフィルムとコダックで、写真をだれもが撮れるものに変えた。', cat: 'Technology', src: 'britannica' },
+      { d: 12, y: 1904, t: 'パブロ・ネルーダが誕生', s: '愛と大地をうたったチリの詩人。のちにノーベル文学賞を受けた。', cat: 'Culture', src: 'nobel' },
+      { d: 12, y: 1962, t: 'ローリング・ストーンズが初ライブ', s: 'ロンドンのマーキー・クラブで初めて演奏し、長い歴史が始まった。', cat: 'Art', src: 'britannica' },
+      { d: 14, y: 1789, t: 'バスティーユ牢獄の襲撃', s: 'フランス革命の象徴的な一日。7月14日は現在も革命記念日。', cat: 'Society', src: 'britannica' },
+      { d: 17, y: 1955, t: 'ディズニーランドが開園', s: 'カリフォルニアに開き、テーマパークという体験を世界に広げた。', cat: 'Culture', src: 'britannica' },
+      { d: 20, y: 1969, t: 'アポロ11号が月面に着陸', s: '人類が初めて他の天体に降り立った。翌21日（日本時間）に月面を歩いた。', cat: 'Exploration', src: 'nasa' }
+    ],
+    people: [
+      { n: 'ヘンリー・デイヴィッド・ソロー', en: 'H. D. Thoreau', b: '1817年7月12日', field: '作家・思想家（アメリカ）', bio: '湖のほとりで2年あまり簡素に暮らし、その記録から自然と自立を見つめた。', work: '『ウォールデン 森の生活』', quote: '自分の夢の方角へ確かな足どりで進む人は、思いもよらない実りに出会う。', src: 'britannica' },
+      { n: 'ニコラ・テスラ', en: 'Nikola Tesla', b: '1856年7月10日', field: '発明家・電気技師（セルビア系→アメリカ）', bio: '交流電流の実用化に貢献し、現代の電力網の基礎を築いた。', work: '交流電流システム、回転磁界の原理', quote: '', src: 'britannica' },
+      { n: 'フリーダ・カーロ', en: 'Frida Kahlo', b: '1907年7月6日', field: '画家（メキシコ）', bio: '痛みと誇りを、鮮烈な自画像に描いた。', work: '数々の自画像、メキシコ美術への影響', quote: '', src: 'britannica' },
+      { n: 'パブロ・ネルーダ', en: 'Pablo Neruda', b: '1904年7月12日', field: '詩人（チリ）', bio: '恋愛から社会まで幅広くうたい、20世紀を代表する詩人となった。', work: '『二十の愛の詩と一つの絶望の歌』／ノーベル文学賞（1971）', quote: '', src: 'nobel' },
+      { n: 'アメリア・イアハート', en: 'Amelia Earhart', b: '1897年7月24日', field: '飛行士（アメリカ）', bio: '女性として初めて大西洋を単独横断飛行し、空の可能性を広げた。', work: '大西洋単独横断飛行（1932）', quote: '', src: 'si' }
+    ],
+    facts: [
+      { f: '「July」は、ユリウス・カエサルにちなむ名。彼が生まれた月とされ、それ以前は「第5の月（Quintilis）」と呼ばれていた。', cat: 'Words', src: 'britannica' },
+      { f: '北半球の7月上旬、地球は太陽からもっとも遠い「遠日点」を通る。夏の暑さは距離ではなく、地軸の傾きによる。', cat: 'Science', src: 'nasa' },
+      { f: '七夕の織姫と彦星は、実在の星ベガ（こと座）とアルタイル（わし座）にあたる。夏の夜空で天の川をはさんで輝く。', cat: 'Culture', src: 'ndl' },
+      { f: 'ペルセウス座流星群は7月半ばから活動を始め、8月中旬に極大を迎える。', cat: 'Nature', src: 'nasa' },
+      { f: 'スイカは重さの9割以上が水分で、暑い季節の水分補給にも向く。', cat: 'Food', src: 'britannica' }
+    ],
+    story: [
+      { title: '7月という名 — 皇帝になった月', body: ['7月（July）の名は、古代ローマの政治家ユリウス・カエサルに由来する。もともとこの月は「第5の月」を意味する Quintilis と呼ばれていたが、カエサルの誕生月とされたことから、彼の名を冠して July と改められた。','暦の改革（ユリウス暦）を主導した人物の名が、そのまま月の名として残る。私たちが何気なく口にする「7月」には、時間そのものを整えようとした一人の人間の痕跡が刻まれている。'], src: 'britannica' },
+      { title: '人類が空を見上げた夏', body: ['7月は、人類が空の外へ手を伸ばした月でもある。1969年7月20日、アポロ11号が月に着陸し、人は初めて別の天体に降り立った。','見上げるだけだった月に、足あとが残った夏。以来、宇宙は「眺めるもの」から「行けるかもしれない場所」へと少しずつ変わっていった。夜空を見上げるとき、その変化はいまも続いている。'], src: 'nasa' }
+    ]
+  },
+  8: {
+    bg: 'noon', name: 'AUGUST', jp: '葉月',
+    en: 'A month of high summer, meteors, and open skies.',
+    ja: '夏の盛り。流星と、ひらけた空の月。',
+    events: [
+      { d: 1, y: 1981, t: 'MTVが放送を開始', s: '音楽をテレビで見る文化を広げ、ミュージックビデオの時代を開いた。', cat: 'Culture', src: 'britannica' },
+      { d: 5, y: 2012, t: '探査車キュリオシティが火星に着陸', s: '大型ローバーが火星に降り、生命の痕跡を探る調査を続けている。', cat: 'Exploration', src: 'nasa' },
+      { d: 12, y: 0, t: 'ペルセウス座流星群が極大（およそ8月12〜13日）', s: '夏の夜空で、一年でも見やすい流星群のひとつがピークを迎える。', cat: 'Nature', src: 'nasa' },
+      { d: 15, y: 1969, t: 'ウッドストック・フェスティバル開幕', s: '数十万人が集い、時代を象徴する音楽の祭典となった。', cat: 'Culture', src: 'britannica' },
+      { d: 28, y: 1963, t: 'キング牧師の「I Have a Dream」演説', s: 'ワシントン大行進で語られ、公民権運動の象徴となった。', cat: 'Society', src: 'loc' }
+    ],
+    people: [
+      { n: 'エルヴィン・シュレーディンガー', en: 'E. Schrödinger', b: '1887年8月12日', field: '物理学者（オーストリア）', bio: '波動方程式で量子力学の基礎を築いた。', work: 'シュレーディンガー方程式', quote: '', src: 'nobel' },
+      { n: 'アルフレッド・ヒッチコック', en: 'A. Hitchcock', b: '1899年8月13日', field: '映画監督（イギリス→アメリカ）', bio: 'サスペンスの語法を確立し、映画の見せ方を変えた。', work: '《サイコ》《めまい》', quote: '', src: 'britannica' },
+      { n: 'マザー・テレサ', en: 'Mother Teresa', b: '1910年8月26日', field: '修道女・社会活動家（マケドニア→インド）', bio: '貧しい人々のための活動に生涯をささげた。', work: '「神の愛の宣教者会」の設立', quote: '', src: 'nobel' }
+    ],
+    facts: [
+      { f: '「August」は、初代ローマ皇帝アウグストゥスに由来する。以前は「第6の月（Sextilis）」と呼ばれていた。', cat: 'Words', src: 'britannica' },
+      { f: 'ペルセウス座流星群は8月中旬に極大を迎え、条件がよければ1時間に数十個の流れ星が見える。', cat: 'Nature', src: 'nasa' },
+      { f: 'ヒマワリの若い花は太陽を追って向きを変えるが、成熟すると多くは東を向いて止まる。', cat: 'Nature', src: 'britannica' }
+    ],
+    story: [
+      { title: '皇帝の名を持つ、もう一つの月', body: ['7月がカエサルの月なら、8月（August）は初代皇帝アウグストゥスの月だ。もとは「第6の月」を意味する Sextilis だったが、彼の功績をたたえて改名された。','7月と8月が続けて31日の「大の月」なのは、二人の偉人の月に差をつけまいとした結果だ、という逸話もある。真偽はさておき、夏の盛りの二か月に、ローマの二大人物の名が並んでいるのはたしかだ。'], src: 'britannica' }
+    ]
+  },
+  9: {
+    bg: 'forest', name: 'SEPTEMBER', jp: '長月',
+    en: 'A month of turning light and gathered harvest.',
+    ja: '光がかたむき、実りが集まる月。',
+    events: [
+      { d: 4, y: 1998, t: 'グーグルが創業', s: '検索によって、世界中の情報への入り口が大きく変わった。', cat: 'Technology', src: 'britannica' },
+      { d: 8, y: 1966, t: '『スタートレック』放送開始', s: '未来と探検を描き、のちの科学者や技術者にも影響を与えた。', cat: 'Culture', src: 'britannica' },
+      { d: 12, y: 1962, t: 'ケネディ「我々は月へ行く」演説', s: 'ライス大学で語り、月をめざす理由を国民と分かち合った。', cat: 'Exploration', src: 'nasa' },
+      { d: 21, y: 0, t: '国際平和デー', s: '国連が定めた、平和について考え行動する日。', cat: 'Society', src: 'un' },
+      { d: 23, y: 0, t: '秋分（およそ9月23日ごろ）', s: '昼と夜の長さがほぼ等しくなり、北半球では秋が深まる。', cat: 'Nature', src: 'nasa' }
+    ],
+    people: [
+      { n: 'マイケル・ファラデー', en: 'M. Faraday', b: '1791年9月22日', field: '物理学者・化学者（イギリス）', bio: '独学から電磁気学を切りひらいた。', work: '電磁誘導の発見', quote: '', src: 'royalsoc' },
+      { n: 'アガサ・クリスティ', en: 'Agatha Christie', b: '1890年9月15日', field: '作家（イギリス）', bio: '緻密な推理小説で「ミステリーの女王」と呼ばれた。', work: '『オリエント急行の殺人』', quote: '', src: 'britannica' },
+      { n: 'H・G・ウェルズ', en: 'H. G. Wells', b: '1866年9月21日', field: '作家（イギリス）', bio: '科学的想像力でSFの原型を築いた。', work: '『タイム・マシン』『宇宙戦争』', quote: '', src: 'britannica' }
+    ],
+    facts: [
+      { f: '「September」はラテン語の septem（7）に由来する。古代ローマ暦では7番目の月だった名残り。', cat: 'Words', src: 'britannica' },
+      { f: '秋分の日には、太陽がほぼ真東から昇り真西に沈み、昼と夜の長さがほぼ等しくなる。', cat: 'Science', src: 'nasa' },
+      { f: '中秋の名月は、旧暦8月15日の夜の月を指す。年によって新暦での日付が変わる。', cat: 'Culture', src: 'ndl' }
+    ],
+    story: [
+      { title: 'ずれた数字が残る月', body: ['9月（September）の名は、ラテン語で「7」を意味する septem に由来する。9番目の月なのに「7」を名に持つのは、古代ローマの暦が3月から始まっていたためだ。','当時この月は、数えて7番目にあたった。のちに年の始まりが1月へ移っても、名前だけはそのまま残った。10月（octo＝8）、11月（novem＝9）、12月（decem＝10）も同じ事情を抱えている。暦の履歴書のような、二つずれた数字たちだ。'], src: 'britannica' }
+    ]
+  },
+  10: {
+    bg: 'dusk', name: 'OCTOBER', jp: '神無月',
+    en: 'A month of turning leaves and lengthening shadows.',
+    ja: '木の葉が色を変え、影がのびる月。',
+    events: [
+      { d: 4, y: 1957, t: 'スプートニク1号が打ち上げ', s: '世界初の人工衛星が地球を回り、宇宙時代の幕が開いた。', cat: 'Exploration', src: 'nasa' },
+      { d: 14, y: 1947, t: 'チャック・イェーガーが音速を突破', s: 'ロケット機ベルX-1で、水平飛行として初めて音の壁を越えた。', cat: 'Technology', src: 'si' },
+      { d: 21, y: 1879, t: 'エジソンが白熱電球の長時間点灯に成功', s: '実用的な電球の実験に成功し、夜のあかりが大きく変わっていった。', cat: 'Technology', src: 'britannica' },
+      { d: 24, y: 1945, t: '国際連合が正式に発足', s: '国連憲章が発効し、戦後の国際協力の枠組みが動きだした。', cat: 'Society', src: 'un' },
+      { d: 31, y: 0, t: 'ハロウィン', s: '古いケルトの季節の祭りに起源をもつとされる、秋の行事。', cat: 'Culture', src: 'britannica' }
+    ],
+    people: [
+      { n: 'アルフレッド・ノーベル', en: 'Alfred Nobel', b: '1833年10月21日', field: '化学者・発明家（スウェーデン）', bio: 'ダイナマイトを発明し、遺言でノーベル賞を創設した。', work: 'ダイナマイトの発明、ノーベル賞の設立', quote: '', src: 'nobel' },
+      { n: 'オスカー・ワイルド', en: 'Oscar Wilde', b: '1854年10月16日', field: '作家（アイルランド）', bio: '機知に富む戯曲と小説で知られる。', work: '『ドリアン・グレイの肖像』', quote: '', src: 'britannica' },
+      { n: 'フランツ・リスト', en: 'Franz Liszt', b: '1811年10月22日', field: '作曲家・ピアニスト（ハンガリー）', bio: '超絶技巧で聴衆を魅了し、演奏会の形も変えた。', work: '《ハンガリー狂詩曲》', quote: '', src: 'britannica' }
+    ],
+    facts: [
+      { f: '「October」はラテン語の octo（8）に由来する。古代ローマ暦での8番目の月だった。', cat: 'Words', src: 'britannica' },
+      { f: '紅葉は、葉の緑の色素（葉緑素）が分解し、もともと隠れていた黄や赤の色素が現れることで起きる。', cat: 'Nature', src: 'britannica' },
+      { f: '10月の誕生石はオパール。石の中の微小な構造が光を分け、虹色の遊色を生む。', cat: 'Nature', src: 'britannica' }
+    ],
+    story: [
+      { title: '宇宙時代が始まった秋', body: ['1957年10月4日、ソ連が打ち上げた小さな球体スプートニク1号が、地球を回り始めた。世界で初めての人工衛星だった。','ラジオが受信するその「ビープ音」は、宇宙時代の始まりを告げる合図となった。夜空を見上げれば、人の手が届かないはずの高みに、人工の光が回っている——そのことに世界が気づいた秋だった。'], src: 'nasa' }
+    ]
+  },
+  11: {
+    bg: 'dusk', name: 'NOVEMBER', jp: '霜月',
+    en: 'A month of bare branches and clarifying cold.',
+    ja: '枝が裸になり、寒さが澄んでいく月。',
+    events: [
+      { d: 8, y: 1895, t: 'レントゲンがX線を発見', s: '目に見えない放射線を見つけ、医療の診断を大きく変えた。', cat: 'Science', src: 'nobel' },
+      { d: 9, y: 1989, t: 'ベルリンの壁が崩壊', s: '東西を分けた壁が開かれ、冷戦の終わりへと時代が動いた。', cat: 'Society', src: 'britannica' },
+      { d: 19, y: 1863, t: 'リンカーンのゲティスバーグ演説', s: '「人民の、人民による、人民のための政治」を短い言葉で語った。', cat: 'Society', src: 'loc' },
+      { d: 24, y: 1859, t: 'ダーウィン『種の起源』刊行', s: '自然選択による進化の考えを世に問い、生命観を大きく変えた。', cat: 'Science', src: 'britannica' },
+      { d: 28, y: 1660, t: '王立協会（ロイヤル・ソサエティ）設立', s: '世界最古級の科学学会が生まれ、実験にもとづく科学を後押しした。', cat: 'Science', src: 'royalsoc' }
+    ],
+    people: [
+      { n: 'マリ・キュリー', en: 'Marie Curie', b: '1867年11月7日', field: '物理学者・化学者（ポーランド→フランス）', bio: '放射能を研究し、女性で初めてノーベル賞を受賞。異なる2分野で受賞した。', work: 'ポロニウム・ラジウムの発見', quote: '', src: 'nobel' },
+      { n: 'クロード・モネ', en: 'Claude Monet', b: '1840年11月14日', field: '画家（フランス）', bio: '光と時間の移ろいを描き、印象派を代表した。', work: '《睡蓮》《印象・日の出》', quote: '', src: 'met' },
+      { n: 'ヴォルテール', en: 'Voltaire', b: '1694年11月21日', field: '思想家・作家（フランス）', bio: '理性と寛容を説き、啓蒙思想を導いた。', work: '『カンディード』', quote: '', src: 'britannica' }
+    ],
+    facts: [
+      { f: '「November」はラテン語の novem（9）に由来する。古代ローマ暦での9番目の月だった。', cat: 'Words', src: 'britannica' },
+      { f: 'しし座流星群は11月中旬に活動し、年によっては爆発的に多くの流星が見られることがある。', cat: 'Nature', src: 'nasa' },
+      { f: '11月の誕生石はトパーズ。黄色のイメージが強いが、実際には青や無色など幅広い色がある。', cat: 'Nature', src: 'britannica' }
+    ],
+    story: [
+      { title: '見えないものを見た11月', body: ['1895年11月、ヴィルヘルム・レントゲンは、それまで誰も見たことのない放射線を偶然に見つけた。正体が分からないことから「X線」と名づけられたそれは、手の骨をそのまま写し出した。','体を開かずに内部を見る——この発見は、翌年には医療の現場で使われ始めた。第1回ノーベル物理学賞は、この業績に贈られた。見えないものを見る手立てが、また一つ増えた月だった。'], src: 'nobel' }
+    ]
+  },
+  12: {
+    bg: 'mist', name: 'DECEMBER', jp: '師走',
+    en: 'A month of the longest night and gathering light.',
+    ja: '夜がいちばん長く、そして光が集まりだす月。',
+    events: [
+      { d: 1, y: 1955, t: 'ローザ・パークスの抵抗', s: 'バスで席を譲ることを拒み、公民権運動の大きなきっかけとなった。', cat: 'Society', src: 'loc' },
+      { d: 10, y: 1901, t: '第1回ノーベル賞の授賞式', s: 'ノーベルの命日に、物理学・化学・医学・文学・平和の各賞が初めて贈られた。', cat: 'Science', src: 'nobel' },
+      { d: 17, y: 1903, t: 'ライト兄弟が動力飛行に成功', s: '人が乗る動力機で初めて空を飛び、航空の時代が始まった。', cat: 'Exploration', src: 'si' },
+      { d: 21, y: 0, t: '冬至（およそ12月21〜22日ごろ）', s: '北半球で一年のうちもっとも昼が短い日。以後、日は長くなっていく。', cat: 'Nature', src: 'nasa' },
+      { d: 27, y: 1831, t: 'ダーウィンがビーグル号で出航', s: 'この航海での観察が、のちの進化論の土台となった。', cat: 'Exploration', src: 'britannica' }
+    ],
+    people: [
+      { n: 'ルートヴィヒ・ヴァン・ベートーヴェン', en: 'L. v. Beethoven', b: '1770年12月（洗礼17日）', field: '作曲家（ドイツ）', bio: '聴力を失いながらも創作を続け、音楽の可能性を広げた。', work: '交響曲第9番《合唱付き》', quote: '', src: 'britannica' },
+      { n: 'アイザック・ニュートン', en: 'Isaac Newton', b: '1642年12月25日（ユリウス暦）', field: '物理学者・数学者（イギリス）', bio: '運動と重力の法則をまとめ、古典物理学の基礎を築いた。', work: '万有引力の法則、『プリンキピア』', quote: '', src: 'royalsoc' },
+      { n: 'エミリー・ディキンソン', en: 'Emily Dickinson', b: '1830年12月10日', field: '詩人（アメリカ）', bio: '生前はほとんど発表せず、簡潔で鋭い詩を千八百編ほど残した。', work: '『エミリ・ディキンソン詩集』', quote: '私は「可能性」という家に住んでいる。', src: 'britannica' }
+    ],
+    facts: [
+      { f: '「December」はラテン語の decem（10）に由来する。古代ローマ暦での10番目の月だった。', cat: 'Words', src: 'britannica' },
+      { f: '冬至は一年でもっとも昼が短い日。この日を境に、日はふたたび少しずつ長くなっていく。', cat: 'Science', src: 'nasa' },
+      { f: 'ふたご座流星群は12月中旬に極大を迎え、一年でも数の多い流星群のひとつとされる。', cat: 'Nature', src: 'nasa' }
+    ],
+    story: [
+      { title: 'いちばん長い夜のあとで', body: ['12月は、北半球で夜がもっとも長くなる月だ。冬至の日、太陽は一年でいちばん低い弧を描き、昼はもっとも短くなる。','けれど、その日を境に、日は再び伸び始める。世界各地で冬至の前後に光の祭りが営まれてきたのは、闇の底で光の帰りを祝う——という古い感覚があったからだろう。いちばん長い夜は、光が戻ってくる合図でもある。'], src: 'nasa' }
+    ]
+  }
+};
+
+/* ---- 今日の問い（日替り） ---- */
+var QUESTIONS = [
+  { en: "What is one thing you want to finish today?", ja: "今日、ひとつだけ終わらせたいことは？" },
+  { en: "What would make this month meaningful?", ja: "この一か月を、意味あるものにするなら何をする？" },
+  { en: "What are you curious about right now?", ja: "いま、いちばん気になっていることは？" },
+  { en: "What can you do today that your future self will thank you for?", ja: "未来の自分が感謝することを、今日ひとつするなら？" },
+  { en: "What do you want to remember about this season?", ja: "この季節の何を、覚えておきたい？" },
+  { en: "Who could you thank today?", ja: "今日、誰に「ありがとう」を伝えられる？" },
+  { en: "What small thing went well yesterday?", ja: "昨日、うまくいった小さなことは？" },
+  { en: "What would you do with one free hour today?", ja: "今日、自由な1時間があれば何をする？" },
+  { en: "What are you ready to let go of?", ja: "そろそろ手放してもいいものは？" },
+  { en: "What does 'enough' look like for you today?", ja: "今日のあなたにとって「十分」とは、どんな状態だろう？" }
+];
+
+/* ---- 今日の小さな一歩（日替り） ---- */
+var ACTIONS = [
+  { en: "Drink a glass of water.", ja: "コップ一杯の水を飲む。" },
+  { en: "Write down your top priority.", ja: "今日いちばん大事なことを、ひとつ書き出す。" },
+  { en: "Take a five-minute walk.", ja: "5分だけ、歩く。" },
+  { en: "Send a message to someone you appreciate.", ja: "感謝している人に、ひとことメッセージを送る。" },
+  { en: "Clear one unnecessary item from your workspace.", ja: "机の上から、いらないものをひとつ片づける。" },
+  { en: "Spend ten minutes learning something new.", ja: "10分だけ、新しいことを学ぶ。" },
+  { en: "Step outside and look at the sky.", ja: "外に出て、空を見上げる。" },
+  { en: "Take three slow, deep breaths.", ja: "ゆっくり深呼吸を、三回する。" },
+  { en: "Tidy one corner of your desk.", ja: "机の一角を、ひとつだけ整える。" },
+  { en: "Write down one thing you're grateful for.", ja: "ありがたいと思うことを、ひとつ書き留める。" }
+];
+
+/* ========================================================================= */
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var reduced = function () { return matchMedia('(prefers-reduced-motion: reduce)').matches; };
+  function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+
+  var now = new Date();
+  var Y = now.getFullYear(), M = now.getMonth() + 1, D = now.getDate();
+  var WK = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var mon = MONTHS[M];
+  var seed = Y * 372 + (M - 1) * 31 + D; /* words.html/colors.html と同じ日替りシード */
+  function todayKey() { var p = function (n) { return String(n).padStart(2, '0'); }; return Y + '-' + p(M) + '-' + p(D); }
+
+  /* ---------- 背景 ---------- */
+  (function setBg() {
+    var layer = $('bgLayer');
+    layer.className = 'bgl bg-' + (mon.bg || 'noon') + ' show';
+    document.body.setAttribute('data-bg', mon.bg || 'noon');
+    var metaColors = { dawn:'#f1d8b9', noon:'#f6f2e4', mist:'#e9e7e0', forest:'#eeeedd', bloom:'#e9e9f4', dusk:'#e5c6b4' };
+    var mt = $('metaTheme'); if (mt) mt.setAttribute('content', metaColors[mon.bg] || '#f6f2e4');
+  })();
+
+  /* ---------- トースト & SR通知 ---------- */
+  var notice = $('notice'), noticeText = $('noticeText'), noticeTimer = null, lastLive = '';
+  function announce(text) { var l = $('srLive'); l.textContent = (text === lastLive) ? text + ' ' : text; lastLive = l.textContent; }
+  function showNotice(text, ms) {
+    noticeText.textContent = text; announce(text); notice.classList.add('show');
+    clearTimeout(noticeTimer); noticeTimer = setTimeout(function () { notice.classList.remove('show'); }, ms || 2600);
+  }
+  $('noticeClose').addEventListener('click', function () { clearTimeout(noticeTimer); notice.classList.remove('show'); });
+
+  /* ---------- localStorage ---------- */
+  var LS_KEY = 'fugasha_today_v1';
+  var store = { favs: [], answers: {}, actions: {} };
+  (function loadStore() {
+    var raw; try { raw = localStorage.getItem(LS_KEY); } catch (e) { return; }
+    if (!raw) return;
+    try {
+      var s = JSON.parse(raw); if (!s || typeof s !== 'object') return;
+      if (Array.isArray(s.favs)) store.favs = s.favs.filter(function (i) { return typeof i === 'number' && i >= 0 && i < QUOTES.length; });
+      if (s.answers && typeof s.answers === 'object') store.answers = s.answers;
+      if (s.actions && typeof s.actions === 'object') store.actions = s.actions;
+    } catch (e) {}
+  })();
+  function saveStore() { try { localStorage.setItem(LS_KEY, JSON.stringify(store)); } catch (e) {} }
+
+  /* ---------- 出典（このページで実際に使ったものだけ集める） ---------- */
+  var usedSources = {};
+  function markSource(id) { if (id && SOURCES[id]) usedSources[id] = true; }
+  function srcLink(id, label) {
+    if (!id || !SOURCES[id]) return '';
+    var s = SOURCES[id];
+    var a = document.createElement('a');
+    a.className = 'src-link'; a.href = s.u; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.setAttribute('aria-label', (label || 'この項目') + 'の出典: ' + s.t + '（新しいタブで開く）');
+    a.innerHTML = 'Source: ' + esc(s.t) + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15 20 4M15 4h5v5M19 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>';
+    return a.outerHTML;
+  }
+
+  /* ================= 1. 日付ヒーロー ================= */
+  $('heroMonth').textContent = mon.name + ' ' + D;
+  $('heroSub').textContent = WK[now.getDay()] + ', ' + Y;
+  $('heroCopyEn').textContent = mon.en;
+  $('heroCopyJa').textContent = mon.ja;
+  $('footDate').textContent = mon.name + ' ' + D + ', ' + Y + '（' + mon.jp + '）';
+  $('heroScroll').addEventListener('click', function () {
+    var t = document.querySelector('.qsec');
+    if (t) t.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  /* ================= 2. Quote of the Day ================= */
+  var qFig = $('qFig'), curQ = seed % QUOTES.length, qAnimTimer = null;
+  function quoteSourceLabel(a) { return a === 'Fugasha' ? '出典: 風雅舎オリジナル' : '出典: 古典（パブリックドメイン）'; }
+  function renderQuote(fade) {
+    var apply = function () {
+      var q = QUOTES[curQ];
+      $('qText').textContent = q.j;
+      $('qSub').textContent = q.q;
+      $('qAuthor').textContent = '— ' + q.aj + '（' + q.a + '）';
+      $('qAuthorDesc').textContent = AUTHORS[q.a] || '';
+      $('qSource').textContent = quoteSourceLabel(q.a);
+      $('qFav').setAttribute('aria-pressed', String(store.favs.indexOf(curQ) !== -1));
+    };
+    if (fade && !reduced()) {
+      qFig.classList.add('q-anim-out');
+      clearTimeout(qAnimTimer);
+      qAnimTimer = setTimeout(function () { apply(); qFig.classList.remove('q-anim-out'); }, 300);
+    } else apply();
+  }
+  function nextQuote() {
+    var n = curQ;
+    if (QUOTES.length > 1) { while (n === curQ) n = Math.floor(Math.random() * QUOTES.length); }
+    curQ = n; renderQuote(true);
+    var q = QUOTES[curQ]; announce(q.j + ' — ' + q.aj);
+  }
+  $('qNext').addEventListener('click', nextQuote);
+  $('qFav').addEventListener('click', function () {
+    var i = store.favs.indexOf(curQ);
+    if (i !== -1) { store.favs.splice(i, 1); showNotice('お気に入りから外しました。'); }
+    else { store.favs.unshift(curQ); showNotice('お気に入りに残しました。この端末のブラウザにだけ保存されます。'); }
+    $('qFav').setAttribute('aria-pressed', String(store.favs.indexOf(curQ) !== -1));
+    saveStore(); renderSaved();
+  });
+  function quotePlain() { var q = QUOTES[curQ]; return q.j + ' — ' + q.aj + '\n' + q.q + ' — ' + q.a; }
+  function copyText(text, done) {
+    var fb = function () {
+      var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.left = '-9999px'; document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) {} document.body.removeChild(ta); done(ok);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { done(true); }, fb);
+    else fb();
+  }
+  $('qCopy').addEventListener('click', function () { copyText(quotePlain(), function (ok) { showNotice(ok ? '名言をコピーしました。' : 'コピーできませんでした。'); }); });
+  $('qShare').addEventListener('click', function () {
+    var url = 'https://aimeeta.github.io/fugasha_ai/today.html';
+    if (navigator.share) { navigator.share({ text: quotePlain(), url: url }).catch(function () {}); }
+    else copyText(quotePlain() + '\n' + url, function (ok) { showNotice(ok ? '共有用テキストをコピーしました。' : 'コピーできませんでした。'); });
+  });
+  var savedWrap = $('qSavedWrap'), savedOpen = false;
+  function renderSaved() {
+    $('qSavedCount').textContent = String(store.favs.length);
+    if (!savedOpen) return;
+    savedWrap.textContent = '';
+    if (!store.favs.length) {
+      var p = document.createElement('p'); p.className = 'qa-hist-empty'; p.style.marginTop = '16px';
+      p.textContent = 'まだありません。ハートのボタンで、心に残った名言をここに置けます。';
+      savedWrap.appendChild(p); return;
+    }
+    var ul = document.createElement('ul'); ul.style.cssText = 'list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:10px;text-align:left';
+    store.favs.forEach(function (idx) {
+      if (idx < 0 || idx >= QUOTES.length) return;
+      var q = QUOTES[idx];
+      var li = document.createElement('li'); li.style.cssText = 'display:flex;gap:10px;align-items:flex-start';
+      var b = document.createElement('button');
+      b.type = 'button'; b.style.cssText = 'flex:1;text-align:left;background:none;border:none;cursor:pointer;color:inherit;padding:8px 6px;border-radius:6px;font-family:var(--font-serif);font-weight:300;font-size:14.5px;line-height:1.7';
+      b.innerHTML = esc(q.j) + '<span style="display:block;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;color:var(--hint);margin-top:4px">— ' + esc(q.aj) + '</span>';
+      b.setAttribute('aria-label', q.j + '（' + q.aj + '）を表示');
+      b.addEventListener('click', function () { curQ = idx; renderQuote(true); document.querySelector('.qsec').scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth' }); });
+      var del = document.createElement('button');
+      del.type = 'button'; del.style.cssText = 'flex:none;width:36px;height:36px;background:none;border:none;cursor:pointer;color:var(--hint)';
+      del.setAttribute('aria-label', q.aj + ' の名言をお気に入りから削除');
+      del.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+      del.addEventListener('click', function () {
+        store.favs = store.favs.filter(function (x) { return x !== idx; }); saveStore(); renderSaved();
+        $('qFav').setAttribute('aria-pressed', String(store.favs.indexOf(curQ) !== -1));
+        showNotice('お気に入りから外しました。');
+      });
+      li.appendChild(b); li.appendChild(del); ul.appendChild(li);
+    });
+    savedWrap.appendChild(ul);
+  }
+  $('qSavedBtn').addEventListener('click', function () {
+    savedOpen = !savedOpen; this.setAttribute('aria-expanded', String(savedOpen));
+    savedWrap.hidden = !savedOpen; renderSaved();
+  });
+  renderQuote(false);
+
+  /* ================= 3. Today in History ================= */
+  (function todayInHistory() {
+    var list = $('thList'), empty = $('thEmpty');
+    var todays = (mon.events || []).filter(function (e) { return e.d === D; })
+      .sort(function (a, b) { return (a.y || 0) - (b.y || 0); });
+    $('thLead').textContent = mon.name + ' ' + D + ' に世界で起きたこと。年代順に、暗い出来事に偏らないよう選んでいます。';
+    if (!todays.length) {
+      list.hidden = true; empty.hidden = false;
+      empty.innerHTML = '<p class="empty-note">' + mon.name + ' ' + D + ' に紐づく出来事は、まだこのアルマナックに収録していません。かわりに、下の「今月の出来事」からこの月ぜんたいを辿れます。</p>';
+      return;
+    }
+    todays.forEach(function (e) {
+      markSource(e.src);
+      var li = document.createElement('li'); li.className = 'tl-item';
+      li.innerHTML =
+        '<p class="tl-year">' + esc(e.y) + '</p>' +
+        '<p class="tl-title">' + esc(e.t) + '</p>' +
+        '<p class="tl-sum">' + esc(e.s) + '</p>' +
+        '<div class="tl-meta"><span class="cat">' + esc(e.cat) + '</span>' + srcLink(e.src, e.t) + '</div>';
+      list.appendChild(li);
+    });
+  })();
+
+  /* ================= 4. This Month in History ================= */
+  (function thisMonth() {
+    var rail = $('tmRail'), all = $('tmAll'), toggle = $('tmToggle');
+    var evts = (mon.events || []).slice().sort(function (a, b) { return (a.d || 0) - (b.d || 0) || (a.y || 0) - (b.y || 0); });
+    var railItems = evts.slice(0, 6);
+    railItems.forEach(function (e) {
+      markSource(e.src);
+      var li = document.createElement('li'); li.className = 'rail-card';
+      var when = e.d ? (mon.name.slice(0,3) + ' ' + e.d) : mon.name.slice(0,3);
+      li.innerHTML =
+        '<span class="rc-date">' + esc(when) + '</span>' +
+        '<span class="rc-year">' + (e.y ? esc(e.y) : '—') + '</span>' +
+        '<span class="rc-title">' + esc(e.t) + '</span>' +
+        '<span class="rc-sum">' + esc(e.s) + '</span>' +
+        '<span class="rc-meta"><span class="cat">' + esc(e.cat) + '</span>' + srcLink(e.src, e.t) + '</span>';
+      rail.appendChild(li);
+    });
+    evts.forEach(function (e) {
+      markSource(e.src);
+      var li = document.createElement('li'); li.className = 'allrow';
+      li.innerHTML =
+        '<div class="ar-when">' + (e.d ? (mon.name.slice(0,3) + ' ' + e.d) : '—') + '<b>' + (e.y ? esc(e.y) : '毎年') + '</b></div>' +
+        '<div><p class="ar-title">' + esc(e.t) + '</p><p class="ar-sum">' + esc(e.s) + '</p>' +
+        '<div class="tl-meta"><span class="cat">' + esc(e.cat) + '</span>' + srcLink(e.src, e.t) + '</div></div>';
+      all.appendChild(li);
+    });
+    toggle.addEventListener('click', function () {
+      var open = all.hidden;
+      all.hidden = !open; this.setAttribute('aria-expanded', String(open));
+      $('tmToggleLabel').textContent = open ? '折りたたむ' : 'すべての出来事を見る（' + evts.length + '件）';
+      if (open) all.querySelector('.ar-title').setAttribute('tabindex', '-1');
+    });
+    $('tmToggleLabel').textContent = 'すべての出来事を見る（' + evts.length + '件）';
+  })();
+
+  /* ================= 5. Did You Know ================= */
+  (function didYouKnow() {
+    var grid = $('dyGrid'), pool = (mon.facts || []).slice(), offset = seed % (pool.length || 1);
+    var iconFor = {
+      Words: '<path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2M9 20h6M12 4v16"/>',
+      Nature: '<path d="M12 22c4-2 7-6 7-11a7 7 0 0 0-14 0c0 5 3 9 7 11zM12 8v8"/>',
+      Science: '<path d="M9 3h6M10 3v6l-4 9a2 2 0 0 0 2 3h8a2 2 0 0 0 2-3l-4-9V3"/>',
+      Culture: '<path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/>',
+      Calendar: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>',
+      Food: '<path d="M6 2v7a3 3 0 0 0 6 0V2M9 2v20M17 2c-1.5 1-2 3-2 6s.5 5 2 6v8"/>'
+    };
+    function render() {
+      grid.textContent = '';
+      var n = Math.min(3, pool.length);
+      for (var i = 0; i < n; i++) {
+        var f = pool[(offset + i) % pool.length];
+        markSource(f.src);
+        var card = document.createElement('div'); card.className = 'fact-card';
+        card.innerHTML =
+          '<svg class="fact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (iconFor[f.cat] || iconFor.Science) + '</svg>' +
+          '<p class="fact-text">' + esc(f.f) + '</p>' +
+          '<div class="fact-bottom"><span class="fact-cat">' + esc(f.cat) + '</span>' + srcLink(f.src, '雑学') + '</div>';
+        grid.appendChild(card);
+      }
+    }
+    render();
+    $('dyMore').addEventListener('click', function () {
+      if (pool.length <= 3) { showNotice('今月の雑学は、これでひととおりです。'); return; }
+      offset = (offset + 3) % pool.length; render(); announce('別の雑学に切り替えました。');
+    });
+  })();
+
+  /* ================= 6. The Story of This Month ================= */
+  (function storyOfMonth() {
+    var wrap = $('stList');
+    (mon.story || []).forEach(function (s) {
+      markSource(s.src);
+      var art = document.createElement('article'); art.className = 'story';
+      var body = (s.body || []).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+      art.innerHTML =
+        '<h3 class="story-title">' + esc(s.title) + '</h3>' +
+        '<div class="story-body">' + body + '</div>' +
+        '<div class="story-src">' + srcLink(s.src, s.title) + '</div>';
+      wrap.appendChild(art);
+    });
+  })();
+
+  /* ================= 7. Born This Month ================= */
+  (function bornThisMonth() {
+    var wrap = $('bnList');
+    (mon.people || []).forEach(function (p) {
+      markSource(p.src);
+      var el = document.createElement('article'); el.className = 'person';
+      var html =
+        '<div class="person-top"><h3 class="person-name">' + esc(p.n) + '<span class="en" lang="en">' + esc(p.en) + '</span></h3></div>' +
+        '<p class="person-meta">' + esc(p.b) + ' ・ ' + esc(p.field) + '</p>' +
+        '<p class="person-bio">' + esc(p.bio) + '</p>' +
+        '<p class="person-work"><b>おもな功績：</b>' + esc(p.work) + '</p>';
+      if (p.quote) html += '<p class="person-quote">「' + esc(p.quote) + '」</p>';
+      html += '<div class="person-foot">' + srcLink(p.src, p.n) + '</div>';
+      el.innerHTML = html;
+      wrap.appendChild(el);
+    });
+  })();
+
+  /* ================= 8. A Question for Today ================= */
+  (function questionOfDay() {
+    var q = QUESTIONS[seed % QUESTIONS.length];
+    $('qaQEn').textContent = q.en; $('qaQJa').textContent = q.ja;
+    var input = $('qaInput'), key = todayKey();
+    var saved = store.answers[key];
+    if (saved && saved.a) input.value = saved.a;
+    function save() {
+      var v = input.value.trim();
+      if (v) { store.answers[key] = { q: q.ja, a: v }; showNotice('今日の答えを書き留めました。'); }
+      else { delete store.answers[key]; }
+      saveStore(); renderHistory();
+    }
+    $('qaSave').addEventListener('click', save);
+    var t = null;
+    input.addEventListener('input', function () { clearTimeout(t); t = setTimeout(function () {
+      var v = input.value.trim();
+      if (v) store.answers[key] = { q: q.ja, a: v }; else delete store.answers[key];
+      saveStore();
+    }, 500); });
+    function renderHistory() {
+      var ul = $('qaHistList'); ul.textContent = '';
+      var keys = Object.keys(store.answers).filter(function (k) { return store.answers[k] && store.answers[k].a; }).sort().reverse();
+      if (!keys.length) { var li = document.createElement('li'); li.className = 'qa-hist-empty'; li.textContent = 'まだ答えの記録はありません。'; ul.appendChild(li); return; }
+      keys.forEach(function (k) {
+        var a = store.answers[k];
+        var li = document.createElement('li'); li.className = 'qa-hist-item';
+        li.innerHTML = '<p class="qa-hist-date">' + esc(k) + '</p><p class="qa-hist-q">' + esc(a.q || '') + '</p><p class="qa-hist-a">' + esc(a.a) + '</p>';
+        ul.appendChild(li);
+      });
+    }
+    renderHistory();
+  })();
+
+  /* ================= 9. Daily Action ================= */
+  (function dailyAction() {
+    var act = ACTIONS[seed % ACTIONS.length], box = $('daBox'), check = $('daCheck'), key = todayKey();
+    $('daEn').textContent = act.en; $('daJa').textContent = act.ja;
+    var done = !!store.actions[key];
+    function apply(pulse) {
+      box.classList.toggle('done', done);
+      check.setAttribute('aria-checked', String(done));
+      if (done && pulse && !reduced()) { box.classList.remove('pulse'); void box.offsetWidth; box.classList.add('pulse'); }
+    }
+    apply(false);
+    check.addEventListener('click', function () {
+      done = !done;
+      if (done) { store.actions[key] = true; announce('今日の一歩を、できたことにしました。'); }
+      else { delete store.actions[key]; }
+      saveStore(); apply(true);
+    });
+  })();
+
+  /* ================= 10. Sources & References ================= */
+  (function sources() {
+    var ul = $('refList'), ids = Object.keys(SOURCES).filter(function (id) { return usedSources[id]; });
+    $('refCount').textContent = String(ids.length);
+    ids.forEach(function (id) {
+      var s = SOURCES[id];
+      var li = document.createElement('li'); li.className = 'ref-item';
+      li.innerHTML =
+        '<b>' + esc(s.t) + '</b> <span class="ref-org">／ ' + esc(s.o) + '</span><br>' +
+        '<a href="' + esc(s.u) + '" target="_blank" rel="noopener noreferrer">' + esc(s.u) + '</a><br>' +
+        '<span class="ref-acc">閲覧日: ' + esc(ACC) + '</span>';
+      ul.appendChild(li);
+    });
+  })();
+
+  /* ================= エントランス演出（IntersectionObserver） ================= */
+  (function reveal() {
+    var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    if (reduced() || !('IntersectionObserver' in window)) return; /* 既定で表示。演出なしでも読める */
+    els.forEach(function (el) { el.classList.add('pre'); }); /* ここで初めて隠す */
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    els.forEach(function (el) { io.observe(el); });
+    /* 安全網1: スクロールでも表示域の要素を出す（IOが節電で止まる環境向け。演出は保たれる） */
+    var onScroll = function () { els.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top < window.innerHeight * 0.95 && r.bottom > 0) el.classList.add('in'); }); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    /* 安全網2: 最終保険。どの経路も発火しなくても、2.5秒後には全て表示して本文が隠れたままにならないようにする */
+    setTimeout(function () { els.forEach(function (el) { el.classList.add('in'); }); }, 2500);
+  })();
+
+  /* ================= キーボード（名言: N=次へ / F=お気に入り / C=コピー） ================= */
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key.toLowerCase();
+    if (k === 'n') { nextQuote(); }
+    else if (k === 'f') { $('qFav').click(); }
+    else if (k === 'c') { $('qCopy').click(); }
+  });
+})();
+</script>
+</body>
+</html>

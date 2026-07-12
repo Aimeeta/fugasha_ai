@@ -1,6 +1,31 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-12（AI Daily News 自動化を追加）
+最終検証: 2026-07-12（Today ページ新設・Focus 名言撤去）
+
+## Today ページ新設 / Focus 名言撤去（2026-07-12）
+新規: `today.html`。変更: `focus.html`（名言撤去＋Today導線）、`index.html`/`colors.html`/`words.html`（ナビ）、`sitemap.xml`。
+
+### 実行した検証（ローカルサーバー＋ブラウザ）
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| inline JS 構文 | today/focus を抽出 → `node --check` | ✅ 両OK |
+| タグ整合 | today.html マークアップの開閉カウント | ✅ 全一致 |
+| コンソール | today.html / focus.html | ✅ エラーゼロ |
+| セクション描画 | DOM問い合わせ（10セクション・件数） | ✅ 今日の出来事4件/今月6+全11/雑学/物語2/人物5/問い/行動/出典6 |
+| 月別データ充足 | 全12月 events≥5・people≥3・facts≥3・story≥1 | ✅ 全月充足（空にならない） |
+| 空状態フォールバック | 出来事の無い日(7/2)で day filter=0 | ✅ 空ノート＋月別で埋まる設計を確認 |
+| インタラクション | お気に入り/コピー/次へ/View all/雑学切替/問い保存/行動チェック | ✅ 動作＋localStorage永続化 |
+| モバイル | 375px で横溢れ判定 | ✅ 溢れなし（横スクロールrailのみ内部スクロール） |
+| エントランス fail-open | `.reveal` 16件が2.5sバックストップで全表示 | ✅ 16/16（本文が隠れ残らない） |
+| Focus 名言撤去 | .msg-wrap/#msg 消失・タイマー/モード切替・Today導線href | ✅ 残存ゼロ・回帰なし |
+| ナビ整合 | 全HTMLで Words除去・today.html配線 | ✅ grep一致 |
+
+### 未検証（開示）
+- **各歴史・雑学・人物の内容はアシスタントの知識ベース。機関URLは"参考"提示で、個別URLの実在・解決は未確認。** push＝本番のため、公開前に日付・URLのスポット確認を推奨
+- スクロール連動のエントランス演出の"見た目": プレビュー環境がバックグラウンドタブとしてIO/スクロール/タイマーを抑制し、スクロール後のラスタも再描画されないため**目視スクリーンショット未取得**（DOM問い合わせ=elementFromPoint/getBoundingClientRectで内容・レイアウトは確認済み）。フォアグラウンドの実ブラウザでは標準IOで動作
+- 実機（iOS/Android）・スクリーンリーダー通し・Lighthouse計測 — 未実行
+
+## AI Daily News 自動生成パイプライン（2026-07-12）
 
 ## AI Daily News 自動生成パイプライン（2026-07-12）
 新規: automation/ai-daily-news/（run.js・config.json・template.html・mock-feed.json・README.md）、

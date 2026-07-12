@@ -1,6 +1,22 @@
 # ROADMAP — 優先順位つき残タスク
 
-最終更新: 2026-07-12（AI Daily News 自動化を追加。words/colors はpush済み）
+最終更新: 2026-07-12（Today ページ新設・Focus 名言撤去。**未push**）
+
+## 2026-07-12 — Today ページ新設 — 実装済み・レビュー/公開前確認待ち（未push）
+デジタル・アルマナック `today.html` を新設。words.html の名言を統合、Focus から名言を撤去、ナビ/sitemap を配線。詳細は DECISION_LOG / QUALITY_REPORT。
+
+**公開前にオーナー（または担当分隊）がやること**:
+1. **出典の実確認** — 各歴史・雑学・人物の内容はアシスタント知識ベース。機関URLは"参考"。push＝本番のため、少なくとも当月（7月）の日付・主要事実・URLをスポット確認する
+2. ブラウザ実機（iOS Safari / Android Chrome）でスクロール演出・横スクロールrail・localStorage を確認
+3. 問題なければ push で公開（CLAUDE.md: push は明示指示があるまで行わない）
+
+**フォローアップ候補**:
+- 7月以外の月のコンテンツ拡充（現状は各月 events≥5/people≥3/facts≥3/story≥1 の堅実な最小構成。7月のみリッチ）
+- Today in History の日別カバレッジ拡充（現状は7/12など一部の日のみ日別イベント。他日は月別フォールバックで表示）
+- 外部API（歴史イベント等）併用の検討（要件どおりフォールバック前提。整形して表示・失敗時はサイト内データ）
+- seo-aeo / a11y / design-critic の波レビュー（未実施）
+
+## 2026-07-12 — AI Daily News 自動生成 — 実装済み・オーナーのSecret設定待ち
 
 ## 2026-07-12 — AI Daily News 自動生成 — 実装済み・オーナーのSecret設定待ち
 GitHub Actions（JST 7:00）でAIニュースまとめ記事を自動生成。詳細は automation/ai-daily-news/README.md と DECISION_LOG。
