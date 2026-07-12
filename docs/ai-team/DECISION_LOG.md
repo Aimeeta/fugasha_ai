@@ -2,6 +2,17 @@
 
 新しい決定は上に追記する。形式: 日付 / 決定 / 理由 / 決定者。
 
+## 2026-07-12 — Color Generator ページ（colors.html）新規追加
+オーナー指示で、香水のネーミングのような物語性あるカラーパレット生成ページを新設。6体分隊（企画4体並列→統合実装→クロスレビュー2体）で企画から実装・検証まで完了。**未push**。
+
+- **世界観（creative-director裁定）**: 「色は選ぶものではなく、出会うもの」。色見本帳ではなく"散文詩のアンソロジー"。着地時に日付シードで決まる「本日のパレット」を表示（全訪問者が同じ一篇に出会う）。ページ名 `colors.html` / ナビラベル `Colors` / タイトル「色 | 風雅舎」（focus.htmlの命名規則に整合）
+- **主役インタラクション（1つ）**: 生成のたびページ地色が現在パレットの Background へ静かに滲む（16%のみ・reduced-motion時は即時）。憲法「1ページ1主役」を遵守
+- **背景の染め方 — CD案とLPD案の衝突を裁定**: CDは「ページ全体を染める」、LPDは「カード内に留める」。**採用=中間案**: UI文字はサイトのテーマ色のまま（コントラスト保証）・ページ地は生成色を16%だけ滲ませる（世界観を確保）。滲み地でのUI文字コントラストは4テーマ×65篇で実測（fg 8.2 / fg2 6.1 / hint 4.55 が最悪）し、`--hint` を #4d525a へ暗色化して AA を担保
+- **収録65篇**: brand-copywriter が香水/映画/詩/ホテル風の英語名＋1行詩を作成（商標衝突を回避）。visual-designer の5役割ルール（Background/Surface/Primary/Accent/Text）に沿って各HEXを設計し、**Text/Background 7:1（AAA）を全篇で機械検証**。1篇目はサイト自身の配色「A Quiet Press」（Accent 2.11:1 は既存サイトの実運用どおりの意図的例外・ヘルプに明記）
+- **技術方針**: 憲法どおり外部ライブラリ追加ゼロ（Lenisすら不使用）。focus.htmlの設計言語（4テーマ変数・ガラスUI・notice/openPanel/closePanel/setPanelInert/フォーカストラップ/state+localStorage）を再利用。画像からの色抽出も canvas でブラウザ内完結（外部送信なし）
+- **全機能**: 生成（Space）/ テーマ14・ムード10フィルタ / ロック再生成 / HEX・RGB・HSL切替 / まとめコピー5形式（HEX/CSS変数/Tailwind/JSON/Gradient）/ お気に入り・履歴（localStorage）/ URL共有 / 6プレビュー / 画像抽出 / フルキーボード操作
+- クロスレビュー（frontend-engineer + a11y-auditor）の Serious/Moderate 指摘を反映済み。詳細は QUALITY_REPORT.md
+
 ## 2026-07-11 — 人間味監査 Phase 2 実装（構造的リズム改修）
 Phase 0/1 に続き、オーナー指示「着手」を受けて Phase 2 を実装。frontend-engineer がクロスレビューし、指摘4件（詳細度バグ・sign-grid巻き添え・間奏の孤立行・noscript漏れ）を修正済み:
 - **余白の間奏（#s-interlude）新設**: SERVICES と WAYS OF WORKING の間に、min-height 54vh・中央一文「この、なにもない場所が、余白です。」（serif、初使用の --text-4xl 60px）＋小さな一言のみのセクション。罫線リビールも持たない `.sec-quiet` で、13回同じだった幕開けの完全な例外。モバイルは clamp(22px,7vw,27px) に落として孤立行を防止

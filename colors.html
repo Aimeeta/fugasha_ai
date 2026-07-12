@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>色 | 風雅舎</title>
+  <meta name="description" content="気分や情景から色と出会うページ。65篇のパレットに名前と一行の詩を添えて。お気に入りも履歴も、ブラウザの中にだけ保存されます。">
+  <meta property="og:title" content="色 | 風雅舎">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/colors.html">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="風雅舎">
+  <meta name="theme-color" content="#f0e6d6" id="metaTheme">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/colors.html">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #f0e6d6;
+      --bg2:     #e8dcc8;
+      --fg:      #0d2030;
+      --fg2:     #1e3a50;
+      --hint:    #4d525a;
+      --accent:  #e8866a;
+      --accent2: #f0a882;
+      --accent-ink: #7a4025;
+      --line:    rgba(13,32,48,.1);
+      --panel:   #f4ecdf;
+      --shadow:  rgba(13,32,48,.14);
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+      --ease: cubic-bezier(.16,1,.3,1);
+      /* 現在のパレット5色。JSが差し替える */
+      --pal-bg: #f0e6d6; --pal-sf: #e8dcc8; --pal-pr: #7a4025; --pal-ac: #e8866a; --pal-tx: #0d2030;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      /* transition-delay はduration打消しでは消えないため明示的に消す（スウォッチのスタッガー） */
+      .sw-color, .pv * { transition-delay: 0ms !important; }
+      .sw { transition: none; }
+      .sw:hover, .sw:focus-within { flex-grow: 1; }
+    }
+    html, body { min-height: 100%; }
+    body {
+      font-family: var(--font-sans); color: var(--fg);
+      /* 静かな残響: 現在のパレットの地色を16%だけ滲ませる（検証済み: 最悪でも fg 8.2:1 / fg2 6.1:1） */
+      background: color-mix(in srgb, var(--pal-bg) 16%, var(--bg));
+      transition: background .9s var(--ease);
+      overflow-x: hidden;
+    }
+    a { color: inherit; }
+    ::selection { background: rgba(232,134,106,.3); color: var(--fg); }
+    :focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+    button { font-family: var(--font-sans); color: inherit; }
+    .u-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+    .skip-link { position: absolute; left: 16px; top: -48px; z-index: 90; background: var(--fg); color: var(--bg); padding: 10px 16px; border-radius: 0 0 4px 4px; font-size: 12px; text-decoration: none; transition: top .2s; }
+    .skip-link:focus { top: 0; }
+
+    /* ====== ナビ ====== */
+    .nav { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; padding: calc(env(safe-area-inset-top) + 18px) 40px 16px; }
+    .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 26px; }
+    /* padding でタップ領域を高さ24px以上に（WCAG 2.5.8） */
+    .nav-link { font-size: 11px; color: var(--fg2); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; padding: 7px 2px; }
+    .nav-link:hover { color: var(--fg); }
+    @media (max-width: 640px) { .nav { padding-left: 20px; padding-right: 20px; } .nav-right { gap: 14px; } }
+    /* skip-link のスクロール先。フォーカスは移すが枠線は出さない */
+    .stage:focus { outline: none; }
+
+    /* ====== 舞台 ====== */
+    .stage {
+      position: relative; z-index: 2;
+      max-width: 1080px; margin: 0 auto;
+      padding: calc(env(safe-area-inset-top) + 108px) 32px calc(env(safe-area-inset-bottom) + 150px);
+    }
+    @media (max-width: 640px) { .stage { padding-left: 18px; padding-right: 18px; padding-top: calc(env(safe-area-inset-top) + 92px); } }
+
+    .p-head { text-align: center; margin-bottom: 34px; }
+    .eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em; color: var(--fg2); text-transform: uppercase; }
+    .p-name {
+      font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1;
+      font-size: clamp(34px, 5.2vw, 56px); line-height: 1.18; letter-spacing: .01em;
+      color: var(--fg); margin: 10px 0 8px;
+      opacity: 1; transition: opacity .24s ease;
+    }
+    .p-line { font-family: var(--font-serif); font-weight: 300; font-size: 15px; line-height: 1.9; color: var(--fg2); max-width: 560px; margin: 0 auto; opacity: 1; transition: opacity .24s ease; }
+    .p-name.fading, .p-line.fading, .eyebrow.fading { opacity: 0; }
+    .eyebrow { transition: opacity .24s ease; }
+    .p-actions { display: flex; justify-content: center; gap: 10px; margin-top: 18px; }
+    .act-btn {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: .06em;
+      padding: 10px 16px; min-height: 44px; border-radius: 999px; cursor: pointer;
+      background: color-mix(in srgb, var(--bg2) 40%, transparent); border: 1px solid var(--line); color: var(--fg2);
+      backdrop-filter: blur(10px) saturate(1.3); -webkit-backdrop-filter: blur(10px) saturate(1.3);
+      transition: color .2s, border-color .2s, background .2s;
+    }
+    .act-btn:hover { color: var(--fg); border-color: var(--hint); }
+    .act-btn svg { width: 16px; height: 16px; }
+    .act-btn[aria-pressed="true"] { color: var(--accent-ink); border-color: color-mix(in srgb, var(--accent-ink) 40%, transparent); }
+    .act-btn[aria-pressed="true"] .ic-heart { fill: currentColor; }
+
+    /* ====== スウォッチ帯 ====== */
+    .swband {
+      display: flex; border-radius: 8px; overflow: hidden;
+      border: 1px solid var(--line); background: var(--panel);
+      box-shadow: 0 1px 1px rgba(0,0,0,.03), 0 10px 34px color-mix(in srgb, var(--pal-tx) 10%, transparent);
+      transition: box-shadow .9s var(--ease);
+    }
+    .sw { flex: 1 1 0; min-width: 0; position: relative; display: flex; flex-direction: column; transition: flex-grow .5s var(--ease); }
+    .sw:hover, .sw:focus-within { flex-grow: 1.45; }
+    .sw + .sw { border-left: 1px solid var(--line); }
+    .sw-color {
+      display: block; width: 100%; height: clamp(190px, 30vh, 280px);
+      border: none; cursor: pointer; padding: 0;
+      background-color: var(--sw, var(--bg2));
+      transition: background-color .5s var(--ease);
+      transition-delay: calc(var(--i, 0) * 60ms);
+      position: relative;
+    }
+    /* スウォッチ色は任意なので、固定色のリングだと低コントラストになる。
+       輝度適応した --sw-ink（明地→濃紺 / 暗地→淡色）を使い、そのスウォッチ地に対し必ず可視にする */
+    .sw-color:focus-visible { outline: 3px solid var(--sw-ink, #0d2030); outline-offset: -3px; }
+    .sw.locked .sw-color::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--sw-ink, #0d2030) 34%, transparent); pointer-events: none; }
+    .sw-lock {
+      position: absolute; top: 8px; right: 8px; z-index: 2;
+      width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
+      background: transparent; border: none; border-radius: 50%; cursor: pointer;
+      color: var(--sw-ink, #0d2030); opacity: .45; transition: opacity .2s;
+    }
+    .sw-lock:hover, .sw-lock:focus-visible, .sw.locked .sw-lock { opacity: 1; }
+    .sw-lock svg { width: 17px; height: 17px; }
+    .sw-lock .ic-locked { display: none; }
+    .sw.locked .sw-lock .ic-locked { display: block; }
+    .sw.locked .sw-lock .ic-open { display: none; }
+    .sw-meta { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .sw-role { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; color: var(--hint); text-transform: uppercase; white-space: nowrap; }
+    .sw-value {
+      font-family: var(--font-mono); font-size: 13px; color: var(--fg); text-align: left;
+      background: transparent; border: none; cursor: pointer; padding: 4px 0; min-height: 32px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      border-bottom: 1px solid transparent; transition: border-color .2s, color .2s;
+    }
+    .sw-value:hover { border-bottom-color: var(--hint); }
+    .sw-value.copied { color: var(--accent-ink); }
+
+    /* モバイル: 縦積みリスト */
+    @media (max-width: 700px) {
+      .swband { flex-direction: column; }
+      .sw { flex-direction: row; align-items: center; }
+      .sw:hover, .sw:focus-within { flex-grow: 1; }
+      .sw + .sw { border-left: none; border-top: 1px solid var(--line); }
+      .sw-color { width: 76px; height: 64px; flex: none; }
+      .sw-lock { position: static; order: 3; margin-right: 6px; opacity: .6; }
+      .sw-meta { flex: 1; min-width: 0; padding: 10px 12px; }
+      .sw.locked .sw-color::after { content: ''; position: absolute; inset: 0; }
+    }
+
+    /* ====== 生成列 ====== */
+    .gen-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
+    .fmt-tabs {
+      display: inline-flex; gap: 2px; padding: 4px; border-radius: 999px;
+      border: 1px solid var(--line); background: color-mix(in srgb, var(--bg2) 40%, transparent);
+      backdrop-filter: blur(10px) saturate(1.3); -webkit-backdrop-filter: blur(10px) saturate(1.3);
+    }
+    .fmt-tab { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; padding: 8px 14px; min-height: 38px; border-radius: 999px; background: transparent; border: none; cursor: pointer; color: var(--hint); transition: color .2s, background .2s, box-shadow .2s; }
+    .fmt-tab[aria-pressed="true"] { background: color-mix(in srgb, var(--fg) 10%, transparent); color: var(--fg); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 16%, transparent); }
+    .fmt-tab:hover:not([aria-pressed="true"]) { color: var(--fg); }
+    .gen-right { display: flex; align-items: center; gap: 14px; }
+    .gen-kbd { font-size: 11px; color: var(--hint); letter-spacing: .04em; }
+    kbd { font-family: var(--font-mono); font-size: 11px; background: var(--bg2); border: 1px solid var(--line); border-radius: 3px; padding: 2px 7px; color: var(--fg); }
+    .btn-amber { display: inline-flex; align-items: center; justify-content: center; gap: 9px; font-size: 12px; padding: 12px 24px; min-height: 44px; border-radius: 2px; background: var(--accent); color: #0d2030; cursor: pointer; font-weight: 500; border: none; letter-spacing: .1em; transition: opacity .25s; text-transform: uppercase; text-decoration: none; }
+    .btn-amber:hover { opacity: .85; }
+    .btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; padding: 11px 18px; min-height: 44px; border-radius: 2px; background: transparent; color: var(--fg); border: 1px solid var(--line); cursor: pointer; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; transition: border-color .2s, background .2s; }
+    .btn-ghost:hover { border-color: var(--hint); }
+    .btn-amber svg, .btn-ghost svg { width: 16px; height: 16px; }
+    @media (max-width: 700px) {
+      /* fmt-tabsと生成ボタンを縦に積み、中央寄せ。生成はページ中央（プレビューの前）にあるため、
+         スクロールすれば固定ツールバーに隠れず必ずタップできる */
+      .gen-row { flex-direction: column-reverse; align-items: center; gap: 16px; }
+      .gen-right { width: 100%; justify-content: center; }
+      #btnGen { width: 100%; max-width: 320px; }
+      .gen-kbd { display: none; }
+    }
+
+    /* ====== プレビュー ====== */
+    .preview { margin-top: 84px; }
+    .sec-title { font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em; color: var(--fg2); text-transform: uppercase; font-weight: 400; margin-bottom: 16px; }
+    .seg { display: flex; gap: 8px; flex-wrap: wrap; }
+    .seg button { flex: 1 1 auto; min-width: 60px; font-size: 12px; padding: 9px 6px; min-height: 40px; border: 1px solid var(--line); border-radius: 2px; background: transparent; color: var(--fg); cursor: pointer; transition: border-color .2s, background .2s, color .2s; }
+    .seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    .seg button:hover:not([aria-pressed="true"]) { border-color: var(--hint); }
+    .pv-stage { margin-top: 14px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); }
+    /* モック側の display:flex に負けないよう、非アクティブを確実に消す */
+    .pv:not(.active) { display: none !important; }
+    .pv.active { animation: pvIn .25s ease; }
+    .pvw { display: block; }
+    @keyframes pvIn { from { opacity: 0; } to { opacity: 1; } }
+    .pv * { transition: background-color .5s var(--ease), color .5s var(--ease), border-color .5s var(--ease); }
+
+    /* Website */
+    .pvw { background: var(--pal-bg); min-height: 420px; padding: 0 0 36px; }
+    .pvw-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 28px; border-bottom: 1px solid color-mix(in srgb, var(--pal-tx) 12%, transparent); }
+    .pvw-logo { font-family: var(--font-serif); font-size: 15px; color: var(--pal-tx); }
+    .pvw-links { display: flex; gap: 8px; }
+    .pvw-links i { display: block; width: 34px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--pal-tx) 26%, transparent); }
+    .pvw-cta { font-size: 11px; padding: 7px 14px; border-radius: 3px; background: var(--pal-pr); color: var(--pal-bg); letter-spacing: .06em; }
+    .pvw-hero { text-align: center; padding: 52px 24px 40px; }
+    .pvw-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: .2em; color: var(--pal-ac); text-transform: uppercase; }
+    .pvw-title { font-family: var(--font-serif); font-weight: 300; font-size: clamp(24px, 3.6vw, 38px); color: var(--pal-tx); margin: 10px 0 8px; }
+    .pvw-sub { font-size: 13px; line-height: 1.8; color: color-mix(in srgb, var(--pal-tx) 78%, var(--pal-bg)); max-width: 460px; margin: 0 auto 22px; }
+    .pvw-btn { display: inline-block; font-size: 12px; letter-spacing: .08em; padding: 11px 24px; border-radius: 3px; background: var(--pal-pr); color: var(--pal-bg); }
+    .pvw-cards { display: flex; gap: 14px; padding: 0 28px; }
+    .pvw-card { flex: 1; background: var(--pal-sf); border: 1px solid color-mix(in srgb, var(--pal-tx) 10%, transparent); border-radius: 6px; padding: 18px 16px; }
+    .pvw-card i { display: block; height: 7px; border-radius: 3px; background: color-mix(in srgb, var(--pal-tx) 22%, transparent); margin-bottom: 8px; }
+    .pvw-card i:first-child { width: 55%; background: var(--pal-ac); height: 8px; }
+    .pvw-card i:nth-child(3) { width: 80%; }
+    .pvw-card i:last-child { width: 62%; margin-bottom: 0; }
+    @media (max-width: 640px) { .pvw-cards { flex-direction: column; } }
+
+    /* Mobile App */
+    .pva { background: color-mix(in srgb, var(--pal-tx) 8%, var(--pal-bg)); display: flex; justify-content: center; padding: 34px 16px; }
+    .pva-phone { width: min(270px, 82vw); border-radius: 26px; overflow: hidden; background: var(--pal-bg); box-shadow: 0 14px 44px color-mix(in srgb, var(--pal-tx) 26%, transparent); border: 1px solid color-mix(in srgb, var(--pal-tx) 14%, transparent); position: relative; }
+    .pva-head { background: var(--pal-pr); color: var(--pal-bg); padding: 20px 18px 16px; }
+    .pva-head .t { font-family: var(--font-serif); font-size: 16px; }
+    .pva-head .s { font-family: var(--font-mono); font-size: 9px; letter-spacing: .12em; opacity: .8; text-transform: uppercase; margin-top: 3px; display: block; }
+    .pva-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; min-height: 240px; }
+    .pva-card { background: var(--pal-sf); border-radius: 10px; padding: 13px 14px; }
+    .pva-card b { display: block; font-size: 12px; font-weight: 500; color: var(--pal-tx); margin-bottom: 5px; }
+    .pva-card i { display: block; width: 72%; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--pal-tx) 24%, transparent); }
+    .pva-fab { position: absolute; right: 16px; bottom: 16px; width: 44px; height: 44px; border-radius: 50%; background: var(--pal-ac); display: flex; align-items: center; justify-content: center; color: var(--pal-bg); font-size: 22px; font-weight: 500; box-shadow: 0 6px 18px color-mix(in srgb, var(--pal-ac) 45%, transparent); }
+
+    /* Poster */
+    .pvp { background: var(--pal-bg); min-height: 440px; display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+    .pvp-frame { width: min(320px, 78vw); aspect-ratio: 210/297; background: var(--pal-sf); border: 1px solid color-mix(in srgb, var(--pal-tx) 12%, transparent); box-shadow: 0 16px 44px color-mix(in srgb, var(--pal-tx) 20%, transparent); display: flex; flex-direction: column; padding: 26px 22px; }
+    .pvp-no { font-family: var(--font-mono); font-size: 9px; letter-spacing: .2em; color: var(--pal-ac); text-transform: uppercase; }
+    .pvp-title { font-family: var(--font-serif); font-weight: 300; font-size: clamp(21px, 3vw, 28px); line-height: 1.3; color: var(--pal-tx); margin-top: auto; }
+    .pvp-line { font-size: 10.5px; line-height: 1.7; color: color-mix(in srgb, var(--pal-tx) 74%, var(--pal-sf)); margin-top: 8px; }
+    .pvp-bar { height: 8px; margin-top: 18px; border-radius: 2px; background: linear-gradient(90deg, var(--pal-pr) 0 34%, var(--pal-ac) 34% 55%, var(--pal-tx) 55% 100%); }
+
+    /* Social */
+    .pvs { background: color-mix(in srgb, var(--pal-tx) 8%, var(--pal-bg)); display: flex; justify-content: center; padding: 34px 16px; }
+    .pvs-post { width: min(300px, 82vw); background: var(--pal-bg); border-radius: 10px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--pal-tx) 14%, transparent); box-shadow: 0 12px 36px color-mix(in srgb, var(--pal-tx) 20%, transparent); }
+    .pvs-img { aspect-ratio: 1; background: linear-gradient(150deg, var(--pal-sf) 0%, var(--pal-pr) 58%, var(--pal-ac) 100%); display: flex; align-items: flex-end; padding: 18px; }
+    .pvs-img span { font-family: var(--font-serif); font-weight: 300; font-size: 17px; color: var(--pal-bg); text-shadow: 0 1px 14px color-mix(in srgb, var(--pal-tx) 55%, transparent); }
+    .pvs-cap { display: flex; align-items: center; gap: 10px; padding: 12px 14px; }
+    .pvs-ava { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--pal-ac); }
+    .pvs-cap i { display: block; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--pal-tx) 26%, transparent); }
+    .pvs-cap .l1 { width: 64%; margin-bottom: 6px; }
+    .pvs-cap .l2 { width: 40%; }
+    .pvs-cap div { flex: 1; }
+
+    /* Brand card */
+    .pvb { background: var(--pal-sf); min-height: 380px; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+    .pvb-card { width: min(340px, 84vw); aspect-ratio: 91/55; background: var(--pal-bg); border: 1px solid color-mix(in srgb, var(--pal-tx) 14%, transparent); border-radius: 8px; box-shadow: 0 14px 40px color-mix(in srgb, var(--pal-tx) 22%, transparent); padding: 20px 22px; display: flex; flex-direction: column; }
+    .pvb-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--pal-ac); }
+    .pvb-name { font-family: var(--font-serif); font-weight: 300; font-size: 17px; color: var(--pal-tx); margin-top: auto; }
+    .pvb-role { font-family: var(--font-mono); font-size: 9px; letter-spacing: .16em; color: var(--pal-pr); text-transform: uppercase; margin-top: 3px; }
+    .pvb-chips { display: flex; gap: 5px; margin-top: 12px; }
+    .pvb-chips i { display: block; width: 22px; height: 10px; border-radius: 2px; border: 1px solid color-mix(in srgb, var(--pal-tx) 16%, transparent); }
+
+    /* Gradient */
+    .pvg { min-height: 400px; background: linear-gradient(135deg, var(--pal-bg) 0%, var(--pal-sf) 26%, var(--pal-pr) 62%, var(--pal-ac) 100%); display: flex; align-items: flex-end; padding: 26px; }
+    .pvg span { font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; color: var(--pal-bg); text-transform: uppercase; text-shadow: 0 1px 12px color-mix(in srgb, var(--pal-tx) 60%, transparent); }
+
+    .foot-note { margin-top: 64px; text-align: center; font-size: 11.5px; color: var(--hint); line-height: 1.9; }
+    .foot-note a { color: var(--fg2); }
+
+    /* ====== ツールバー ====== */
+    .toolbar { position: fixed; z-index: 25; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom) + 16px); display: flex; align-items: center; gap: 2px; padding: 6px; border-radius: 4px; background: color-mix(in srgb, var(--panel) 80%, transparent); border: 1px solid var(--line); backdrop-filter: blur(20px) saturate(1.6); -webkit-backdrop-filter: blur(20px) saturate(1.6); box-shadow: 0 1px 1px rgba(0,0,0,.05), 0 8px 30px var(--shadow); max-width: calc(100vw - 20px); }
+    .tb-btn { display: inline-flex; flex-direction: column; align-items: center; gap: 3px; min-width: 58px; padding: 7px 6px; min-height: 48px; background: transparent; border: none; border-radius: 3px; cursor: pointer; color: var(--fg2); transition: background .2s, color .2s; }
+    .tb-btn:hover { background: var(--bg2); color: var(--fg); }
+    .tb-btn[aria-expanded="true"] { background: var(--fg); color: var(--bg); }
+    .tb-btn svg { width: 19px; height: 19px; }
+    .tb-btn span { font-size: 9.5px; letter-spacing: .04em; }
+    @media (max-width: 560px) { .tb-btn { min-width: 46px; } .tb-btn span { font-size: 9px; } .toolbar { gap: 0; } }
+
+    /* ====== パネル ====== */
+    .backdrop { position: fixed; inset: 0; z-index: 40; background: rgba(13,32,48,.35); opacity: 0; pointer-events: none; transition: opacity .42s var(--ease); }
+    .backdrop.open { opacity: 1; pointer-events: auto; }
+    .panel { position: fixed; z-index: 50; background: color-mix(in srgb, var(--panel) 94%, transparent); backdrop-filter: blur(26px) saturate(1.4); -webkit-backdrop-filter: blur(26px) saturate(1.4); display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 12px 48px var(--shadow); top: 0; right: 0; bottom: 0; width: min(390px, 94vw); transform: translateX(105%); transition: transform .42s var(--ease); padding-top: env(safe-area-inset-top); }
+    .panel.open { transform: translateX(0); }
+    @media (max-width: 640px) {
+      .panel { top: auto; left: 0; right: 0; bottom: 0; width: 100%; max-height: 82vh; max-height: 82dvh; border-radius: 12px 12px 0 0; padding-top: 0; transform: translateY(105%); }
+      .panel.open { transform: translateY(0); }
+    }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 12px; border-bottom: 1px solid var(--line); flex: none; }
+    .panel-title { font-family: var(--font-serif); font-weight: 400; font-feature-settings: 'palt' 1; font-size: 17px; }
+    .panel-close { width: 44px; height: 44px; margin: -8px -10px -8px 0; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer; color: var(--hint); transition: color .2s; }
+    .panel-close:hover { color: var(--fg); }
+    .panel-close svg { width: 18px; height: 18px; }
+    .panel-body { padding: 4px 20px calc(env(safe-area-inset-bottom) + 22px); overflow-y: auto; flex: 1; overscroll-behavior: contain; }
+    .sec { padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .sec:last-child { border-bottom: none; }
+    .sec-h { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--hint); margin-bottom: 12px; font-weight: 500; }
+    .hint { font-size: 11.5px; color: var(--hint); line-height: 1.7; margin-top: 10px; }
+    .kbd-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--fg2); }
+    .kbd-row:last-child { border-bottom: none; }
+
+    /* 条件パネルのチップ */
+    .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { font-size: 12px; padding: 8px 13px; min-height: 40px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--fg); cursor: pointer; transition: border-color .2s, background .2s, color .2s; }
+    .chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    .chip:hover:not([aria-pressed="true"]) { border-color: var(--hint); }
+    .pool-note { font-family: var(--font-mono); font-size: 11px; color: var(--hint); margin-top: 12px; letter-spacing: .04em; }
+
+    /* 書き出しパネル */
+    .exp-btn { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; text-align: left; font-size: 13px; padding: 12px 12px; min-height: 48px; border: 1px solid var(--line); border-radius: 3px; background: transparent; color: var(--fg); cursor: pointer; transition: border-color .2s, background .2s; }
+    .exp-btn:hover { border-color: var(--hint); background: var(--bg2); }
+    .exp-btn + .exp-btn { margin-top: 8px; }
+    .exp-btn .exp-sub { display: block; font-family: var(--font-mono); font-size: 10px; color: var(--hint); letter-spacing: .04em; margin-top: 2px; }
+    .exp-btn svg { flex: none; width: 16px; height: 16px; color: var(--hint); }
+
+    /* 保存パネル（お気に入り・履歴） */
+    .pal-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .pal-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px; min-height: 56px; border: none; border-radius: 2px; background: transparent; cursor: pointer; text-align: left; transition: background .2s; }
+    .pal-item:hover { background: var(--bg2); }
+    .pal-strip { flex: none; display: flex; width: 72px; height: 30px; border-radius: 3px; overflow: hidden; border: 1px solid var(--line); }
+    .pal-strip i { flex: 1; }
+    .pal-item-name { flex: 1; min-width: 0; font-size: 13px; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pal-del { flex: none; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer; color: var(--hint); border-radius: 2px; transition: color .2s; }
+    .pal-del:hover { color: var(--fg); }
+    .pal-del svg { width: 15px; height: 15px; }
+    .pal-empty { font-size: 12.5px; color: var(--hint); line-height: 1.8; padding: 6px 0; }
+
+    /* 画像パネル */
+    .img-drop { width: 100%; }
+    .img-thumb { margin-top: 10px; width: 100%; max-height: 180px; object-fit: contain; border-radius: 4px; border: 1px solid var(--line); background: var(--bg2); }
+    .img-thumb[hidden] { display: none; }
+
+    /* 通知トースト。非表示時は visibility:hidden で閉じるボタンをタブ順から外す（幽霊フォーカス防止） */
+    .notice { position: fixed; top: calc(env(safe-area-inset-top) + 16px); left: 50%; z-index: 60; transform: translate(-50%, -16px); opacity: 0; visibility: hidden; pointer-events: none; background: var(--fg); color: var(--bg); font-size: 13px; line-height: 1.7; padding: 14px 20px 14px 17px; border-radius: 8px; border-left: 3px solid var(--accent); display: flex; align-items: center; gap: 14px; max-width: min(480px, calc(100vw - 32px)); box-shadow: 0 8px 32px var(--shadow); transition: opacity .4s, transform .4s var(--ease), visibility 0s .4s; }
+    .notice.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); pointer-events: auto; transition: opacity .4s, transform .4s var(--ease); }
+    .notice button { background: transparent; border: none; color: inherit; opacity: .7; cursor: pointer; font-size: 12px; letter-spacing: .08em; padding: 6px; min-height: 32px; }
+    .notice button:hover { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">本文へ移動</a>
+
+<nav class="nav" aria-label="サイト">
+  <a href="index.html" class="nav-logo">風雅舎</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="focus.html" class="nav-link">Focus</a>
+    <a href="blog/" class="nav-link">Blog</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+</nav>
+
+<main class="stage" id="main" tabindex="-1">
+  <header class="p-head">
+    <h1 class="u-hidden">色と出会うためのページ</h1>
+    <p class="eyebrow" id="eyebrow" aria-hidden="true"></p>
+    <p class="p-name" id="palName" lang="en"></p>
+    <p class="p-line" id="palLine" lang="en"></p>
+    <div class="p-actions">
+      <button type="button" class="act-btn" id="btnFav" aria-pressed="false" aria-keyshortcuts="S">
+        <svg class="ic-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 12.572 12 20l-7.5-7.428A5 5 0 1 1 12 6.006a5 5 0 1 1 7.5 6.572"/></svg>
+        <span>お気に入り</span>
+      </button>
+      <button type="button" class="act-btn" id="btnShare">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15 20 4M15 4h5v5M19 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+        <span>リンクをコピー</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="swband" role="group" aria-label="現在のパレットの5色" id="swband">
+    <!-- 5スウォッチ: JSが色と値を差し込む -->
+    <div class="sw" style="--i:0" data-idx="0">
+      <button type="button" class="sw-color" aria-label="Background の色をコピー" aria-keyshortcuts="1"></button>
+      <button type="button" class="sw-lock" aria-pressed="false" aria-label="Background をロック" aria-keyshortcuts="L">
+        <svg class="ic-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V6a4 4 0 0 1 8 0"/></svg>
+        <svg class="ic-locked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      </button>
+      <div class="sw-meta">
+        <span class="sw-role">Background</span>
+        <button type="button" class="sw-value" aria-label="Background のカラーコードをコピー"></button>
+      </div>
+    </div>
+    <div class="sw" style="--i:1" data-idx="1">
+      <button type="button" class="sw-color" aria-label="Surface の色をコピー" aria-keyshortcuts="2"></button>
+      <button type="button" class="sw-lock" aria-pressed="false" aria-label="Surface をロック" aria-keyshortcuts="L">
+        <svg class="ic-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V6a4 4 0 0 1 8 0"/></svg>
+        <svg class="ic-locked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      </button>
+      <div class="sw-meta">
+        <span class="sw-role">Surface</span>
+        <button type="button" class="sw-value" aria-label="Surface のカラーコードをコピー"></button>
+      </div>
+    </div>
+    <div class="sw" style="--i:2" data-idx="2">
+      <button type="button" class="sw-color" aria-label="Primary の色をコピー" aria-keyshortcuts="3"></button>
+      <button type="button" class="sw-lock" aria-pressed="false" aria-label="Primary をロック" aria-keyshortcuts="L">
+        <svg class="ic-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V6a4 4 0 0 1 8 0"/></svg>
+        <svg class="ic-locked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      </button>
+      <div class="sw-meta">
+        <span class="sw-role">Primary</span>
+        <button type="button" class="sw-value" aria-label="Primary のカラーコードをコピー"></button>
+      </div>
+    </div>
+    <div class="sw" style="--i:3" data-idx="3">
+      <button type="button" class="sw-color" aria-label="Accent の色をコピー" aria-keyshortcuts="4"></button>
+      <button type="button" class="sw-lock" aria-pressed="false" aria-label="Accent をロック" aria-keyshortcuts="L">
+        <svg class="ic-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V6a4 4 0 0 1 8 0"/></svg>
+        <svg class="ic-locked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      </button>
+      <div class="sw-meta">
+        <span class="sw-role">Accent</span>
+        <button type="button" class="sw-value" aria-label="Accent のカラーコードをコピー"></button>
+      </div>
+    </div>
+    <div class="sw" style="--i:4" data-idx="4">
+      <button type="button" class="sw-color" aria-label="Text の色をコピー" aria-keyshortcuts="5"></button>
+      <button type="button" class="sw-lock" aria-pressed="false" aria-label="Text をロック" aria-keyshortcuts="L">
+        <svg class="ic-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V6a4 4 0 0 1 8 0"/></svg>
+        <svg class="ic-locked" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      </button>
+      <div class="sw-meta">
+        <span class="sw-role">Text</span>
+        <button type="button" class="sw-value" aria-label="Text のカラーコードをコピー"></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="gen-row">
+    <div class="fmt-tabs" role="group" aria-label="カラーコードの表示形式">
+      <button type="button" class="fmt-tab" data-fmt="hex" aria-pressed="true">HEX</button>
+      <button type="button" class="fmt-tab" data-fmt="rgb" aria-pressed="false">RGB</button>
+      <button type="button" class="fmt-tab" data-fmt="hsl" aria-pressed="false">HSL</button>
+    </div>
+    <div class="gen-right">
+      <span class="gen-kbd" aria-hidden="true"><kbd>Space</kbd> でも生成できます</span>
+      <button type="button" class="btn-amber" id="btnGen" aria-keyshortcuts="Space">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11A8.1 8.1 0 0 0 4.5 9M4 5v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg>
+        新しい配色
+      </button>
+    </div>
+  </div>
+
+  <section class="preview" aria-labelledby="pvTitle">
+    <h2 class="sec-title" id="pvTitle">Preview</h2>
+    <div class="seg" id="pvSeg" role="group" aria-label="プレビューの種類">
+      <button type="button" data-pv="web" aria-pressed="true">Website</button>
+      <button type="button" data-pv="app" aria-pressed="false">Mobile App</button>
+      <button type="button" data-pv="poster" aria-pressed="false">Poster</button>
+      <button type="button" data-pv="social" aria-pressed="false">Social</button>
+      <button type="button" data-pv="brand" aria-pressed="false">Brand Card</button>
+      <button type="button" data-pv="grad" aria-pressed="false">Gradient</button>
+    </div>
+    <div class="pv-stage" id="pvStage">
+      <div class="pv pvw active" data-pv="web" role="img" aria-label="ウェブサイトに適用したプレビュー">
+        <div class="pvw-nav"><span class="pvw-logo">Atelier</span><span class="pvw-links" aria-hidden="true"><i></i><i></i><i></i></span><span class="pvw-cta">Start</span></div>
+        <div class="pvw-hero">
+          <p class="pvw-eyebrow">Palette</p>
+          <p class="pvw-title" data-pv-name></p>
+          <p class="pvw-sub" data-pv-line></p>
+          <span class="pvw-btn">Read more</span>
+        </div>
+        <div class="pvw-cards" aria-hidden="true">
+          <div class="pvw-card"><i></i><i></i><i></i><i></i></div>
+          <div class="pvw-card"><i></i><i></i><i></i><i></i></div>
+          <div class="pvw-card"><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+      <div class="pv pva" data-pv="app" role="img" aria-label="モバイルアプリに適用したプレビュー">
+        <div class="pva-phone">
+          <div class="pva-head"><span class="t" data-pv-name></span><span class="s">Today</span></div>
+          <div class="pva-body" aria-hidden="true">
+            <div class="pva-card"><b>Morning</b><i></i></div>
+            <div class="pva-card"><b>Afternoon</b><i></i></div>
+            <div class="pva-card"><b>Evening</b><i></i></div>
+          </div>
+          <div class="pva-fab" aria-hidden="true">+</div>
+        </div>
+      </div>
+      <div class="pv pvp" data-pv="poster" role="img" aria-label="ポスターに適用したプレビュー">
+        <div class="pvp-frame">
+          <span class="pvp-no" data-pv-no>No. 01</span>
+          <p class="pvp-title" data-pv-name></p>
+          <p class="pvp-line" data-pv-line></p>
+          <div class="pvp-bar" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="pv pvs" data-pv="social" role="img" aria-label="SNS投稿に適用したプレビュー">
+        <div class="pvs-post">
+          <div class="pvs-img"><span data-pv-name></span></div>
+          <div class="pvs-cap" aria-hidden="true"><span class="pvs-ava"></span><div><i class="l1"></i><i class="l2"></i></div></div>
+        </div>
+      </div>
+      <div class="pv pvb" data-pv="brand" role="img" aria-label="名刺に適用したプレビュー">
+        <div class="pvb-card">
+          <div class="pvb-dot" aria-hidden="true"></div>
+          <p class="pvb-name" data-pv-name></p>
+          <p class="pvb-role">Color Direction</p>
+          <div class="pvb-chips" id="pvbChips" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+      <div class="pv pvg" data-pv="grad" role="img" aria-label="グラデーション背景のプレビュー">
+        <span data-pv-name></span>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot-note">お気に入りも履歴も、この端末のブラウザにだけ保存されます。外部には送信されません。<br>
+  収録している65篇のパレットは、Text と Background のコントラスト比 7:1 以上（WCAG AAA）を確認済みです。</p>
+</main>
+
+<!-- ツールバー -->
+<nav class="toolbar" aria-label="操作">
+  <button type="button" class="tb-btn" data-panel="filterPanel" aria-expanded="false" aria-controls="filterPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+    <span>条件</span>
+  </button>
+  <button type="button" class="tb-btn" data-panel="exportPanel" aria-expanded="false" aria-controls="exportPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 12h6M9 16h6"/></svg>
+    <span>書き出し</span>
+  </button>
+  <button type="button" class="tb-btn" data-panel="savedPanel" aria-expanded="false" aria-controls="savedPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6a2 2 0 0 1 2 2v14l-5-3-5 3V6a2 2 0 0 1 2-2z"/></svg>
+    <span>保存</span>
+  </button>
+  <button type="button" class="tb-btn" data-panel="imagePanel" aria-expanded="false" aria-controls="imagePanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+    <span>画像から</span>
+  </button>
+  <button type="button" class="tb-btn" data-panel="helpPanel" aria-expanded="false" aria-controls="helpPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 2-2 3M12 17h.01"/></svg>
+    <span>ヘルプ</span>
+  </button>
+</nav>
+
+<div class="backdrop" id="backdrop"></div>
+
+<!-- 条件パネル -->
+<aside class="panel" id="filterPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-label="生成の条件">
+  <div class="panel-head"><h2 class="panel-title">生成の条件</h2><button type="button" class="panel-close" data-close aria-label="閉じる"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="panel-body">
+    <div class="sec">
+      <div class="sec-h">テーマ（ひとつ選ぶ）</div>
+      <div class="chip-grid" id="themeChips" role="group" aria-label="テーマ"></div>
+    </div>
+    <div class="sec">
+      <div class="sec-h">ムード（いくつでも）</div>
+      <div class="chip-grid" id="moodChips" role="group" aria-label="ムード"></div>
+    </div>
+    <div class="sec">
+      <p class="pool-note" id="poolNote" role="status"></p>
+      <p class="hint">条件は次の生成から反映されます。どちらも選ばなければ、65篇すべてから選ばれます。</p>
+    </div>
+  </div>
+</aside>
+
+<!-- 書き出しパネル -->
+<aside class="panel" id="exportPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-label="書き出し">
+  <div class="panel-head"><h2 class="panel-title">書き出し</h2><button type="button" class="panel-close" data-close aria-label="閉じる"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="panel-body">
+    <div class="sec">
+      <div class="sec-h">まとめてコピー</div>
+      <button type="button" class="exp-btn" data-exp="hex"><span>All HEX<span class="exp-sub">#f0e6d6 #e8dcc8 …</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button>
+      <button type="button" class="exp-btn" data-exp="css"><span>CSS Variables<span class="exp-sub">--color-background: …</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button>
+      <button type="button" class="exp-btn" data-exp="tailwind"><span>Tailwind<span class="exp-sub">colors: { background: … }</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button>
+      <button type="button" class="exp-btn" data-exp="json"><span>JSON<span class="exp-sub">{ "name": …, "colors": … }</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button>
+      <button type="button" class="exp-btn" data-exp="gradient"><span>Gradient CSS<span class="exp-sub">linear-gradient(135deg, …)</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button>
+    </div>
+    <div class="sec">
+      <div class="sec-h">共有</div>
+      <button type="button" class="exp-btn" data-exp="link"><span>リンクをコピー<span class="exp-sub">開くと同じ配色を再現できます</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15 20 4M15 4h5v5M19 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></button>
+    </div>
+  </div>
+</aside>
+
+<!-- 保存パネル -->
+<aside class="panel" id="savedPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-label="お気に入りと履歴">
+  <div class="panel-head"><h2 class="panel-title">お気に入りと履歴</h2><button type="button" class="panel-close" data-close aria-label="閉じる"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="panel-body">
+    <div class="sec">
+      <div class="sec-h">お気に入り</div>
+      <ul class="pal-list" id="favList"></ul>
+      <p class="pal-empty" id="favEmpty">まだありません。名前の下の「お気に入り」で、気に入った配色をここに残せます。</p>
+    </div>
+    <div class="sec">
+      <div class="sec-h">履歴（直近20件）</div>
+      <ul class="pal-list" id="histList"></ul>
+      <p class="pal-empty" id="histEmpty">まだありません。生成した配色が自動でここに並びます。</p>
+      <p class="hint">どちらもこの端末のブラウザにだけ保存されます。</p>
+    </div>
+  </div>
+</aside>
+
+<!-- 画像パネル -->
+<aside class="panel" id="imagePanel" role="dialog" aria-modal="true" aria-hidden="true" aria-label="画像から色を取り出す">
+  <div class="panel-head"><h2 class="panel-title">画像から色を取り出す</h2><button type="button" class="panel-close" data-close aria-label="閉じる"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="panel-body">
+    <div class="sec">
+      <button type="button" class="btn-ghost img-drop" id="btnPickImage">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 9l5-5 5 5M12 4v12"/></svg>
+        画像を選ぶ
+      </button>
+      <input type="file" id="imgInput" accept="image/*" class="u-hidden" aria-label="画像ファイルを選択">
+      <img class="img-thumb" id="imgThumb" hidden alt="選択した画像のプレビュー">
+      <p class="hint">写真から主要な5色を取り出して、役割ごとに整えたパレットにします。画像はこの端末の中だけで処理され、外部には送信されません。</p>
+    </div>
+  </div>
+</aside>
+
+<!-- ヘルプパネル -->
+<aside class="panel" id="helpPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-label="使い方">
+  <div class="panel-head"><h2 class="panel-title">使い方</h2><button type="button" class="panel-close" data-close aria-label="閉じる"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="panel-body">
+    <div class="sec">
+      <p class="hint" style="margin-top:0">「新しい配色」を押すたびに、名前と一行の詩を持ったパレットと出会えます。錠アイコンで色をロックすると、その色を残したまま他の色だけ変わります。色面やカラーコードはクリックでコピーできます。</p>
+    </div>
+    <div class="sec">
+      <div class="sec-h">キーボード操作</div>
+      <div class="kbd-row"><span>新しい配色を生成</span><kbd>Space</kbd></div>
+      <div class="kbd-row"><span>スウォッチへ移動</span><span><kbd>1</kbd>〜<kbd>5</kbd></span></div>
+      <div class="kbd-row"><span>スウォッチ間の移動</span><span><kbd>←</kbd> <kbd>→</kbd></span></div>
+      <div class="kbd-row"><span>選択中の色をロック</span><kbd>L</kbd></div>
+      <div class="kbd-row"><span>コピー（選択中の色／全色）</span><kbd>C</kbd></div>
+      <div class="kbd-row"><span>表示形式の切り替え</span><kbd>H</kbd></div>
+      <div class="kbd-row"><span>お気に入りに保存</span><kbd>S</kbd></div>
+      <div class="kbd-row"><span>この使い方を開く</span><kbd>?</kbd></div>
+      <div class="kbd-row"><span>パネルを閉じる</span><kbd>Esc</kbd></div>
+    </div>
+    <div class="sec">
+      <p class="hint" style="margin-top:0">収録パレットは Text／Background のコントラスト比 7:1 以上（WCAG AAA）、Primary・Accent は背景に対して 3:1 以上を確認しています。例外はこのサイト自身の配色「A Quiet Press」のみ（Accent 2.1:1 — 小さな文字にはPrimaryの茶色を使う、という実サイトの運用をそのまま記録しています）。</p>
+    </div>
+  </div>
+</aside>
+
+<div class="notice" id="notice" role="status" aria-live="polite"><span id="noticeText"></span><button type="button" id="noticeClose">閉じる</button></div>
+<div class="u-hidden" id="srLive" aria-live="polite"></div>
+
+<script>
+/* PALETTES — 65 curated palettes. c = [Background, Surface, Primary, Accent, Text] (hex, no #) */
+const PALETTES = [
+  { n: "A Quiet Press", l: "The colors this site thinks in.", t: ["Minimal", "Places"], m: ["Calm", "Warm", "Elegant"], c: ["f0e6d6", "e8dcc8", "7a4025", "e8866a", "0d2030"] },
+  { n: "First Light", l: "Pale gold arriving before anyone is awake to name it.", t: ["Time", "Nature"], m: ["Calm", "Soft", "Cool"], c: ["f8f1e2", "f1e8d1", "5f6f88", "cd722c", "372f22"] },
+  { n: "Blue Hour Balcony", l: "The city turns blue, and you let it.", t: ["Time", "Places"], m: ["Cool", "Elegant", "Calm"], c: ["171d33", "202741", "8f9ac9", "e5a563", "e8e6df"] },
+  { n: "The Long Dusk", l: "Some evenings refuse to end. This is their color.", t: ["Time"], m: ["Moody", "Warm", "Nostalgic"], c: ["241726", "2f1f31", "c97a56", "d98a9b", "f0e2da"] },
+  { n: "Slow Noon", l: "Nothing happens, beautifully, for hours.", t: ["Time", "Minimal"], m: ["Calm", "Warm", "Soft"], c: ["f9f4e6", "f3ecd8", "8a7748", "aa8728", "3c3626"] },
+  { n: "Half Past Nowhere", l: "A time that exists only when you stop checking.", t: ["Time", "Dream"], m: ["Mysterious", "Moody", "Cool"], c: ["232030", "2c2939", "9a8fb5", "c9a3c0", "e6e2ec"] },
+  { n: "Streetlight Interval", l: "Sodium glow, wet asphalt, no one else on the street.", t: ["Time", "Places"], m: ["Moody", "Cool", "Mysterious"], c: ["14161c", "1d2027", "7d8ea8", "e0a23c", "e9e6de"] },
+  { n: "After Rain", l: "Everything washed, everything quieter than before.", t: ["Nature"], m: ["Calm", "Cool", "Soft"], c: ["eef1ee", "e2e8e2", "48685f", "5c8fb5", "26302c"] },
+  { n: "Moss & Stone", l: "What patience looks like after a hundred years.", t: ["Nature", "Earthy"], m: ["Calm", "Cool"], c: ["eceee6", "e0e3d7", "4a5a40", "7b8f46", "262b20"] },
+  { n: "Fern Cathedral", l: "Where the forest keeps its ceilings high.", t: ["Nature", "Places"], m: ["Mysterious", "Calm", "Cool"], c: ["16211a", "1f2c23", "6f9e77", "cfe3a8", "e2ead9"] },
+  { n: "Salt Meadow", l: "Grass, wind, and the sea just out of sight.", t: ["Nature", "Earthy"], m: ["Calm", "Soft", "Cool"], c: ["f1efe4", "e7e4d3", "6d7a58", "618daa", "33362a"] },
+  { n: "Riverbed Glass", l: "Worn smooth by water that has already left.", t: ["Nature", "Minimal"], m: ["Cool", "Calm", "Elegant"], c: ["edf2f0", "e0e8e6", "58807a", "4f968b", "263533"] },
+  { n: "Pollen Drift", l: "The air itself, briefly golden and unserious.", t: ["Nature", "Bright"], m: ["Warm", "Soft", "Playful"], c: ["faf6e4", "f4edd0", "8f8428", "a48a25", "3a3418"] },
+  { n: "Storm Shelf", l: "The sky lowers its voice before it shouts.", t: ["Nature", "Dark"], m: ["Moody", "Bold", "Cool"], c: ["1c222b", "262d38", "7d92aa", "c3d3e3", "e5e9ee"] },
+  { n: "Forgotten Postcard", l: "Sun-faded greetings from a town that renamed itself.", t: ["Memory", "Vintage"], m: ["Nostalgic", "Soft", "Warm"], c: ["f4ecdc", "ecdfc7", "527d7b", "d46743", "3d3226"] },
+  { n: "A Place We Knew", l: "The address is gone. The light of it stays.", t: ["Memory", "Places"], m: ["Nostalgic", "Soft", "Moody"], c: ["efe9df", "e5ddcd", "62736e", "a77f35", "332e26"] },
+  { n: "Attic Sunday", l: "Dust in the light, boxes left half-open.", t: ["Memory", "Vintage"], m: ["Nostalgic", "Warm", "Calm"], c: ["f3ead6", "eaddc0", "8a6134", "b67a29", "3a2d1c"] },
+  { n: "Someone Else's Summer", l: "Borrowed photographs, warm in a way that isn't yours.", t: ["Memory", "Seasons"], m: ["Nostalgic", "Warm", "Moody"], c: ["f6efe0", "efe4cb", "b5643c", "50958d", "423625"] },
+  { n: "The Year We Left", l: "Everything packed except the color of the walls.", t: ["Memory", "Emotion"], m: ["Nostalgic", "Moody", "Cool"], c: ["e9ebe8", "dee1dc", "56696f", "a85a4a", "2b3033"] },
+  { n: "Margin Notes", l: "Small thoughts in pencil, meant only for later.", t: ["Memory", "Minimal"], m: ["Calm", "Soft", "Nostalgic"], c: ["f7f6f2", "edece6", "63666c", "5c82b5", "2e3033"] },
+  { n: "Homesick for Nowhere", l: "Missing a place that never had a map.", t: ["Memory", "Emotion"], m: ["Nostalgic", "Moody", "Soft"], c: ["262b36", "303644", "8a93ad", "c9a56a", "e2e4ea"] },
+  { n: "Hidden Library", l: "Shelves that answer questions you haven't asked yet.", t: ["Places"], m: ["Mysterious", "Calm", "Warm"], c: ["1a241d", "243027", "b5924e", "c96248", "eae4d2"] },
+  { n: "Hotel Stairwell", l: "Between floors, between lives, softly lit.", t: ["Places"], m: ["Elegant", "Moody", "Mysterious"], c: ["211d1a", "2c2723", "b59a72", "c25e56", "ece5da"] },
+  { n: "Last Train East", l: "Window light, empty seats, the night unspooling backward.", t: ["Places", "Time"], m: ["Moody", "Cool", "Nostalgic"], c: ["131a26", "1c2533", "7a95ad", "8fd0a8", "e4e9ee"] },
+  { n: "Silent Cinema", l: "A story told entirely in silver and shadow.", t: ["Places", "Vintage"], m: ["Nostalgic", "Elegant", "Moody"], c: ["1a1a1c", "242427", "a3a3aa", "d9cbae", "ececee"] },
+  { n: "Off-Season Hotel", l: "Every room vacant, every chair still perfectly arranged.", t: ["Places", "Seasons"], m: ["Calm", "Moody", "Elegant"], c: ["eef0ea", "e2e6dc", "5f8272", "a28635", "2e332e"] },
+  { n: "Museum of Rain", l: "Each storm archived, labeled, and gently lit.", t: ["Places", "Dream"], m: ["Mysterious", "Cool", "Calm"], c: ["e9ecee", "dde2e6", "47617a", "5e8aad", "262d33"] },
+  { n: "Reading Room Green", l: "The exact green that makes long books possible.", t: ["Places", "Vintage"], m: ["Calm", "Elegant", "Cool"], c: ["f2ecdd", "e9e1c9", "2e5941", "a8802c", "2f2a1e"] },
+  { n: "Lost Summer", l: "It ended in August. It never quite left.", t: ["Seasons", "Memory"], m: ["Nostalgic", "Warm", "Moody"], c: ["f7efe0", "f0e5cb", "bd6a4a", "af8022", "403225"] },
+  { n: "Winter Letters", l: "Written by hand, read by lamplight, kept for years.", t: ["Seasons", "Memory"], m: ["Nostalgic", "Cool", "Soft"], c: ["f2f4f6", "e6ebef", "2e4a6e", "bb7f30", "22293a"] },
+  { n: "April, Barely", l: "Spring arriving in commas, not sentences.", t: ["Seasons", "Bright"], m: ["Soft", "Playful", "Warm"], c: ["f5f6ee", "eaeedb", "5f8a48", "d26c89", "2f3527"] },
+  { n: "Cicada Evening", l: "Heat loosening its grip while the trees keep singing.", t: ["Seasons", "Time"], m: ["Warm", "Nostalgic", "Calm"], c: ["f4ecd9", "ebe0c2", "4f6b3f", "cb7026", "38321f"] },
+  { n: "Persimmon October", l: "Bare branches, bright fruit, a generous kind of ending.", t: ["Seasons", "Earthy"], m: ["Warm", "Bold", "Nostalgic"], c: ["f4ede0", "ece2cd", "c2531f", "a7832b", "3a2c20"] },
+  { n: "The Last Warm Day", l: "Everyone outside, nobody saying why.", t: ["Seasons", "Emotion"], m: ["Warm", "Nostalgic", "Soft"], c: ["f6efdd", "efe6c8", "94742e", "c9722a", "3b3222"] },
+  { n: "Lucid Shallows", l: "Dreaming, and aware of it, in waist-deep water.", t: ["Dream"], m: ["Soft", "Cool", "Mysterious"], c: ["e9f4f2", "dcece9", "2e7d80", "9080c8", "1f3538"] },
+  { n: "Sleep Architecture", l: "Rooms the mind builds and never shows you twice.", t: ["Dream", "Futuristic"], m: ["Calm", "Mysterious", "Soft"], c: ["191d2b", "222738", "7a82a8", "a88fd0", "e3e4ec"] },
+  { n: "The Dream Rehearsal", l: "Every night, the same scene with different lighting.", t: ["Dream"], m: ["Mysterious", "Soft", "Playful"], c: ["241f2e", "2f293b", "a08ab5", "d9a0ad", "ece7e2"] },
+  { n: "Fever Logic", l: "It made perfect sense at three in the morning.", t: ["Dream", "Dark"], m: ["Bold", "Moody", "Warm"], c: ["241417", "301d20", "d0604f", "e0c25f", "f0e2da"] },
+  { n: "One Gray Answer", l: "To every loud question, a level reply.", t: ["Minimal"], m: ["Calm", "Cool", "Elegant"], c: ["f2f2f1", "e6e6e4", "5c5c5a", "8a8a82", "2a2a28"] },
+  { n: "Bone & Chalk", l: "White, remembered two different ways.", t: ["Minimal", "Earthy"], m: ["Calm", "Soft", "Elegant"], c: ["f6f2e8", "edefed", "857c6d", "998a66", "33302a"] },
+  { n: "Theory of Blue", l: "An argument conducted entirely in one color.", t: ["Minimal", "Emotion"], m: ["Cool", "Calm", "Elegant"], c: ["ecf1f6", "dee7f0", "3a5f8a", "548eca", "1c2a3d"] },
+  { n: "Darkroom Amber", l: "Images surfacing slowly under the safelight.", t: ["Vintage", "Dark"], m: ["Moody", "Warm", "Mysterious"], c: ["1c1512", "271d18", "cf7a35", "d95336", "efe6d9"] },
+  { n: "Typewriter Ribbon", l: "Black, red, and everything a sentence can do.", t: ["Vintage", "Minimal"], m: ["Nostalgic", "Calm", "Elegant"], c: ["f5f1e6", "eae5d3", "44433e", "b0342e", "262521"] },
+  { n: "Postwar Kitchen", l: "Optimism in enamel, measured out in teaspoons.", t: ["Vintage", "Places"], m: ["Nostalgic", "Warm", "Playful"], c: ["f4f3ea", "e8ecde", "3f7d5f", "ae8520", "2e332c"] },
+  { n: "Rotary Dial", l: "Ten small waits between you and a voice.", t: ["Vintage"], m: ["Nostalgic", "Playful", "Bold"], c: ["f3efe2", "e9e3cf", "45716f", "b37f28", "33302a"] },
+  { n: "Letters Never Sent", l: "Sealed, addressed, and safer in the drawer.", t: ["Romantic", "Memory"], m: ["Soft", "Moody", "Nostalgic"], c: ["f7eee9", "f0e1d9", "a85f68", "5c74ad", "3d2b2b"] },
+  { n: "Slow Dance, No Music", l: "Two people keeping time with nothing at all.", t: ["Romantic"], m: ["Warm", "Soft", "Elegant"], c: ["241b18", "2f2420", "c98a72", "e0b073", "f0e5da"] },
+  { n: "Peony Apology", l: "Too many petals for such a small mistake.", t: ["Romantic"], m: ["Soft", "Playful", "Warm"], c: ["faf0f0", "f4e2e3", "b54a68", "689455", "43242e"] },
+  { n: "Two Umbrellas", l: "Rain for everyone, one small roof each.", t: ["Romantic", "Emotion"], m: ["Soft", "Cool", "Playful"], c: ["eceeef", "e0e3e5", "566a80", "bd4f43", "2a2f35"] },
+  { n: "The Blush Hour", l: "The sky admits something before it goes dark.", t: ["Romantic", "Time"], m: ["Soft", "Warm", "Elegant"], c: ["f9efe8", "f2e1d8", "b06848", "c87087", "3f2d26"] },
+  { n: "Blackcurrant Dusk", l: "Sweetness with a dark edge, poured over evening.", t: ["Dark", "Time"], m: ["Moody", "Bold", "Elegant"], c: ["1f1526", "2a1d33", "9a68b0", "cd6485", "ebe2f0"] },
+  { n: "Oxblood Study", l: "Leather chairs and opinions aged to the same finish.", t: ["Dark", "Vintage"], m: ["Moody", "Elegant", "Bold"], c: ["201716", "2b1f1d", "bd6a5c", "b0863e", "ece3da"] },
+  { n: "Nocturne for No One", l: "Played at midnight to an empty, listening house.", t: ["Dark", "Emotion"], m: ["Moody", "Mysterious", "Elegant"], c: ["14161f", "1d202b", "7a8ba8", "ccd5e3", "e6e8ef"] },
+  { n: "Citrus Arithmetic", l: "Bright ideas, neatly divided into segments.", t: ["Bright", "Minimal"], m: ["Playful", "Bold", "Warm"], c: ["fbfaf4", "f4f1e0", "bd5f1f", "7d941f", "333026"] },
+  { n: "Lemonade Weather", l: "Officially too hot for anything but this.", t: ["Bright", "Seasons"], m: ["Playful", "Warm", "Soft"], c: ["fdf8e6", "f7f0d0", "2e7da8", "dd6b83", "2e3a42"] },
+  { n: "Greenhouse Morning", l: "Warm glass, damp earth, everything quietly growing.", t: ["Bright", "Nature"], m: ["Soft", "Warm", "Calm"], c: ["eff4e9", "e3ecd9", "45753a", "bd6640", "2c3626"] },
+  { n: "Terracotta Afternoon", l: "Warm walls holding the day a little longer.", t: ["Earthy"], m: ["Warm", "Calm", "Soft"], c: ["f5e9dd", "eedcc7", "a85632", "bd7437", "3d2b1f"] },
+  { n: "Clay & Cumin", l: "A spice market, ground down to its pigments.", t: ["Earthy"], m: ["Warm", "Bold"], c: ["f2e8d8", "e9dcc0", "9e4426", "b3781c", "3a2a1c"] },
+  { n: "Ochre Field Notes", l: "Observations written in the landscape's own ink.", t: ["Earthy", "Minimal"], m: ["Warm", "Calm", "Elegant"], c: ["f4eedd", "ebe2c7", "8f6a1f", "bd5c2e", "35301f"] },
+  { n: "Low Orbit", l: "Close enough to see home. Far enough to think.", t: ["Futuristic"], m: ["Cool", "Mysterious", "Calm"], c: ["0f1420", "182031", "8a9ab0", "45c2dd", "e5eaf0"] },
+  { n: "Signal & Silence", l: "Most of the universe, and the part that speaks.", t: ["Futuristic", "Minimal"], m: ["Cool", "Mysterious", "Bold"], c: ["101211", "191c1a", "8a938c", "3fd9a3", "e8ebe8"] },
+  { n: "Terminal Bloom", l: "A garden growing inside the machine.", t: ["Futuristic", "Bright"], m: ["Bold", "Playful", "Cool"], c: ["131320", "1c1c2e", "4fb573", "d55ab5", "e8e6f0"] },
+  { n: "Ghost Frequency", l: "A broadcast that ended, still faintly arriving.", t: ["Futuristic", "Dark"], m: ["Mysterious", "Moody", "Cool"], c: ["10151a", "1a2129", "7a9aa8", "52cadd", "e2e9ec"] },
+  { n: "The Quiet Argument", l: "Nobody raised a voice. The room remembers anyway.", t: ["Emotion"], m: ["Moody", "Cool", "Mysterious"], c: ["eaecec", "dee1e1", "4f6a72", "2e7d74", "272e30"] },
+  { n: "Small Brave Morning", l: "Getting up anyway, and the light approves.", t: ["Emotion", "Bright"], m: ["Warm", "Soft", "Playful"], c: ["faf5e2", "f3ecce", "94742e", "3f95c6", "3a3322"] }
+];
+'use strict';
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var ROLES = ['Background', 'Surface', 'Primary', 'Accent', 'Text'];
+  var THEMES = ['Time', 'Nature', 'Memory', 'Emotion', 'Places', 'Seasons', 'Dream', 'Minimal', 'Vintage', 'Romantic', 'Dark', 'Bright', 'Earthy', 'Futuristic'];
+  var MOODS = ['Calm', 'Warm', 'Cool', 'Moody', 'Soft', 'Bold', 'Nostalgic', 'Mysterious', 'Elegant', 'Playful'];
+
+  /* ================= 色ユーティリティ ================= */
+  function hexToRgb(h) { return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
+  function rgbToHex(r, g, b) {
+    return [r, g, b].map(function (v) { return Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, '0'); }).join('');
+  }
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    var mx = Math.max(r, g, b), mn = Math.min(r, g, b), h = 0, s = 0, l = (mx + mn) / 2;
+    if (mx !== mn) {
+      var d = mx - mn;
+      s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
+      if (mx === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+      else if (mx === g) h = ((b - r) / d + 2) / 6;
+      else h = ((r - g) / d + 4) / 6;
+    }
+    return [h * 360, s * 100, l * 100];
+  }
+  function hslToRgb(h, s, l) {
+    h = ((h % 360) + 360) % 360 / 360; s /= 100; l /= 100;
+    if (s === 0) { var v = l * 255; return [v, v, v]; }
+    var q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
+    var f = function (t) {
+      t = ((t % 1) + 1) % 1;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+      return p;
+    };
+    return [f(h + 1 / 3) * 255, f(h) * 255, f(h - 1 / 3) * 255];
+  }
+  function relLum(hex) {
+    var c = hexToRgb(hex).map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  }
+  function contrast(a, b) {
+    var x = relLum(a), y = relLum(b), hi = Math.max(x, y), lo = Math.min(x, y);
+    return (hi + 0.05) / (lo + 0.05);
+  }
+  function isLight(hex) { return relLum(hex) > 0.35; }
+  function mixHex(a, b, wa) {
+    var A = hexToRgb(a), B = hexToRgb(b);
+    return rgbToHex(A[0] * wa + B[0] * (1 - wa), A[1] * wa + B[1] * (1 - wa), A[2] * wa + B[2] * (1 - wa));
+  }
+  function hueDist(a, b) { var d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; }
+  function fmtValue(hex, fmt) {
+    var rgb = hexToRgb(hex);
+    if (fmt === 'rgb') return 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')';
+    if (fmt === 'hsl') {
+      var hsl = rgbToHsl(rgb[0], rgb[1], rgb[2]);
+      return 'hsl(' + Math.round(hsl[0]) + ', ' + Math.round(hsl[1]) + '%, ' + Math.round(hsl[2]) + '%)';
+    }
+    return '#' + hex;
+  }
+
+  /* コントラスト自動補正: 色相・彩度を保ち、明度のみ動かして基準へ寄せる（visual-designer仕様 §1.2/§4） */
+  function fixAgainst(hex, bg, min, capS) {
+    var hsl = rgbToHsl.apply(null, hexToRgb(hex));
+    if (capS != null && hsl[1] > capS) hsl[1] = capS;
+    var dir = relLum(bg) > 0.35 ? -1 : 1;
+    var out = rgbToHex.apply(null, hslToRgb(hsl[0], hsl[1], hsl[2])), guard = 0;
+    while (contrast(out, bg) < min && guard++ < 70) {
+      hsl[2] += dir * 1.4;
+      if (hsl[2] < 2 || hsl[2] > 98) break;
+      out = rgbToHex.apply(null, hslToRgb(hsl[0], hsl[1], hsl[2]));
+    }
+    return out;
+  }
+  function fixText(hex, bg) {
+    var out = fixAgainst(hex, bg, 7.0, 30);
+    if (contrast(out, bg) < 4.5) out = relLum(bg) > 0.35 ? '14161a' : 'f4f2ee';
+    return out;
+  }
+  function deriveSurface(bg) {
+    var hsl = rgbToHsl.apply(null, hexToRgb(bg));
+    hsl[2] += hsl[2] > 50 ? -5 : 6;
+    return rgbToHex.apply(null, hslToRgb(hsl[0], hsl[1], hsl[2]));
+  }
+
+  /* ================= 状態と保存 ================= */
+  var LS_KEY = 'fugasha_colors_v1';
+  var state = {
+    fmt: 'hex', theme: null, moods: [],
+    locks: [false, false, false, false, false],
+    cur: null, /* { n, l, c:[5], idx } idx=-1は生成物（画像・共有） */
+    favs: [], hist: []
+  };
+  function loadState() {
+    var raw;
+    try { raw = localStorage.getItem(LS_KEY); } catch (e) {}
+    if (!raw) return;
+    try {
+      var s = JSON.parse(raw);
+      if (!s || typeof s !== 'object') return;
+      if (s.fmt === 'hex' || s.fmt === 'rgb' || s.fmt === 'hsl') state.fmt = s.fmt;
+      if (typeof s.theme === 'string' && THEMES.indexOf(s.theme) !== -1) state.theme = s.theme;
+      if (Array.isArray(s.moods)) state.moods = s.moods.filter(function (m) { return MOODS.indexOf(m) !== -1; });
+      if (Array.isArray(s.favs)) state.favs = s.favs.filter(validEntry).slice(0, 50);
+      if (Array.isArray(s.hist)) state.hist = s.hist.filter(validEntry).slice(0, 20);
+    } catch (e) {}
+  }
+  function validEntry(p) {
+    return p && typeof p.n === 'string' && Array.isArray(p.c) && p.c.length === 5 &&
+      p.c.every(function (h) { return /^[0-9a-f]{6}$/.test(h); });
+  }
+  function saveState() {
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify({ fmt: state.fmt, theme: state.theme, moods: state.moods, favs: state.favs, hist: state.hist }));
+    } catch (e) {}
+  }
+
+  /* ================= トースト・SR通知 ================= */
+  var notice = $('notice'), noticeText = $('noticeText'), noticeTimer = null;
+  function showNotice(text, ms) {
+    noticeText.textContent = text;
+    notice.classList.add('show');
+    clearTimeout(noticeTimer);
+    noticeTimer = setTimeout(function () { notice.classList.remove('show'); }, ms || 2400);
+  }
+  $('noticeClose').addEventListener('click', function () { clearTimeout(noticeTimer); notice.classList.remove('show'); });
+  function announce(text) { $('srLive').textContent = text; }
+
+  /* ================= 生成 ================= */
+  function pool() {
+    var out = PALETTES.filter(function (p) {
+      if (state.theme && p.t.indexOf(state.theme) === -1) return false;
+      if (state.moods.length && !state.moods.every(function (m) { return p.m.indexOf(m) !== -1; })) return false;
+      return true;
+    });
+    if (!out.length) {
+      /* AND条件が厳しすぎる場合は「どれかに合う」へ緩め、それでも0なら全篇 */
+      out = PALETTES.filter(function (p) {
+        if (state.theme && p.t.indexOf(state.theme) === -1) return false;
+        return !state.moods.length || state.moods.some(function (m) { return p.m.indexOf(m) !== -1; });
+      });
+    }
+    return out.length ? out : PALETTES;
+  }
+  function pickFrom(list) {
+    if (list.length === 1) return list[0];
+    var cand, guard = 0;
+    do { cand = list[Math.floor(Math.random() * list.length)]; }
+    while (state.cur && cand.n === state.cur.n && guard++ < 8);
+    return cand;
+  }
+  function generate() {
+    var pick = pickFrom(pool());
+    var anyLock = state.locks.some(Boolean);
+    var colors = pick.c.slice();
+    if (anyLock && state.cur) {
+      for (var i = 0; i < 5; i++) if (state.locks[i]) colors[i] = state.cur.c[i];
+      /* 未ロック色をロック色と調和させる（アンカー優先: Background > Text > Primary > Accent > Surface） */
+      if (state.locks[0] && !state.locks[1]) colors[1] = deriveSurface(colors[0]);
+      if (!state.locks[4]) colors[4] = fixText(colors[4], colors[0]);
+      else if (!state.locks[0] && contrast(colors[4], colors[0]) < 4.5) {
+        /* Textがロックされ地が新しい場合: 地を選び直す（最大12回試行） */
+        for (var t = 0; t < 12 && contrast(colors[4], colors[0]) < 7; t++) {
+          var alt = pickFrom(pool());
+          if (contrast(colors[4], alt.c[0]) >= 7) { colors[0] = alt.c[0]; if (!state.locks[1]) colors[1] = alt.c[1]; }
+        }
+        if (contrast(colors[4], colors[0]) < 4.5) colors[0] = fixAgainst(colors[0], colors[4], 4.5, null);
+      }
+      if (!state.locks[1]) { /* Surface は Text と 4.5:1 を下回らない範囲で地に寄せる */
+        if (contrast(colors[4], colors[1]) < 4.5) colors[1] = deriveSurface(colors[0]);
+      }
+      if (!state.locks[2]) colors[2] = fixAgainst(colors[2], colors[0], 3.0, null);
+      if (!state.locks[3]) colors[3] = fixAgainst(colors[3], colors[0], 3.0, null);
+    }
+    state.cur = { n: pick.n, l: pick.l, c: colors, idx: PALETTES.indexOf(pick) };
+    render({ fade: true, pushHist: true, announce: true });
+  }
+
+  /* ================= 描画 ================= */
+  var swEls = Array.prototype.slice.call(document.querySelectorAll('#swband .sw'));
+  var fadeTimer = null;
+  function eyebrowText(cur) {
+    var src = cur.idx >= 0 ? PALETTES[cur.idx] : null;
+    if (!src) return cur.tag || 'Yours';
+    return src.t.join(' · ') + ' — ' + src.m.join(' · ');
+  }
+  function render(opts) {
+    opts = opts || {};
+    var cur = state.cur, root = document.documentElement.style;
+    var vars = ['--pal-bg', '--pal-sf', '--pal-pr', '--pal-ac', '--pal-tx'];
+    cur.c.forEach(function (hex, i) { root.setProperty(vars[i], '#' + hex); });
+
+    /* 名前・一行詩（差し替え時だけ静かにフェード） */
+    var nameEl = $('palName'), lineEl = $('palLine'), eyeEl = $('eyebrow');
+    var apply = function () {
+      nameEl.textContent = cur.n;
+      lineEl.textContent = cur.l;
+      eyeEl.textContent = eyebrowText(cur);
+      nameEl.classList.remove('fading'); lineEl.classList.remove('fading'); eyeEl.classList.remove('fading');
+    };
+    clearTimeout(fadeTimer);
+    if (opts.fade && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      nameEl.classList.add('fading'); lineEl.classList.add('fading'); eyeEl.classList.add('fading');
+      fadeTimer = setTimeout(apply, 190);
+    } else apply();
+
+    /* スウォッチ */
+    swEls.forEach(function (el, i) {
+      var hex = cur.c[i];
+      el.style.setProperty('--sw', '#' + hex);
+      el.style.setProperty('--sw-ink', isLight(hex) ? '#0d2030' : '#f7f2e8');
+      el.classList.toggle('locked', state.locks[i]);
+      var val = el.querySelector('.sw-value');
+      if (!val.classList.contains('copied')) val.textContent = fmtValue(hex, state.fmt);
+      el.querySelector('.sw-color').setAttribute('aria-label', ROLES[i] + ' ' + fmtValue(hex, 'hex') + ' をコピー');
+      val.setAttribute('aria-label', ROLES[i] + ' のカラーコード ' + fmtValue(hex, state.fmt) + ' をコピー');
+      var lock = el.querySelector('.sw-lock');
+      lock.setAttribute('aria-pressed', String(state.locks[i]));
+      // ラベルは固定（状態はaria-pressedに一任。「ロック解除,押下」の二重否定読み上げを避ける）
+      lock.setAttribute('aria-label', ROLES[i] + ' の色をロック');
+    });
+
+    /* プレビュー */
+    Array.prototype.forEach.call(document.querySelectorAll('[data-pv-name]'), function (el) { el.textContent = cur.n; });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-pv-line]'), function (el) { el.textContent = cur.l; });
+    var no = document.querySelector('[data-pv-no]');
+    if (no) no.textContent = cur.idx >= 0 ? 'No. ' + String(cur.idx + 1).padStart(2, '0') : 'No. —';
+    Array.prototype.forEach.call($('pvbChips').children, function (chip, i) { chip.style.background = '#' + cur.c[i]; });
+
+    /* ブラウザクローム・お気に入り状態・URL */
+    var meta = $('metaTheme');
+    if (meta) meta.setAttribute('content', '#' + mixHex(cur.c[0], 'f0e6d6', 0.16));
+    $('btnFav').setAttribute('aria-pressed', String(favIndex(cur) !== -1));
+    try {
+      var hash = '#c=' + cur.c.join('.') + (cur.idx >= 0 ? '&p=' + cur.idx : '');
+      history.replaceState(null, '', location.pathname + location.search + hash);
+    } catch (e) {}
+
+    /* eyebrow（テーマ・ムード）はaria-hiddenなので、生成通知に含めてSRへ届ける */
+    if (opts.announce) announce(cur.n + '。' + eyebrowText(cur) + ' — 新しい配色を表示しました。');
+    if (opts.pushHist) pushHistory(cur);
+  }
+
+  /* ================= 履歴・お気に入り ================= */
+  function keyOf(p) { return p.c.join('.'); }
+  function favIndex(p) {
+    for (var i = 0; i < state.favs.length; i++) if (keyOf(state.favs[i]) === keyOf(p)) return i;
+    return -1;
+  }
+  // 保存パネルが閉じている間は再描画を遅延（開くときにまとめて描く）。Space連打時の無駄なDOM再構築を避ける
+  var savedDirty = true;
+  function refreshSaved() {
+    if (activePanel === 'savedPanel') { renderSaved(); savedDirty = false; }
+    else savedDirty = true;
+  }
+  function pushHistory(cur) {
+    if (state.hist.length && keyOf(state.hist[0]) === keyOf(cur)) return;
+    state.hist.unshift({ n: cur.n, l: cur.l, c: cur.c.slice(), idx: cur.idx });
+    state.hist = state.hist.slice(0, 20);
+    saveState(); refreshSaved();
+  }
+  function toggleFav() {
+    var i = favIndex(state.cur);
+    if (i !== -1) {
+      state.favs.splice(i, 1);
+      showNotice('お気に入りから外しました。');
+    } else {
+      state.favs.unshift({ n: state.cur.n, l: state.cur.l, c: state.cur.c.slice(), idx: state.cur.idx });
+      state.favs = state.favs.slice(0, 50);
+      showNotice('お気に入りに保存しました。この端末のブラウザにだけ残ります。');
+    }
+    $('btnFav').setAttribute('aria-pressed', String(favIndex(state.cur) !== -1));
+    saveState(); refreshSaved();
+  }
+  function makeItem(p, delAction) {
+    var li = document.createElement('li');
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'pal-item';
+    btn.setAttribute('aria-label', p.n + ' の配色を表示');
+    var strip = document.createElement('span'); strip.className = 'pal-strip'; strip.setAttribute('aria-hidden', 'true');
+    p.c.forEach(function (hex) { var i = document.createElement('i'); i.style.background = '#' + hex; strip.appendChild(i); });
+    var name = document.createElement('span'); name.className = 'pal-item-name'; name.textContent = p.n;
+    btn.appendChild(strip); btn.appendChild(name);
+    btn.addEventListener('click', function () {
+      state.cur = { n: p.n, l: p.l || '', c: p.c.slice(), idx: typeof p.idx === 'number' ? p.idx : -1 };
+      state.locks = [false, false, false, false, false];
+      render({ fade: true, announce: true });
+      closePanel();
+    });
+    li.appendChild(btn);
+    if (delAction) {
+      var del = document.createElement('button');
+      del.type = 'button'; del.className = 'pal-del';
+      del.setAttribute('aria-label', p.n + ' をお気に入りから削除');
+      del.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+      del.addEventListener('click', delAction.bind(null, p));
+      li.style.display = 'flex'; li.style.alignItems = 'center';
+      btn.style.flex = '1'; btn.style.minWidth = '0';
+      li.appendChild(del);
+    }
+    return li;
+  }
+  function renderSaved() {
+    var favList = $('favList'), histList = $('histList');
+    favList.textContent = ''; histList.textContent = '';
+    state.favs.forEach(function (p) {
+      favList.appendChild(makeItem(p, function (target) {
+        state.favs = state.favs.filter(function (q) { return keyOf(q) !== keyOf(target); });
+        saveState(); renderSaved();
+        if (state.cur) $('btnFav').setAttribute('aria-pressed', String(favIndex(state.cur) !== -1));
+      }));
+    });
+    state.hist.forEach(function (p) { histList.appendChild(makeItem(p, null)); });
+    $('favEmpty').hidden = state.favs.length > 0;
+    $('histEmpty').hidden = state.hist.length > 0;
+  }
+
+  /* ================= コピー ================= */
+  function copyText(text, done) {
+    var fallback = function () {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.left = '-9999px';
+      document.body.appendChild(ta); ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      done(ok);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
+    } else fallback();
+  }
+  function copySwatch(i) {
+    var hex = state.cur.c[i], text = fmtValue(hex, state.fmt);
+    copyText(text, function (ok) {
+      if (!ok) { showNotice('コピーできませんでした。'); return; }
+      var val = swEls[i].querySelector('.sw-value');
+      val.classList.add('copied'); val.textContent = 'Copied';
+      setTimeout(function () { val.classList.remove('copied'); val.textContent = fmtValue(state.cur.c[i], state.fmt); }, 900);
+      announce(ROLES[i] + ' ' + text + ' をコピーしました。');
+    });
+  }
+  var EXPORTERS = {
+    hex: function (p) { return p.c.map(function (h) { return '#' + h; }).join(' '); },
+    css: function (p) {
+      var names = ['background', 'surface', 'primary', 'accent', 'text'];
+      return ':root {\n' + p.c.map(function (h, i) { return '  --color-' + names[i] + ': #' + h + ';'; }).join('\n') + '\n}';
+    },
+    tailwind: function (p) {
+      var names = ['background', 'surface', 'primary', 'accent', 'text'];
+      return 'colors: {\n' + p.c.map(function (h, i) { return "  " + names[i] + ": '#" + h + "',"; }).join('\n') + '\n}';
+    },
+    json: function (p) {
+      return JSON.stringify({ name: p.n, description: p.l, colors: { background: '#' + p.c[0], surface: '#' + p.c[1], primary: '#' + p.c[2], accent: '#' + p.c[3], text: '#' + p.c[4] } }, null, 2);
+    },
+    gradient: function (p) {
+      return 'background: linear-gradient(135deg, #' + p.c[0] + ' 0%, #' + p.c[1] + ' 26%, #' + p.c[2] + ' 62%, #' + p.c[3] + ' 100%);';
+    }
+  };
+  var EXPORT_LABEL = { hex: 'All HEX', css: 'CSS変数', tailwind: 'Tailwind', json: 'JSON', gradient: 'Gradient CSS' };
+
+  /* ================= パネル ================= */
+  var activePanel = null, lastFocus = null;
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  var backdrop = $('backdrop');
+  function tbBtnFor(id) { return document.querySelector('.tb-btn[data-panel="' + id + '"]'); }
+  // パネルを開いている間、背後の要素を支援技術・Tabから隔離する（aria-modalの実体。focus.htmlのsetPanelInertと同型）
+  function setPanelInert(on, exceptEl) {
+    Array.prototype.forEach.call(document.body.children, function (el) {
+      if (el === exceptEl || (el.classList && el.classList.contains('backdrop'))) { el.inert = false; return; }
+      el.inert = on;
+    });
+  }
+  // 閉じているパネルは画面外(translateX 105%)にあるが、透明なだけでTab順には残る。
+  // 初期状態で全パネルを inert にし、開いたものだけ外す（幽霊フォーカス防止）
+  panels.forEach(function (p) { p.inert = true; });
+  function inertClosedPanels() { panels.forEach(function (p) { p.inert = (p.id !== activePanel); }); }
+  function openPanel(id) {
+    if (activePanel === id) { closePanel(); return; }
+    if (activePanel) closePanel(true);
+    var panel = $(id);
+    lastFocus = document.activeElement;
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    backdrop.classList.add('open');
+    var tb = tbBtnFor(id); if (tb) tb.setAttribute('aria-expanded', 'true');
+    activePanel = id;
+    if (id === 'savedPanel' && savedDirty) { renderSaved(); savedDirty = false; }
+    setPanelInert(true, panel);
+    var first = panel.querySelector('button, a[href], input:not([type="file"]), [tabindex]');
+    if (first) first.focus();
+  }
+  function closePanel(keepBackdrop) {
+    if (!activePanel) return;
+    var panel = $(activePanel);
+    setPanelInert(false, null); // 背景（nav/main/toolbar）のinertを解除
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    var tb = tbBtnFor(activePanel); if (tb) tb.setAttribute('aria-expanded', 'false');
+    activePanel = null;
+    panels.forEach(function (p) { p.inert = true; }); // 閉じた全パネルはTab順から外したまま保つ
+    if (!keepBackdrop) backdrop.classList.remove('open');
+    if (lastFocus && lastFocus.focus && !keepBackdrop) lastFocus.focus();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.tb-btn[data-panel]'), function (btn) {
+    btn.addEventListener('click', function () { openPanel(btn.getAttribute('data-panel')); });
+  });
+  panels.forEach(function (panel) {
+    panel.querySelector('[data-close]').addEventListener('click', function () { closePanel(); });
+    /* フォーカストラップ（focus.htmlと同パターン） */
+    panel.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var focusables = panel.querySelectorAll('button, a[href], input:not([type="file"]), [tabindex]:not([tabindex="-1"])');
+      if (!focusables.length) return;
+      var first = focusables[0], last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  });
+  backdrop.addEventListener('click', function () { closePanel(); });
+
+  /* ================= 条件チップ ================= */
+  function buildChips() {
+    var tGrid = $('themeChips'), mGrid = $('moodChips');
+    THEMES.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.textContent = t;
+      b.setAttribute('aria-pressed', String(state.theme === t));
+      b.addEventListener('click', function () {
+        state.theme = state.theme === t ? null : t;
+        Array.prototype.forEach.call(tGrid.children, function (c) { c.setAttribute('aria-pressed', String(c.textContent === state.theme)); });
+        updatePoolNote(); saveState();
+      });
+      tGrid.appendChild(b);
+    });
+    MOODS.forEach(function (m) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.textContent = m;
+      b.setAttribute('aria-pressed', String(state.moods.indexOf(m) !== -1));
+      b.addEventListener('click', function () {
+        var i = state.moods.indexOf(m);
+        if (i === -1) state.moods.push(m); else state.moods.splice(i, 1);
+        b.setAttribute('aria-pressed', String(i === -1));
+        updatePoolNote(); saveState();
+      });
+      mGrid.appendChild(b);
+    });
+    updatePoolNote();
+  }
+  function updatePoolNote() {
+    var strict = PALETTES.filter(function (p) {
+      if (state.theme && p.t.indexOf(state.theme) === -1) return false;
+      if (state.moods.length && !state.moods.every(function (m) { return p.m.indexOf(m) !== -1; })) return false;
+      return true;
+    });
+    $('poolNote').textContent = strict.length
+      ? '該当 ' + strict.length + ' 篇'
+      : '完全に一致する篇はありません。近いものから選ばれます。';
+  }
+
+  /* ================= 画像から抽出 ================= */
+  function extractFromImage(img) {
+    var maxSide = 64;
+    var scale = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
+    var w = Math.max(1, Math.round(img.naturalWidth * scale)), h = Math.max(1, Math.round(img.naturalHeight * scale));
+    var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+    var ctx = cv.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(img, 0, 0, w, h);
+    var data;
+    try { data = ctx.getImageData(0, 0, w, h).data; } catch (e) { return null; }
+    var bins = {}, totalLum = 0, count = 0;
+    for (var i = 0; i < data.length; i += 4) {
+      if (data[i + 3] < 128) continue;
+      var r = data[i], g = data[i + 1], b = data[i + 2];
+      var key = (r >> 4) << 8 | (g >> 4) << 4 | (b >> 4);
+      var bin = bins[key] || (bins[key] = { n: 0, r: 0, g: 0, b: 0 });
+      bin.n++; bin.r += r; bin.g += g; bin.b += b;
+      count++;
+    }
+    if (!count) return null;
+    var clusters = Object.keys(bins).map(function (k) {
+      var v = bins[k];
+      var hex = rgbToHex(v.r / v.n, v.g / v.n, v.b / v.n);
+      var hsl = rgbToHsl.apply(null, hexToRgb(hex));
+      return { hex: hex, n: v.n, h: hsl[0], s: hsl[1], l: hsl[2], lum: relLum(hex) };
+    }).sort(function (a, b) { return b.n - a.n; });
+    clusters.forEach(function (c) { totalLum += c.lum * c.n; });
+    var light = totalLum / count >= 0.35;
+    /* 近い色を除いて代表6クラスタを選ぶ */
+    var picked = [];
+    for (var j = 0; j < clusters.length && picked.length < 6; j++) {
+      var c = clusters[j], distinct = picked.every(function (p) { return hueDist(p.h, c.h) >= 12 || Math.abs(p.l - c.l) >= 10; });
+      if (distinct) picked.push(c);
+    }
+    while (picked.length < 5 && picked.length < clusters.length) picked.push(clusters[picked.length]);
+    picked.sort(function (a, b) { return a.lum - b.lum; });
+    /* 役割割当（visual-designer仕様 §5: 抽出色はH/Sの気配だけ使い、Lは役割レンジへクランプ） */
+    var bgC = light ? picked[picked.length - 1] : picked[0];
+    var txC = light ? picked[0] : picked[picked.length - 1];
+    var mids = picked.filter(function (c) { return c !== bgC && c !== txC; });
+    var bg = rgbToHex.apply(null, hslToRgb(bgC.h, Math.min(bgC.s, 30), light ? Math.max(bgC.l, 90) : Math.min(bgC.l, 12)));
+    var tx = fixText(rgbToHex.apply(null, hslToRgb(txC.h, Math.min(txC.s, 30), light ? 16 : 90)), bg);
+    mids.sort(function (a, b) { return b.s * b.n - a.s * a.n; });
+    var prC = mids[0] || txC;
+    var pr = rgbToHex.apply(null, hslToRgb(prC.h, prC.s, light ? Math.min(Math.max(prC.l, 28), 48) : Math.min(Math.max(prC.l, 55), 72)));
+    pr = fixAgainst(pr, bg, 3.0, null);
+    var acC = null;
+    for (var k = 1; k < mids.length; k++) if (hueDist(mids[k].h, prC.h) >= 25) { acC = mids[k]; break; }
+    var ac = acC
+      ? rgbToHex.apply(null, hslToRgb(acC.h, Math.min(acC.s + 10, 88), light ? 58 : 66))
+      : rgbToHex.apply(null, hslToRgb(prC.h + 40, Math.min(prC.s + 15, 88), light ? 58 : 66));
+    ac = fixAgainst(ac, bg, 3.0, null);
+    return [bg, deriveSurface(bg), pr, ac, tx];
+  }
+  var lastImgUrl = null; // サムネが参照し続けるblob URL。次の選択時に解放する（focus.htmlの revoke パターン）
+  $('btnPickImage').addEventListener('click', function () { $('imgInput').click(); });
+  $('imgInput').addEventListener('change', function () {
+    var file = this.files && this.files[0];
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { showNotice('画像ファイルを選んでください。'); return; }
+    if (lastImgUrl) { URL.revokeObjectURL(lastImgUrl); lastImgUrl = null; }
+    var url = URL.createObjectURL(file);
+    lastImgUrl = url;
+    var img = new Image();
+    img.onload = function () {
+      var c = extractFromImage(img);
+      var thumb = $('imgThumb');
+      thumb.src = url; thumb.hidden = false;
+      if (!c) { showNotice('この画像からは色を取り出せませんでした。別の画像でお試しください。'); return; }
+      state.cur = { n: 'Your Own Weather', l: 'Five colors that were already yours.', c: c, idx: -1, tag: 'From your image' };
+      state.locks = [false, false, false, false, false];
+      render({ fade: true, pushHist: true, announce: true });
+      closePanel();
+      showNotice('画像から5色を取り出しました。処理はこの端末の中だけで行われています。');
+    };
+    img.onerror = function () { showNotice('この画像は読み込めませんでした。別のファイルでお試しください。'); URL.revokeObjectURL(url); if (lastImgUrl === url) lastImgUrl = null; };
+    img.src = url;
+    this.value = '';
+  });
+
+  /* ================= イベント ================= */
+  $('btnGen').addEventListener('click', generate);
+  $('btnFav').addEventListener('click', toggleFav);
+  function copyLink() {
+    copyText(location.href, function (ok) {
+      showNotice(ok ? 'リンクをコピーしました。開くと同じ配色を再現できます。' : 'コピーできませんでした。');
+    });
+  }
+  $('btnShare').addEventListener('click', copyLink);
+
+  swEls.forEach(function (el, i) {
+    el.querySelector('.sw-color').addEventListener('click', function () { copySwatch(i); });
+    el.querySelector('.sw-value').addEventListener('click', function () { copySwatch(i); });
+    el.querySelector('.sw-lock').addEventListener('click', function () {
+      state.locks[i] = !state.locks[i];
+      el.classList.toggle('locked', state.locks[i]);
+      this.setAttribute('aria-pressed', String(state.locks[i])); // ラベルは固定・状態はaria-pressedに一任
+      announce(ROLES[i] + ' を' + (state.locks[i] ? 'ロックしました。生成しても変わりません。' : 'ロック解除しました。'));
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('.fmt-tab'), function (tab) {
+    tab.addEventListener('click', function () { setFmt(tab.getAttribute('data-fmt')); });
+  });
+  function setFmt(fmt) {
+    state.fmt = fmt;
+    Array.prototype.forEach.call(document.querySelectorAll('.fmt-tab'), function (t) {
+      t.setAttribute('aria-pressed', String(t.getAttribute('data-fmt') === fmt));
+    });
+    swEls.forEach(function (el, i) {
+      var val = el.querySelector('.sw-value');
+      val.classList.remove('copied');
+      val.textContent = fmtValue(state.cur.c[i], fmt);
+      val.setAttribute('aria-label', ROLES[i] + ' のカラーコード ' + fmtValue(state.cur.c[i], fmt) + ' をコピー');
+    });
+    saveState();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.exp-btn'), function (btn) {
+    btn.addEventListener('click', function () {
+      var kind = btn.getAttribute('data-exp');
+      if (kind === 'link') { copyLink(); return; }
+      copyText(EXPORTERS[kind](state.cur), function (ok) {
+        showNotice(ok ? EXPORT_LABEL[kind] + ' としてコピーしました。' : 'コピーできませんでした。');
+      });
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('#pvSeg button'), function (btn) {
+    btn.addEventListener('click', function () {
+      var id = btn.getAttribute('data-pv');
+      Array.prototype.forEach.call(document.querySelectorAll('#pvSeg button'), function (b) {
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('.pv'), function (pv) {
+        pv.classList.toggle('active', pv.getAttribute('data-pv') === id);
+      });
+      announce(btn.textContent + ' のプレビューに切り替えました。');
+    });
+  });
+
+  /* ================= キーボード ================= */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closePanel(); return; }
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (activePanel && e.key !== '?') return; /* パネル内はネイティブ操作を優先 */
+    var inSw = t && t.closest ? t.closest('.sw') : null;
+    /* WCAG 2.1.4: 単一文字ショートカット(C/H/S)は、ツール領域（舞台内 or 既定のbody）に
+       フォーカスがあるときだけ発火させる。ナビ・フッターのリンクにフォーカス中は誤爆させない */
+    var inTool = t === document.body || (t && t.closest && t.closest('.stage'));
+
+    if (e.key === ' ') {
+      /* ボタンにフォーカス中はネイティブのSpace（クリック）を優先。それ以外は生成 */
+      if (t && (t.tagName === 'BUTTON' || t.tagName === 'A')) return;
+      e.preventDefault(); generate(); return;
+    }
+    if (e.key >= '1' && e.key <= '5') {
+      var idx = Number(e.key) - 1;
+      swEls[idx].querySelector('.sw-color').focus();
+      e.preventDefault(); return;
+    }
+    if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && inSw) {
+      var i = Number(inSw.getAttribute('data-idx'));
+      var next = e.key === 'ArrowRight' ? Math.min(4, i + 1) : Math.max(0, i - 1);
+      swEls[next].querySelector('.sw-color').focus();
+      e.preventDefault(); return;
+    }
+    var k = e.key.toLowerCase();
+    if (k === 'l' && inSw) { inSw.querySelector('.sw-lock').click(); e.preventDefault(); return; }
+    if (!inTool) return; /* 以降の単一文字キーはツール領域フォーカス時のみ */
+    if (k === 'c') {
+      if (inSw) copySwatch(Number(inSw.getAttribute('data-idx')));
+      else copyText(EXPORTERS.hex(state.cur), function (ok) { showNotice(ok ? 'All HEX としてコピーしました。' : 'コピーできませんでした。'); });
+      e.preventDefault(); return;
+    }
+    if (k === 'h') {
+      var order = ['hex', 'rgb', 'hsl'];
+      setFmt(order[(order.indexOf(state.fmt) + 1) % 3]);
+      e.preventDefault(); return;
+    }
+    if (k === 's') { toggleFav(); e.preventDefault(); return; }
+    if (e.key === '?') { openPanel('helpPanel'); e.preventDefault(); return; }
+  });
+
+  /* ================= 初期化 ================= */
+  function parseHash() {
+    var m = location.hash.match(/c=([0-9a-f]{6}(?:\.[0-9a-f]{6}){4})/);
+    if (!m) return null;
+    var c = m[1].split('.');
+    var pm = location.hash.match(/p=(\d+)/);
+    var idx = pm ? Number(pm[1]) : -1;
+    if (idx >= 0 && idx < PALETTES.length) {
+      var src = PALETTES[idx];
+      return { n: src.n, l: src.l, c: c, idx: idx };
+    }
+    return { n: 'A Palette, Shared', l: 'Five colors that traveled here by link.', c: c, idx: -1, tag: 'Shared' };
+  }
+  function dailyPalette() {
+    /* 日付シードで決まる「本日の一篇」。全訪問者が同じパレットに出会う */
+    var d = new Date();
+    var seed = d.getFullYear() * 372 + d.getMonth() * 31 + d.getDate();
+    return PALETTES[seed % PALETTES.length];
+  }
+  loadState();
+  buildChips();
+  var initial = parseHash();
+  if (initial) {
+    state.cur = initial;
+  } else {
+    var day = dailyPalette();
+    state.cur = { n: day.n, l: day.l, c: day.c.slice(), idx: PALETTES.indexOf(day) };
+  }
+  renderSaved();
+  render({ fade: false, pushHist: false, announce: false });
+})();
+</script>
+</body>
+</html>

@@ -1,6 +1,44 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-11（人間味監査 Phase 0/1/2・未push）
+最終検証: 2026-07-12（colors.html 新規追加・未push）
+
+## Color Generator ページ新規追加（2026-07-12・未push）
+新規: `colors.html`（単一HTML・CSS/JSインライン・約1420行・外部依存ゼロ）。65篇のカラーパレット生成ツール。
+変更: index.html / focus.html のナビに「Colors」追加、sitemap.xml に colors.html 追加。
+
+### 分隊（6体・波状）
+- 企画（並列4体）: creative-director（世界観・主役Ix）/ brand-copywriter（64名＋詩）/ visual-designer（配色システム・ムード→HSL・ロック再生成・画像抽出規則）/ lead-product-designer（IA・ワイヤー・キーボード・モバイル）
+- 実装: 主スレッドが統合実装
+- クロスレビュー（並列2体）: frontend-engineer（コード品質）/ a11y-auditor（アクセシビリティ）
+
+### 実行した検証
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| inline JS 構文 | 抽出 → `node --check` | ✅ OK |
+| タグ整合 | div/button/aside/main/nav/ul/section/header 開閉カウント | ✅ 全一致 |
+| パレット構造 | 65篇・hex形式・名前重複を機械検証 | ✅ 不正0・重複0 |
+| コントラスト（収録65篇） | WCAG相対輝度式で全325色を計算（FEが独立再計算で裏付け） | ✅ Text/BG 7:1以上（AAA）全篇 / Primary・Accent/BG 3:1以上（例外: ブランド配色 A Quiet Press の Accent 2.11:1 のみ意図的・ヘルプ明記） |
+| コントラスト（生成物・画像抽出物） | 自動補正（fixText/fixAgainst）→ ブラウザ実測 | ✅ 抽出テストで Text/BG 12.9:1・Primary/BG 3.18:1 |
+| ページ地色滲み（16%）| 4テーマ×65篇でUI文字コントラスト計算 | ✅ fg 8.2:1 / fg2 6.1:1 / hint 4.55:1（最悪）→ AA担保 |
+| 全機能 | ローカルサーバー＋ブラウザ（デスクトップ1280 / モバイル375） | ✅ 生成・Space・テーマ/ムードフィルタ・ロック再生成・HEX/RGB/HSL切替コピー・まとめコピー5形式・お気に入り・履歴・URL共有・6プレビュー・画像抽出・トースト |
+| localStorage 無効時 | getter例外を注入して generate/fav 実行 | ✅ 例外を投げず動作継続 |
+| コンソール | デスクトップ/モバイル | ✅ エラー・警告ゼロ |
+
+### クロスレビュー指摘への対応
+- FE **M-1**（inert欠落）/ a11y **#1**（閉パネル・トーストがTab順に残る=Serious）: 全パネルを初期inert化＋開閉で管理、トーストに visibility:hidden。→ ブラウザで閉パネル内フォーカス可能要素0件を確認
+- FE **M-2**（blob revoke漏れ）: 前回URLを保持し次回選択時に解放
+- FE **M-3**（renderSaved毎回全再構築）: dirtyフラグで保存パネル開時のみ描画。→ 生成3回で履歴DOM不変・開いた瞬間反映を確認
+- a11y **#2**（focusリングが61%の色で3:1未満=Serious）: `.sw-color:focus-visible` を `--sw-ink`（輝度適応色）3pxに変更
+- a11y **#3**（--hint が暗パレット滲み地で4.5未満=Serious）: `--hint` を #5f646c→#4d525a に暗色化（最悪地4.55:1を実測確認）
+- a11y **#4**（単一キーC/H/S常時発火=2.1.4）: ツール領域フォーカス時のみ発火に制限。→ navリンク上でH不発火を確認
+- a11y **#5**（navリンクのタップ領域）: padding付与で高さ24px以上
+- a11y **#6/#7/#8/#10/#11** + FE L-6: palName/生成名に lang="en"、nav に aria-label、ロックラベル固定化、main に tabindex=-1、プレビュー切替を aria-live 通知、生成通知にテーマ/ムード追加
+
+### 未対応（開示・低優先）
+- a11y #9（テーマchipのradiogroup化）: aria-pressedトグルは「選択解除可能な単一選択」として許容範囲と判断し見送り
+- FE L-1/L-2（中間輝度背景の共有リンク＋ロックで Primary/Accent が稀に3:1未満）: 手作りURLでのみ到達する極端ケース。通常操作では踏まない
+- a11y #4 の残余: ツール既定フォーカス（body）では単一キーが有効。ページに文字入力欄がないため実害小と判断
+- 実機（iOS Safari / Android Chrome）・実スクリーンリーダーでの通し確認は未実施（シミュレートのみ）
 
 ## 人間味監査 Phase 2（2026-07-11）
 変更: index.html（間奏セクション・PHILOSOPHY再構成・タイポclamp）/ blog/index.html（featured・cat-tags削除）

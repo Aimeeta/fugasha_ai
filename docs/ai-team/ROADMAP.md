@@ -1,6 +1,17 @@
 # ROADMAP — 優先順位つき残タスク
 
-最終更新: 2026-07-11（人間味監査 Phase 0/1/2 実装完了・未push）
+最終更新: 2026-07-12（colors.html 追加・未push）
+
+## 2026-07-12 — Color Generator（colors.html）追加・push待ち
+65篇のカラーパレット生成ツールを新設。企画4体＋実装＋クロスレビュー2体で完了。詳細は DECISION_LOG / QUALITY_REPORT 参照。
+
+**フォローアップ候補（低優先）**:
+- en/ 配下への英語版 colors ページ（現状JAのみ。UI文言は日本語。英語圏向けに出すか要オーナー判断）
+- a11y #9（テーマchipのradiogroup化）・FE L-1/L-2（手作り共有URL＋ロックでの稀な低コントラスト）: いずれも見送り済み。再検討する場合の記録
+- 実機（iOS/Android）・実スクリーンリーダーでの通し確認（未実施）
+- パレット微調整（各色HSLスライダー）は「ツールの領分を超える」として保留（LPD判断）
+
+
 
 ## 2026-07-11 — 人間味監査 — Phase 0/1/2 実装済み・push待ち / 残りは Phase 3 と素材待ち
 詳細は docs/ai-team/humanity-audit-2026-07-11/00_ROADMAP.md と DECISION_LOG 参照。
