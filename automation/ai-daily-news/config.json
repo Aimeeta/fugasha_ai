@@ -2,18 +2,18 @@
   "_comment": "AI Daily News の設定。feeds は最小構成（公式RSS 2本）から始める。追加候補は feedsDisabled を feeds へ移し、allowedLinkDomains にドメインを足すこと。",
   "feeds": [
     { "name": "OpenAI News", "url": "https://openai.com/news/rss.xml", "sourceType": "official", "sourceName": "OpenAI" },
-    { "name": "Hugging Face Blog", "url": "https://huggingface.co/blog/feed.xml", "sourceType": "official", "sourceName": "Hugging Face" }
+    { "name": "Hugging Face Blog", "url": "https://huggingface.co/blog/feed.xml", "sourceType": "official", "sourceName": "Hugging Face" },
+    { "name": "GitHub Blog (AI)", "url": "https://github.blog/ai-and-ml/feed/", "sourceType": "official", "sourceName": "GitHub" },
+    { "name": "The Verge (AI)", "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", "sourceType": "media", "sourceName": "The Verge" },
+    { "name": "MIT Technology Review (AI)", "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed", "sourceType": "media", "sourceName": "MIT Technology Review" }
   ],
   "feedsDisabled": [
     { "name": "Google DeepMind Blog", "url": "https://deepmind.google/blog/rss.xml", "sourceType": "official", "sourceName": "Google DeepMind" },
-    { "name": "NVIDIA Blog", "url": "https://blogs.nvidia.com/feed/", "sourceType": "official", "sourceName": "NVIDIA" },
-    { "name": "GitHub Blog (AI)", "url": "https://github.blog/ai-and-ml/feed/", "sourceType": "official", "sourceName": "GitHub" },
-    { "name": "MIT Technology Review (AI)", "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed", "sourceType": "media", "sourceName": "MIT Technology Review" },
-    { "name": "The Verge (AI)", "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", "sourceType": "media", "sourceName": "The Verge" }
+    { "name": "NVIDIA Blog", "url": "https://blogs.nvidia.com/feed/", "sourceType": "official", "sourceName": "NVIDIA", "_note": "一般ブログでゲーム等の非AI記事が多い。有効化する場合はLLM選定の負荷に注意" }
   ],
-  "allowedLinkDomains": ["openai.com", "huggingface.co"],
+  "allowedLinkDomains": ["openai.com", "huggingface.co", "github.blog", "theverge.com", "technologyreview.com"],
   "_faviconComment": "出典リストのfavicon。既存記事と同じ自己ホスト方式（assets/favicons/）。ドメイン追加時はPNGを置いてここに追記。無いドメインは頭文字表示にフォールバック",
-  "faviconFiles": { "openai.com": "openai.png", "huggingface.co": "huggingface.png" },
+  "faviconFiles": { "openai.com": "openai.png", "huggingface.co": "huggingface.png", "github.blog": "github.png", "theverge.com": "theverge.png", "technologyreview.com": "mittr.png" },
   "windowHours": 48,
   "extendedWindowHours": 72,
   "minItems": 3,
