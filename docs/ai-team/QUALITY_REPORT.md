@@ -1,8 +1,39 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-12（words.html 新規追加・未push）
+最終検証: 2026-07-12（AI Daily News 自動化を追加）
 
-## ことばページ新規追加（2026-07-12・未push）
+## AI Daily News 自動生成パイプライン（2026-07-12）
+新規: automation/ai-daily-news/（run.js・config.json・template.html・mock-feed.json・README.md）、
+.github/workflows/ai-daily-news.yml、assets/favicons/（openai/huggingface）、blog/index.html のカード挿入マーカー。
+
+### 実行した検証
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| スクリプト構文 | node --check / workflow は yaml.safe_load | ✅ OK |
+| モック実行（全経路） | --mock で記事生成→カード挿入→sitemap追記→ログ | ✅ 生成物をブラウザで確認（既存ブログデザインと調和・コンソールエラーゼロ） |
+| 実RSS取得 | --fetch-only で OpenAI/HF の実フィード | ✅ 1040+823件パース（RSS/Atom両対応）、72h窓で候補3件抽出 |
+| 二重生成防止 | 同日再実行 | ✅ スキップ発火 |
+| 注入テスト | mock-feed.json に命令文を混入 | ✅ 記事に出力されない（FEも独立確認） |
+| 外部依存 | 生成記事のリソース | ✅ Google favicon依存を排し自己ホスト化（既存記事と同方式）、fetch 200確認 |
+| LLM実呼び出し | — | ⚠️ **未検証**（APIキーが必要。オーナーのSecret設定後、workflow手動実行で最終確認する） |
+
+### クロスレビュー（frontend-engineer・再現確認つき）への対応
+- **C-2 replaceAllの$特殊置換でHTML破損（再現済み）**: split/joinのliteral置換に全面変更（カード挿入含む）
+- **C-1 Atomのrel="self"誤選択（再現済み）**: rel="alternate"優先の選択ロジックに修正
+- **E-1/O-1 スキップ日でもログだけのPRが立つ**: runs/ を .gitignore 化し、Actions artifact（90日）へ
+- **O-2 PRブランチへのforce push（CLAUDE.md禁止事項）**: 除去。同名ブランチ残存時はworkflow失敗で気づく設計に
+- **O-3 モック実行が本番used-urls.jsonを上書き（再現済み）**: モック時は書き込まない
+- **S-1 JSON-LDの</script>脱出（理論）**: < を < へエスケープ
+- **C-3 出典日付のUTC/JSTずれ**: JSTに統一 ／ **E-3** リトライ枯渇時のエラーメッセージを実因に ／ **M-1** プロンプトのプレースホルダを{{}}形式に
+- **レビュー最重要指摘**: 巻き戻し手順が未コミットのマーカーを破壊する問題 → README の手順を修正（レビュアーが検証中に実際に踏んで復旧済み）
+- 見送り（開示）: C-4 相対URLフィード（公式フィードは絶対URLのみ・追加時に注意としてREADME記載）/ O-6 draftモードのdedupはマージ後に効く（許容リスクとしてREADME記載）
+- O-5 モデルID `claude-sonnet-5` は現行の有効なAPIモデルIDであることを確認済み
+
+### 未検証（開示）
+- LLM実呼び出し〜PR作成のエンドツーエンド（ANTHROPIC_API_KEY 設定後に Actions 手動実行で確認すること）
+- スケジュール実行の初回発火（cronはGitHub側で数分遅延することがある）
+
+## ことばページ新規追加（2026-07-12・push済み）
 新規: `words.html`（単一HTML・約990行・外部依存ゼロ）。名言84件の没入型表示ページ。
 変更: focus.html（「もっとことばを →」導線＋ナビ）/ index.html・colors.html（ナビ）/ sitemap.xml / **colors.html（words監査で見つかった同根Serious 2件の波及修正）**
 
@@ -30,9 +61,7 @@
 - noscriptフォールバック（三兄弟共通の別タスク候補）/ aria-labelledbyへの統一 / eyebrow英語部分のlangスパン
 - 名言カード画像の書き出し（オーナー了承済みの後回し）/ 実機スワイプ
 
-## Color Generator ページ新規追加（2026-07-12・未push）
-
-## Color Generator ページ新規追加（2026-07-12・未push）
+## Color Generator ページ新規追加（2026-07-12・push済み）
 新規: `colors.html`（単一HTML・CSS/JSインライン・約1420行・外部依存ゼロ）。65篇のカラーパレット生成ツール。
 変更: index.html / focus.html のナビに「Colors」追加、sitemap.xml に colors.html 追加。
 

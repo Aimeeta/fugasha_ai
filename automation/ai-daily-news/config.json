@@ -1,0 +1,33 @@
+{
+  "_comment": "AI Daily News の設定。feeds は最小構成（公式RSS 2本）から始める。追加候補は feedsDisabled を feeds へ移し、allowedLinkDomains にドメインを足すこと。",
+  "feeds": [
+    { "name": "OpenAI News", "url": "https://openai.com/news/rss.xml", "sourceType": "official", "sourceName": "OpenAI" },
+    { "name": "Hugging Face Blog", "url": "https://huggingface.co/blog/feed.xml", "sourceType": "official", "sourceName": "Hugging Face" }
+  ],
+  "feedsDisabled": [
+    { "name": "Google DeepMind Blog", "url": "https://deepmind.google/blog/rss.xml", "sourceType": "official", "sourceName": "Google DeepMind" },
+    { "name": "NVIDIA Blog", "url": "https://blogs.nvidia.com/feed/", "sourceType": "official", "sourceName": "NVIDIA" },
+    { "name": "GitHub Blog (AI)", "url": "https://github.blog/ai-and-ml/feed/", "sourceType": "official", "sourceName": "GitHub" },
+    { "name": "MIT Technology Review (AI)", "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed", "sourceType": "media", "sourceName": "MIT Technology Review" },
+    { "name": "The Verge (AI)", "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", "sourceType": "media", "sourceName": "The Verge" }
+  ],
+  "allowedLinkDomains": ["openai.com", "huggingface.co"],
+  "_faviconComment": "出典リストのfavicon。既存記事と同じ自己ホスト方式（assets/favicons/）。ドメイン追加時はPNGを置いてここに追記。無いドメインは頭文字表示にフォールバック",
+  "faviconFiles": { "openai.com": "openai.png", "huggingface.co": "huggingface.png" },
+  "windowHours": 48,
+  "extendedWindowHours": 72,
+  "minItems": 3,
+  "maxItems": 5,
+  "maxCandidates": 20,
+  "usedUrlRetentionDays": 7,
+  "categories": ["AI Models", "AI Agents", "Creative AI", "Business", "Research", "Robotics", "Policy", "Society", "Open Source", "Tools"],
+  "site": {
+    "baseUrl": "https://aimeeta.github.io/fugasha_ai",
+    "articleDirPrefix": "ai-daily"
+  },
+  "llm": {
+    "model": "claude-sonnet-5",
+    "maxTokens": 3500,
+    "temperature": 0.2
+  }
+}

@@ -1,8 +1,23 @@
 # ROADMAP — 優先順位つき残タスク
 
-最終更新: 2026-07-12（words.html 追加・未push / colors.html はpush済み＋a11y波及修正が未push）
+最終更新: 2026-07-12（AI Daily News 自動化を追加。words/colors はpush済み）
 
-## 2026-07-12 — ことばページ（words.html）追加・push待ち
+## 2026-07-12 — AI Daily News 自動生成 — 実装済み・オーナーのSecret設定待ち
+GitHub Actions（JST 7:00）でAIニュースまとめ記事を自動生成。詳細は automation/ai-daily-news/README.md と DECISION_LOG。
+
+**オーナーがやること（これをしないと動かない・未設定の間は安全に何もしない）**:
+1. GitHub → Settings → Secrets and variables → Actions → Secrets に `ANTHROPIC_API_KEY` を追加
+2. 任意: Secrets `SLACK_WEBHOOK_URL`（通知先）、Variables `NEWS_MODE`（既定 draft）
+3. Actions → AI Daily News → Run workflow で手動テスト → 作成されたPR（下書き）を確認してマージ
+4. 数日運用して精度に納得したら Variables `NEWS_MODE=publish` で自動公開へ切替
+
+**フォローアップ候補**:
+- 情報源の追加（config.json の feedsDisabled → feeds。DeepMind / NVIDIA / GitHub / MIT TR / The Verge を用意済み。allowedLinkDomains への追加を忘れない）
+- SNS・メルマガ・Slack転用（automation/data/runs/*.json の構造化データを入力に）
+- AI Daily記事のOGP画像自動生成（現在はサイト共通 ogp.jpg）
+- 記事が溜まってきたらブログ一覧での見せ方を再設計（通常記事が埋もれないように）
+
+## 2026-07-12 — ことばページ（words.html）追加・push済み
 名言84件の没入型ページ。企画2体＋実装＋クロスレビュー2体で完了。colors.html にも同根のa11y修正2件を波及（この分も未push）。詳細は DECISION_LOG / QUALITY_REPORT 参照。
 
 **フォローアップ候補（低優先）**:

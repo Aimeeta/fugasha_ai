@@ -2,6 +2,17 @@
 
 新しい決定は上に追記する。形式: 日付 / 決定 / 理由 / 決定者。
 
+## 2026-07-12 — AI Daily News 自動生成パイプライン（GitHub Actions採用・n8n/microCMS不採用）
+オーナー指示「毎日のAIニュースまとめ記事の自動生成・投稿」。推奨構成は n8n + microCMS だったが、「現構成でよりシンプルで安全な方法があればそちらを選択」の委任に基づき裁定:
+
+- **不採用: n8n / microCMS / Vercel Cron** — 本サイトはCMSのない静的HTML + GitHub Pages。CMS導入はフロントエンド全面改修＋新規契約になり、2026-07-03の既決事項（blog/auto-update-brief.md「外部CMS・SSGを導入しない」）にも反する
+- **採用: GitHub Actions cron（22:00 UTC = JST 7:00）+ Node標準のみの単一スクリプト** — 新サービス・新契約・依存パッケージゼロ。「下書き」= Pull Request（人間がレビューしてマージ＝公開。既決の「公開は必ず人間が確認」と一致）、「自動公開」= mainへ直接コミット。Variables `NEWS_MODE` で切替
+- **情報源は最小構成から**（オーナー指示どおり）: OpenAI News RSS + Hugging Face Blog の公式2本。追加候補は config.json の feedsDisabled に用意済み
+- **投稿条件**: 3件未満はスキップ（48h→72h拡大後も）。使用済みURLは7日間再掲しない。同日記事の二重生成防止。ニュースがない日に架空の内容を生成しない
+- **セキュリティ**: APIキーはGitHub Secretsのみ（静的サイト側に秘密なし）。公開エンドポイント自体を持たない。許可ドメイン制。フィード本文は信頼できない入力としてLLMに渡し、出典URLはLLM出力を使わずid引き当て（捏造防止）。全テキストHTMLエスケープ
+- **microCMSフィールド相当**は実行ログ（automation/data/runs/*.json）に全ニュースの構造化データとして保存 — SNS/メルマガ転用の入力にできる
+- 詳細: automation/ai-daily-news/README.md
+
 ## 2026-07-12 — ことばページ（words.html）新規追加・Focusの名言機能を独立ページ化
 オーナー指示で、Focusページ内の名言機能を独立した没入型ページへ。4体分隊（企画2体並列→統合実装→クロスレビュー2体）。**未push**。
 

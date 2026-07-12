@@ -15,3 +15,7 @@ brief/fugasha_handoff_brief_2026-07-01.docx
 
 # 実績数字の裏付け等、非公開の内部資料
 private/
+
+# AI Daily News の実行ログ — コミットしない（Actionsのartifactとして保存。
+# used-urls.json は日跨ぎ重複除去の状態なので追跡を維持する）
+automation/data/runs/

@@ -1,0 +1,135 @@
+# AI Daily News — 毎朝のAIニュースまとめ記事を自動生成する
+#
+# 動作モード（リポジトリの Variables → NEWS_MODE で切替。既定 draft）:
+#   draft   : 記事を生成して Pull Request を作成。管理者がPRを確認してマージ＝公開
+#   publish : 記事を生成して main へ直接コミット＝即公開（GitHub Pages）
+#
+# 必要な設定（Settings → Secrets and variables → Actions）:
+#   Secrets  : ANTHROPIC_API_KEY（必須）、SLACK_WEBHOOK_URL（任意）
+#   Variables: NEWS_MODE=draft|publish（任意・既定draft）、NEWS_MODEL（任意）
+#
+# ANTHROPIC_API_KEY が未設定の間は何もせず正常終了する（毎日失敗通知が飛ばないように）
+
+name: AI Daily News
+
+on:
+  schedule:
+    - cron: '0 22 * * *'   # 22:00 UTC = 07:00 JST
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'モード（空=リポジトリ設定に従う）'
+        required: false
+        default: ''
+        type: choice
+        options: ['', 'draft', 'publish']
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ai-daily-news
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check API key configured
+        id: check
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::ANTHROPIC_API_KEY が未設定のためスキップします（Settings → Secrets で設定してください）"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.check.outputs.configured == 'true'
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        if: steps.check.outputs.configured == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Resolve mode
+        if: steps.check.outputs.configured == 'true'
+        id: mode
+        run: |
+          MODE="${{ github.event.inputs.mode }}"
+          if [ -z "$MODE" ]; then MODE="${{ vars.NEWS_MODE }}"; fi
+          if [ "$MODE" != "publish" ]; then MODE="draft"; fi
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+          echo "mode: $MODE"
+
+      - name: Generate article
+        if: steps.check.outputs.configured == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          NEWS_MODE: ${{ steps.mode.outputs.mode }}
+          NEWS_MODEL: ${{ vars.NEWS_MODEL }}
+        run: node automation/ai-daily-news/run.js
+
+      # 実行ログはコミットせずartifactへ（スキップ日・失敗日も残す）
+      - name: Upload run log
+        if: always() && steps.check.outputs.configured == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-log-${{ github.run_id }}
+          path: automation/data/runs/
+          if-no-files-found: ignore
+          retention-days: 90
+
+      - name: Detect changes
+        if: steps.check.outputs.configured == 'true'
+        id: diff
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::生成された変更はありません（スキップ日）"
+          fi
+
+      - name: Commit settings
+        if: steps.check.outputs.configured == 'true' && steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "fugasha-ai-daily[bot]"
+          git config user.email "noreply@users.noreply.github.com"
+
+      # draft: ブランチ＋Pull Request（管理者がレビューしてマージ＝公開）
+      - name: Create Pull Request (draft mode)
+        if: steps.check.outputs.configured == 'true' && steps.diff.outputs.changed == 'true' && steps.mode.outputs.mode == 'draft'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +%F)
+          BRANCH="ai-daily/$DATE"
+          git checkout -b "$BRANCH"
+          git add -A
+          git commit -m "AI Daily Brief: $DATE のニュースまとめ（下書き）"
+          # force pushしない（レビュアーがPRブランチに積んだ修正を消さない）。
+          # 同名ブランチが残っている場合はpushが失敗し、workflowの失敗として気づける
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "AI Daily Brief: $DATE（要確認）" \
+            --body "自動生成されたAIニュースまとめの下書きです。内容・出典を確認し、問題なければマージしてください（マージ＝公開）。実行ログはこのworkflow runのartifactにあります。" \
+            --base main --head "$BRANCH" || echo "::notice::PRは既に存在します"
+
+      # publish: main へ直接コミット（即公開）
+      - name: Commit to main (publish mode)
+        if: steps.check.outputs.configured == 'true' && steps.diff.outputs.changed == 'true' && steps.mode.outputs.mode == 'publish'
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +%F)
+          git add -A
+          git commit -m "AI Daily Brief: $DATE のニュースまとめ（自動公開）"
+          git pull --rebase origin main
+          git push origin main
