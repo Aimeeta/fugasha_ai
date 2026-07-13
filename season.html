@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>いまの季節 | 風雅舎</title>
+  <meta name="description" content="今日がどの二十四節気・どの七十二候にあたるのかを、外部APIを使わずブラウザの中の計算だけで表示します。候の名前と読み、次の候までの日数、二十四節気の環。季節の名前を知るための、静かなページです。">
+  <meta property="og:title" content="いまの季節 | 風雅舎">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/season.html">
+  <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="風雅舎">
+  <meta name="theme-color" content="#f0e6d6">
+  <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/season.html">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #f0e6d6;
+      --fg:      #0d2030;
+      --fg2:     #1e3a50;
+      --hint:    #4d525a;
+      --accent:  #e8866a;
+      --accent-ink: #7a4025;
+      --line:    rgba(13,32,48,.12);
+      --panel:   #f4ecdf;
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+      --ease: cubic-bezier(.16,1,.3,1);
+      --maxw: 720px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; transition-delay: 0ms !important; scroll-behavior: auto !important; }
+    }
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+    }
+    html { scroll-behavior: smooth; }
+    html, body { min-height: 100%; }
+    body {
+      font-family: var(--font-sans); color: var(--fg);
+      background: radial-gradient(60% 42% at 50% 8%, rgba(255,255,255,.42), transparent 68%), linear-gradient(180deg, #f3ece0 0%, #efe4d3 100%);
+      background-attachment: fixed;
+      line-height: 1.8; overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    ::selection { background: rgba(232,134,106,.3); color: var(--fg); }
+    :focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 3px; border-radius: 2px; }
+    button { font-family: var(--font-sans); color: inherit; }
+    .u-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+    .skip-link { position: absolute; left: 16px; top: -48px; z-index: 90; background: var(--fg); color: var(--bg); padding: 10px 16px; border-radius: 0 0 4px 4px; font-size: 12px; text-decoration: none; transition: top .2s; }
+    .skip-link:focus { top: 0; }
+
+    /* ====== ナビ ====== */
+    .nav { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; padding: calc(env(safe-area-inset-top) + 18px) 40px 16px; }
+    .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 26px; }
+    .nav-link { font-size: 11px; color: var(--fg2); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; padding: 7px 2px; }
+    .nav-link:hover { color: var(--fg); }
+    .nav-link.active { color: var(--fg); border-bottom: 1px solid var(--accent); }
+    @media (max-width: 640px) { .nav { padding-left: 20px; padding-right: 20px; } .nav-right { gap: 14px; } }
+    @media (max-width: 460px) { .nav-right .nav-opt { display: none; } }
+
+    /* ====== レイアウト ====== */
+    main { position: relative; z-index: 2; }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+    @media (max-width: 640px) { .wrap { padding: 0 20px; } }
+    .sec { padding: 64px 0; border-top: 1px solid var(--line); }
+    @media (max-width: 640px) { .sec { padding: 50px 0; } }
+    .sec-head { margin-bottom: 32px; }
+    .eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .24em; color: var(--fg2); text-transform: uppercase; display: block; }
+    .sec-title { font-family: var(--font-serif); font-weight: 400; font-feature-settings: 'palt' 1; font-size: clamp(22px, 3.4vw, 30px); line-height: 1.5; margin-top: 12px; letter-spacing: .01em; }
+    .sec-lead { font-size: 14px; color: var(--fg2); margin-top: 12px; max-width: 34em; line-height: 1.9; }
+
+    /* エントランス。fail-open: 既定は表示、JSが .pre を付けたときだけ隠す（today/sky と同方針） */
+    .reveal { transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.pre { opacity: 0; transform: translateY(16px); }
+    .reveal.pre.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal.pre { opacity: 1; transform: none; } }
+
+    /* ====== ヒーロー: 今日の候 ====== */
+    .hero { position: relative; min-height: 92vh; min-height: 92dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: calc(env(safe-area-inset-top) + 110px) 28px 64px; }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .24em; color: var(--fg2); text-transform: uppercase; }
+    .ring-wrap { margin: 34px 0 8px; }
+    .ring-svg { width: clamp(150px, 30vw, 190px); height: auto; display: block; }
+    .hero-sekki { font-family: var(--font-mono); font-size: 12px; letter-spacing: .2em; color: var(--accent-ink); margin-top: 16px; }
+    .hero-name { font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1; font-size: clamp(42px, 9vw, 72px); line-height: 1.25; letter-spacing: .06em; margin-top: 12px; }
+    .hero-yomi { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .16em; color: var(--fg2); margin-top: 14px; }
+    .hero-note { font-family: var(--font-serif); font-weight: 300; font-size: clamp(14px, 2.2vw, 17px); color: var(--fg2); margin-top: 18px; max-width: 26em; line-height: 2; }
+    .hero-no { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; color: var(--hint); margin-top: 16px; }
+    .hero-scroll { margin-top: 40px; display: inline-flex; flex-direction: column; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; color: var(--hint); font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; padding: 8px; transition: color .2s; }
+    .hero-scroll:hover { color: var(--fg); }
+    .hero-scroll svg { width: 18px; height: 18px; }
+    .noscript-note { font-size: 13.5px; color: var(--fg2); line-height: 1.9; max-width: 30em; margin: 18px auto 0; padding: 14px 16px; border: 1px dashed var(--line); border-radius: 6px; text-align: left; }
+
+    /* ====== いまの節気（三候） ====== */
+    .ko-list { list-style: none; border-top: 1px solid var(--line); }
+    .ko-row { display: grid; grid-template-columns: 56px 96px 1fr; gap: 16px; align-items: baseline; padding: 18px 10px; border-bottom: 1px solid var(--line); }
+    @media (max-width: 560px) { .ko-row { grid-template-columns: 56px 1fr; } .ko-row .ko-when { grid-column: 2; } }
+    .ko-row.now { background: color-mix(in srgb, var(--accent) 10%, transparent); border-radius: 6px; }
+    .ko-pos { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; color: var(--hint); }
+    .ko-row.now .ko-pos { color: var(--accent-ink); }
+    .ko-row.now .ko-pos::after { content: " ●" / ""; } /* 代替テキスト空＝SRに「黒丸」を読ませない */
+    .ko-when { font-family: var(--font-mono); font-size: 12px; color: var(--fg2); font-variant-numeric: tabular-nums; }
+    .ko-name { font-family: var(--font-serif); font-weight: 400; font-feature-settings: 'palt' 1; font-size: 17px; line-height: 1.6; }
+    .ko-name .yomi { font-family: var(--font-mono); font-size: 10.5px; font-weight: 400; letter-spacing: .08em; color: var(--hint); margin-left: 10px; }
+    .ko-gloss { display: block; font-family: var(--font-sans); font-size: 12.5px; color: var(--fg2); line-height: 1.8; margin-top: 3px; }
+
+    /* ====== 次の候 ====== */
+    .next { max-width: 30em; margin: 0 auto; text-align: center; }
+    .next-text { font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1; font-size: clamp(19px, 3vw, 25px); line-height: 2; }
+    .next-sub { font-size: 13px; color: var(--hint); margin-top: 14px; }
+
+    /* ====== 二十四節気の環 ====== */
+    .wheel { display: grid; gap: 34px; }
+    .wheel-season { }
+    .wheel-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 10px; }
+    .sekki-grid { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    @media (max-width: 560px) { .sekki-grid { grid-template-columns: repeat(2, 1fr); } }
+    .sekki-cell { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px 11px; background: color-mix(in srgb, var(--panel) 45%, transparent); }
+    .sekki-cell.now { border-color: color-mix(in srgb, var(--accent-ink) 45%, transparent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+    .sekki-name { font-family: var(--font-serif); font-weight: 400; font-size: 16.5px; line-height: 1.4; }
+    .sekki-name .yomi { font-family: var(--font-mono); font-size: 10px; font-weight: 400; letter-spacing: .06em; color: var(--hint); margin-left: 7px; }
+    .sekki-meta { display: flex; justify-content: space-between; gap: 8px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .05em; color: var(--hint); margin-top: 6px; font-variant-numeric: tabular-nums; }
+    .sekki-cell.now .sekki-meta { color: var(--accent-ink); }
+    .sekki-cell.now .sekki-name::after { content: " ●" / ""; font-size: 11px; color: var(--accent-ink); }
+
+    /* ====== 精度・出典 ====== */
+    .refs summary { cursor: pointer; font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--fg2); padding: 12px 0; list-style: none; display: flex; align-items: center; gap: 10px; min-height: 44px; }
+    .refs summary::-webkit-details-marker { display: none; }
+    .refs summary svg { width: 14px; height: 14px; transition: transform .2s var(--ease); }
+    .refs[open] summary svg { transform: rotate(90deg); }
+    .ref-list { list-style: none; margin-top: 8px; display: grid; gap: 4px; }
+    .ref-item { padding: 12px 0; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.75; color: var(--fg2); }
+    .ref-item b { color: var(--fg); font-weight: 500; }
+    .ref-item .ref-org { color: var(--hint); }
+    .ref-item a { color: var(--accent-ink); text-decoration: none; border-bottom: 1px dotted color-mix(in srgb, var(--accent-ink) 40%, transparent); word-break: break-all; }
+    .refs-note { font-size: 11.5px; color: var(--hint); line-height: 1.9; margin-top: 18px; }
+
+    /* ====== フッター導線 ====== */
+    .footcta { text-align: center; padding: 68px 28px calc(env(safe-area-inset-bottom) + 76px); border-top: 1px solid var(--line); }
+    .footcta-lead { font-family: var(--font-serif); font-weight: 300; font-size: clamp(19px, 3vw, 26px); line-height: 1.6; }
+    .footcta-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 12px 26px; transition: border-color .2s, background .2s; }
+    .footcta-link:hover { border-color: var(--hint); background: color-mix(in srgb, var(--fg) 5%, transparent); }
+    .footcta-link svg { width: 15px; height: 15px; }
+    .footmeta { margin-top: 40px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em; color: var(--hint); }
+    .footmeta a { color: var(--hint); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .footmeta a:hover { color: var(--fg); }
+  </style>
+</head>
+<body>
+
+<a href="#hero" class="skip-link">本文へ移動</a>
+
+<nav class="nav" aria-label="サイト">
+  <a href="index.html" class="nav-logo">風雅舎</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link nav-opt">Home</a>
+    <a href="yohaku.html" class="nav-link active" aria-current="page">余白</a>
+    <a href="colors.html" class="nav-link nav-opt">Colors</a>
+    <a href="blog/" class="nav-link nav-opt">Blog</a>
+  </div>
+</nav>
+
+<main>
+  <!-- 1. ヒーロー: 今日の候 -->
+  <header class="hero" id="hero">
+    <h1 class="u-hidden">いまの季節 — 二十四節気と七十二候</h1>
+    <p class="hero-eyebrow" id="heroDate">THE SEASON</p>
+    <noscript>
+      <p class="noscript-note">このページは、太陽の位置（黄経）をブラウザの中で計算して、今日の候を求めています。JavaScriptが無効のため、今日の候は表示できません。下の「二十四節気の環」の一覧と、<a href="https://eco.mtk.nao.ac.jp/koyomi/">国立天文台 暦計算室</a>は、そのままご覧いただけます。</p>
+    </noscript>
+    <div class="ring-wrap js-only" hidden>
+      <svg class="ring-svg" id="ringSvg" viewBox="-110 -110 220 220" aria-hidden="true"></svg>
+    </div>
+    <p class="hero-sekki" id="heroSekki"></p>
+    <p class="hero-name" id="heroName"></p>
+    <p class="hero-yomi" id="heroYomi"></p>
+    <p class="hero-note" id="heroNote"></p>
+    <p class="hero-no" id="heroNo"></p>
+    <button type="button" class="hero-scroll js-only" id="heroScroll" aria-label="下へスクロールして読み進める" hidden>
+      <span>Scroll</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+    </button>
+  </header>
+
+  <!-- 2. いまの節気（三候） -->
+  <section class="sec js-only" aria-labelledby="skHead" id="sekkiSec" hidden>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Current Sekki</span>
+        <h2 class="sec-title" id="skHead">いまの節気</h2>
+        <p class="sec-lead">ひとつの節気は、初候・次候・末候の三つに分かれます。いまの候に印がついています。</p>
+      </div>
+      <ul class="ko-list reveal" id="koList"></ul>
+    </div>
+  </section>
+
+  <!-- 3. 次の候 -->
+  <section class="sec js-only" aria-labelledby="nxHead" id="nextSec" hidden>
+    <div class="wrap">
+      <div class="next reveal">
+        <h2 class="eyebrow" id="nxHead" style="display:block;margin-bottom:26px;font-weight:400">Next</h2>
+        <p class="next-text" id="nextText"></p>
+        <p class="next-sub">季節は、およそ五日ごとに名前を変えていきます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 二十四節気の環 -->
+  <section class="sec" aria-labelledby="whHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Twenty-four Sekki</span>
+        <h2 class="sec-title" id="whHead">二十四節気の環</h2>
+        <p class="sec-lead">立春（太陽黄経315°）にはじまり、15°ごとにひとつ。一年でひとめぐりする、季節の環です。日付は今年の計算値です。</p>
+      </div>
+      <div class="wheel reveal">
+        <div class="wheel-season">
+          <p class="wheel-label">春 — Spring</p>
+          <ul class="sekki-grid">
+            <li class="sekki-cell" data-sekki="0"><p class="sekki-name">立春<span class="yomi">りっしゅん</span></p><p class="sekki-meta"><span>315°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="1"><p class="sekki-name">雨水<span class="yomi">うすい</span></p><p class="sekki-meta"><span>330°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="2"><p class="sekki-name">啓蟄<span class="yomi">けいちつ</span></p><p class="sekki-meta"><span>345°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="3"><p class="sekki-name">春分<span class="yomi">しゅんぶん</span></p><p class="sekki-meta"><span>0°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="4"><p class="sekki-name">清明<span class="yomi">せいめい</span></p><p class="sekki-meta"><span>15°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="5"><p class="sekki-name">穀雨<span class="yomi">こくう</span></p><p class="sekki-meta"><span>30°</span><span class="date"></span></p></li>
+          </ul>
+        </div>
+        <div class="wheel-season">
+          <p class="wheel-label">夏 — Summer</p>
+          <ul class="sekki-grid">
+            <li class="sekki-cell" data-sekki="6"><p class="sekki-name">立夏<span class="yomi">りっか</span></p><p class="sekki-meta"><span>45°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="7"><p class="sekki-name">小満<span class="yomi">しょうまん</span></p><p class="sekki-meta"><span>60°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="8"><p class="sekki-name">芒種<span class="yomi">ぼうしゅ</span></p><p class="sekki-meta"><span>75°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="9"><p class="sekki-name">夏至<span class="yomi">げし</span></p><p class="sekki-meta"><span>90°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="10"><p class="sekki-name">小暑<span class="yomi">しょうしょ</span></p><p class="sekki-meta"><span>105°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="11"><p class="sekki-name">大暑<span class="yomi">たいしょ</span></p><p class="sekki-meta"><span>120°</span><span class="date"></span></p></li>
+          </ul>
+        </div>
+        <div class="wheel-season">
+          <p class="wheel-label">秋 — Autumn</p>
+          <ul class="sekki-grid">
+            <li class="sekki-cell" data-sekki="12"><p class="sekki-name">立秋<span class="yomi">りっしゅう</span></p><p class="sekki-meta"><span>135°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="13"><p class="sekki-name">処暑<span class="yomi">しょしょ</span></p><p class="sekki-meta"><span>150°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="14"><p class="sekki-name">白露<span class="yomi">はくろ</span></p><p class="sekki-meta"><span>165°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="15"><p class="sekki-name">秋分<span class="yomi">しゅうぶん</span></p><p class="sekki-meta"><span>180°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="16"><p class="sekki-name">寒露<span class="yomi">かんろ</span></p><p class="sekki-meta"><span>195°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="17"><p class="sekki-name">霜降<span class="yomi">そうこう</span></p><p class="sekki-meta"><span>210°</span><span class="date"></span></p></li>
+          </ul>
+        </div>
+        <div class="wheel-season">
+          <p class="wheel-label">冬 — Winter</p>
+          <ul class="sekki-grid">
+            <li class="sekki-cell" data-sekki="18"><p class="sekki-name">立冬<span class="yomi">りっとう</span></p><p class="sekki-meta"><span>225°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="19"><p class="sekki-name">小雪<span class="yomi">しょうせつ</span></p><p class="sekki-meta"><span>240°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="20"><p class="sekki-name">大雪<span class="yomi">たいせつ</span></p><p class="sekki-meta"><span>255°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="21"><p class="sekki-name">冬至<span class="yomi">とうじ</span></p><p class="sekki-meta"><span>270°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="22"><p class="sekki-name">小寒<span class="yomi">しょうかん</span></p><p class="sekki-meta"><span>285°</span><span class="date"></span></p></li>
+            <li class="sekki-cell" data-sekki="23"><p class="sekki-name">大寒<span class="yomi">だいかん</span></p><p class="sekki-meta"><span>300°</span><span class="date"></span></p></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 精度と出典 -->
+  <section class="sec" aria-labelledby="refHead">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Accuracy &amp; Sources</span>
+        <h2 class="sec-title" id="refHead">この計算について</h2>
+        <p class="sec-lead">このページは外部のAPIを使いません。太陽黄経はすべて、いまブラウザの中で動いた簡易的な天文計算です。</p>
+      </div>
+      <details class="refs reveal" id="refsBox">
+        <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>出典と精度の詳細を開く</summary>
+        <ul class="ref-list">
+          <li class="ref-item"><b>国立天文台 暦計算室（暦Wiki「七十二候」・二十四節気）</b> <span class="ref-org">／ National Astronomical Observatory of Japan</span><br><a href="https://eco.mtk.nao.ac.jp/koyomi/" target="_blank" rel="noopener noreferrer">https://eco.mtk.nao.ac.jp/koyomi/</a><br><span class="ref-org">閲覧日: 2026-07-13（候の名前・読みは明治の略本暦に載る系統〈宝暦暦以降〉に拠る）</span></li>
+          <li class="ref-item"><b>Jean Meeus, Astronomical Algorithms, 2nd ed.</b> <span class="ref-org">／ Willmann-Bell, 1998（太陽黄経の計算式の出典）</span><br><span class="ref-org">閲覧日: 2026-07-13</span></li>
+        </ul>
+      </details>
+      <p class="refs-note">二十四節気は太陽黄経15°ごと、七十二候は5°ごと（立春＝315°起点）。太陽黄経は Jean Meeus『Astronomical Algorithms』の略式で求め、候の境目は日単位の探索によります。2026年の二十四節気24件は国立天文台 暦要項の日付と一致することを確認していますが、境界が日付の変わり目に近い年は±1日ずれる可能性があります。また端末の時計とタイムゾーンに従うため、日本時間の暦とずれる場合があります。候の漢字と読みは暦や文献によって差異があり、ここでは国立天文台 暦Wikiの一覧（宝暦暦以降＝明治の略本暦の系統）に合わせています。各候の一行の説明は、風雅舎による現代語です。正確な暦は国立天文台 暦計算室でご確認ください。</p>
+    </div>
+  </section>
+
+  <!-- フッター導線 -->
+  <div class="footcta">
+    <p class="footcta-lead">季節の名前を知ったら、<br>夜は空を見上げてみる。</p>
+    <a href="sky.html" class="footcta-link">Open Sky Tonight
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+    </a>
+    <p class="footmeta"><span id="footDate"></span> ・ <a href="today.html">Today</a> ・ <a href="yohaku.html">余白</a> ・ <a href="index.html">風雅舎</a></p>
+  </div>
+</main>
+
+<script>
+/* =========================================================================
+   The Season — いまの季節（二十四節気・七十二候）
+   - 外部API不使用。太陽黄経はブラウザ内の簡易天文計算（Jean Meeus 略式。
+     sky.html の sunLon と同じ式）
+   - 立春＝黄経315°起点。節気は15°ごと、候は5°ごと。
+     候番号 = floor(((λ - 315°) mod 360) / 5)
+   - 候の境目は日単位の探索（正午の黄経で判定）。±1日程度の目安
+   - 候の漢字・読みは国立天文台 暦Wiki「七十二候」の宝暦暦以降
+     （＝明治の略本暦の系統）に拠る。一行の説明は風雅舎の現代語
+   ========================================================================= */
+'use strict';
+
+/* ---- 七十二候（第1候=立春初候から。k:漢字 / y:よみ / g:一行） ---- */
+var KO72 = [
+  { k: '東風解凍', y: 'はるかぜこおりをとく', g: '春の風が、氷をとかしはじめる。' },
+  { k: '黄鶯睍睆', y: 'うぐいすなく', g: '山里で、うぐいすが鳴きはじめる。' },
+  { k: '魚上氷', y: 'うおこおりをいずる', g: '割れた氷のあいだから、魚が顔を出す。' },
+  { k: '土脉潤起', y: 'つちのしょううるおいおこる', g: '雨に湿って、土が目覚めはじめる。' },
+  { k: '霞始靆', y: 'かすみはじめてたなびく', g: '遠くの景色が、霞をまといはじめる。' },
+  { k: '草木萌動', y: 'そうもくめばえいずる', g: '草も木も、いっせいに芽吹きだす。' },
+  { k: '蟄虫啓戸', y: 'すごもりむしとをひらく', g: '冬ごもりの虫が、戸を開けて出てくる。' },
+  { k: '桃始笑', y: 'ももはじめてさく', g: '桃のつぼみがほころぶ。咲くことを「笑う」と書いた。' },
+  { k: '菜虫化蝶', y: 'なむしちょうとなる', g: '青虫が羽化して、紋白蝶になる。' },
+  { k: '雀始巣', y: 'すずめはじめてすくう', g: '雀が、巣をかまえはじめる。' },
+  { k: '桜始開', y: 'さくらはじめてひらく', g: '桜の花が、開きはじめる。' },
+  { k: '雷乃発声', y: 'かみなりすなわちこえをはっす', g: '遠くの空で、春雷が鳴りはじめる。' },
+  { k: '玄鳥至', y: 'つばめきたる', g: '燕が、南から渡ってくる。' },
+  { k: '鴻雁北', y: 'こうがんかえる', g: '雁が、北の国へ帰ってゆく。' },
+  { k: '虹始見', y: 'にじはじめてあらわる', g: '雨上がりの空に、虹がかかりはじめる。' },
+  { k: '葭始生', y: 'あしはじめてしょうず', g: '水辺の葦が、芽を吹きはじめる。' },
+  { k: '霜止出苗', y: 'しもやんでなえいずる', g: '霜の季節が終わり、稲の苗が育つ。' },
+  { k: '牡丹華', y: 'ぼたんはなさく', g: '牡丹が、大きな花を咲かせる。' },
+  { k: '蛙始鳴', y: 'かわずはじめてなく', g: '野の蛙が、鳴きはじめる。' },
+  { k: '蚯蚓出', y: 'みみずいずる', g: '蚯蚓が、土の上に出てくる。' },
+  { k: '竹笋生', y: 'たけのこしょうず', g: '筍が、地面から顔を出す。' },
+  { k: '蚕起食桑', y: 'かいこおきてくわをはむ', g: '蚕が、桑の葉を盛んに食べはじめる。' },
+  { k: '紅花栄', y: 'べにばなさかう', g: '紅花が、あたりいちめんに咲く。' },
+  { k: '麦秋至', y: 'むぎのときいたる', g: '麦が熟れる。初夏にある「麦の秋」。' },
+  { k: '蟷螂生', y: 'かまきりしょうず', g: 'かまきりが、卵から生まれ出る。' },
+  { k: '腐草為蛍', y: 'くされたるくさほたるとなる', g: '蒸れた草の陰から、蛍が舞いはじめる。' },
+  { k: '梅子黄', y: 'うめのみきばむ', g: '梅の実が、黄色く色づく。' },
+  { k: '乃東枯', y: 'なつかれくさかるる', g: '夏枯草（うつぼぐさ）の穂だけが、枯れ色になる。' },
+  { k: '菖蒲華', y: 'あやめはなさく', g: 'あやめの花が咲く。' },
+  { k: '半夏生', y: 'はんげしょうず', g: '半夏（からすびしゃく）が生える。田植えじまいの目安。' },
+  { k: '温風至', y: 'あつかぜいたる', g: '熱をふくんだ風が、吹きはじめる。' },
+  { k: '蓮始開', y: 'はすはじめてひらく', g: '蓮の花が、静かに開きはじめる。' },
+  { k: '鷹乃学習', y: 'たかすなわちわざをならう', g: '鷹の幼鳥が、飛びかたを覚える。' },
+  { k: '桐始結花', y: 'きりはじめてはなをむすぶ', g: '桐の花が、実を結びはじめる。' },
+  { k: '土潤溽暑', y: 'つちうるおうてむしあつし', g: '土が湿り、蒸し暑さが極まる。' },
+  { k: '大雨時行', y: 'たいうときどきにふる', g: '夏の雨が、ときに激しく降る。' },
+  { k: '涼風至', y: 'すずかぜいたる', g: '暑さのなかに、涼しい風がまじりはじめる。' },
+  { k: '寒蝉鳴', y: 'ひぐらしなく', g: 'ひぐらしが、夕暮れに鳴く。' },
+  { k: '蒙霧升降', y: 'ふかききりまとう', g: '深い霧が、朝夕に立ちこめる。' },
+  { k: '綿柎開', y: 'わたのはなしべひらく', g: '綿の実を包む萼（はなしべ）が開きはじめる。' },
+  { k: '天地始粛', y: 'てんちはじめてさむし', g: '暑さが、ようやく鎮まりはじめる。' },
+  { k: '禾乃登', y: 'こくものすなわちみのる', g: '田の稲が、実りはじめる。' },
+  { k: '草露白', y: 'くさのつゆしろし', g: '草に降りた露が、白く光る。' },
+  { k: '鶺鴒鳴', y: 'せきれいなく', g: 'せきれいが、鳴きはじめる。' },
+  { k: '玄鳥去', y: 'つばめさる', g: '燕が、南の国へ帰ってゆく。' },
+  { k: '雷乃収声', y: 'かみなりすなわちこえをおさむ', g: '夕立の雷が、鳴りをひそめる。' },
+  { k: '蟄虫坏戸', y: 'むしかくれてとをふさぐ', g: '虫たちが、土の中へ戸をふさぐ。' },
+  { k: '水始涸', y: 'みずはじめてかるる', g: '田の水を落として、稲刈りに備える。' },
+  { k: '鴻雁来', y: 'こうがんきたる', g: '雁が、北から渡ってくる。' },
+  { k: '菊花開', y: 'きくのはなひらく', g: '菊の花が、開きはじめる。' },
+  { k: '蟋蟀在戸', y: 'きりぎりすとにあり', g: '戸口のあたりで、秋の虫が鳴く。' },
+  { k: '霜始降', y: 'しもはじめてふる', g: '初霜が、降りはじめる。' },
+  { k: '霎時施', y: 'こさめときどきふる', g: '通り雨のような小雨が、ぱらつく。' },
+  { k: '楓蔦黄', y: 'もみじつたきばむ', g: '紅葉や蔦が、色づいていく。' },
+  { k: '山茶始開', y: 'つばきはじめてひらく', g: '山茶花が、咲きはじめる。' },
+  { k: '地始凍', y: 'ちはじめてこおる', g: '大地が、凍りはじめる。' },
+  { k: '金盞香', y: 'きんせんかさく', g: '水仙が咲き、香る。「金盞」は水仙の異名。' },
+  { k: '虹蔵不見', y: 'にじかくれてみえず', g: '虹を、見かけなくなる。' },
+  { k: '朔風払葉', y: 'きたかぜこのはをはらう', g: '北風が、木の葉を払い落とす。' },
+  { k: '橘始黄', y: 'たちばなはじめてきばむ', g: '橘の実が、黄色く色づきはじめる。' },
+  { k: '閉塞成冬', y: 'そらさむくふゆとなる', g: '空が重くとざされて、真冬になる。' },
+  { k: '熊蟄穴', y: 'くまあなにこもる', g: '熊が、穴にこもって冬を越す。' },
+  { k: '鱖魚群', y: 'さけのうおむらがる', g: '鮭が、群れになって川をのぼる。' },
+  { k: '乃東生', y: 'なつかれくさしょうず', g: '枯れ野で、夏枯草だけが芽を出す。' },
+  { k: '麋角解', y: 'さわしかのつのおつる', g: '大鹿が、角を落とす。' },
+  { k: '雪下出麦', y: 'ゆきくだりてむぎのびる', g: '雪の下で、麦が芽を伸ばす。' },
+  { k: '芹乃栄', y: 'せりすなわちさかう', g: '芹が、冷たい水辺で盛んに育つ。' },
+  { k: '水泉動', y: 'しみずあたたかをふくむ', g: '凍った泉の底で、水がかすかに動きだす。' },
+  { k: '雉始雊', y: 'きじはじめてなく', g: '雄の雉が、鳴きはじめる。' },
+  { k: '款冬華', y: 'ふきのはなさく', g: '雪の下から、蕗の薹が顔を出す。' },
+  { k: '水沢腹堅', y: 'さわみずこおりつめる', g: '沢の水が、厚く凍りつめる。' },
+  { k: '鶏始乳', y: 'にわとりはじめてとやにつく', g: '鶏が、春の気配に卵を産みはじめる。' }
+];
+
+/* ---- 二十四節気（0=立春。よみは静的HTML側にも記載） ---- */
+var SEKKI24 = ['立春','雨水','啓蟄','春分','清明','穀雨','立夏','小満','芒種','夏至','小暑','大暑','立秋','処暑','白露','秋分','寒露','霜降','立冬','小雪','大雪','冬至','小寒','大寒'];
+var KO_POS = ['初候','次候','末候'];
+
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var reduced = function () { return matchMedia('(prefers-reduced-motion: reduce)').matches; };
+
+  /* ---- 太陽黄経（Jean Meeus 略式。sky.html と同じ式） ---- */
+  var RAD = Math.PI / 180;
+  function norm360(x) { x = x % 360; return x < 0 ? x + 360 : x; }
+  function toJD(ms) { return ms / 86400000 + 2440587.5; }
+  function sunLon(jd) {
+    var T = (jd - 2451545) / 36525;
+    var L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
+    var M = (357.52911 + 35999.05029 * T - 0.0001537 * T * T) * RAD;
+    var C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(M)
+          + (0.019993 - 0.000101 * T) * Math.sin(2 * M)
+          + 0.000289 * Math.sin(3 * M);
+    return norm360(L0 + C);
+  }
+  /* その日の候番号（0..71）。代表時刻は 23:59 —
+     暦の慣習では境界の瞬間を含む日からが新しい候。日の終わりで判定すると
+     「その日のうちに黄経が届いたか」で切り替わり、暦要項の日付と一致しやすい
+     （2026年の二十四節気24件で国立天文台 暦要項と一致することを確認済み） */
+  function koIndexOf(y, m, d) {
+    var jd = toJD(new Date(y, m, d, 23, 59, 0).getTime());
+    return Math.floor(norm360(sunLon(jd) - 315) / 5);
+  }
+
+  var now = new Date();
+  var pad = function (n) { return String(n).padStart(2, '0'); };
+  function fmtMD(dt) { return (dt.getMonth() + 1) + '/' + dt.getDate(); }
+  function dayDiff(a, b) { /* b - a（日） */
+    var a0 = new Date(a.getFullYear(), a.getMonth(), a.getDate());
+    var b0 = new Date(b.getFullYear(), b.getMonth(), b.getDate());
+    return Math.round((b0 - a0) / 86400000);
+  }
+
+  /* ---- 境界の探索: 前年12/1〜翌年2/20 を日単位でスキャンし、
+         候が変わる日を境界として記録する（±1日程度の目安） ---- */
+  var entries = []; /* { ko, start:Date } 時系列 */
+  (function scan() {
+    var d = new Date(now.getFullYear() - 1, 11, 1);
+    var end = new Date(now.getFullYear() + 1, 1, 20);
+    var prev = -1;
+    while (d <= end) {
+      var ko = koIndexOf(d.getFullYear(), d.getMonth(), d.getDate());
+      if (ko !== prev) { entries.push({ ko: ko, start: new Date(d) }); prev = ko; }
+      d.setDate(d.getDate() + 1);
+    }
+  })();
+  function endOf(i) { /* entries[i] の最終日 */
+    if (i + 1 >= entries.length) return null;
+    var e = new Date(entries[i + 1].start);
+    e.setDate(e.getDate() - 1);
+    return e;
+  }
+  /* 今日が属する区間 */
+  var iCur = -1;
+  for (var i = 0; i < entries.length; i++) {
+    if (dayDiff(entries[i].start, now) >= 0 && (i + 1 >= entries.length || dayDiff(entries[i + 1].start, now) < 0)) { iCur = i; break; }
+  }
+  if (iCur < 0) iCur = entries.length - 1; /* 保険。スキャン範囲上、通常は到達しない */
+
+  var curKo = entries[iCur].ko;
+  var sekkiIdx = Math.floor(curKo / 3);
+  var posInSekki = curKo % 3;
+
+  /* ================= ヒーロー ================= */
+  $('heroDate').textContent = 'THE SEASON — ' + now.getFullYear() + '.' + pad(now.getMonth() + 1) + '.' + pad(now.getDate());
+  $('heroSekki').textContent = SEKKI24[sekkiIdx] + ' ・ ' + KO_POS[posInSekki];
+  $('heroName').textContent = KO72[curKo].k;
+  $('heroYomi').textContent = KO72[curKo].y;
+  $('heroNote').textContent = KO72[curKo].g;
+  $('heroNo').textContent = '七十二候 ・ 第' + (curKo + 1) + '候';
+  $('footDate').textContent = now.getFullYear() + '.' + pad(now.getMonth() + 1) + '.' + pad(now.getDate()) + ' ' + KO72[curKo].k;
+  var scrollBtn = $('heroScroll');
+  scrollBtn.hidden = false;
+  scrollBtn.addEventListener('click', function () {
+    var t = document.querySelector('.sec:not([hidden])');
+    if (t) t.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+  });
+
+  /* ---- 年の環（装飾）: 72本の目盛り。節気は長め、いまの候はアクセント ---- */
+  (function ring() {
+    var svg = $('ringSvg');
+    var frag = '';
+    for (var k = 0; k < 72; k++) {
+      var a = (k / 72 * 360 - 90) * RAD;
+      var isSekki = k % 3 === 0;
+      var isNow = k === curKo;
+      var r1 = 100, r2 = isNow ? 78 : (isSekki ? 86 : 92);
+      var color = isNow ? '#e8866a' : 'rgba(13,32,48,' + (isSekki ? '.4' : '.18') + ')';
+      var w = isNow ? 3 : (isSekki ? 1.4 : 1);
+      frag += '<line x1="' + (Math.cos(a) * r1).toFixed(2) + '" y1="' + (Math.sin(a) * r1).toFixed(2) +
+              '" x2="' + (Math.cos(a) * r2).toFixed(2) + '" y2="' + (Math.sin(a) * r2).toFixed(2) +
+              '" stroke="' + color + '" stroke-width="' + w + '" stroke-linecap="round"/>';
+    }
+    svg.innerHTML = frag;
+    svg.parentNode.hidden = false; /* JS無効時は空SVGの余白を出さない（初期hidden） */
+  })();
+
+  /* ================= いまの節気（三候） ================= */
+  (function currentSekki() {
+    $('sekkiSec').hidden = false;
+    $('skHead').textContent = 'いまの節気「' + SEKKI24[sekkiIdx] + '」';
+    var ul = $('koList');
+    var iFirst = iCur - posInSekki; /* 節気の初候の区間 */
+    for (var p = 0; p < 3; p++) {
+      var idx = iFirst + p;
+      if (idx < 0 || idx >= entries.length) continue;
+      var e = entries[idx], en = endOf(idx);
+      var li = document.createElement('li');
+      li.className = 'ko-row' + (idx === iCur ? ' now' : '');
+      var pos = document.createElement('span'); pos.className = 'ko-pos'; pos.textContent = KO_POS[p];
+      var when = document.createElement('span'); when.className = 'ko-when';
+      when.textContent = fmtMD(e.start) + (en ? '〜' + fmtMD(en) : '〜');
+      var name = document.createElement('span'); name.className = 'ko-name';
+      name.textContent = KO72[e.ko].k;
+      var yomi = document.createElement('span'); yomi.className = 'yomi'; yomi.textContent = KO72[e.ko].y;
+      name.appendChild(yomi);
+      var gloss = document.createElement('span'); gloss.className = 'ko-gloss'; gloss.textContent = KO72[e.ko].g;
+      name.appendChild(gloss);
+      li.appendChild(pos); li.appendChild(when); li.appendChild(name);
+      if (idx === iCur) { /* SRには可視の●でなく不可視テキストで伝える */
+        var mark = document.createElement('span');
+        mark.className = 'u-hidden'; mark.textContent = '（いまの候）';
+        li.appendChild(mark);
+      }
+      ul.appendChild(li);
+    }
+  })();
+
+  /* ================= 次の候 ================= */
+  (function nextKo() {
+    if (iCur + 1 >= entries.length) return;
+    $('nextSec').hidden = false;
+    var e = entries[iCur + 1];
+    var days = dayDiff(now, e.start);
+    var head = days <= 1 ? (days === 0 ? '今日から' : 'あすには') : 'あと' + days + '日で';
+    $('nextText').textContent = head + '、次の候「' + KO72[e.ko].k + '（' + KO72[e.ko].y + '）」。';
+  })();
+
+  /* ================= 二十四節気の環（今年の日付＋ハイライト） ================= */
+  (function wheel() {
+    var starts = {}; /* sekki index -> 今年の開始日 */
+    entries.forEach(function (e) {
+      if (e.ko % 3 !== 0) return;
+      if (e.start.getFullYear() !== now.getFullYear()) return;
+      starts[e.ko / 3] = e.start;
+    });
+    var cells = document.querySelectorAll('.sekki-cell');
+    Array.prototype.forEach.call(cells, function (cell) {
+      var s = parseInt(cell.getAttribute('data-sekki'), 10);
+      var dateEl = cell.querySelector('.date');
+      if (dateEl && starts[s]) dateEl.textContent = fmtMD(starts[s]) + '〜';
+      if (s === sekkiIdx) {
+        cell.classList.add('now');
+        var nowMark = document.createElement('span'); /* aria-labelはセル内容を上書きするため不可視テキストで */
+        nowMark.className = 'u-hidden'; nowMark.textContent = '（いまの節気）';
+        cell.appendChild(nowMark);
+      }
+    });
+  })();
+
+  /* ================= エントランス（fail-open: today/sky と同方針） ================= */
+  (function reveal() {
+    var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    if (reduced() || !('IntersectionObserver' in window)) return;
+    els.forEach(function (el) { el.classList.add('pre'); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    els.forEach(function (el) { io.observe(el); });
+    var onScroll = function () { els.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top < window.innerHeight * 0.95 && r.bottom > 0) el.classList.add('in'); }); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    setTimeout(function () { els.forEach(function (el) { el.classList.add('in'); }); }, 2500);
+  })();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ここは、余白です | 風雅舎</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f0e6d6">
+  <link rel="icon" type="image/svg+xml" href="/fugasha_ai/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500&family=Noto+Serif+JP:wght@300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:   #f0e6d6;
+      --fg:   #0d2030;
+      --fg2:  #1e3a50;
+      --hint: #4d525a;
+      --accent-ink: #7a4025;
+      --line: rgba(13,32,48,.12);
+      --font-sans:  'Zen Kaku Gothic New', sans-serif;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; transition-delay: 0ms !important; scroll-behavior: auto !important; }
+    }
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+    }
+    html, body { min-height: 100%; }
+    body {
+      font-family: var(--font-sans); color: var(--fg);
+      background: radial-gradient(60% 42% at 50% 8%, rgba(255,255,255,.42), transparent 68%), linear-gradient(180deg, #f3ece0 0%, #efe4d3 100%);
+      background-attachment: fixed;
+      line-height: 1.8; -webkit-font-smoothing: antialiased;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; min-height: 100dvh;
+      padding: calc(env(safe-area-inset-top) + 32px) 24px calc(env(safe-area-inset-bottom) + 32px);
+    }
+    ::selection { background: rgba(232,134,106,.3); color: var(--fg); }
+    :focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 4px; border-radius: 2px; }
+    main { text-align: center; max-width: 30em; }
+    .code { font-family: var(--font-mono); font-size: 11px; letter-spacing: .28em; color: var(--hint); text-transform: uppercase; }
+    h1 { font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1; font-size: clamp(26px, 6vw, 40px); line-height: 1.7; letter-spacing: .04em; margin-top: 26px; }
+    .note { font-family: var(--font-serif); font-weight: 300; font-size: clamp(14px, 2.4vw, 16px); line-height: 2.1; color: var(--fg2); margin-top: 22px; }
+    @media (max-width: 560px) { .note br { display: none; } } /* 狭い画面では自然な折返しに任せる */
+    .links { margin-top: 44px; display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; }
+    .links a { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--fg2); text-decoration: none; border-bottom: 1px solid var(--line); padding: 8px 2px; transition: color .2s, border-color .2s; }
+    .links a:hover { color: var(--fg); border-color: var(--hint); }
+  </style>
+</head>
+<body>
+<main>
+  <p class="code">404 — Not Found</p>
+  <h1>ここは、余白です。</h1>
+  <p class="note">お探しのページは、見つかりませんでした。<br>
+    移されたか、はじめから、なかったのかもしれません。<br>
+    なにもない場所に出たときは、引き返すのがいちばんです。</p>
+  <nav class="links" aria-label="戻り先">
+    <a href="/fugasha_ai/">ホームへ</a>
+    <a href="/fugasha_ai/yohaku.html">余白へ</a>
+  </nav>
+</main>
+</body>
+</html>

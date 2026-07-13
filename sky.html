@@ -597,6 +597,45 @@ var CITIES = [
   }
   $('moonLit').setAttribute('d', moonPath(elong));
 
+  /* 月が、今夜まで満ちる — 開いたとき一度だけ、新月から今夜の月相まで約2.4秒。
+     終点は上で計算済みの今夜の値そのもの（動きが計算結果の開示になる）。
+     fail-open: 直前に最終形を描画済み。reduced-motion / 非表示 / 画面外 /
+     新月の夜は何もしない（＝最終形のまま）。ループ・再演なし。 */
+  (function moonRise() {
+    if (reduced()) return;
+    if (elong < 0.6 || elong > 359.4) return; /* 新月: 描く光がない */
+    var lit = $('moonLit'), svg = $('moonSvg');
+    var DUR = 2400, startT = null, done = false, io = null;
+    function finish() {
+      if (done) return; done = true;
+      lit.setAttribute('d', moonPath(elong));
+      document.removeEventListener('visibilitychange', onVis);
+      if (io) { io.disconnect(); io = null; }
+    }
+    function onVis() { if (document.hidden) finish(); }
+    function frame(ts) {
+      if (done) return;
+      if (startT === null) startT = ts;
+      var p = Math.min(1, (ts - startT) / DUR);
+      if (p >= 1) { finish(); return; }
+      var k = 1 - Math.pow(1 - p, 3); /* ease-out cubic: すっと満ちて、静かに止まる */
+      lit.setAttribute('d', moonPath(elong * k));
+      requestAnimationFrame(frame);
+    }
+    if (document.hidden) return;                      /* 非表示タブで開かれた: 即最終形 */
+    var r = svg.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight) return; /* 画面外: 動かさない */
+    document.addEventListener('visibilitychange', onVis);
+    if ('IntersectionObserver' in window) {
+      io = new IntersectionObserver(function (en) {
+        if (en[0] && !en[0].isIntersecting) finish();  /* アニメ中に画面外へ→即最終形 */
+      });
+      io.observe(svg);
+    }
+    lit.setAttribute('d', '');                        /* 新月から始める（同期処理内なのでちらつかない） */
+    requestAnimationFrame(frame);
+  })();
+
   /* ================= ヒーロー ================= */
   var pad = function (n) { return String(n).padStart(2, '0'); };
   $('heroDate').textContent = 'SKY TONIGHT — ' + now.getFullYear() + '.' + pad(now.getMonth() + 1) + '.' + pad(now.getDate());

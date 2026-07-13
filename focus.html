@@ -320,6 +320,11 @@
     .seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
     .seg button:hover:not([aria-pressed="true"]) { border-color: var(--hint); }
 
+    /* 雨の音トグル（.segと同じ言語のaria-pressedボタン。再生中表示は反転のみ・点滅なし） */
+    .rain-btn { flex: none; font-size: 12px; padding: 9px 16px; min-height: 40px; border: 1px solid var(--line); border-radius: 2px; background: transparent; color: var(--fg); cursor: pointer; letter-spacing: .06em; transition: border-color .2s, background .2s, color .2s; }
+    .rain-btn[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+    .rain-btn:hover:not([aria-pressed="true"]) { border-color: var(--hint); }
+
     /* スウォッチ */
     .swatches { display: flex; gap: 10px; }
     .swatch { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 1px solid var(--line); padding: 0; transition: transform .2s var(--ease), box-shadow .2s; }
@@ -577,6 +582,18 @@
         <span class="slider-val" id="volVal">70%</span>
       </div>
     </div>
+    <!-- 雨の音（WebAudioでその場合成・完全オプトイン）。JSがWebAudio対応を確認できたときだけ表示する -->
+    <div class="sec" id="rainSec" hidden>
+      <div class="row">
+        <span class="row-label"><span class="row-sub" id="rainSub" data-i18n="rain_sub">このページの中で、いま合成される静かな雨。音源ファイルも外部接続も使いません。</span></span>
+        <button type="button" class="rain-btn" id="rainToggle" aria-pressed="false" aria-describedby="rainSub" data-i18n="rain_btn">雨の音</button>
+      </div>
+      <div class="slider-row" style="margin-top:12px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5c3.3 4.3 5.5 7.4 5.5 10a5.5 5.5 0 1 1-11 0c0-2.6 2.2-5.7 5.5-10z"/></svg>
+        <input type="range" class="slider" id="rainVol" min="0" max="1" step="0.01" value="0.5" data-i18n-aria="rain_vol" aria-label="雨の音量">
+        <span class="slider-val" id="rainVolVal">50%</span>
+      </div>
+    </div>
     <div class="sec">
       <div class="sec-h" data-i18n="yt_title">YouTube</div>
       <div class="yt-row">
@@ -751,6 +768,7 @@
       yt_bad:'URLを確認してください。',
       photo_credit:'写真: Unsplash（無料ライセンス）',
       music_credit:'音楽: Kevin MacLeod（incompetech.com）CC BY 4.0 ／ 環境音は風雅舎の合成',
+      rain_btn:'雨の音', rain_sub:'このページの中で、いま合成される静かな雨。音源ファイルも外部接続も使いません。', rain_vol:'雨の音量',
       err_media:'この画像・動画は読み込めませんでした。別のファイルでお試しください。',
       err_audio:'音源を読み込めませんでした。時間をおいてもう一度お試しください。',
       err_type:'画像または動画ファイルを選んでください。',
@@ -793,6 +811,7 @@
       yt_bad:'Please check the URL.',
       photo_credit:'Photos: Unsplash (free license)',
       music_credit:'Music: Kevin MacLeod (incompetech.com) CC BY 4.0 / ambience synthesized for this site',
+      rain_btn:'Rain', rain_sub:'Quiet rain, synthesized right here in this page. No audio files, no external connections.', rain_vol:'Rain volume',
       err_media:'That image/video could not be loaded. Please try another file.',
       err_audio:'The track could not be loaded. Please try again later.',
       err_type:'Please choose an image or video file.',
@@ -813,7 +832,7 @@
     clock: { seconds: true, hour12: false, size: 1, weight: 300, font: 'serif' },
     pomodoro: { durations: { focus: 25, short: 5, long: 15 }, sessionsUntilLong: 4, autoSwitch: true, autoStart: false, soundOn: true, sound: 'bell', notify: false, mode: 'focus' },
     stats: { date: todayStr(), completed: 0, focusSeconds: 0, cyclePos: 0 },
-    music: { trackId: null, volume: 0.7, muted: false, mini: true, bgFollow: false, ytUrl: '' },
+    music: { trackId: null, volume: 0.7, muted: false, mini: true, bgFollow: false, ytUrl: '', rainVol: 0.5 },
     background: { type: 'none', id: null },
     tasks: [], selectedId: null, hideDone: false
   };
@@ -1408,6 +1427,124 @@
   audio.addEventListener('play', renderMusic); audio.addEventListener('pause', renderMusic);
   audio.addEventListener('error', function () { showNotice(t('err_audio')); renderMusic(); });
 
+  /* ================= 雨の音（WebAudioでその場合成・完全オプトイン） =================
+     - 音源ファイルなし・外部接続なし。ボタンを押した瞬間に初めてAudioContextを生成/resumeする
+       （既定OFF・自動再生なし。ブラウザのautoplay policyとも整合）
+     - 構成: ピンクノイズ4秒ループ(AudioBufferSource)
+              → highpass(180Hz, 低域のこもり除去) → lowpass(2600Hz, ヒスを丸める)
+              → master GainNode(開始1.6s/停止1.1sのランプ) → destination
+             粒: 同じノイズバッファの断片(0.14s)を bandpass(700〜2600Hz, Q9)＋減衰Gainで
+                 0.5〜2.4秒ごとに1粒。dropGain経由でmasterへ
+     - タブ非表示中も止めない（集中用途）。粒のsetTimeoutだけ間引かれ、まばらになる
+     - 停止時はランプ完了後に ctx.suspend()（CPUを使わない）。pagehideで ctx.close() */
+  (function rainSound() {
+    var sec = $('rainSec');
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC || !sec) return; /* 非対応: セクションはhiddenのまま沈黙 */
+    if (!(typeof state.music.rainVol === 'number' && isFinite(state.music.rainVol))) state.music.rainVol = 0.5;
+    state.music.rainVol = clamp(state.music.rainVol, 0, 1);
+    var btn = $('rainToggle'), vol = $('rainVol'), volVal = $('rainVolVal');
+    var ctx = null, master = null, dropGain = null, noiseSrc = null, noiseBuf = null;
+    var raining = false, dropTimer = null, suspendTimer = null;
+    var RAIN_MAX = 0.32; /* 控えめな上限。スライダー100%でもBGMより一段静か */
+    function targetGain() { return RAIN_MAX * state.music.rainVol; }
+    /* Paul Kellet法のピンクノイズを4秒ぶん焼いたバッファ（再生中の逐次生成なし） */
+    function makeNoiseBuffer(c) {
+      var len = Math.floor(c.sampleRate * 4), buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
+      var b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+      for (var i = 0; i < len; i++) {
+        var w = Math.random() * 2 - 1;
+        b0 = 0.99886 * b0 + w * 0.0555179; b1 = 0.99332 * b1 + w * 0.0750759;
+        b2 = 0.96900 * b2 + w * 0.1538520; b3 = 0.86650 * b3 + w * 0.3104856;
+        b4 = 0.55000 * b4 + w * 0.5329522; b5 = -0.7616 * b5 - w * 0.0168980;
+        d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * 0.5362) * 0.11;
+        b6 = w * 0.115926;
+      }
+      return buf;
+    }
+    function ensureCtx() {
+      if (ctx) return true;
+      try {
+        ctx = new AC();
+        noiseBuf = makeNoiseBuffer(ctx);
+        master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
+        dropGain = ctx.createGain(); dropGain.gain.value = 0.5; dropGain.connect(master);
+        return true;
+      } catch (e) { ctx = null; sec.hidden = true; return false; }
+    }
+    function scheduleDrop() {
+      dropTimer = setTimeout(function () {
+        if (!raining || !ctx) return;
+        try {
+          var t0 = ctx.currentTime + 0.02;
+          var s = ctx.createBufferSource(); s.buffer = noiseBuf;
+          var bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 700 + Math.random() * 1900; bp.Q.value = 9;
+          var g = ctx.createGain();
+          g.gain.setValueAtTime(0.0001, t0);
+          g.gain.exponentialRampToValueAtTime(0.10 + Math.random() * 0.12, t0 + 0.012);
+          g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.10);
+          s.connect(bp); bp.connect(g); g.connect(dropGain);
+          s.start(t0, Math.random() * 3, 0.14); s.stop(t0 + 0.16);
+        } catch (e) {}
+        scheduleDrop();
+      }, 500 + Math.random() * 1900);
+    }
+    function startRain() {
+      if (!ensureCtx()) return;
+      try {
+        if (suspendTimer) { clearTimeout(suspendTimer); suspendTimer = null; }
+        if (ctx.state === 'suspended') { var pr = ctx.resume(); if (pr && pr.catch) pr.catch(function () {}); }
+        if (!noiseSrc) {
+          noiseSrc = ctx.createBufferSource(); noiseSrc.buffer = noiseBuf; noiseSrc.loop = true;
+          var hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 180;
+          var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2600; lp.Q.value = 0.6;
+          noiseSrc.connect(hp); hp.connect(lp); lp.connect(master);
+          noiseSrc.start();
+        }
+        raining = true;
+        var now = ctx.currentTime;
+        master.gain.cancelScheduledValues(now);
+        master.gain.setValueAtTime(master.gain.value, now);
+        master.gain.linearRampToValueAtTime(targetGain(), now + 1.6); /* ブツ切りにしない */
+        if (dropTimer) clearTimeout(dropTimer);
+        scheduleDrop();
+        btn.setAttribute('aria-pressed', 'true');
+      } catch (e) {}
+    }
+    function stopRain() {
+      raining = false;
+      if (dropTimer) { clearTimeout(dropTimer); dropTimer = null; }
+      btn.setAttribute('aria-pressed', 'false');
+      if (!ctx || !master) return;
+      try {
+        var now = ctx.currentTime;
+        master.gain.cancelScheduledValues(now);
+        master.gain.setValueAtTime(master.gain.value, now);
+        master.gain.linearRampToValueAtTime(0, now + 1.1);
+        suspendTimer = setTimeout(function () {
+          suspendTimer = null;
+          try { if (!raining && ctx && ctx.state === 'running') ctx.suspend(); } catch (e) {}
+        }, 1250);
+      } catch (e) {}
+    }
+    btn.addEventListener('click', function () { raining ? stopRain() : startRain(); });
+    function renderRainVol() { volVal.textContent = Math.round(state.music.rainVol * 100) + '%'; }
+    vol.value = String(state.music.rainVol); renderRainVol();
+    vol.addEventListener('input', function () {
+      state.music.rainVol = clamp(Number(vol.value) || 0, 0, 1); saveState(); renderRainVol();
+      if (raining && ctx && master) {
+        try {
+          var n = ctx.currentTime;
+          master.gain.cancelScheduledValues(n);
+          master.gain.setValueAtTime(master.gain.value, n);
+          master.gain.linearRampToValueAtTime(targetGain(), n + 0.15);
+        } catch (e) {}
+      }
+    });
+    window.addEventListener('pagehide', function () { if (ctx) { try { ctx.close(); } catch (e) {} ctx = null; noiseSrc = null; } });
+    sec.hidden = false; /* WebAudioが確認できたときだけUIを出す */
+  })();
+
   /* ================= YouTube（任意・外部接続） ================= */
   var ytPlayer = null, ytActive = false, ytIsPlaying = false, ytTitle = '', ytApiLoading = false, ytApiCbs = [];
   var elYtUrl = $('ytUrl'), elYtHolder = $('ytHolder'), elYtHint = $('ytHint');
@@ -1699,7 +1836,8 @@
     if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     var k = e.key;
-    if (e.code === 'Space' || k === ' ') { e.preventDefault(); toggleTimer(); }
+    // ボタン等にフォーカスがあるときは Space のネイティブ押下を優先（タイマー誤作動防止）
+    if (e.code === 'Space' || k === ' ') { if (e.target.closest && e.target.closest('button, a, summary')) return; e.preventDefault(); toggleTimer(); }
     else if (k === 'f' || k === 'F') { e.preventDefault(); toggleFullscreen(); }
     else if (k === 'r' || k === 'R') { e.preventDefault(); reset(); }
     else if (k === 's' || k === 'S') { e.preventDefault(); skip(); }

@@ -340,7 +340,8 @@
     }
     .btn-ghost:hover { border-color: rgba(13,32,48,.32); }
     .h-actions-note {
-      font-size: 11px; color: var(--hint); line-height: 1.7; margin-top: 12px;
+      /* --hint はcanvasの夜間ネイビー染め（α≤0.10）との重畳で4.5:1を割るため --fg2（最悪重畳でも7.6:1） */
+      font-size: 11px; color: var(--fg2); line-height: 1.7; margin-top: 12px;
       opacity: 0; transition: all .6s ease .5s;
     }
     .h-byline {
@@ -348,7 +349,7 @@
       opacity: 0; transition: opacity .6s ease .5s;
     }
     .h-byline-img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; object-position: center 28%; flex-shrink: 0; }
-    .h-byline-txt { font-size: 12px; color: var(--muted); line-height: 1.75; }
+    .h-byline-txt { font-size: 12px; color: var(--fg2); line-height: 1.75; } /* --muted→--fg2: 夜間canvas重畳でのAA割れ回避 */
     .h-byline-name { display: block; font-family: var(--font-serif); font-size: 13px; color: var(--fg); letter-spacing: .02em; }
     .h-choice-label {
       margin-top: 18px; margin-bottom: 8px;
@@ -1554,7 +1555,7 @@
 <main id="main">
 <!-- ── Hero ── -->
 <section class="hero" id="s-hero">
-  <canvas id="heroBg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
+  <canvas id="heroBg" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
   <div class="hero-left">
     <h1 class="h-h1">無駄をなくして、<br>熱中を取り戻す。</h1>
     <p class="h-subcopy">AI、デザイン、発信、業務の整理。手段は横断しますが、目的はひとつです。熱中するための余白を、取り戻すこと。</p>
@@ -2307,118 +2308,117 @@
       if (!document.hidden && onScreen && !rafId) rafId = requestAnimationFrame(draw);
     });
   }
-  // ── Hero background: mouse-tracking gradient + animated noise ──
+  // ── Hero background: 紙のうえの光 — 訪問者の実時刻に応じた光（マウス追従は廃止）──
+  // yohaku / sky / today / colors / words と同じ「実時間と結びつくサイト」の思想。
+  // 光は誰かを追いかけない。ページを開いた、その時刻の光がただ紙のうえにある。
   (function(){
-    if (prefersReducedMotion) return;
     const cv = document.getElementById('heroBg');
     if (!cv) return;
     const ctx = cv.getContext('2d');
 
-    // Dusk Horizon colours
-    const C_NAVY   = [13, 32, 48];      // #0d2030
+    // Dusk Horizon palette（サイト既存色のみ・新しい色相は発明しない）
+    const C_NAVY   = [13, 32, 48];      // --fg #0d2030
     const C_SLATE  = [110, 143, 166];   // #6e8fa6
-    const C_SALMON = [232, 134, 106];   // #e8866a
-    const C_CREAM  = [240, 230, 214];   // #f0e6d6
+    const C_SALMON = [232, 134, 106];   // --accent #e8866a
+    const C_CREAM  = [240, 230, 214];   // --bg #f0e6d6
 
-    // Lerped mouse position
-    let mx = 0.5, my = 0.5;   // normalised 0-1
-    let lx = 0.5, ly = 0.5;   // smoothed
+    function lerp(a, b, s) { return a + (b - a) * s; }
+    function lerpRgb(a, b, s) { return [lerp(a[0], b[0], s), lerp(a[1], b[1], s), lerp(a[2], b[2], s)]; }
 
-    // Noise helpers removed — replaced by orb system
-
-    let t = 0;
-    let rafId = 0;
-    let onScreen = true;
+    // [hero-light:pure] 時刻(0〜24・小数可)→光2レイヤーの色とα。DOM副作用なし（node検証用に独立）
+    // 全アンカーのαは0.10以下 = 旧実装の最大レイヤー(navy 0.10)と同じ上限。
+    // ヒーローの文字コントラストを変えないための不変条件なので、値を上げないこと。
+    function heroLight(hr) {
+      hr = ((hr % 24) + 24) % 24;
+      // [時刻, 主光の色, 主光α, 対光の色, 対光α] — 境界で切り替えず連続補間する
+      const A = [
+        [ 0, C_NAVY,   0.100, C_SLATE,  0.040],  // 深夜: ネイビー
+        [ 5, C_NAVY,   0.085, C_SLATE,  0.055],  // 未明: 藍が薄れる
+        [ 8, C_SLATE,  0.080, C_NAVY,   0.045],  // 朝: スレート
+        [12, C_CREAM,  0.060, C_SLATE,  0.035],  // 昼: クリーム（紙がいちばん明るい時間）
+        [17, C_SALMON, 0.090, C_NAVY,   0.050],  // 夕: サーモン
+        [21, C_NAVY,   0.090, C_SALMON, 0.030],  // 宵: 藍に残照
+        [24, C_NAVY,   0.100, C_SLATE,  0.040],  // =0時（一日として閉じる）
+      ];
+      let i = 0;
+      while (hr >= A[i + 1][0]) i++;
+      const s = (hr - A[i][0]) / (A[i + 1][0] - A[i][0]);
+      return {
+        c1: lerpRgb(A[i][1], A[i + 1][1], s), a1: lerp(A[i][2], A[i + 1][2], s),
+        c2: lerpRgb(A[i][3], A[i + 1][3], s), a2: lerp(A[i][4], A[i + 1][4], s),
+      };
+    }
+    // [/hero-light:pure]
 
     function resize() {
-      const hero = cv.parentElement;
-      cv.width  = hero.offsetWidth;
-      cv.height = hero.offsetHeight;
+      cv.width  = cv.parentElement.offsetWidth;
+      cv.height = cv.parentElement.offsetHeight;
     }
 
-    function lerp(a, b, alpha) { return a + (b - a) * alpha; }
-    function lerpRgb(a, b, s) {
-      return [
-        lerp(a[0], b[0], s),
-        lerp(a[1], b[1], s),
-        lerp(a[2], b[2], s)
-      ];
+    function rgba(c, a) {
+      return `rgba(${Math.round(c[0])},${Math.round(c[1])},${Math.round(c[2])},${a.toFixed(3)})`;
     }
 
-    function draw() {
-      if (document.hidden || !onScreen) { rafId = 0; return; }
+    // breath: 0〜1。αの2割だけを揺らす（最大値=アンカー値≦0.10 を超えない）
+    let breathNow = 1;
+    function paint(breath) {
       const W = cv.width, H = cv.height;
+      if (!W || !H) return;
+      const d = new Date();
+      const L = heroLight(d.getHours() + d.getMinutes() / 60 + d.getSeconds() / 3600);
+      const a1 = L.a1 * (0.80 + 0.20 * breath);
+      const a2 = L.a2 * (0.80 + 0.20 * breath);
+      // 光の中心は呼吸に合わせてごくわずかに移る（書院の西日が畳を移る速度感）
+      const drift = (breath - 0.5) * 0.04;
 
-      // Smooth mouse
-      lx = lerp(lx, mx, 0.04);
-      ly = lerp(ly, my, 0.04);
-
-      // Clear with cream base
       ctx.clearRect(0, 0, W, H);
-
-      // ── Layer 1: cream base ──
-      ctx.fillStyle = `rgb(${C_CREAM[0]},${C_CREAM[1]},${C_CREAM[2]})`;
+      ctx.fillStyle = `rgb(${C_CREAM[0]},${C_CREAM[1]},${C_CREAM[2]})`;  // 紙 = --bg
       ctx.fillRect(0, 0, W, H);
 
-      // ── Layer 2: navy radial following mouse (left-heavy) ──
-      const gNavy = ctx.createRadialGradient(
-        lx * W, ly * H, 0,
-        lx * W, ly * H, Math.max(W, H) * 0.75
+      // 主光: 右上から差す
+      const g1 = ctx.createRadialGradient(
+        W * (0.80 + drift), H * 0.15, 0,
+        W * (0.80 + drift), H * 0.15, Math.max(W, H) * 0.85
       );
-      gNavy.addColorStop(0,   `rgba(${C_NAVY[0]},${C_NAVY[1]},${C_NAVY[2]},0.10)`);
-      gNavy.addColorStop(0.5, `rgba(${C_NAVY[0]},${C_NAVY[1]},${C_NAVY[2]},0.04)`);
-      gNavy.addColorStop(1,   `rgba(${C_NAVY[0]},${C_NAVY[1]},${C_NAVY[2]},0)`);
-      ctx.fillStyle = gNavy;
+      g1.addColorStop(0,   rgba(L.c1, a1));
+      g1.addColorStop(0.55, rgba(L.c1, a1 * 0.35));
+      g1.addColorStop(1,   rgba(L.c1, 0));
+      ctx.fillStyle = g1;
       ctx.fillRect(0, 0, W, H);
 
-      // ── Layer 3: salmon radial at inverse position ──
-      const sx = 1 - lx, sy = 1 - ly;
-      const gSalmon = ctx.createRadialGradient(
-        sx * W, sy * H, 0,
-        sx * W, sy * H, Math.max(W, H) * 0.6
+      // 対光: 左下にたまる陰
+      const g2 = ctx.createRadialGradient(
+        W * (0.12 - drift), H * 0.88, 0,
+        W * (0.12 - drift), H * 0.88, Math.max(W, H) * 0.7
       );
-      gSalmon.addColorStop(0,   `rgba(${C_SALMON[0]},${C_SALMON[1]},${C_SALMON[2]},0.09)`);
-      gSalmon.addColorStop(0.55,`rgba(${C_SALMON[0]},${C_SALMON[1]},${C_SALMON[2]},0.03)`);
-      gSalmon.addColorStop(1,   `rgba(${C_SALMON[0]},${C_SALMON[1]},${C_SALMON[2]},0)`);
-      ctx.fillStyle = gSalmon;
+      g2.addColorStop(0, rgba(L.c2, a2));
+      g2.addColorStop(1, rgba(L.c2, 0));
+      ctx.fillStyle = g2;
       ctx.fillRect(0, 0, W, H);
-
-      // ── Layer 4: slate shimmer top-right ──
-      const gSlate = ctx.createRadialGradient(
-        W * 0.85, H * 0.12, 0,
-        W * 0.85, H * 0.12, W * 0.45
-      );
-      gSlate.addColorStop(0,   `rgba(${C_SLATE[0]},${C_SLATE[1]},${C_SLATE[2]},0.07)`);
-      gSlate.addColorStop(1,   `rgba(${C_SLATE[0]},${C_SLATE[1]},${C_SLATE[2]},0)`);
-      ctx.fillStyle = gSlate;
-      ctx.fillRect(0, 0, W, H);
-
-      // ── Layer 5: floating orbs (噪音レイヤー廃止→軽量オーブに変更) ──
-      const orbs = [
-        { ox: 0.25, oy: 0.35, r: 0.28, phase: 0,   c: C_SLATE,  a: 0.06 },
-        { ox: 0.75, oy: 0.65, r: 0.22, phase: 2.1, c: C_SALMON, a: 0.05 },
-        { ox: 0.5,  oy: 0.2,  r: 0.18, phase: 4.2, c: C_NAVY,   a: 0.07 },
-      ];
-      orbs.forEach(o => {
-        const px = (o.ox + Math.sin(t * 0.4 + o.phase) * 0.06) * W;
-        const py = (o.oy + Math.cos(t * 0.3 + o.phase) * 0.05) * H;
-        const gr = ctx.createRadialGradient(px, py, 0, px, py, o.r * Math.max(W,H));
-        gr.addColorStop(0,   `rgba(${o.c[0]},${o.c[1]},${o.c[2]},${o.a})`);
-        gr.addColorStop(0.6, `rgba(${o.c[0]},${o.c[1]},${o.c[2]},${(o.a*0.3).toFixed(3)})`);
-        gr.addColorStop(1,   `rgba(${o.c[0]},${o.c[1]},${o.c[2]},0)`);
-        ctx.fillStyle = gr;
-        ctx.fillRect(0, 0, W, H);
-      });
-
-      t += 0.008;
-      rafId = requestAnimationFrame(draw);
     }
 
-    window.addEventListener('mousemove', e => {
-      const rect = cv.getBoundingClientRect();
-      mx = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      my = Math.max(0, Math.min(1, (e.clientY - rect.top)  / rect.height));
-    });
+    const ro = new ResizeObserver(() => { resize(); paint(breathNow); });
+    ro.observe(cv.parentElement);
+    resize();
+
+    if (prefersReducedMotion) {
+      // 呼吸を止めた静的な時刻グラデを1回だけ描く（リサイズ時はROが再描画）
+      paint(1);
+      return;
+    }
+
+    const BREATH_MS = 10000;  // 8〜12秒周期の中庸
+    let rafId = 0;
+    let onScreen = true;
+    let last = 0;
+    function draw(now) {
+      if (document.hidden || !onScreen) { rafId = 0; return; }
+      rafId = requestAnimationFrame(draw);
+      if (now - last < 66) return;  // 約15fps。10秒周期のα振幅0.02には十分な滑らかさ
+      last = now;
+      breathNow = (1 - Math.cos((now % BREATH_MS) / BREATH_MS * Math.PI * 2)) / 2;
+      paint(breathNow);
+    }
 
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && onScreen && !rafId) rafId = requestAnimationFrame(draw);
@@ -2430,9 +2430,6 @@
     });
     io.observe(cv.parentElement);
 
-    const ro = new ResizeObserver(resize);
-    ro.observe(cv.parentElement);
-    resize();
     rafId = requestAnimationFrame(draw);
   })();
 

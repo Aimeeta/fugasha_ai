@@ -218,10 +218,19 @@
     return NIGHT_SHORT[night - 1];
   }
 
+  /* ---- Season: 今日の七十二候（season.html の計算・名称と同方針。太陽黄経5°ごと、立春=315°起点） ---- */
+  var KO_NAMES = ['東風解凍','黄鶯睍睆','魚上氷','土脉潤起','霞始靆','草木萌動','蟄虫啓戸','桃始笑','菜虫化蝶','雀始巣','桜始開','雷乃発声','玄鳥至','鴻雁北','虹始見','葭始生','霜止出苗','牡丹華','蛙始鳴','蚯蚓出','竹笋生','蚕起食桑','紅花栄','麦秋至','蟷螂生','腐草為蛍','梅子黄','乃東枯','菖蒲華','半夏生','温風至','蓮始開','鷹乃学習','桐始結花','土潤溽暑','大雨時行','涼風至','寒蝉鳴','蒙霧升降','綿柎開','天地始粛','禾乃登','草露白','鶺鴒鳴','玄鳥去','雷乃収声','蟄虫坏戸','水始涸','鴻雁来','菊花開','蟋蟀在戸','霜始降','霎時施','楓蔦黄','山茶始開','地始凍','金盞香','虹蔵不見','朔風払葉','橘始黄','閉塞成冬','熊蟄穴','鱖魚群','乃東生','麋角解','雪下出麦','芹乃栄','水泉動','雉始雊','款冬華','水沢腹堅','鶏始乳'];
+  function seasonState() {
+    /* 23:59判定 = 境界の瞬間を含む日からが新しい候（season.html と同じ規約） */
+    var jd = toJD(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 0).getTime());
+    return KO_NAMES[Math.floor(norm360(sunLon(jd) - 315) / 5)];
+  }
+
   /* ---- 索引 ---- */
   var ENTRIES = [
     { href: 'focus.html',  name: '集中',     en: 'Focus', role: '集中のための机。ポモドーロ、時計、静けさ。', label: 'いま', live: 'clock' },
     { href: 'today.html',  name: '今日',     en: 'Today', role: '今日と今月の、小さなアルマナック。', label: '今日', val: todayState() },
+    { href: 'season.html', name: 'いまの季節', en: 'Season', role: '二十四節気と七十二候。今日の、季節の名前。', label: '候', val: seasonState() },
     { href: 'sky.html',    name: '今夜の空', en: 'Sky',   role: '月の名前、流星群、日の入り。', label: '今夜', val: skyState() },
     { href: 'words.html',  name: 'ことば',   en: 'Words', role: '出会うための、出典の確かな名言。', label: 'ことば', val: wordsState() }
   ];
