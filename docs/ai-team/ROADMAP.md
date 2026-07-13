@@ -2,9 +2,10 @@
 
 最終更新: 2026-07-12（余白ハブ新設・ナビ統合。**未push**。Today はpush済み）
 
-## 2026-07-12 — 余白（yohaku.html）ハブ＋ナビ統合 — 実装済み・未push
-静かなページ群を一枚の目次に集約。全ページのグローバルナビを Home / 余白 / Colors / Blog（/Contact）へ。EN は Yohaku。詳細は DECISION_LOG / QUALITY_REPORT。
-**フォローアップ候補**: 索引に将来ページ（Seasons/Reading/Unhurry）を追加 / 実機での見た目確認
+## 2026-07-12〜13 — 余白（yohaku.html）ハブ＋ナビ統合＋多エージェント改修 — 実装済み・未push
+静かなページ群を一枚の目次に集約。全ページのグローバルナビを Home / 余白 / Colors / Blog（/Contact）へ。EN は Yohaku。07-13に多エージェントで磨き込み（詳細は DECISION_LOG / QUALITY_REPORT）。
+**フォローアップ候補**: 索引に将来ページ（Seasons/Reading/Unhurry）を追加 / 実機での見た目・SR確認
+**既知P2（余白）**: JS無効時に索引が生成されない（静的`<li>`フォールバック＋JSエンハンスにすれば解消。live状態は据え置きになる）／skip着地がh1をスキップ／ナビ英字のlang未指定
 
 ## 2026-07-12 — Sky Tonight（sky.html）— 実装済み・未push
 今夜の月の和名・月齢・流星群ごよみ・日の入り。外部API不使用、天文計算はハーネス検証済み。詳細は DECISION_LOG / QUALITY_REPORT。

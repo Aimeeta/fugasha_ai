@@ -152,6 +152,7 @@
     .tl-item:last-child { padding-bottom: 0; }
     .tl-item::before { content: ""; position: absolute; left: -25px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
     .tl-year { font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: .08em; color: var(--fg); }
+    .tl-year .tl-when { font-weight: 400; color: var(--hint); margin-left: 8px; }
     .tl-title { font-family: var(--font-serif); font-weight: 400; font-size: 17px; line-height: 1.6; margin-top: 4px; }
     .tl-sum { font-size: 13.5px; color: var(--fg2); line-height: 1.85; margin-top: 6px; }
     .tl-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
@@ -800,13 +801,23 @@ var MONTHS = {
       { d: 4, y: 1776, t: 'アメリカ独立宣言が採択', s: '13の植民地が独立を宣言し、新しい国のかたちが動きだした。', cat: 'Society', src: 'loc' },
       { d: 5, y: 1996, t: 'クローン羊ドリーが誕生', s: '成体の細胞から哺乳類を初めて複製し、生命科学に大きな問いを投げかけた。', cat: 'Science', src: 'britannica' },
       { d: 6, y: 1885, t: 'パスツールが狂犬病ワクチンを接種', s: '発症前の少年に初めて用い、ワクチンによる予防医学を大きく前へ進めた。', cat: 'Science', src: 'britannica' },
+      { d: 7, y: 1928, t: 'スライスした食パンが初めて売られる', s: 'アメリカ・ミズーリ州で機械化された切り分けパンが登場。「スライスパン以来の傑作」という言い回しの由来に。', cat: 'Culture', src: 'britannica' },
+      { d: 8, y: 1497, t: 'ヴァスコ・ダ・ガマがインド航路へ出航', s: 'リスボンを発ち、ヨーロッパからインドへ海路で到達する道を開いた。', cat: 'Exploration', src: 'britannica' },
+      { d: 9, y: 1877, t: '第1回ウィンブルドン選手権', s: '世界最古のテニス大会が始まった。', cat: 'Culture', src: 'britannica' },
+      { d: 11, y: 1899, t: 'E・B・ホワイトが誕生', s: '『シャーロットのおくりもの』を書いた作家。', cat: 'Culture', src: 'britannica' },
       { d: 12, y: 1817, t: 'ヘンリー・デイヴィッド・ソローが誕生', s: '森での簡素な暮らしを綴り、自然と自立の思想を残した作家。', cat: 'Nature', src: 'britannica' },
       { d: 12, y: 1854, t: 'ジョージ・イーストマンが誕生', s: 'ロールフィルムとコダックで、写真をだれもが撮れるものに変えた。', cat: 'Technology', src: 'britannica' },
       { d: 12, y: 1904, t: 'パブロ・ネルーダが誕生', s: '愛と大地をうたったチリの詩人。のちにノーベル文学賞を受けた。', cat: 'Culture', src: 'nobel' },
       { d: 12, y: 1962, t: 'ローリング・ストーンズが初ライブ', s: 'ロンドンのマーキー・クラブで初めて演奏し、長い歴史が始まった。', cat: 'Art', src: 'britannica' },
+      { d: 13, y: 1985, t: 'ライヴエイド開催', s: 'ロンドンとフィラデルフィアを衛星でつなぎ、飢餓救済のために世界同時中継されたチャリティー・コンサート。', cat: 'Culture', src: 'britannica' },
       { d: 14, y: 1789, t: 'バスティーユ牢獄の襲撃', s: 'フランス革命の象徴的な一日。7月14日は現在も革命記念日。', cat: 'Society', src: 'britannica' },
+      { d: 16, y: 1969, t: 'アポロ11号が打ち上げられる', s: 'ケネディ宇宙センターから月へと発った。4日後に月面着陸を果たす。', cat: 'Exploration', src: 'nasa' },
       { d: 17, y: 1955, t: 'ディズニーランドが開園', s: 'カリフォルニアに開き、テーマパークという体験を世界に広げた。', cat: 'Culture', src: 'britannica' },
-      { d: 20, y: 1969, t: 'アポロ11号が月面に着陸', s: '人類が初めて他の天体に降り立った。翌21日（日本時間）に月面を歩いた。', cat: 'Exploration', src: 'nasa' }
+      { d: 18, y: 1918, t: 'ネルソン・マンデラが誕生', s: '南アフリカのアパルトヘイトと闘い、のちに大統領となった。7月18日は「マンデラ・デー」。', cat: 'Society', src: 'un' },
+      { d: 20, y: 1969, t: 'アポロ11号が月面に着陸', s: '人類が初めて他の天体に降り立った。翌21日（日本時間）に月面を歩いた。', cat: 'Exploration', src: 'nasa' },
+      { d: 24, y: 1911, t: 'マチュ・ピチュに到達', s: 'ハイラム・ビンガムが、忘れられていたインカの空中都市を世界に紹介した。', cat: 'Exploration', src: 'britannica' },
+      { d: 25, y: 1978, t: '世界初の体外受精児が誕生', s: 'ルイーズ・ブラウンが生まれ、生殖医療に新しい道がひらいた。', cat: 'Science', src: 'britannica' },
+      { d: 29, y: 1958, t: 'アメリカ航空宇宙局（NASA）が設立', s: '航空宇宙法にアイゼンハワーが署名し、のちに月へ人を送る機関が生まれた。', cat: 'Exploration', src: 'nasa' }
     ],
     people: [
       { n: 'ヘンリー・デイヴィッド・ソロー', en: 'H. D. Thoreau', b: '1817年7月12日', field: '作家・思想家（アメリカ）', bio: '湖のほとりで2年あまり簡素に暮らし、その記録から自然と自立を見つめた。', work: '『ウォールデン 森の生活』', quote: '自分の夢の方角へ確かな足どりで進む人は、思いもよらない実りに出会う。', src: 'britannica' },
@@ -1143,19 +1154,35 @@ var ACTIONS = [
   /* ================= 3. Today in History ================= */
   (function todayInHistory() {
     var list = $('thList'), empty = $('thEmpty');
-    var todays = (mon.events || []).filter(function (e) { return e.d === D; })
-      .sort(function (a, b) { return (a.y || 0) - (b.y || 0); });
-    $('thLead').textContent = mon.name + ' ' + D + ' に世界で起きたこと。年代順に、暗い出来事に偏らないよう選んでいます。';
-    if (!todays.length) {
+    var dated = (mon.events || []).filter(function (e) { return e.d; }); /* 月全体(d=0)は除く */
+    var exact = dated.filter(function (e) { return e.d === D; }).sort(function (a, b) { return (a.y || 0) - (b.y || 0); });
+    var nearby = exact.length === 0;
+    var items;
+    if (!nearby) {
+      items = exact;
+      $('thHead').textContent = 'この日、世界では';
+      $('thLead').textContent = mon.name + ' ' + D + ' に世界で起きたこと。年代順に、暗い出来事に偏らないよう選んでいます。';
+    } else {
+      /* その日ちょうどの収録が無い日は、今月のこの頃（日付の近い順）から実在の出来事を表示 */
+      items = dated.slice().sort(function (a, b) {
+        var da = Math.abs(a.d - D), db = Math.abs(b.d - D);
+        return da - db || a.d - b.d || (a.y || 0) - (b.y || 0);
+      }).slice(0, 4).sort(function (a, b) { return a.d - b.d || (a.y || 0) - (b.y || 0); });
+      $('thHead').textContent = 'この頃、世界では';
+      $('thLead').textContent = mon.name + ' ' + D + ' ちょうどの出来事はまだ少ないので、今月のこの頃に起きたことを、日付とともに。';
+    }
+    if (!items.length) { /* 保険: 万一この月に日付つき出来事が無い場合のみ */
       list.hidden = true; empty.hidden = false;
-      empty.innerHTML = '<p class="empty-note">' + mon.name + ' ' + D + ' に紐づく出来事は、まだこのアルマナックに収録していません。かわりに、下の「今月の出来事」からこの月ぜんたいを辿れます。</p>';
+      empty.innerHTML = '<p class="empty-note">今月の出来事は、下の「今月の出来事」からご覧いただけます。</p>';
       return;
     }
-    todays.forEach(function (e) {
+    empty.hidden = true; list.hidden = false;
+    items.forEach(function (e) {
       markSource(e.src);
+      var when = nearby ? '<span class="tl-when">' + (now.getMonth() + 1) + '月' + e.d + '日</span>' : '';
       var li = document.createElement('li'); li.className = 'tl-item';
       li.innerHTML =
-        '<p class="tl-year">' + esc(e.y) + '</p>' +
+        '<p class="tl-year">' + esc(e.y) + when + '</p>' +
         '<p class="tl-title">' + esc(e.t) + '</p>' +
         '<p class="tl-sum">' + esc(e.s) + '</p>' +
         '<div class="tl-meta"><span class="cat">' + esc(e.cat) + '</span>' + srcLink(e.src, e.t) + '</div>';

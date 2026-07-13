@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>余白 | 風雅舎</title>
+  <script>document.documentElement.classList.add('js');</script>
   <meta name="description" content="仕事のためのページは、ここにはありません。集中する机、今日のアルマナック、今夜の月の名前、そしてことば。役に立つとは限らない、けれど豊かな時間のための場所です。">
   <meta property="og:title" content="余白 | 風雅舎">
   <meta property="og:type" content="website">
@@ -24,15 +25,12 @@
   <style>
     :root {
       --bg:      #f0e6d6;
-      --bg2:     #e8dcc8;
       --fg:      #0d2030;
       --fg2:     #1e3a50;
       --hint:    #4d525a;
       --accent:  #e8866a;
       --accent-ink: #7a4025;
       --line:    rgba(13,32,48,.12);
-      --panel:   #f4ecdf;
-      --shadow:  rgba(13,32,48,.14);
       --font-sans:  'Zen Kaku Gothic New', sans-serif;
       --font-serif: 'Noto Serif JP', serif;
       --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
@@ -61,7 +59,7 @@
     .nav { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; padding: calc(env(safe-area-inset-top) + 18px) 40px 16px; }
     .nav-logo { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; }
     .nav-right { display: flex; align-items: center; gap: 26px; }
-    .nav-link { font-size: 11px; color: var(--fg2); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; padding: 7px 2px; }
+    .nav-link { font-size: 11px; color: var(--fg2); letter-spacing: .1em; transition: color .2s; text-decoration: none; text-transform: uppercase; font-weight: 500; padding: 10px 8px; }
     .nav-link:hover { color: var(--fg); }
     .nav-link.active { color: var(--fg); border-bottom: 1px solid var(--accent); }
     @media (max-width: 640px) { .nav { padding-left: 20px; padding-right: 20px; } .nav-right { gap: 15px; } }
@@ -73,40 +71,44 @@
     /* ヒーロー */
     .hero { padding: calc(env(safe-area-inset-top) + 168px) 28px 40px; text-align: center; }
     .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .28em; color: var(--fg2); text-transform: uppercase; }
-    .hero-title { font-family: var(--font-serif); font-weight: 300; font-size: clamp(64px, 20vw, 132px); line-height: 1; letter-spacing: .08em; margin: 22px 0 0; }
-    .hero-copy { font-family: var(--font-serif); font-weight: 300; font-size: clamp(14px, 2.3vw, 17px); line-height: 2.1; color: var(--fg2); max-width: 28em; margin: 34px auto 0; }
+    .hero-title { font-family: var(--font-serif); font-weight: 300; font-size: clamp(64px, 20vw, 132px); line-height: 1; letter-spacing: .18em; text-indent: .18em; margin: 22px 0 0; }
+    .hero-copy { font-family: var(--font-serif); font-weight: 300; font-size: clamp(15px, 2.3vw, 17px); line-height: 1.95; font-feature-settings: 'palt' 1; color: var(--fg2); max-width: 28em; margin: 34px auto 0; }
     .hero-copy .em { color: var(--fg); }
 
     /* 索引 */
     .index-sec { padding: 40px 0 24px; }
+    .index-sec:focus { outline: none; }
     .index { list-style: none; }
-    .entry { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 22px; align-items: center; padding: 30px 6px 30px 4px; border-top: 1px solid var(--line); text-decoration: none; color: inherit; transition: padding-left .35s var(--ease); }
+    .entry { position: relative; display: grid; grid-template-columns: auto 1fr auto; gap: 22px; align-items: center; padding: 30px 6px 30px 18px; border-top: 1px solid var(--line); text-decoration: none; color: inherit; }
     .entry:last-child { border-bottom: 1px solid var(--line); }
-    .entry:hover, .entry:focus-visible { padding-left: 14px; outline: none; }
-    .entry:focus-visible { box-shadow: inset 3px 0 0 var(--accent-ink); }
+    .entry::before { content: ''; position: absolute; left: 0; top: 24px; bottom: 24px; width: 2px; background: var(--accent); transform: scaleY(0); transform-origin: center; transition: transform .3s var(--ease); }
+    .entry:hover::before, .entry:focus-visible::before { transform: scaleY(1); }
+    /* フォーカスは outline で可視化（WCAG 2.4.11: 対背景 6.45:1）。::before バーは hover/装飾として併存 */
+    .entry:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 4px; border-radius: 2px; }
+    .entry-no { align-self: start; padding-top: .5em; font-family: var(--font-mono); font-size: 12px; line-height: 1.2; color: var(--hint); }
     .entry-main { min-width: 0; }
-    .entry-name { font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1; font-size: clamp(28px, 6vw, 42px); line-height: 1.2; letter-spacing: .01em; transition: color .25s var(--ease); }
+    .entry-name { font-family: var(--font-serif); font-weight: 300; font-feature-settings: 'palt' 1; font-size: clamp(28px, 6vw, 42px); line-height: 1.2; letter-spacing: .01em; transition: color .3s var(--ease); }
     .entry:hover .entry-name, .entry:focus-visible .entry-name { color: var(--accent-ink); }
-    .entry-name .en { font-family: var(--font-mono); font-size: 11px; font-weight: 400; letter-spacing: .18em; text-transform: uppercase; color: var(--hint); margin-left: 14px; vertical-align: middle; }
-    .entry-role { font-size: 13px; color: var(--fg2); margin-top: 10px; line-height: 1.7; }
+    .entry:active .entry-name { color: var(--accent-ink); }
+    .entry-name .en { font-family: var(--font-mono); font-size: clamp(11px, 1.3vw, 13px); font-weight: 400; letter-spacing: .18em; text-transform: uppercase; color: var(--hint); margin-left: 14px; vertical-align: baseline; position: relative; top: -.05em; }
+    .entry-role { font-size: 13.5px; font-feature-settings: 'palt' 1; color: var(--fg2); margin-top: 10px; line-height: 1.7; }
     .entry-state { text-align: right; white-space: nowrap; }
-    .entry-state .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--hint); display: block; }
-    .entry-state .val { font-family: var(--font-serif); font-weight: 300; font-size: clamp(17px, 3vw, 22px); color: var(--fg); margin-top: 5px; letter-spacing: .02em; }
-    .entry-arrow { position: absolute; right: -2px; top: 50%; transform: translate(6px,-50%); opacity: 0; color: var(--accent-ink); transition: opacity .25s var(--ease), transform .25s var(--ease); }
-    .entry:hover .entry-arrow, .entry:focus-visible .entry-arrow { opacity: 1; transform: translate(0,-50%); }
-    .entry-arrow svg { width: 18px; height: 18px; display: block; }
-    @media (hover: none) { .entry-arrow { display: none; } }
+    .entry-state .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: .04em; color: var(--hint); display: block; }
+    .entry-state .val { font-family: var(--font-serif); font-weight: 300; font-size: clamp(17px, 3vw, 22px); color: var(--fg2); margin-top: 5px; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+    .live-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-right: 8px; vertical-align: middle; animation: livePulse 2.4s var(--ease) infinite; }
+    @keyframes livePulse { 0%,100% { opacity: .4; transform: scale(.85); } 50% { opacity: 1; transform: scale(1); } }
+    @media (prefers-reduced-motion: reduce) { .live-dot { animation: none; opacity: .7; } }
     @media (max-width: 560px) {
       .entry { grid-template-columns: 1fr; gap: 12px; }
       .entry-state { text-align: left; }
       .entry-state .val { font-size: 18px; }
     }
 
-    /* フェードイン（fail-open） */
+    /* フェードイン（fail-open: JS無効なら常に可視） */
     .reveal { transition: opacity .8s var(--ease), transform .8s var(--ease); }
-    .reveal.pre { opacity: 0; transform: translateY(14px); }
-    .reveal.pre.in { opacity: 1; transform: none; }
-    @media (prefers-reduced-motion: reduce) { .reveal.pre { opacity: 1; transform: none; } }
+    html.js .reveal { opacity: 0; transform: translateY(14px); }
+    html.js .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { html.js .reveal { opacity: 1; transform: none; } }
 
     /* フッター */
     .foot { text-align: center; padding: 44px 28px calc(env(safe-area-inset-bottom) + 72px); }
@@ -139,7 +141,7 @@
       役に立つとは限らない、けれど豊かな時間のための場所です。</p>
   </header>
 
-  <section class="index-sec" aria-label="余白のページ">
+  <section class="index-sec" id="index" tabindex="-1" aria-label="余白のページ">
     <div class="wrap">
       <ul class="index" id="indexList"></ul>
     </div>
@@ -162,9 +164,8 @@
   var pad = function (n) { return String(n).padStart(2, '0'); };
   var seed = now.getFullYear() * 372 + now.getMonth() * 31 + now.getDate(); /* words/today と共通の日替りシード */
 
-  /* ---- Today: 月名 ---- */
-  var MONTH_EN = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
-  function todayState() { return MONTH_EN[now.getMonth()] + ' ' + now.getDate(); }
+  /* ---- Today: 和文の月日（三日月・老子 と同じ列で和文に揃える） ---- */
+  function todayState() { return (now.getMonth() + 1) + '月' + now.getDate() + '日'; }
 
   /* ---- Words: 本日のことばの著者（QUOTES と同順・並べ替え禁止。index = seed % 84） ---- */
   var WORDS_AUTHORS = ['老子','風雅舎','マルクス・アウレリウス','風雅舎','孔子','風雅舎','セネカ','風雅舎','松尾芭蕉','風雅舎','荘子','風雅舎','マルクス・アウレリウス','風雅舎','ソロー','風雅舎','老子','風雅舎','ファン・ゴッホ','風雅舎','鴨長明','風雅舎','エミリー・ディキンソン','風雅舎','エピクテトス','風雅舎','セネカ','風雅舎','世阿弥','風雅舎','ホイットマン','風雅舎','ゲーテ','風雅舎','マルクス・アウレリウス','風雅舎','荀子','風雅舎','吉田兼好','風雅舎','リルケ','風雅舎','老子','風雅舎','エマソン','風雅舎','松尾芭蕉','風雅舎','ヘレン・ケラー','風雅舎','荘子','風雅舎','セネカ','風雅舎','モンテーニュ','風雅舎','レオナルド・ダ・ヴィンチ','風雅舎','孔子','風雅舎','ファン・ゴッホ','風雅舎','洪自誠','風雅舎','マルクス・アウレリウス','風雅舎','ホイットマン','エミリー・ディキンソン','エピクテトス','孟子','パスカル','ゲーテ','老子','セネカ','ソロー','エマソン','レオナルド・ダ・ヴィンチ','ファン・ゴッホ','リルケ','オウィディウス','松尾芭蕉','老子','孔子','マルクス・アウレリウス'];
@@ -222,39 +223,53 @@
     { href: 'focus.html',  name: '集中',     en: 'Focus', role: '集中のための机。ポモドーロ、時計、静けさ。', label: 'いま', live: 'clock' },
     { href: 'today.html',  name: '今日',     en: 'Today', role: '今日と今月の、小さなアルマナック。', label: '今日', val: todayState() },
     { href: 'sky.html',    name: '今夜の空', en: 'Sky',   role: '月の名前、流星群、日の入り。', label: '今夜', val: skyState() },
-    { href: 'words.html',  name: 'ことば',   en: 'Words', role: '出会うための、出典の確かな名言。', label: '本日のことば', val: wordsState() }
+    { href: 'words.html',  name: 'ことば',   en: 'Words', role: '出会うための、出典の確かな名言。', label: 'ことば', val: wordsState() }
   ];
   var clockEl = null;
   (function build() {
     var ul = $('indexList');
-    ENTRIES.forEach(function (e) {
+    ENTRIES.forEach(function (e, i) {
       var li = document.createElement('li');
       var a = document.createElement('a');
       a.className = 'entry reveal'; a.href = e.href;
-      a.setAttribute('aria-label', e.name + '（' + e.en + '） — ' + e.role);
+      var valInner = e.live === 'clock'
+        ? '<span class="live-dot" aria-hidden="true"></span><span class="clock-time"></span>'
+        : esc(e.val || '');
       a.innerHTML =
+        '<span class="entry-no" aria-hidden="true">' + pad(i + 1) + '</span>' +
         '<div class="entry-main">' +
           '<div class="entry-name">' + esc(e.name) + '<span class="en" lang="en">' + esc(e.en) + '</span></div>' +
           '<div class="entry-role">' + esc(e.role) + '</div>' +
         '</div>' +
-        '<div class="entry-state"><span class="label">' + esc(e.label) + '</span><span class="val">' + esc(e.val || '') + '</span></div>' +
-        '<span class="entry-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>';
-      if (e.live === 'clock') clockEl = a.querySelector('.val');
+        '<div class="entry-state"><span class="label">' + esc(e.label) + '</span><span class="val">' + valInner + '</span></div>';
+      if (e.live === 'clock') clockEl = a.querySelector('.clock-time');
       li.appendChild(a); ul.appendChild(li);
     });
   })();
 
-  /* Focus のライブ時計（分きざみ更新） */
-  function renderClock() { if (clockEl) { var d = new Date(); clockEl.textContent = d.getHours() + ':' + pad(d.getMinutes()); } }
-  renderClock(); setInterval(renderClock, 15000);
+  /* Focus のライブ時計（分境界に整列。タブ非表示中は停止） */
+  function renderClock() { if (clockEl) { var d = new Date(); clockEl.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes()); } }
+  var clockTimer = null;
+  function stopClock() { if (clockTimer) { clearTimeout(clockTimer); clockTimer = null; } }
+  function scheduleClock() {
+    stopClock();
+    if (document.hidden || !clockEl) return;
+    clockTimer = setTimeout(function tick() {
+      renderClock();
+      clockTimer = setTimeout(tick, 60000);
+    }, 60000 - (Date.now() % 60000));
+  }
+  renderClock(); scheduleClock();
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { stopClock(); } else { renderClock(); scheduleClock(); }
+  });
 
   $('footMeta').textContent = now.getFullYear() + '.' + pad(now.getMonth() + 1) + '.' + pad(now.getDate());
 
   /* エントランス（fail-open: today/sky と同方針） */
   (function reveal() {
     var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
-    if (reduced() || !('IntersectionObserver' in window)) return;
-    els.forEach(function (el) { el.classList.add('pre'); });
+    if (reduced() || !('IntersectionObserver' in window)) { els.forEach(function (el) { el.classList.add('in'); }); return; }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
     }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
