@@ -1,6 +1,26 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-13（余白ページ 多エージェント改修）
+最終検証: 2026-07-13（夜明けのスクロール）
+
+## 夜明けのスクロール（2026-07-13）
+変更: `index.html` のみ（Vision/sst: .sst-dawn 追加・進捗バーscaleY化・dawn(p)連続駆動・.sst-dotスクロール先バグ修正）。
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| inline JS 構文 | `node --check`（JSON-LDは別途JSON検証） | ✅ OK |
+| タグ整合 | div/section/span/p/h2/button 開閉カウント | ✅ 全一致 |
+| コンソール | localhost（static-site） | ✅ エラーゼロ |
+| dawn(p)の値 | 実DOM: p=0/0.1/0.5/0.95/1 で pbar=scaleY(p)・膜=p²・月=clamp(p/.34)×56px・朝日=(1−clamp((p−.67)/.33))×44px | ✅ 仕様一致（cross-reviewでも独立に実測） |
+| 視覚（デスクトップ1280） | p=0/0.2/0.5/0.95 のスクリーンショット比較 | ✅ 左パネルのみ明るくなり、右テキスト側の背景・コントラスト不変 |
+| 視覚（モバイル375） | 実resizeイベント→本物のtick/show/dawn経路で p=0.60 適用を確認 | ✅ scene02・バー60%・膜0.36・レイアウト崩れなし |
+| dotクリック修正 | scrollToをフックして実クリック: target=6103px（修正前の式では約964px＝ヒーロー付近） | ✅ 正しい文書座標 |
+| reduced-motion分岐 | コードリーディング: continuous=false時はdawn()不発・show()が離散scaleY・膜opacity 0のまま | ✅ 排他が成立（実機トグルは未実施・下記） |
+| noscript | .sst-dawn=opacity:0不可視・pbarはCSS初期値scaleY(.33)（旧inline heightの代替） | ✅ 整合 |
+
+### 未検証領域（開示）
+- **reduced-motion の実機トグル**: OS設定切替での確認は未実施（検証環境からメディアクエリを強制できないため）。コード上の分岐は cross-review 済み
+- **実ブラウザでの連続スクラブの体感**（Lenis lerp 0.3 との重なり・fps）: 検証ペインがバックグラウンド扱いで rAF が抑制され、実スクロールの目視確認が不可。実機での一往復スクロールでの確認を推奨
+- smooth scroll（dotクリック）の完走アニメーション: 同上（ターゲット座標の正しさは実測済み）
 
 ## 余白ページ 多エージェント改修（2026-07-13）
 Wave1(4体レビュー)→統合→Wave2(frontend-engineer実装)→a11y-auditor cross-review。変更: `yohaku.html` のみ。
@@ -26,8 +46,6 @@ Wave1(4体レビュー)→統合→Wave2(frontend-engineer実装)→a11y-auditor
 ### 未対応（開示・ROADMAP）
 - P2: JS無効時に索引エントリ未生成（progressive enhancement）／skip着地がh1をスキップ／ナビ英字のlang未指定
 - 実機（iOS/Android）・スクリーンリーダー通し読み上げ — 未実行
-
-## Today「この日、世界では」フォールバック（2026-07-13）
 
 ## Today「この日、世界では」フォールバック（2026-07-13）
 変更: `today.html`（7月イベント追加＋todayInHistory再設計＋.tl-when CSS）。
