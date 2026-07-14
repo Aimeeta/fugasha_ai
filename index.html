@@ -559,30 +559,24 @@
     .margin-note-t { font-family: var(--font-serif); font-size: 24px; font-weight: 400; line-height: 1.55; margin-bottom: 12px; }
     .margin-note-b { font-size: 14px; color: var(--muted); line-height: 2; }
     .margin-board {
-      position: relative; padding: 28px; border: .5px solid rgba(13,32,48,.1);
+      position: relative; padding: 32px; border: .5px solid rgba(13,32,48,.1);
       background: rgba(248,243,234,.72);
       background-image:
-        linear-gradient(rgba(13,32,48,.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(13,32,48,.03) 1px, transparent 1px);
+        linear-gradient(rgba(13,32,48,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(13,32,48,.055) 1px, transparent 1px);
       background-size: 32px 32px;
     }
-    .margin-board::before {
-      content: ''; position: absolute; left: 28px; right: 28px; top: 50%;
-      height: 1px; background: rgba(13,32,48,.12);
-      transform: scaleX(0); transform-origin: left; transition: transform 1.2s var(--ease) .2s;
-    }
-    .visible .margin-board::before { transform: scaleX(1); }
-    .margin-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; position: relative; z-index: 1; }
+    .margin-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
     .margin-step {
-      padding: 18px 16px; background: rgba(240,230,214,.9);
-      border: .5px solid rgba(13,32,48,.1); min-height: 184px;
-      opacity: 0; transform: translateY(12px); transition: opacity .7s var(--ease), transform .7s var(--ease), border-color .2s;
+      padding: 18px 16px; background: var(--bg);
+      border: .5px solid rgba(13,32,48,.14);
+      border-top: 1px solid rgba(232,134,106,.45); /* 小さな診断カードの左罫と呼応する上罫 */
+      opacity: 0; transform: translateY(12px); transition: opacity .7s var(--ease), transform .7s var(--ease);
     }
     .margin-step:nth-child(2) { transition-delay: .08s; }
     .margin-step:nth-child(3) { transition-delay: .16s; }
     .visible .margin-step { opacity: 1; transform: none; }
-    .margin-step:hover { border-color: rgba(232,134,106,.32); }
-    .margin-step-num { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--accent-ink); margin-bottom: 28px; }
+    .margin-step-num { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--accent-ink); margin-bottom: 20px; }
     .margin-step-t { font-family: var(--font-serif); font-size: 19px; font-weight: 400; color: var(--fg); line-height: 1.55; margin-bottom: 8px; }
     .margin-step-b { font-size: 13px; line-height: 1.85; color: var(--muted); }
     .margin-link, .security-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-size: 12px; color: var(--fg); text-decoration: none; border-bottom: 1px solid rgba(13,32,48,.24); padding-bottom: 2px; }
@@ -631,30 +625,29 @@
     .sign-b { font-size: 14px; color: var(--fg2); line-height: 1.9; }
 
     /* services */
-    .svc-bento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .svc-bento { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
     .service-entry {
       display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;
-      margin: -10px 0 18px;
+      margin: -10px 0 32px;
     }
     .entry-card {
       display: block; color: inherit; text-decoration: none;
-      padding: 16px 18px; border-radius: var(--radius-md); background: rgba(255,255,255,.5);
-      border: .5px solid rgba(13,32,48,.08); opacity: 0; transform: translateY(16px);
+      padding: 16px 18px; border-radius: var(--radius-md); background: rgba(255,255,255,.35);
+      border: .5px solid rgba(13,32,48,.08);
+      border-left: 2px solid rgba(232,134,106,.3); /* 入口リンクの印（小さな診断の左罫と同語彙） */
+      opacity: 0; transform: translateY(16px);
       transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
     }
-    .entry-card:hover { background: var(--bg2); border-color: rgba(232,134,106,.24); }
+    .entry-card:hover { background: var(--bg2); border-color: rgba(232,134,106,.24); border-left-color: rgba(232,134,106,.45); }
     .entry-title { font-size: 14px; color: var(--fg); font-weight: 500; line-height: 1.55; margin-bottom: 6px; }
     .entry-body { font-size: 12px; color: var(--muted); line-height: 1.7; }
     .sv {
-      border-radius: var(--radius-lg); padding: 24px; opacity: 0; transform: translateX(20px);
-      transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease), border-color .2s, background .2s;
+      border-radius: var(--radius-lg); padding: 24px; opacity: 0; transform: translateY(16px);
+      transition: opacity var(--dur-card) var(--ease), transform var(--dur-card) var(--ease);
       position: relative; overflow: hidden; cursor: default;
       display: flex; flex-direction: column; justify-content: space-between;
     }
-    .sv:hover { border-color: rgba(232,134,106,.24); }
-    .sv-ln { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--accent); opacity: .4; }
-    .sv1 .sv-ln, .sv2 .sv-ln, .sv3 .sv-ln, .sv4 .sv-ln { background: var(--accent); opacity: .5; }
-    .sv-wide { grid-column: 1 / -1; }
+    .sv-ln { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--accent); opacity: .5; }
     .sv-top { position: relative; z-index: 2; }
     .sv-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
     .sv-ic {
@@ -662,14 +655,14 @@
       border-radius: 50%; background: rgba(13,32,48,.06); color: var(--fg);
       font-size: 18px; font-weight: 500;
     }
-    .sv-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; color: var(--hint); padding-top: 4px; }
-    .sv-t { font-family: var(--font-serif); font-size: 20px; font-weight: 400; color: var(--fg); line-height: 1.35; margin-bottom: 8px; }
+    .sv-num { font-family: var(--font-serif); font-size: 11px; letter-spacing: .08em; color: var(--hint); padding-top: 4px; } /* 和文ラベルのためserif（monoは和文グリフなし） */
+    .sv-t { font-family: var(--font-serif); font-size: 20px; font-weight: 400; color: var(--fg); line-height: 1.35; margin-bottom: 8px; text-wrap: balance; word-break: auto-phrase; } /* 孤立行防止＋文節折返し（非対応環境は従来挙動） */
     .sv-b { font-size: 14px; color: var(--muted); line-height: 1.9; max-width: 380px; }
     .sv-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; }
     .sv-tags span {
-      display: inline-flex; align-items: center; min-height: 28px; padding: 5px 10px;
-      border-radius: 999px; background: rgba(232,134,106,.12); border: .5px solid rgba(232,134,106,.2);
-      font-size: 10px; color: var(--accent-ink); font-weight: 500;
+      display: inline-flex; align-items: center; min-height: 28px; padding: 5px 12px;
+      border-radius: 999px; background: rgba(232,134,106,.12); border: .5px solid rgba(232,134,106,.3);
+      font-size: 11px; letter-spacing: .02em; color: var(--accent-ink); font-weight: 500;
     }
 
 
@@ -1178,7 +1171,6 @@
     .entry-card:nth-child(3) { transition-delay: .16s; }
     .sv:nth-child(2) { transition-delay: .08s; }
     .sv:nth-child(3) { transition-delay: .16s; }
-    .sv:nth-child(4) { transition-delay: .24s; }
     .case:nth-child(2) { transition-delay: .08s; }
     .case:nth-child(3) { transition-delay: .16s; }
     /* Hamburger menu */
@@ -1236,6 +1228,7 @@
       .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .service-entry { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .entry-card { padding: 15px 16px; }
+      .svc-bento { grid-template-columns: 1fr; } /* 3等分のままだと1カード約280pxで見出しが折れ過ぎるため縦積み */
       .security-panel { grid-template-columns: 1fr; }
 
       .sst-right { padding: 0 42px 0 42px; }
@@ -1317,8 +1310,6 @@
       .margin-note,
       .margin-board { padding: 20px; }
       .margin-steps { grid-template-columns: 1fr; gap: 10px; }
-      .margin-board::before { left: 20px; right: 20px; top: 20px; }
-      .margin-step { min-height: 0; }
 
       /* ── Pain / Signs ── */
       .sign-grid { grid-template-columns: 1fr; gap: 26px; }
@@ -1327,9 +1318,7 @@
       .service-entry { grid-template-columns: 1fr; gap: 8px; margin: -4px 0 14px; }
       .entry-card { padding: 14px 16px; }
       .svc-bento { grid-template-columns: 1fr; gap: 10px; }
-      .sv-wide { grid-column: 1; }
       .sv { border-radius: var(--radius-lg); padding: 22px 18px; transform: translateY(12px); }
-      .sv:hover { transform: none; }
 
       /* ── Cases ── */
       .cases-grid { grid-template-columns: 1fr; gap: 10px; }
@@ -1380,7 +1369,7 @@
       .ft-links { flex-wrap: wrap; justify-content: center; gap: 12px; }
 
       /* ── Hover effects off (touch) ── */
-      .sv:hover, .tp:hover { transform: none; box-shadow: none; }
+      .tp:hover { transform: none; box-shadow: none; }
     }
 
     /* ═══════════════════════════════════════
@@ -1717,13 +1706,13 @@
         <div class="sv-tags"><span>業務の書き出し</span><span>生成AI</span><span>社内ルール</span></div>
       </div>
     </div>
-    <div class="sv sv4 glass-card sv-wide">
+    <div class="sv sv4 glass-card">
       <div class="sv-ln"></div>
       <div class="sv-top">
         <div class="sv-head"><div class="sv-ic" aria-hidden="true"><svg class="icn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"/><path d="M10 9v6l5 -3z"/></svg></div><span class="sv-num">業務整理</span></div>
         <h3 class="sv-t">手放せる仕事を、自然に回る仕組みへ。</h3>
         <div class="sv-b">日々の作業を一枚に書き出して、人が集中することと、AIや外部に任せることを分けていきます。無理なく続く形へ。</div>
-        <div class="sv-tags"><span>業務整理</span><span>自動化</span><span>運用改善</span></div>
+        <div class="sv-tags"><span>自動化</span><span>運用改善</span></div>
       </div>
     </div>
   </div>
