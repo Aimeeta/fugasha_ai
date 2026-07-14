@@ -2,6 +2,15 @@
 
 新しい決定は上に追記する。形式: 日付 / 決定 / 理由 / 決定者。
 
+## 2026-07-14 — AI Daily News を「サマリー＋深掘り最大2本」に拡張
+オーナー指示「サマリー1本に加え、話題性のあるツール（Fable等）の深掘りSEO記事を毎日1〜2本、自動投稿したい」。
+- **サマリーのタイトル変更**: 「YYYY年M月D日のAIニュースまとめ」→「**M月D日のAIニュースサマリー**」（オーナー指定の「何月何日のサマリー」形式にSEO語を最小限補った形）
+- **深掘り記事を追加**（`config.deepDive.max`＝既定2）: 話題性のあるトピックを実在ソースに紐づけて長め（H2複数＋Why it matters）に解説。URLは `blog/ai-daily/YYYY-MM-DD-<slug>/`、evergreen扱いで sitemap priority 0.6
+- **オーナー判断（AskUserQuestionで確認）**: ①事実の担保＝「出典ありきで書く」（groundIdは必ず候補内の実在id。捏造防止の保証をサマリーと共有）②公開＝深掘りも自動公開。→ 出典に紐づくので無審査自動公開でもリスクは低い組み合わせ
+- **安全設計**: `validateDeepDives` が捏造id・本文へのURL混入・薄い本文（`minBodyChars`未満）を1件単位で落とす／深掘りの生成失敗はサマリー本体を止めない（追加コンテンツ扱い・try/catch）／出典URLはLLM出力でなく取得データからidで引く
+- **リスク開示（オーナー了承済み）**: 出典に紐づくとはいえ、要約・解説の言い回しは無レビューで公開される。「ClaudeのMisos」のように**存在しない製品名で書かせない**ため出典ありきを採用したが、要約の解釈ミスの可能性は残る。SLACK_WEBHOOK_URL 設定で事後通知は可能
+- template.html を汎用化（%%BADGE%% / %%KIND_LABEL%% / %%TOC_HEADING%% / %%CLOSING_HEADING%% をトークン化し、サマリーと深掘りで同一テンプレを共用）。モック（--mock）で1サマリー＋2深掘りのE2E生成・レンダリングを実機確認済み
+
 ## 2026-07-14 — AI Daily News を自動公開（publish）既定へ切替
 オーナー指示「時間がないので自動投稿にしたい」。従来は draft（PR承認制）が既定だった。
 - `.github/workflows/ai-daily-news.yml` の mode 解決を反転: 未設定＝`publish`（main直コミット＝即公開）。`NEWS_MODE=draft` を残し「一時的に承認制へ戻す一時停止スイッチ」に。README も更新

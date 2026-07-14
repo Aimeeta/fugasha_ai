@@ -1,7 +1,13 @@
-# AI Daily News — 毎朝のAIニュースまとめ自動生成
+# AI Daily News — 毎朝のAIニュース自動生成（サマリー＋深掘り）
 
 毎日 JST 7:00（GitHub Actions cron 22:00 UTC）に、公式RSSからAIニュースを取得し、
-LLMで選定・日本語要約して、ブログ記事（静的HTML）として生成する。
+LLMで選定・日本語化して、次の記事を生成する:
+- **サマリー記事 1本**（タイトル「M月D日のAIニュースサマリー」・その日の主要ニュースを短く）
+- **深掘り解説記事 最大2本**（話題性のあるトピックを、実在ソースに紐づけて長めに解説。SEO向け）
+
+深掘り記事も**出典ありき**で作る（`groundId` は必ず候補内の実在id。存在しない製品・誤った事実を
+構造的に出さない＝サマリーと同じ捏造防止）。薄い本文（config `deepDive.minBodyChars` 未満）や
+捏造idの記事は自動で落とし、深掘りの生成に失敗してもサマリー本体は止めない（追加コンテンツ扱い）。
 
 ## アーキテクチャ（なぜ n8n / microCMS ではないか）
 
@@ -16,9 +22,11 @@ GitHub Actions (JST 7:00)
        1. config.json のRSSを取得（許可ドメインのみ・タイムアウト20s）
        2. 48h以内でフィルタ（不足時72hへ拡大）→ 使用済みURL(7日)除外 → 重複除去
        3. 候補3件未満 → その日はスキップ（架空の内容は生成しない）
-       4. Anthropic API で選定・日本語要約（最大5件・JSONのみ・検証つき）
-       5. template.html から記事HTML生成 → blog/ai-daily/YYYY-MM-DD/index.html
-       6. blog/index.html にカード挿入・sitemap.xml 追記・used-urls.json 更新
+       4. Anthropic API で選定・日本語要約（最大5件・JSONのみ・検証つき）＝サマリー
+       4b. Anthropic API で深掘り記事を生成（最大2本・出典ありき・検証つき）
+       5. template.html から記事HTML生成 → blog/ai-daily/YYYY-MM-DD/（サマリー）
+          と blog/ai-daily/YYYY-MM-DD-<slug>/（深掘り各本）
+       6. blog/index.html にカード挿入（サマリーが最上段）・sitemap.xml 追記・used-urls.json 更新
        7. 実行ログを automation/data/runs/YYYY-MM-DD.json に保存
        8. Slack通知（SLACK_WEBHOOK_URL があれば）
   └─ mode=draft  → ブランチ ai-daily/YYYY-MM-DD で Pull Request 作成（人間が確認してマージ＝公開）

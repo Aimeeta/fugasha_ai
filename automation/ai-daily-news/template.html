@@ -241,25 +241,25 @@
 
   <div class="art-layout">
   <article class="art-main">
-    <div class="art-badge">AI Daily Brief</div>
+    <div class="art-badge">%%BADGE%%</div>
     <h1 class="art-h1">%%TITLE%%</h1>
     <div class="art-meta">
       <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg> %%DATE_JA%%</span>
       <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 7v5l3 3"/></svg> 約%%READ_MIN%%分で読めます</span>
-      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg> AIによる自動要約</span>
+      <span><svg class="icn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg> %%KIND_LABEL%%</span>
     </div>
 
     <p class="art-lead">%%LEAD%%</p>
 
     <nav class="art-toc" aria-labelledby="art-toc-heading" hidden>
       <span class="art-toc-eyebrow">Contents</span>
-      <h2 class="art-toc-heading" id="art-toc-heading">本日のニュース</h2>
+      <h2 class="art-toc-heading" id="art-toc-heading">%%TOC_HEADING%%</h2>
       <ol class="art-toc-list"></ol>
     </nav>
 
     <div class="art-body">
 %%NEWS_SECTIONS%%
-      <h2>今日のまとめ</h2>
+      <h2>%%CLOSING_HEADING%%</h2>
       <p>%%CLOSING%%</p>
     </div>
 

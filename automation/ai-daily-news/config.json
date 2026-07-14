@@ -19,6 +19,12 @@
   "minItems": 3,
   "maxItems": 5,
   "maxCandidates": 20,
+  "_deepDiveComment": "サマリーとは別に、実在ソースに紐づく深掘り解説記事を毎日最大 max 本自動生成する。出典ありき（groundIdは必ず候補内の実在id）で、捏造防止の保証はサマリーと同じ。minBodyChars 未満の薄い記事は投稿しない。",
+  "deepDive": {
+    "max": 2,
+    "maxTokens": 6000,
+    "minBodyChars": 500
+  },
   "usedUrlRetentionDays": 7,
   "categories": ["AI Models", "AI Agents", "Creative AI", "Business", "Research", "Robotics", "Policy", "Society", "Open Source", "Tools"],
   "site": {
