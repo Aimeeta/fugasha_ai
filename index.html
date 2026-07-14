@@ -523,20 +523,6 @@
     .sec-dark  { background: var(--fg); }
     /* 開始儀式（罫線リビール）を持たない例外セクション（2026-07監査 Phase2: 13回同じ幕開けの解体） */
     .sec-quiet::before { display: none; }
-    /* 余白の間奏 — 「余白を売るサイト」の主張をデザインで一度だけ証明する、ほぼ空のセクション */
-    .sec-interlude {
-      min-height: 54vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; text-align: center; gap: 20px;
-    }
-    .interlude-line {
-      font-family: var(--font-serif); font-weight: 300;
-      font-size: clamp(30px, 4.5vw, var(--text-4xl)); line-height: 1.8; letter-spacing: .04em;
-      color: var(--fg); opacity: 0; transform: translateY(10px);
-      transition: opacity 1.2s var(--ease) .15s, transform 1.2s var(--ease) .15s;
-    }
-    .visible .interlude-line { opacity: 1; transform: none; }
-    .interlude-sub { font-size: 12px; letter-spacing: .1em; color: var(--hint); opacity: 0; transition: opacity 1s ease .7s; }
-    .visible .interlude-sub { opacity: 1; }
     .sec-dark::before,
     #s-blog::before { background: rgba(240,230,214,.22); }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
@@ -1317,7 +1303,6 @@
       .sec::before { left: 20px; width: min(132px, calc(100% - 40px)); }
       .s-h2 { font-size: 28px; }
       .s-desc { font-size: 13px; margin-bottom: 28px; }
-      .interlude-line { font-size: clamp(22px, 7vw, 27px); } /* 30px下限のままだと375pxで「が、」の孤立行が出る */
 
       /* ── Tools ── */
       .tools-lbl { font-size: 10px; margin-bottom: 12px; }
@@ -1488,7 +1473,6 @@
       .h-h1, .h-actions, .h-actions-note, .h-byline, .h-choice-label, .h-chips, .scroll-hint, .hero-right,
       .s-lbl, .s-h2, .s-desc, .sign-item, .entry-card, .sv, .case,
       .margin-step, .phi-item, .phi-quote, .security-panel, .ar,
-      .interlude-line, .interlude-sub,
       .ch2, .csub, .cq, .cta-wrap {
         opacity: 1 !important; transform: none !important;
       }
@@ -1566,7 +1550,7 @@
     <p class="h-actions-note">答えて整理するだけでも構いません。まとまった内容は「相談メモ」として持ち帰れます。</p>
     <div class="h-byline">
       <img src="aimee-portrait-144.jpg" alt="" class="h-byline-img" width="112" height="144" loading="eager" decoding="async">
-      <p class="h-byline-txt"><span class="h-byline-name">Aimee ／ 風雅舎代表</span>このサイトを書いているのも、相談を受けるのも、私です。いまはチェンマイの机から。</p>
+      <p class="h-byline-txt"><span class="h-byline-name">Aimee ／ 風雅舎代表</span>このサイトを書いているのも、相談を受けるのも、私です。</p>
     </div>
     <div class="h-choice-label">どこから話しますか？</div>
     <nav class="h-chips" aria-label="相談の入り口">
@@ -1743,12 +1727,6 @@
       </div>
     </div>
   </div>
-</section>
-
-<!-- ── Interlude（余白の間奏） ── -->
-<section class="sec sec-white sec-quiet sec-interlude" id="s-interlude">
-  <p class="interlude-line">この、なにもない場所が、<br>余白です。</p>
-  <p class="interlude-sub">スクロールの手を、少しだけ休めてください。</p>
 </section>
 
 <!-- ── Ways of Working ── -->
@@ -2190,7 +2168,7 @@
   });
 
   // ── Scroll observer (sections) ──
-  const sectionIds = ['s-hero','s-tools','s-pain','s-margin','s-service','s-interlude','s-cases','s-vision','s-philosophy','s-security','s-about','s-faq','s-blog','s-cta'];
+  const sectionIds = ['s-hero','s-tools','s-pain','s-margin','s-service','s-cases','s-vision','s-philosophy','s-security','s-about','s-faq','s-blog','s-cta'];
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
