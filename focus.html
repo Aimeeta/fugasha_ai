@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- 時計の太さ調整のため、Zen Kaku と Noto Serif JP の実ウェイトを広めに読み込む（疑似ボールドを避ける） -->
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Serif+JP:wght@200..700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:      #f0e6d6;
@@ -121,17 +121,22 @@
         var(--bg);
       animation: emberGlow 16s ease-in-out infinite;
     }
-    .grad.water {
+    /* 水: background-position のアニメは毎フレーム全画面 repaint になる（コンポジタ非対応）。
+       220% サイズの擬似要素を transform: translate で動かし、GPU 合成に載せる（mist/fire と同方針）。 */
+    .grad.water { overflow: hidden; }
+    .grad.water::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 220%; height: 220%;
       background:
         linear-gradient(120deg, color-mix(in srgb, var(--fg2) 12%, var(--bg)), var(--bg2), color-mix(in srgb, var(--accent) 10%, var(--bg))),
         linear-gradient(210deg, transparent, color-mix(in srgb, var(--bg2) 35%, transparent) 50%, transparent);
-      background-size: 220% 220%, 170% 170%;
+      background-size: 100% 100%, 77% 77%;
       animation: waterFlow 32s ease-in-out infinite;
+      will-change: transform;
     }
     @keyframes driftMist { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(-3%,2%) scale(1.06)} }
     @keyframes emberGlow { 0%,100%{opacity:.84;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.02)} }
-    @keyframes waterFlow { 0%{background-position:0% 50%,100% 0%} 50%{background-position:100% 50%,30% 100%} 100%{background-position:0% 50%,100% 0%} }
-    @media (prefers-reduced-motion: reduce) { .grad { animation: none !important; } }
+    @keyframes waterFlow { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40%,-30%)} }
+    @media (prefers-reduced-motion: reduce) { .grad, .grad.water::before { animation: none !important; } }
 
     /* ====== 舞台 ====== */
     .stage {
@@ -627,7 +632,7 @@
       <div class="bg-grid" id="bgGridBase"></div>
       <div class="bg-cat" data-i18n="bg_cat_photo">写真</div>
       <div class="bg-grid" id="bgGridPhoto"></div>
-      <div class="bg-cat" data-i18n="bg_cat_video">動画</div>
+      <div class="bg-cat" id="bgCatVideo" data-i18n="bg_cat_video">動画</div>
       <div class="bg-grid" id="bgGridVideo"></div>
       <p class="hint" data-i18n="photo_credit">写真: Unsplash（無料ライセンス）</p>
     </div>
@@ -892,6 +897,12 @@
     var wd = WD[state.lang][d.getDay()];
     elDate.textContent = d.getFullYear() + '.' + pad(d.getMonth()+1) + '.' + pad(d.getDate()) + ' ' + wd;
   }
+  // 時計の駆動間隔: 秒表示中のみ 250ms。秒非表示なら 1000ms で十分（分境界まで DOM 書換なし）。
+  var clockTimer = null;
+  function scheduleClock() {
+    if (clockTimer) clearInterval(clockTimer);
+    clockTimer = setInterval(renderClock, state.clock.seconds ? 250 : 1000);
+  }
   function applyClockStyle() {
     document.documentElement.style.setProperty('--clock-scale', state.clock.size);
     // 実ウェイトのみ使用（疑似ボールド回避）: フォント別に読み込み済みウェイトへスナップ
@@ -1049,6 +1060,9 @@
 
   /* ================= 背景 ================= */
   var GRAD = { mist: 'mist', fire: 'fire', water: 'water' };
+  // 動画背景（mp4）は現状1本も設置していないため、動画カテゴリを非表示にする。
+  // assets/backgrounds/<id>.mp4 を用意したら true に戻すだけで復活する（motion:true の写真が対象）。
+  var VIDEO_BG_ENABLED = false;
   // 実写真（無料ライセンス: Unsplash）。grp: 'land'（山と森）/ 'water'（水辺）。motion: 動画カテゴリにも出す
   var PHOTOS = [
     { id: 'mountains',    key: 'bg_mountains', img: 'assets/backgrounds/mountains.jpg', grp: 'land' },
@@ -1071,6 +1085,8 @@
     { id: 'seaside',      key: 'bg_seaside', img: 'assets/backgrounds/seaside.jpg', grp: 'water', motion: true }
   ];
   function photoById(id) { return PHOTOS.find(function (p) { return p.id === id; }); }
+  // グリッド/リストのサムネは軽量版（360px・各~15KB）を使う。実際の背景選択時のみフル解像度を読む。
+  function thumbUrl(p) { return 'assets/backgrounds/thumbs/' + p.id + '.jpg'; }
   var bgLayer = $('bgLayer'), bgA = $('bgA'), bgB = $('bgB'), activeFrame = bgA, idleFrame = bgB;
   var curObjUrl = null;
 
@@ -1217,15 +1233,21 @@
       items.forEach(function (p) {
         var handler = function () { applyBackground({ type: 'photo', id: p.id }); };
         handler.preview = function () { applyBackground({ type: 'photo', id: p.id }, { preview: true }); };
-        bgGridPhoto.appendChild(makeCell(t(p.key), (function (img) { return function (th) { lazyThumb(th, img); }; })(p.img), handler, 'photo:' + p.id, false));
+        bgGridPhoto.appendChild(makeCell(t(p.key), (function (img) { return function (th) { lazyThumb(th, img); }; })(thumbUrl(p)), handler, 'photo:' + p.id, false));
       });
     });
-    // 動画：動きが映えるシーンのみ
-    PHOTOS.filter(function (p) { return p.motion; }).forEach(function (p) {
-      var handler = function () { applyBackground({ type: 'video', id: p.id }); };
-      handler.preview = function () { applyBackground({ type: 'video', id: p.id }, { preview: true }); };
-      bgGridVideo.appendChild(makeCell(t(p.key), (function (img) { return function (th) { lazyThumb(th, img); }; })(p.img), handler, 'video:' + p.id, true));
-    });
+    // 動画：動きが映えるシーンのみ（mp4未設置のため VIDEO_BG_ENABLED=false の間はカテゴリごと非表示）
+    var catVideo = $('bgCatVideo');
+    if (VIDEO_BG_ENABLED) {
+      if (catVideo) catVideo.hidden = false; bgGridVideo.hidden = false;
+      PHOTOS.filter(function (p) { return p.motion; }).forEach(function (p) {
+        var handler = function () { applyBackground({ type: 'video', id: p.id }); };
+        handler.preview = function () { applyBackground({ type: 'video', id: p.id }, { preview: true }); };
+        bgGridVideo.appendChild(makeCell(t(p.key), (function (img) { return function (th) { lazyThumb(th, img); }; })(thumbUrl(p)), handler, 'video:' + p.id, true));
+      });
+    } else {
+      if (catVideo) catVideo.hidden = true; bgGridVideo.hidden = true;
+    }
     updateBgPressed();
   }
   function updateBgPressed() {
@@ -1383,7 +1405,7 @@
       items.forEach(function (tk) {
         var li = document.createElement('li');
         var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'track'; btn.dataset.track = tk.id; btn.setAttribute('aria-pressed', 'false');
-        var th = document.createElement('span'); th.className = 'track-thumb'; var ph = photoById(tk.bg); if (ph) lazyThumb(th, ph.img);
+        var th = document.createElement('span'); th.className = 'track-thumb'; var ph = photoById(tk.bg); if (ph) lazyThumb(th, thumbUrl(ph));
         var body = document.createElement('span'); body.className = 'track-body';
         var nm = document.createElement('span'); nm.className = 'track-name'; nm.textContent = trackName(tk.id);
         var ds = document.createElement('span'); ds.className = 'track-desc'; ds.textContent = trackDesc(tk.id);
@@ -1767,7 +1789,7 @@
   document.querySelectorAll('.swatch').forEach(function (s) { s.addEventListener('click', function () { applyTheme(s.dataset.theme); saveState(); }); });
   document.querySelectorAll('#clockFontSeg button').forEach(function (b) { b.addEventListener('click', function () { state.clock.font = b.dataset.clockFont; document.querySelectorAll('#clockFontSeg button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); applyClockStyle(); saveState(); }); });
   function bindSwitch(id, get, set) { var el = $(id); el.addEventListener('click', function () { set(!get()); el.setAttribute('aria-checked', get() ? 'true' : 'false'); saveState(); }); }
-  bindSwitch('swSeconds', function () { return state.clock.seconds; }, function (v) { state.clock.seconds = v; lastClock=''; renderClock(); });
+  bindSwitch('swSeconds', function () { return state.clock.seconds; }, function (v) { state.clock.seconds = v; lastClock=''; renderClock(); scheduleClock(); });
   bindSwitch('swHour12', function () { return state.clock.hour12; }, function (v) { state.clock.hour12 = v; lastClock=''; renderClock(); });
   var sizeSlider = $('sizeSlider'), sizeVal = $('sizeVal'), weightSlider = $('weightSlider'), weightVal = $('weightVal');
   sizeSlider.addEventListener('input', function () { state.clock.size = Number(sizeSlider.value); sizeVal.textContent = Math.round(state.clock.size*100) + '%'; applyClockStyle(); saveState(); });
@@ -1882,7 +1904,7 @@
 
   buildBgGrids(); buildTrackList();
   applyBackgroundFromState();
-  renderClock(); setInterval(renderClock, 250);
+  renderClock(); scheduleClock();
   timer.remaining = modeSeconds(state.pomodoro.mode); renderTimer();
   renderTasks();
 

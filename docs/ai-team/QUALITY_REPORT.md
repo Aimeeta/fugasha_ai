@@ -1,6 +1,37 @@
 # QUALITY_REPORT — 最新の検証結果
 
-最終検証: 2026-07-13（新要素5点の一括導入）
+最終検証: 2026-07-14（監査後の一括修繕・5分隊）
+
+## 監査後の一括修繕（2026-07-14）
+5分隊並列（ファイル完全分離）＋メイン統合。変更23ファイル＋AI Dailyテンプレート＋背景サムネ18枚（新規）。
+
+| 項目 | 方法 | 結果 |
+|---|---|---|
+| 全変更HTML 構文 | 22ファイル inline JS `node --check`＋JSON-LD `JSON.parse` | ✅ 全PASS |
+| タグ整合 | div/section/nav/ul/li/main/header/footer/button/span | ✅ 全一致 |
+| sitemap.xml | xmllint | ✅ valid |
+| 背景サムネ | sips生成18枚・合計サイズ実測 | ✅ 20MB→288KB（-98.6%） |
+| focusフォント | curl gzip実測 before/after | ✅ 297.9KB→146.3KB（-151.6KB） |
+| blogナビ（実機） | 記事ページで nav 7項目・badge色 rgb(122,64,37)=accent-ink・ham 8px | ✅ 反映 |
+| blogコントラスト | 計算値（accent-ink #7a4025）: eyebrow/kicker 6.57・badge 5.99・art-badge 7.86・footer 5.91・card-meta 4.75 | ✅ 全AA |
+| contact（実機） | main#main・skip→#main・「必須」navy×amber=6.36:1・step遷移フォーカス移動・aria-current | ✅ 反映 |
+| yohaku索引（実機） | 静的リンク5本存在・Contactナビ・JS無効でもリンク/項目名可視（分隊E確認） | ✅ fail-open |
+| en（実機/curl） | FAQ自己完結・JSON-LD同期・英語リンクからlang="ja"消失 | ✅ 反映 |
+| AI Dailyテンプレート | template.html を修正済み記事と同期（node --check・タグ整合） | ✅ 次回生成の退行防止 |
+| コンソール | blog記事/yohaku/contact | ✅ エラーゼロ |
+
+### スコープ判断・逸脱（記録）
+- blog card-meta: 指示は--hintだが--hintはカード背景で4.40:1と割れるため--muted（4.75:1）採用（分隊A・アクセシビリティ優先の妥当判断）
+- 余白系Contactは nav-cta でなく nav-link で統一（サブページに nav-cta のCSSがなく崩れるため・分隊E）
+- security-ai 狭幅ナビは display:none 削除で全導線維持（分隊E）
+
+### 未検証領域（開示）
+- 実機SR（VoiceOver/NVDA）でのアナウンス・実タッチ端末
+- focus水テーマの動きの見た目（プレビュー環境が実寸0のため数値未取得）
+- 本番URLでのOGP/Twitterカード実レンダリング・Lighthouse
+- contact完了画面フォーカス（Formspree実送信せず）
+
+## 新要素5点の一括導入（2026-07-13）
 
 ## 新要素5点の一括導入（2026-07-13）
 変更: season.html(新)・404.html(新)・index.html(紙のうえの光+a11y修正)・sky.html(月アニメ)・focus.html(雨の音+Space修正)・yohaku.html(索引+1)・sitemap.xml。

@@ -2,7 +2,16 @@
 
 最終更新: 2026-07-14。凡例: ✅ 対応済み / ⬜ 未対応 / 🚫 却下（理由つき）
 
-## 2026-07-14 全体監査（5体並列: seo-aeo / performance / a11y / first-visit / brand-copywriter。EN含む・すべて⬜未対応）
+## 2026-07-14 監査後の一括修繕（5分隊並列実装＋メイン統合）— 下記◧の項目を対応
+下の監査リストのうち、値がオーナー依存でない項目を5分隊（blog / en / contact / focus / yohaku他）で実装。◧=対応済み。
+- ◧ blog一式: ナビ刷新（Home/Security/余白/Colors/Blog/English/Contact）・コントラストaccent→accent-ink（全項目AA、card-metaは--hint→--muted 4.75:1）・kicker「いちばん新しい、書きおろし」・記事9本にドロワーのdialog/inert/フォーカス移動・nav-ham 8px。**AI Daily生成テンプレート（automation/ai-daily-news/template.html）も同期**（次回生成の退行防止）
+- ◧ focus.html: 背景サムネ生成（20MB→288KB, -98.6%）・フォント可変レンジ化（-151.6KB）・動画カテゴリをフラグ無効化（mp4不在の404解消）・water背景をtransform化・時計interval
+- ◧ contact.html: ステップ遷移のフォーカス移動＋aria-current・白×アンバーのコントラスト（全項目AA）・main/skip-link・reduced-motion分岐
+- ◧ en/index.html: FAQ自己完結（存在しないプラン参照除去・JSON-LD同期）・lang="ja"誤用削除＋Yohakuに(in Japanese)注記・英文の直訳臭6件
+- ◧ yohaku索引を静的HTML＋JSエンハンス化（AIクローラー可視・JS無効fallback・skip→#main）・余白系5ページのナビにContact・og:description/twitter:card一括補完・sitemap lastmod更新・chat robots・security-ai狭幅ナビ・WORDS_AUTHORS同期警告
+- ⬜ **保留（オーナー判断待ち）**: 費用感の記載（金額はオーナーのみ）／運営者情報・LinkedIn（実名・URL要）／JA請求FAQ／Colorsの余白所属／JSON-LDサブページ全面追加（フォローアップ）
+
+## 2026-07-14 全体監査（5体並列: seo-aeo / performance / a11y / first-visit / brand-copywriter。EN含む）
 
 ### 重大（公開ブロッカー級・複数監査が収束）
 - ⬜ **blog一式が旧世代のまま取り残され**（SEO/UX/a11y/コピーの4監査が独立に指摘）:

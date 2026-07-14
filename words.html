@@ -6,11 +6,13 @@
   <title>ことば | 風雅舎</title>
   <meta name="description" content="気分から言葉と出会うページ。英日のことばに短い問いかけを添えて。お気に入りも書き置きも、ブラウザの中にだけ保存されます。">
   <meta property="og:title" content="ことば | 風雅舎">
+  <meta property="og:description" content="気分から言葉と出会うページ。英日のことばに短い問いかけを添えて。お気に入りも書き置きも、ブラウザの中にだけ保存されます。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/words.html">
   <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:site_name" content="風雅舎">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#f3e3cc" id="metaTheme">
   <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/words.html">
   <meta name="robots" content="index, follow">
@@ -257,6 +259,7 @@
     <a href="yohaku.html" class="nav-link active" aria-current="page">余白</a>
     <a href="colors.html" class="nav-link">Colors</a>
     <a href="blog/" class="nav-link">Blog</a>
+    <a href="contact.html" class="nav-link">Contact</a>
   </div>
 </nav>
 
@@ -406,7 +409,10 @@
 <script>
 /* QUOTES — 84 curated quotes. q/a=EN, j/aj=JA, c=categories, r/rj=reflection prompt, bg=background theme
    運用注意: お気に入り・共有リンク(#q=N)はindexベース。追加は必ず末尾へ（並べ替え・削除は既存の共有リンクとお気に入りを壊す）。
-   追記すると qotdIndex() の剰余が変わり「本日のことば」がその日から変わる点、ヘルプ内の件数表記の更新も忘れないこと。 */
+   追記すると qotdIndex() の剰余が変わり「本日のことば」がその日から変わる点、ヘルプ内の件数表記の更新も忘れないこと。
+   ⚠ 相互参照: yohaku.html の WORDS_AUTHORS 配列がこの QUOTES と「完全同順」の著者名複製を持つ。
+     ここを追記・削除・並べ替えしたら yohaku.html:WORDS_AUTHORS も必ず同じ順序で同期すること
+     （ずれると余白ページの「本日のことば」表示が本体とその日ずれる）。 */
 const QUOTES = [
   { q: "A journey of a thousand miles begins beneath your feet.", a: "Laozi", aj: "老子", j: "千里の行も、足下より始まる。", c: ["New Beginning", "Motivation"], r: "What is the smallest first step you could take today?", rj: "今日ふみ出せる、いちばん小さな一歩は？", bg: "dawn" },
   { q: "An imperfect line beats a perfect plan.", a: "Fugasha", aj: "風雅舎", j: "完璧な計画より、不完全な一行。", c: ["Creativity", "New Beginning"], r: "What imperfect line could you write right now?", rj: "いま書ける「不完全な一行」は、どんなもの？", bg: "dawn" },

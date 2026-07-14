@@ -12,6 +12,7 @@
   <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:site_name" content="風雅舎">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#f0e6d6">
   <link rel="canonical" href="https://aimeeta.github.io/fugasha_ai/security-ai.html">
   <meta name="robots" content="index, follow">
@@ -174,9 +175,9 @@
     }
 
     @media (max-width: 520px) {
-      .nav-link { font-size: 10px; }
-      .nav-right { gap: 14px; }
-      .nav-link:nth-child(2) { display: none; }
+      /* 狭幅でも主要導線（余白ハブ・Contact）を消さない。詰まり対策は字間・gap圧縮で吸収 */
+      .nav-link { font-size: 10px; letter-spacing: .06em; }
+      .nav-right { gap: 12px; }
       .h1 { font-size: 31px; }
       .lead { font-size: 14px; }
       .sec { padding-top: 34px; }

@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ブログ | 風雅舎</title>
-  <meta name="description" content="AI導入・セキュリティ・デザイン・経営について、中小企業の経営者に向けて風雅舎が発信するブログです。">
+  <meta name="description" content="AI・セキュリティ・デザイン・経営について、考えたことを書き残しています。中小企業の経営者の方へ。">
   <meta property="og:title" content="ブログ | 風雅舎">
-  <meta property="og:description" content="AI導入・セキュリティ・デザイン・経営について、中小企業の経営者に向けて風雅舎が発信するブログです。">
+  <meta property="og:description" content="AI・セキュリティ・デザイン・経営について、考えたことを書き残しています。中小企業の経営者の方へ。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aimeeta.github.io/fugasha_ai/blog/">
   <meta property="og:image" content="https://aimeeta.github.io/fugasha_ai/ogp.jpg">
@@ -53,6 +53,7 @@
       --muted:   #5a5f66;       /* index.htmlと同値 — 読みやすさ向上 */
       --hint:    #5f646c;       /* クリーム上で約4.6:1 — WCAG AA準拠 */
       --accent:  #e8866a;
+      --accent-ink: #7a4025;    /* 小さな文字用の濃いサーモン — cream上6.57:1 / card(bg2)上5.99:1 */
       --slate:   #6e8fa6;
       --line:    rgba(13,32,48,.1);
       --font-sans:  'Zen Kaku Gothic New', sans-serif;
@@ -88,7 +89,7 @@
       transition: opacity .2s; border: none; letter-spacing: .08em; text-decoration: none;
     }
     .nav-cta:hover { opacity: .8; }
-    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: 0; }
+    .nav-ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: 0; }
     .nav-ham span { display: block; width: 20px; height: 1.5px; background: var(--fg); border-radius: 1px; transition: all .25s; }
     .nav-ham.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
     .nav-ham.open span:nth-child(2) { opacity: 0; }
@@ -110,7 +111,7 @@
     /* ── Header ── */
     .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
     .blog-head { padding: 64px 0 40px; border-bottom: 1px solid var(--line); margin-bottom: 48px; }
-    .blog-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; }
+    .blog-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; color: var(--accent-ink); text-transform: uppercase; margin-bottom: 14px; }
     .blog-h1 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(30px, 5vw, 44px); margin-bottom: 14px; }
     .blog-intro { font-size: 15px; color: var(--hint); line-height: 1.8; max-width: 560px; }
 
@@ -124,12 +125,12 @@
     .card:hover { border-color: rgba(232,134,106,.35); }
     .card-badge {
       display: inline-block; align-self: flex-start; font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
-      color: var(--accent); border: 1px solid rgba(232,134,106,.4); border-radius: 100px;
+      color: var(--accent-ink); border: 1px solid rgba(232,134,106,.4); border-radius: 100px;
       padding: 4px 12px; font-weight: 500; margin-bottom: 16px;
     }
     .card-title { font-family: var(--font-serif); font-weight: 400; font-size: 19px; line-height: 1.5; color: var(--fg); margin-bottom: 12px; }
     .card-excerpt { font-size: 13px; line-height: 1.8; color: var(--hint); margin-bottom: 20px; flex-grow: 1; }
-    .card-meta { display: flex; gap: 12px; font-size: 11px; color: var(--slate); align-items: center; }
+    .card-meta { display: flex; gap: 12px; font-size: 11px; color: var(--muted); align-items: center; }
     .card-meta span { display: inline-flex; align-items: center; gap: 4px; }
     .card-arrow { margin-top: 16px; font-size: 12px; color: var(--fg); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
     .card:hover .card-arrow .arr { transform: translateX(4px); }
@@ -137,7 +138,7 @@
 
     /* ── Featured（最新記事を全幅・大型タイトルで — 8連同型カードの解体、2026-07監査 Phase2） ── */
     .card-featured { grid-column: 1 / -1; padding: 40px 44px; }
-    .card-featured-kicker { display: block; font-family: var(--font-serif); font-size: 12px; letter-spacing: .22em; color: var(--accent); margin-bottom: 16px; }
+    .card-featured-kicker { display: block; font-family: var(--font-serif); font-size: 12px; letter-spacing: .22em; color: var(--accent-ink); margin-bottom: 16px; }
     .card-featured .card-title { font-size: clamp(26px, 3.6vw, 40px); line-height: 1.45; max-width: 24em; }
     .card-featured .card-excerpt { font-size: 14.5px; max-width: 40em; }
     @media (max-width: 768px) {
@@ -155,8 +156,8 @@
     .ftl { font-size: 10px; color: rgba(240,230,214,.5); letter-spacing: .18em; text-transform: uppercase; font-family: var(--font-mono); }
     .ftc { font-size: 10px; color: rgba(240,230,214,.45); letter-spacing: .08em; }
     .ft-links { display: flex; gap: 20px; align-items: center; }
-    .ft-link { font-size: 10px; color: rgba(240,230,214,.3); text-decoration: none; }
-    .ft-link:hover { color: rgba(240,230,214,.7); }
+    .ft-link { font-size: 10px; color: rgba(240,230,214,.62); text-decoration: none; }
+    .ft-link:hover { color: rgba(240,230,214,.9); }
     @media (max-width: 768px) {
       .ft { padding: 36px 20px 20px; gap: 18px; }
       .ft-tagline-big { font-size: 26px; }
@@ -164,7 +165,7 @@
       .blog-head { padding: 44px 0 32px; }
     }
 
-    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    :focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
 
     @view-transition { navigation: auto; }
     @media (prefers-reduced-motion: reduce) {
@@ -174,22 +175,28 @@
 </head>
 <body>
 
-<nav class="nav" id="nav">
+<nav class="nav" id="nav" aria-label="メイン">
   <a href="../index.html" class="nav-logo">風雅舎</a>
   <div class="nav-right">
-    <a href="../index.html#s-service" class="nav-link">Services</a>
+    <a href="../index.html" class="nav-link">Home</a>
+    <a href="../security-ai.html" class="nav-link">Security</a>
+    <a href="../yohaku.html" class="nav-link">余白</a>
+    <a href="../colors.html" class="nav-link">Colors</a>
     <a href="./" class="nav-link active">Blog</a>
-    <a href="../index.html#s-about" class="nav-link">About</a>
-    <a href="../contact.html" class="nav-cta">無料相談</a>
+    <a href="../en/" class="nav-link" lang="en" hreflang="en">English</a>
+    <a href="../contact.html" class="nav-cta">無料で相談する</a>
     <button type="button" class="nav-ham" id="navHam" aria-label="メニューを開く" aria-expanded="false" aria-controls="navDrawer"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="nav-drawer" id="navDrawer" role="dialog" aria-modal="true" aria-label="メニュー">
   <button class="nav-drawer-close" id="navClose" aria-label="閉じる">✕</button>
-  <a href="../index.html#s-service">Services</a>
+  <a href="../index.html">Home</a>
+  <a href="../security-ai.html">Security</a>
+  <a href="../yohaku.html">余白</a>
+  <a href="../colors.html">Colors</a>
   <a href="./">Blog</a>
-  <a href="../index.html#s-about">About</a>
-  <a href="../contact.html">無料相談 →</a>
+  <a href="../en/" lang="en" hreflang="en">English</a>
+  <a href="../contact.html">無料で相談する →</a>
 </div>
 
 <main class="wrap">
@@ -202,7 +209,7 @@
   <div class="grid">
     <!-- 運用メモ: 新記事を追加したら card-featured クラスと「いちばん新しい記事」kicker を必ず新記事へ移すこと（放置するとラベルが虚偽になる） -->
     <a href="from-chatbots-to-ai-agents/" class="card card-featured">
-      <span class="card-featured-kicker">いちばん新しい記事</span>
+      <span class="card-featured-kicker">いちばん新しい、書きおろし</span>
       <span class="card-badge">AI導入・業務効率化</span>
       <h2 class="card-title">答えるAIから、動くAIへ</h2>
       <p class="card-excerpt">2026年、AIは「質問に答える」から「作業を代わりに進める」へ。話題のAIエージェントとは何が違い、小さな会社にとってどんな意味があるのかを、落ち着いて整理する。</p>
