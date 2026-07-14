@@ -1,12 +1,13 @@
 # AI Daily News — 毎朝のAIニュースまとめ記事を自動生成する
 #
-# 動作モード（リポジトリの Variables → NEWS_MODE で切替。既定 draft）:
+# 動作モード（リポジトリの Variables → NEWS_MODE で切替。既定 publish＝自動公開）:
+#   publish : 記事を生成して main へ直接コミット＝即公開（GitHub Pages）。※既定
 #   draft   : 記事を生成して Pull Request を作成。管理者がPRを確認してマージ＝公開
-#   publish : 記事を生成して main へ直接コミット＝即公開（GitHub Pages）
+#             （＝一時的に人手の確認を挟みたいときの一時停止スイッチ）
 #
 # 必要な設定（Settings → Secrets and variables → Actions）:
-#   Secrets  : ANTHROPIC_API_KEY（必須）、SLACK_WEBHOOK_URL（任意）
-#   Variables: NEWS_MODE=draft|publish（任意・既定draft）、NEWS_MODEL（任意）
+#   Secrets  : ANTHROPIC_API_KEY（必須。未設定だと何も動かない）、SLACK_WEBHOOK_URL（任意）
+#   Variables: NEWS_MODE=draft で承認制に戻せる（未設定＝publish＝自動公開）、NEWS_MODEL（任意）
 #
 # ANTHROPIC_API_KEY が未設定の間は何もせず正常終了する（毎日失敗通知が飛ばないように）
 
@@ -65,7 +66,8 @@ jobs:
         run: |
           MODE="${{ github.event.inputs.mode }}"
           if [ -z "$MODE" ]; then MODE="${{ vars.NEWS_MODE }}"; fi
-          if [ "$MODE" != "publish" ]; then MODE="draft"; fi
+          # 既定は publish（自動公開）。NEWS_MODE=draft のときだけ承認制に戻す
+          if [ "$MODE" != "draft" ]; then MODE="publish"; fi
           echo "mode=$MODE" >> "$GITHUB_OUTPUT"
           echo "mode: $MODE"
 

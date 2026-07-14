@@ -33,11 +33,12 @@ Seasons（七十二候）/ Slow Reading（今日の一節・縦書き）/ Unhurr
 ## 2026-07-12 — AI Daily News 自動生成 — 実装済み・オーナーのSecret設定待ち
 GitHub Actions（JST 7:00）でAIニュースまとめ記事を自動生成。詳細は automation/ai-daily-news/README.md と DECISION_LOG。
 
+**2026-07-14 更新**: 既定を publish（自動公開）へ切替済み（オーナー指示・DECISION_LOG参照）。承認制に戻すなら Variables `NEWS_MODE=draft`。
+
 **オーナーがやること（これをしないと動かない・未設定の間は安全に何もしない）**:
-1. GitHub → Settings → Secrets and variables → Actions → Secrets に `ANTHROPIC_API_KEY` を追加
-2. 任意: Secrets `SLACK_WEBHOOK_URL`（通知先）、Variables `NEWS_MODE`（既定 draft）
-3. Actions → AI Daily News → Run workflow で手動テスト → 作成されたPR（下書き）を確認してマージ
-4. 数日運用して精度に納得したら Variables `NEWS_MODE=publish` で自動公開へ切替
+1. GitHub → Settings → Secrets and variables → Actions → Secrets に `ANTHROPIC_API_KEY` を追加（**唯一の必須作業。これが無いと自動公開でも何も投稿されない**）
+2. 任意: Secrets `SLACK_WEBHOOK_URL`（通知先）、Variables `NEWS_MODE=draft`（承認制に戻したいときだけ）
+3. 動作確認したいとき: Actions → AI Daily News → Run workflow（mode=draft を選べば公開せずPRで中身を確認できる）
 
 **フォローアップ候補**:
 - 情報源の追加（config.json の feedsDisabled → feeds。DeepMind / NVIDIA / GitHub / MIT TR / The Verge を用意済み。allowedLinkDomains への追加を忘れない）
