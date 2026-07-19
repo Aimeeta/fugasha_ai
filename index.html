@@ -297,9 +297,7 @@
 
     /* ── Hero ── */
     .hero {
-      padding: 72px max(40px, calc((100% - var(--page-max)) / 2)) 80px; position: relative; overflow: hidden;
-      min-height: 500px; display: grid; grid-template-columns: 1fr 1fr;
-      gap: 48px; align-items: center;
+      padding: 76px max(40px, calc((100% - var(--page-max)) / 2)) 72px; position: relative; overflow: hidden;
     }
     .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .hero-left { position: relative; z-index: 2; }
@@ -345,25 +343,25 @@
       opacity: 0; transition: all .6s ease .5s;
     }
     .h-byline {
-      display: flex; align-items: center; gap: 12px; margin-top: 18px; max-width: 560px;
-      opacity: 0; transition: opacity .6s ease .5s;
+      display: flex; align-items: center; gap: 12px; margin: 2px 0 24px; max-width: 560px;
+      opacity: 0; transition: opacity .6s ease .35s;
     }
     .h-byline-img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; object-position: center 28%; flex-shrink: 0; }
     .h-byline-txt { font-size: 12px; color: var(--fg2); line-height: 1.75; } /* --muted→--fg2: 夜間canvas重畳でのAA割れ回避 */
     .h-byline-name { display: block; font-family: var(--font-serif); font-size: 13px; color: var(--fg); letter-spacing: .02em; }
     .h-choice-label {
-      margin-top: 18px; margin-bottom: 8px;
+      margin-top: 30px; margin-bottom: 10px;
       font-family: var(--font-serif); font-size: 12px; letter-spacing: .18em;
       color: var(--accent-ink);
       opacity: 0; transition: opacity .6s ease .52s;
     }
     .h-chips {
-      display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 0; max-width: 560px;
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 0; max-width: 900px;
       opacity: 0; transition: all .6s ease .55s;
     }
     .h-chip {
-      position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 10px; row-gap: 5px;
-      min-height: 78px; padding: 14px 14px 13px;
+      position: relative; display: block;
+      padding: 15px 16px 14px;
       color: var(--fg2); text-decoration: none;
       background: rgba(255,255,255,.34); border: .5px solid var(--gb); border-radius: var(--radius-md);
       transition: background .2s, border-color .2s, box-shadow .2s;
@@ -377,52 +375,25 @@
       box-shadow: var(--shadow-md);
     }
     .h-chip:hover::after { transform: translateX(3px); }
-    .h-chip-num {
-      grid-row: 1 / span 2; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;
-      border: .5px solid rgba(232,134,106,.32); color: var(--accent-ink);
-      font-family: var(--font-mono); font-size: 10px; border-radius: 50%;
-    }
-    .h-chip-title { display: block; padding-right: 18px; font-size: 13px; line-height: 1.55; color: var(--fg); font-weight: 500; }
+    .h-chip-title { display: block; padding-right: 18px; margin-bottom: 5px; font-size: 13px; line-height: 1.55; color: var(--fg); font-weight: 500; }
     .h-chip-desc { display: block; padding-right: 12px; font-size: 11.5px; line-height: 1.65; color: var(--muted); }
 
-    /* scroll hint */
-    .scroll-hint {
-      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 5px;
-      opacity: 0; transition: opacity .8s ease 1s; z-index: 2;
+    /* ── 小さな試算（業務時間チェッカー — 余白の地図内）── */
+    .margin-checker {
+      display: grid; grid-template-columns: .92fr 1.08fr; gap: 32px;
+      margin-top: 32px; align-items: start;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity .7s var(--ease) .1s, transform .7s var(--ease) .1s;
     }
-    .scroll-hint-line {
-      width: .5px; height: 36px; background: var(--line);
-      animation: scrollline 2s ease-in-out infinite;
+    .visible .margin-checker { opacity: 1; transform: none; }
+    .mck-lead { padding: 8px 24px 0 29px; } /* margin-note（左罫1px+28px）とテキスト開始位置を揃える */
+    .mck-t { font-family: var(--font-serif); font-size: 21px; font-weight: 400; line-height: 1.6; margin-bottom: 10px; }
+    .mck-b { font-size: 13.5px; color: var(--muted); line-height: 2; max-width: 400px; }
+    .mck-card {
+      background: var(--bg); border: .5px solid rgba(13,32,48,.14);
+      border-top: 1px solid rgba(232,134,106,.45); /* margin-stepの上罫と同じ言語 */
     }
-    @keyframes scrollline {
-      0%,100% { opacity: .2; transform: scaleY(.4) translateY(-6px); }
-      55% { opacity: .8; transform: scaleY(1); }
-    }
-    .scroll-hint-txt { font-size: 10px; letter-spacing: .12em; color: var(--hint); }
-
-    /* ── Hero right: 業務時間チェッカー ── */
-    .hero-right {
-      position: relative; z-index: 2;
-      opacity: 0; transform: translateX(22px);
-      transition: all .85s cubic-bezier(.16,1,.3,1) .2s;
-    }
-    .h-checker {
-      background: var(--glass); border: .5px solid var(--gb);
-      border-radius: var(--radius-lg); overflow: hidden; backdrop-filter: blur(20px);
-    }
-    .h-checker-bar {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 9px 15px; background: rgba(255,255,255,.25);
-      border-bottom: .5px solid rgba(255,255,255,.5);
-    }
-    .stream-label {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 10px; letter-spacing: .14em; color: var(--hint);
-      font-family: var(--font-mono); text-transform: uppercase;
-    }
-    .sld { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-    .h-checker-body { padding: 18px 18px 14px; }
+    .mck-body { padding: 22px 24px 16px; }
     .hck-q { font-size: 12px; color: var(--fg); font-weight: 500; margin-bottom: 16px; line-height: 1.6; }
     .hck-slider-wrap { margin-bottom: 4px; }
     .hck-slider {
@@ -457,19 +428,13 @@
     .hck-r-bar-wrap { height: 3px; background: rgba(13,32,48,.07); border-radius: var(--radius-xs); overflow: hidden; }
     .hck-r-bar {
       height: 100%; border-radius: var(--radius-xs); transition: width .5s var(--ease);
-      transform-origin: left center;
-      animation: bar-breathe 5.8s ease-in-out infinite;
-    }
-    @keyframes bar-breathe {
-      0%, 100% { transform: scaleX(1); opacity: 1; }
-      50% { transform: scaleX(.985); opacity: .82; }
     }
     .hck-r-bar-accent { background: var(--accent); }
     .hck-r-bar-navy { background: var(--fg); opacity: .4; }
     .hck-message { font-size: 12px; color: var(--fg2); margin-top: 12px; font-style: italic; font-family: var(--font-serif); letter-spacing: .02em; padding-top: 10px; border-top: .5px solid rgba(13,32,48,.06); min-height: 20px; transition: opacity .3s; }
-    .stream-note {
+    .mck-note {
       font-size: 10px; color: var(--hint); line-height: 1.65;
-      padding: 8px 18px 12px; border-top: .5px solid rgba(13,32,48,.06);
+      padding: 10px 24px 14px; border-top: .5px solid rgba(13,32,48,.06);
     }
 
     /* ── Tools ── */
@@ -1131,8 +1096,6 @@
     .visible .h-byline,
     .visible .h-choice-label,
     .visible .h-chips,
-    .visible .scroll-hint,
-    .visible .hero-right,
     .visible .s-lbl,
     .visible .s-h2,
     .visible .s-desc,
@@ -1185,16 +1148,12 @@
       .nav-link { font-size: 10px; letter-spacing: .08em; }
       .nav-cta { padding: 9px 16px; }
 
-      .hero {
-        padding: 58px 30px 68px;
-        gap: 34px;
-        grid-template-columns: minmax(0, 1fr) minmax(320px, .95fr);
-      }
+      .hero { padding: 58px 30px 64px; }
       .h-h1 { font-size: clamp(36px, 4.1vw, 46px); }
       .h-subcopy { font-size: 15px; }
-      .h-chips { grid-template-columns: 1fr; max-width: 560px; }
-      .h-chip { min-height: 78px; padding: 13px 14px; }
-      .h-checker-body { padding: 16px 16px 13px; }
+      .h-chips { max-width: none; }
+      .h-chip { padding: 13px 14px; }
+      .mck-body { padding: 16px 16px 13px; }
       .hck-val { font-size: 40px; }
       .hck-r-num { font-size: 22px; }
 
@@ -1202,6 +1161,8 @@
       .sign-grid { gap: 28px; } /* 3項目のため2カラム化しない（孤立セル回避） */
       .phi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
       .margin-map { grid-template-columns: 1fr; gap: 22px; }
+      .margin-checker { grid-template-columns: 1fr; gap: 18px; margin-top: 22px; }
+      .mck-lead { padding: 0 0 0 29px; }
       .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
       .svc-bento { grid-template-columns: 1fr; } /* 3等分のままだと1カード約280pxで見出しが折れ過ぎるため縦積み */
@@ -1237,35 +1198,31 @@
       .nav-cta { display: none; } /* ドロワー内CTAに統合 */
 
       /* ── Hero ── */
-      .hero {
-        grid-template-columns: 1fr;
-        padding: 34px 20px 42px;
-        gap: 22px;
-        min-height: auto;
-      }
+      .hero { padding: 34px 20px 42px; }
       .h-h1 { font-size: 32px; line-height: 1.28; margin-bottom: 16px; }
       .h-subcopy { font-size: 14px; margin: -2px 0 14px; }
+      .h-byline { margin: 0 0 18px; }
       .h-actions { gap: 8px; }
       .btn-amber { font-size: 11px; padding: 13px 22px; }
       .btn-ghost { font-size: 11px; padding: 12px 21px; }
-      .h-choice-label { margin-top: 14px; }
+      .h-choice-label { margin-top: 20px; }
       .h-chips { grid-template-columns: 1fr; gap: 8px; }
-      .h-chip { min-height: 78px; padding: 13px 14px; }
+      .h-chip { padding: 13px 14px; }
       .h-chip-title { font-size: 13px; }
       .h-chip-desc { font-size: 11.5px; }
       .h-actions-note { margin-top: 10px; }
-      .scroll-hint { display: none; }
-      /* Checker */
-      .hero-right { opacity: 1; transform: none; }
-      .h-checker { border-radius: var(--radius-md); }
-      .h-checker-bar { padding: 8px 13px; }
-      .h-checker-body { padding: 15px 15px 12px; }
+      /* ── 小さな試算（チェッカー）── */
+      .margin-checker { grid-template-columns: 1fr; gap: 14px; margin-top: 18px; }
+      .mck-lead { padding: 0; }
+      .mck-t { font-size: 19px; }
+      .mck-b { font-size: 13px; }
+      .mck-body { padding: 15px 15px 12px; }
       .hck-q { margin-bottom: 13px; }
       .hck-val { font-size: 36px; }
       .hck-r-num { font-size: 20px; }
       .hck-result { padding: 12px; }
       .hck-r-divider { margin: 0 10px; }
-      .stream-note { font-size: 10px; padding: 6px 14px 10px; }
+      .mck-note { font-size: 10px; padding: 8px 15px 12px; }
 
       /* ── Sections ── */
       .sec { padding: 52px 20px; }
@@ -1434,9 +1391,9 @@
   <noscript>
     <style>
       /* JS無効時: IntersectionObserverのリビールが動かないため、初期状態 opacity:0 の要素をすべて可視化する */
-      .h-h1, .h-actions, .h-actions-note, .h-byline, .h-choice-label, .h-chips, .scroll-hint, .hero-right,
+      .h-h1, .h-actions, .h-actions-note, .h-byline, .h-choice-label, .h-chips,
       .s-lbl, .s-h2, .s-desc, .sign-item, .sv, .case,
-      .margin-step, .phi-item, .phi-quote, .security-panel, .ar,
+      .margin-step, .margin-checker, .phi-item, .phi-quote, .security-panel, .ar,
       .ch2, .csub, .cq, .cta-wrap {
         opacity: 1 !important; transform: none !important;
       }
@@ -1507,78 +1464,32 @@
   <div class="hero-left">
     <h1 class="h-h1">無駄をなくして、<br>熱中を取り戻す。</h1>
     <p class="h-subcopy">AI、デザイン、発信、業務の整理。手段は横断しますが、目的はひとつです。熱中するための余白を、取り戻すこと。</p>
+    <div class="h-byline">
+      <img src="aimee-portrait-144.jpg" alt="" class="h-byline-img" width="112" height="144" loading="eager" decoding="async">
+      <p class="h-byline-txt"><span class="h-byline-name">Aimee ／ 風雅舎代表</span>このサイトを書いているのも、相談を受けるのも、私です。</p>
+    </div>
     <div class="h-actions">
       <a href="chat.html" class="btn-amber">相談メモをつくってみる <span class="arr">→</span></a>
       <a href="contact.html" class="btn-ghost">無料の30分相談を申し込む</a>
     </div>
     <p class="h-actions-note">答えて整理するだけでも構いません。まとまった内容は「相談メモ」として持ち帰れます。</p>
-    <div class="h-byline">
-      <img src="aimee-portrait-144.jpg" alt="" class="h-byline-img" width="112" height="144" loading="eager" decoding="async">
-      <p class="h-byline-txt"><span class="h-byline-name">Aimee ／ 風雅舎代表</span>このサイトを書いているのも、相談を受けるのも、私です。</p>
-    </div>
     <div class="h-choice-label">どこから話しますか？</div>
     <nav class="h-chips" aria-label="相談の入り口">
       <a href="chat.html?t=ai" class="h-chip">
-        <span class="h-chip-num">01</span>
         <span class="h-chip-title">AIを使いたい</span>
         <span class="h-chip-desc">何から始めるか、業務から一緒に選びます。</span>
       </a>
       <a href="chat.html?t=out" class="h-chip">
-        <span class="h-chip-num">02</span>
         <span class="h-chip-title">外注・制作を相談したい</span>
         <span class="h-chip-desc">頼む範囲と、手元に残す範囲を整理します。</span>
       </a>
       <a href="chat.html?t=ops" class="h-chip">
-        <span class="h-chip-num">03</span>
         <span class="h-chip-title">作業を減らしたい</span>
         <span class="h-chip-desc">繰り返し作業と判断業務を分けて見ます。</span>
       </a>
     </nav>
   </div>
-  <div class="hero-right">
-    <div class="h-checker" data-lenis-prevent>
-      <div class="h-checker-bar">
-        <div class="stream-label"><div class="sld"></div>業務時間チェッカー</div>
-      </div>
-      <div class="h-checker-body">
-        <div class="hck-q" id="hckQ">今週、ルーティン作業に何時間使いましたか？</div>
-        <div class="hck-slider-wrap">
-          <input type="range" min="1" max="40" value="15" id="hckSlider" class="hck-slider" aria-labelledby="hckQ" aria-valuetext="週15時間">
-          <div class="hck-ticks">
-            <span>1h</span><span>10h</span><span>20h</span><span>30h</span><span>40h</span>
-          </div>
-        </div>
-        <div class="hck-display">
-          <span class="hck-val" id="hckVal">15</span>
-          <span class="hck-unit">時間 / 週</span>
-        </div>
-        <div class="hck-result" id="hckResult">
-          <div class="hck-result-row">
-            <div class="hck-r-item">
-              <div class="hck-r-lbl">手放せる時間の目安</div>
-              <div class="hck-r-num"><span id="hckSave">5〜8</span><span class="hck-r-unit">h/週</span></div>
-              <div class="hck-r-bar-wrap"><div class="hck-r-bar hck-r-bar-accent" id="hckBarSave" style="width:20%"></div></div>
-            </div>
-            <div class="hck-r-divider"></div>
-            <div class="hck-r-item">
-              <div class="hck-r-lbl">年間に換算すると</div>
-              <div class="hck-r-num"><span id="hckYear">230〜390</span><span class="hck-r-unit">h/年</span></div>
-              <div class="hck-r-bar-wrap"><div class="hck-r-bar hck-r-bar-navy" id="hckBarYear" style="width:19%"></div></div>
-            </div>
-          </div>
-          <div class="hck-message" id="hckMsg">その時間の使い道は、あなたが決めることです。</div>
-          <div class="sr-only" id="hckStatus" role="status"></div>
-        </div>
-      </div>
-      <div class="stream-note">※ ルーティン作業の30〜50%を任せられると仮定した概算です。実際の幅は業務内容やツール環境によって変わります。</div>
-    </div>
-  </div>
-  <div class="scroll-hint">
-    <div class="scroll-hint-line"></div>
-    <span class="scroll-hint-txt">SCROLL</span>
-  </div>
 </section>
-
 <!-- ── Tools ── -->
 <section class="sec-tools" id="s-tools">
   <div class="tools-lbl">ふだん使っている道具</div>
@@ -1639,6 +1550,46 @@
           <p class="margin-step-b">空いた時間を、判断、発信、学び、休むことへ戻していきます。</p>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="margin-checker">
+    <div class="mck-lead">
+      <div class="margin-note-k">小さな試算</div>
+      <h3 class="mck-t">手放せる時間を、<br>ためしに数字にしてみる。</h3>
+      <p class="mck-b">正確な診断ではありません。ただ、自分の一週間を数字でひとつ眺めてみると、余白の候補が見えてきます。</p>
+    </div>
+    <div class="mck-card" data-lenis-prevent>
+      <div class="mck-body">
+        <div class="hck-q" id="hckQ">今週、ルーティン作業に何時間使いましたか？</div>
+        <div class="hck-slider-wrap">
+          <input type="range" min="1" max="40" value="15" id="hckSlider" class="hck-slider" aria-labelledby="hckQ" aria-valuetext="週15時間">
+          <div class="hck-ticks">
+            <span>1h</span><span>10h</span><span>20h</span><span>30h</span><span>40h</span>
+          </div>
+        </div>
+        <div class="hck-display">
+          <span class="hck-val" id="hckVal">15</span>
+          <span class="hck-unit">時間 / 週</span>
+        </div>
+        <div class="hck-result" id="hckResult">
+          <div class="hck-result-row">
+            <div class="hck-r-item">
+              <div class="hck-r-lbl">手放せる時間の目安</div>
+              <div class="hck-r-num"><span id="hckSave">5〜8</span><span class="hck-r-unit">h/週</span></div>
+              <div class="hck-r-bar-wrap"><div class="hck-r-bar hck-r-bar-accent" id="hckBarSave" style="width:20%"></div></div>
+            </div>
+            <div class="hck-r-divider"></div>
+            <div class="hck-r-item">
+              <div class="hck-r-lbl">年間に換算すると</div>
+              <div class="hck-r-num"><span id="hckYear">230〜390</span><span class="hck-r-unit">h/年</span></div>
+              <div class="hck-r-bar-wrap"><div class="hck-r-bar hck-r-bar-navy" id="hckBarYear" style="width:19%"></div></div>
+            </div>
+          </div>
+          <div class="hck-message" id="hckMsg">その時間の使い道は、あなたが決めることです。</div>
+          <div class="sr-only" id="hckStatus" role="status"></div>
+        </div>
+      </div>
+      <div class="mck-note">※ ルーティン作業の30〜50%を任せられると仮定した概算です。実際の幅は業務内容やツール環境によって変わります。</div>
     </div>
   </div>
 </section>
@@ -2424,7 +2375,7 @@
 
   if (hckSlider) {
     hckSlider.addEventListener('input', () => updateChecker(parseInt(hckSlider.value), true));
-    updateChecker(15); // initial state（読み込み時はSR通知しない）
+    updateChecker(parseInt(hckSlider.value, 10)); // initial state（ブラウザのフォーム値復元とずれないよう実値を参照。読み込み時はSR通知しない）
   }
 
   // ⑦ Horizontal scroll cases — removed（C-4: 静的グリッド .cases-grid に統一。ドラッグJS不要）
