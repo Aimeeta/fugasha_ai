@@ -381,17 +381,18 @@
     /* ── 小さな試算（業務時間チェッカー — 余白の地図内）── */
     .margin-checker {
       display: grid; grid-template-columns: .92fr 1.08fr; gap: 32px;
-      margin-top: 32px; align-items: start;
+      align-items: start;
       opacity: 0; transform: translateY(14px);
       transition: opacity .7s var(--ease) .1s, transform .7s var(--ease) .1s;
     }
     .visible .margin-checker { opacity: 1; transform: none; }
-    .mck-lead { padding: 8px 24px 0 29px; } /* margin-note（左罫1px+28px）とテキスト開始位置を揃える */
+    .mck-lead { padding: 8px 24px 0 0; }
+    .mck-k { font-family: var(--font-serif); font-size: 12px; letter-spacing: .22em; color: var(--accent-ink); margin-bottom: 14px; }
     .mck-t { font-family: var(--font-serif); font-size: 21px; font-weight: 400; line-height: 1.6; margin-bottom: 10px; }
     .mck-b { font-size: 13.5px; color: var(--muted); line-height: 2; max-width: 400px; }
     .mck-card {
       background: var(--bg); border: .5px solid rgba(13,32,48,.14);
-      border-top: 1px solid rgba(232,134,106,.45); /* margin-stepの上罫と同じ言語 */
+      border-top: 1px solid rgba(232,134,106,.45); /* 紙カードのサーモン上罫（sign/serviceカードと同じ言語） */
     }
     .mck-body { padding: 22px 24px 16px; }
     .hck-q { font-size: 12px; color: var(--fg); font-weight: 500; margin-bottom: 16px; line-height: 1.6; }
@@ -511,41 +512,7 @@
     /* glass cards */
     .glass-card { background: rgba(255,255,255,.6); border: .5px solid rgba(13,32,48,.08); }
 
-    /* margin map */
-    .margin-map {
-      display: grid; grid-template-columns: .92fr 1.08fr; gap: 32px;
-      align-items: stretch;
-    }
-    .margin-note {
-      padding: 28px; border-left: 1px solid rgba(232,134,106,.36);
-      background:
-        linear-gradient(90deg, rgba(232,134,106,.08), transparent 62%),
-        rgba(255,255,255,.32);
-    }
-    .margin-note-k { font-family: var(--font-serif); font-size: 12px; letter-spacing: .22em; color: var(--accent-ink); margin-bottom: 14px; }
-    .margin-note-t { font-family: var(--font-serif); font-size: 24px; font-weight: 400; line-height: 1.55; margin-bottom: 12px; }
-    .margin-note-b { font-size: 14px; color: var(--muted); line-height: 2; }
-    .margin-board {
-      position: relative; padding: 32px; border: .5px solid rgba(13,32,48,.1);
-      background: rgba(248,243,234,.72);
-      background-image:
-        linear-gradient(rgba(13,32,48,.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(13,32,48,.055) 1px, transparent 1px);
-      background-size: 32px 32px;
-    }
-    .margin-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-    .margin-step {
-      padding: 18px 16px; background: var(--bg);
-      border: .5px solid rgba(13,32,48,.14);
-      border-top: 1px solid rgba(232,134,106,.45); /* 小さな診断カードの左罫と呼応する上罫 */
-      opacity: 0; transform: translateY(12px); transition: opacity .7s var(--ease), transform .7s var(--ease);
-    }
-    .margin-step:nth-child(2) { transition-delay: .08s; }
-    .margin-step:nth-child(3) { transition-delay: .16s; }
-    .visible .margin-step { opacity: 1; transform: none; }
-    .margin-step-num { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--accent-ink); margin-bottom: 20px; }
-    .margin-step-t { font-family: var(--font-serif); font-size: 19px; font-weight: 400; color: var(--fg); line-height: 1.55; margin-bottom: 8px; }
-    .margin-step-b { font-size: 13px; line-height: 1.85; color: var(--muted); }
+    /* margin map（3ステップ盤と小さな診断は2026-07-19オーナー指示で撤去 — チェッカー中心へ） */
     .margin-link, .security-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-size: 12px; color: var(--fg); text-decoration: none; border-bottom: 1px solid rgba(13,32,48,.24); padding-bottom: 2px; }
     .margin-link:hover, .security-link:hover { border-color: rgba(232,134,106,.55); }
 
@@ -603,7 +570,9 @@
     .sv:hover { border-color: rgba(232,134,106,.35); }
     .sv-ln { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--accent); opacity: .5; }
     .sv-top { position: relative; z-index: 2; }
-    .sv-num { display: block; font-family: var(--font-serif); font-size: 11.5px; letter-spacing: .2em; color: var(--accent-ink); margin-bottom: 14px; } /* 小さな診断のkicker（margin-note-k）と同語彙 */
+    .sv-ic { display: block; width: 26px; height: 26px; color: var(--accent-ink); margin-bottom: 14px; }
+    .sv-ic svg { display: block; }
+    .sv-num { display: block; font-family: var(--font-serif); font-size: 11.5px; letter-spacing: .2em; color: var(--accent-ink); margin-bottom: 14px; }
     .sv-t { font-family: var(--font-serif); font-size: 20px; font-weight: 400; color: var(--fg); line-height: 1.35; margin-bottom: 8px; text-wrap: balance; word-break: auto-phrase; } /* 孤立行防止＋文節折返し（非対応環境は従来挙動） */
     .sv-b { font-size: 14px; color: var(--muted); line-height: 1.9; max-width: 380px; }
     .sv-cta {
@@ -1012,12 +981,25 @@
       display: inline-flex; align-items: center; justify-content: center;
       background: rgba(232,134,106,.13); color: var(--accent-ink); font-size: 16px;
     }
-    .about-catch {
-      margin: 22px 0 14px; font-family: var(--font-serif);
-      font-size: clamp(20px, 2vw, 26px);
-      line-height: 1.4; letter-spacing: .01em; color: var(--fg);
+    /* ── Catch — Less friction. More curiosity.（独立セクション） ── */
+    .catch-sec { text-align: center; padding-top: clamp(72px, 9vw, 110px); padding-bottom: clamp(72px, 9vw, 110px); }
+    .catch-line {
+      font-family: var(--font-serif); font-weight: 300;
+      font-size: clamp(40px, 6.4vw, 80px); line-height: 1.3; letter-spacing: -.01em;
+      color: var(--fg);
     }
-    .about-catch span { display: block; color: var(--accent-ink); }
+    .catch-w {
+      display: inline-block;
+      opacity: 0; transform: translateY(26px); filter: blur(5px);
+      transition: opacity 1s var(--ease), transform 1s var(--ease), filter 1s var(--ease);
+    }
+    .catch-w-accent { color: var(--accent-ink); font-style: italic; }
+    .catch-w:nth-child(2) { transition-delay: .14s; }
+    .catch-w:nth-child(4) { transition-delay: .34s; } /* br跨ぎで2行目はひと呼吸おいて */
+    .catch-w:nth-child(5) { transition-delay: .48s; }
+    .visible .catch-w { opacity: 1; transform: none; filter: blur(0); }
+    .catch-cta { margin-top: 38px; opacity: 0; transform: translateY(8px); transition: opacity .8s ease .85s, transform .8s var(--ease) .85s; }
+    .visible .catch-cta { opacity: 1; transform: none; }
     .ab-cred { display: flex; align-items: center; gap: 0; margin-top: 16px; padding: 16px 20px; border-radius: var(--radius-md); background: rgba(13,32,48,.03); border: .5px solid var(--line); }
     .ab-cred-item { flex: 1; }
     .ab-cred-divider { width: .5px; height: 36px; background: var(--line); margin: 0 20px; flex-shrink: 0; }
@@ -1169,9 +1151,8 @@
       .sec { padding-left: 30px; padding-right: 30px; }
       .sign-grid { gap: 28px; } /* 3項目のため2カラム化しない（孤立セル回避） */
       .phi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
-      .margin-map { grid-template-columns: 1fr; gap: 22px; }
-      .margin-checker { grid-template-columns: 1fr; gap: 18px; margin-top: 22px; }
-      .mck-lead { padding: 0 0 0 29px; }
+      .margin-checker { grid-template-columns: 1fr; gap: 18px; margin-top: 0; }
+      .mck-lead { padding: 0; }
       .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
       .svc-bento { grid-template-columns: 1fr; } /* 3等分のままだと1カード約280pxで見出しが折れ過ぎるため縦積み */
@@ -1220,8 +1201,8 @@
       .h-chip-title { font-size: 13px; }
       .h-chip-desc { font-size: 11.5px; }
       .h-actions-note { margin-top: 10px; }
-      /* ── 小さな試算（チェッカー）── */
-      .margin-checker { grid-template-columns: 1fr; gap: 14px; margin-top: 18px; }
+      /* ── QUICK ESTIMATE（チェッカー）── */
+      .margin-checker { grid-template-columns: 1fr; gap: 14px; }
       .mck-lead { padding: 0; }
       .mck-t { font-size: 19px; }
       .mck-b { font-size: 13px; }
@@ -1246,12 +1227,6 @@
       .ti { width: 28px; height: 28px; border-radius: 7px; font-size: 15px; }
       .ti svg { width: 20px; height: 20px; }
       .sec-tools { padding: 24px 0; }
-
-      /* ── Margin Map ── */
-      .margin-map { grid-template-columns: 1fr; gap: 18px; }
-      .margin-note,
-      .margin-board { padding: 20px; }
-      .margin-steps { grid-template-columns: 1fr; gap: 10px; }
 
       /* ── Pain / Signs ── */
       .sign-grid { grid-template-columns: 1fr; gap: 26px; }
@@ -1407,12 +1382,12 @@
       /* JS無効時: IntersectionObserverのリビールが動かないため、初期状態 opacity:0 の要素をすべて可視化する */
       .h-h1, .h-actions, .h-actions-note, .h-byline, .h-choice-label, .h-chips,
       .s-lbl, .s-h2, .s-desc, .sign-item, .sv, .case,
-      .margin-step, .margin-checker, .phi-item, .phi-quote, .security-panel, .ar,
+      .margin-checker, .catch-w, .catch-cta, .phi-item, .phi-quote, .security-panel, .ar,
       .ch2, .csub, .cq, .cta-wrap {
         opacity: 1 !important; transform: none !important;
       }
       .aph { clip-path: none !important; }
-      .phi-t, .phi-b, .phi-mark { opacity: 1 !important; transform: none !important; filter: none !important; }
+      .phi-t, .phi-b, .phi-mark, .catch-w { opacity: 1 !important; transform: none !important; filter: none !important; }
       /* Vision(sst): JSの場面切替が動かないため、重ねた3場面を縦に流して全文を可視化する */
       .sst-outer { height: auto !important; }
       .sst-sticky { position: static !important; height: auto !important; }
@@ -1546,40 +1521,14 @@
 <!-- ── Margin Map ── -->
 <section class="sec sec-white" id="s-margin">
   <div class="s-lbl">MARGIN MAP</div>
-  <h2 class="s-h2">余白は、探すものではなく、<br>書き出して戻すもの。</h2>
-  <p class="s-desc">忙しさを責めるのではなく、仕事の流れを一枚の地図にします。どこで詰まり、どこを手放せるかを、静かに見える形へ。</p>
-  <div class="margin-map">
-    <div class="margin-note">
-      <div class="margin-note-k">小さな診断</div>
-      <h3 class="margin-note-t">最初の相談では、答えより先に、現在地を見ます。</h3>
-      <p class="margin-note-b">何を減らすかは、外から決めません。日々の作業、判断、発信を分けて、あなたにしか戻せない時間を探します。</p>
-      <a href="chat.html?t=ops" class="margin-link">相談メモで現在地をつくる <span class="arr">→</span></a>
-    </div>
-    <div class="margin-board" aria-label="余白を取り戻す3つの流れ">
-      <div class="margin-steps">
-        <div class="margin-step">
-          <span class="margin-step-num">01</span>
-          <h3 class="margin-step-t">書き出す</h3>
-          <p class="margin-step-b">繰り返している作業、止まっている判断、後回しの発信を一枚に置きます。</p>
-        </div>
-        <div class="margin-step">
-          <span class="margin-step-num">02</span>
-          <h3 class="margin-step-t">分ける</h3>
-          <p class="margin-step-b">AIに任せること、人に頼むこと、あなたが持つことを分けます。</p>
-        </div>
-        <div class="margin-step">
-          <span class="margin-step-num">03</span>
-          <h3 class="margin-step-t">戻す</h3>
-          <p class="margin-step-b">空いた時間を、判断、発信、学び、休むことへ戻していきます。</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <h2 class="s-h2">忙しさの正体を、<br>一枚の地図にします。</h2>
+  <p class="s-desc">どこで詰まっていて、どこを手放せるのか。仕事の流れを一緒に書き出して可視化するところから始めます。答えを急がず、伴走しながら。</p>
   <div class="margin-checker">
     <div class="mck-lead">
-      <div class="margin-note-k">小さな試算</div>
+      <div class="mck-k">QUICK ESTIMATE</div>
       <h3 class="mck-t">手放せる時間を、<br>ためしに数字にしてみる。</h3>
       <p class="mck-b">正確な診断ではありません。ただ、自分の一週間を数字でひとつ眺めてみると、余白の候補が見えてきます。</p>
+      <a href="chat.html?t=ops" class="margin-link">一緒に整理してみる <span class="arr">→</span></a>
     </div>
     <div class="mck-card" data-lenis-prevent>
       <div class="mck-body">
@@ -1620,12 +1569,13 @@
 <!-- ── Services ── -->
 <section class="sec sec-white" id="s-service">
   <div class="s-lbl">SERVICES</div>
-  <h2 class="s-h2">やっていることは、<br>この3つです。</h2>
-  <p class="s-desc">AI、発信、業務整理。別々に手を打つ前に、「どこから整えると一番効くか」を一緒に見極めます。</p>
+  <h2 class="s-h2">バラバラに頼まなくて、<br>いい。</h2>
+  <p class="s-desc">デザイン、AI、業務整理。別々の相手に頼む前に、「どこから整えると一番効くか」をひとつの窓口で一緒に見極めます。</p>
   <div class="svc-bento">
     <a class="sv glass-card" href="chat.html?t=brand">
       <div class="sv-ln"></div>
       <div class="sv-top">
+        <span class="sv-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L18.5 9.5a2.828 2.828 0 1 0-4-4L4 16v4"/><path d="M13.5 6.5l4 4"/></svg></span>
         <span class="sv-num">デザイン・発信</span>
         <h3 class="sv-t">伝わる見た目と、言葉を整える。</h3>
         <div class="sv-b">LP、営業資料、SNS、広報文。きれいにするだけでなく、初見で「何の会社か」が伝わる順番に組み直します。</div>
@@ -1635,6 +1585,7 @@
     <a class="sv glass-card" href="chat.html?t=ai">
       <div class="sv-ln"></div>
       <div class="sv-top">
+        <span class="sv-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18a6 6 0 0 1 6-6 6 6 0 0 1-6-6 6 6 0 0 1-6 6 6 6 0 0 1 6 6z"/><path d="M17.5 20a2.5 2.5 0 0 1 2.5-2.5A2.5 2.5 0 0 1 17.5 15a2.5 2.5 0 0 1-2.5 2.5 2.5 2.5 0 0 1 2.5 2.5z"/><path d="M18 7a2 2 0 0 1 2-2 2 2 0 0 1-2-2 2 2 0 0 1-2 2 2 2 0 0 1 2 2z"/></svg></span>
         <span class="sv-num">AI活用</span>
         <h3 class="sv-t">AIを、現場で使える形にする。</h3>
         <div class="sv-b">「何から始めるか」を一緒に洗い出すところから、プロンプト、運用ルール、日々の習慣になるまで。無理のない小さな一歩から始めます。</div>
@@ -1644,6 +1595,7 @@
     <a class="sv glass-card" href="chat.html?t=ops">
       <div class="sv-ln"></div>
       <div class="sv-top">
+        <span class="sv-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l8 4-8 4-8-4 8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 16l8 4 8-4"/></svg></span>
         <span class="sv-num">業務整理</span>
         <h3 class="sv-t">手放せる仕事を、自然に回る仕組みへ。</h3>
         <div class="sv-b">日々の作業を一枚に書き出して、人が集中することと、AIや外部に任せることを分けていきます。無理なく続く形へ。</div>
@@ -1656,8 +1608,8 @@
 <!-- ── Ways of Working ── -->
 <section class="sec sec-light" id="s-cases">
   <div class="s-lbl">WAYS OF WORKING</div>
-  <h2 class="s-h2">関わり方は、<br>つくる・学ぶ・一緒に進める。</h2>
-  <p class="s-desc">固定メニューではなく、必要な関わり方から選べるようにしました。内容や稼働量は、会社の状態に合わせて相談で決めます。</p>
+  <h2 class="s-h2">頼み方は、<br>ひとつじゃありません。</h2>
+  <p class="s-desc">つくって納品する。手を動かしながら教える。隣で一緒に進める。内容や稼働量は、会社の状態に合わせて相談で決めます。</p>
   <div class="cases-grid" role="list" aria-label="サービスのかたち一覧" tabindex="0">
     <div class="case glass-card" role="listitem">
       <div class="case-head"><span class="case-tag">受託開発</span><span class="case-co">PROJECT BUILD</span></div>
@@ -1844,7 +1796,6 @@
       <p class="ap">変わったきっかけは、AIでした。それまで数時間かかっていた資料作成が、30分で終わった。空いた時間にふと窓の外を見て、「あれ、今日まだ明るい」と気づいた。その感覚が忘れられなくて、風雅舎をはじめました。</p>
       <p class="ap">慶應・ケルン大を経て、デザイン・PR・マーケティングの仕事と、サイバーセキュリティ分野の記事執筆を続けてきました。AIは、道具として置くだけでは動きません。業務の文脈に合わせて「使える形」に直すところまでが、仕事だと考えています。</p>
       <p class="ap">だから風雅舎では、いきなりツールを入れるのではなく、まず「どこから整えると一番効くか」を一緒に見極めます。</p>
-      <div class="about-catch">Less friction.<span>More curiosity.</span></div>
       <div class="crs">
         <span class="cr">慶應義塾大学卒</span>
         <span class="cr">日・英・独 対応</span>
@@ -1898,6 +1849,17 @@
 </section>
 
 <!-- ── FAQ ── -->
+<!-- ── Catch — Less friction. More curiosity. ── -->
+<section class="sec sec-light sec-quiet catch-sec" id="s-catch">
+  <p class="catch-line">
+    <span class="catch-w">Less</span> <span class="catch-w">friction.</span><br>
+    <span class="catch-w catch-w-accent">More</span> <span class="catch-w catch-w-accent">curiosity.</span>
+  </p>
+  <div class="catch-cta">
+    <a href="chat.html" class="btn-amber">相談メモをつくってみる <span class="arr">→</span></a>
+  </div>
+</section>
+
 <section class="sec sec-white" id="s-faq">
   <div class="s-lbl">FAQ</div>
   <h2 class="s-h2">よくある質問</h2>
@@ -2100,7 +2062,7 @@
   });
 
   // ── Scroll observer (sections) ──
-  const sectionIds = ['s-hero','s-tools','s-pain','s-margin','s-service','s-cases','s-vision','s-philosophy','s-security','s-about','s-faq','s-blog','s-cta'];
+  const sectionIds = ['s-hero','s-tools','s-pain','s-margin','s-service','s-cases','s-vision','s-philosophy','s-security','s-about','s-catch','s-faq','s-blog','s-cta'];
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
