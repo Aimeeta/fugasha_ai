@@ -371,14 +371,14 @@
     .sec-white { background: #f8f3ea; }
     .sec-dark  { background: var(--fg); }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    /* Section label — short rule + serif English (shared with JA page) */
     .s-lbl {
-      display: inline-flex; align-items: center; width: fit-content;
-      font-size: 10px; letter-spacing: .16em; color: var(--accent-ink);
+      display: inline-flex; align-items: center; gap: 10px; width: fit-content;
+      font-family: var(--font-serif); font-size: 12px; letter-spacing: .24em; color: var(--accent-ink);
       margin-bottom: 14px; opacity: 0; transform: translateY(8px);
-      transition: all .6s ease; text-transform: uppercase; font-family: var(--font-mono);
-      padding: 4px 9px; border-radius: 999px; background: rgba(232,134,106,.1);
-      border: .5px solid rgba(232,134,106,.2);
+      transition: all .6s ease;
     }
+    .s-lbl::before { content: ''; display: block; width: 24px; height: 1px; background: rgba(232,134,106,.45); }
     .s-h2 { font-size: 38px; font-weight: 300; line-height: 1.3; margin-bottom: 16px; color: var(--fg); opacity: 0; transform: translateY(12px); transition: all .8s cubic-bezier(.16,1,.3,1) .08s; font-family: var(--font-serif); letter-spacing: -.02em; }
     .s-h2-l { color: rgba(240,230,214,.9); }
     .s-desc { font-size: 15px; color: var(--muted); margin-bottom: 48px; opacity: 0; transition: all .6s ease .16s; line-height: 1.7; max-width: 480px; font-weight: 400; }
@@ -952,7 +952,7 @@
 
 <!-- ── About ── -->
 <section class="sec sec-light" id="s-about">
-  <div class="s-lbl">// ABOUT</div>
+  <div class="s-lbl">ABOUT</div>
   <div class="ab-grid">
     <div class="aph">
       <img src="../aimee-portrait.jpg" alt="Aimee, founder of Fugasha" class="ab-img-main" width="600" height="771" loading="lazy" decoding="async">
@@ -976,7 +976,7 @@
 
 <!-- ── Signs ── -->
 <section class="sec sec-light" id="s-pain">
-  <div class="s-lbl">// SIGNS</div>
+  <div class="s-lbl">SIGNS</div>
   <h2 class="s-h2">When did busy become the default?</h2>
   <p class="s-desc">Talking with business owners, the same three states keep coming up. Before solving anything, it helps to give them names.</p>
   <div class="sign-grid">
@@ -988,7 +988,7 @@
 
 <!-- ── Services ── -->
 <section class="sec sec-white" id="s-service">
-  <div class="s-lbl">// SERVICES</div>
+  <div class="s-lbl">SERVICES</div>
   <h2 class="s-h2">What we sort out isn’t your operations.<br>It’s where your time goes.</h2>
   <p class="s-desc">AI, communication, workload — before treating them as separate problems, we find the one place where a change earns the most.</p>
   <div class="svc-bento">
@@ -1024,7 +1024,7 @@
 
 <!-- ── Cases ── -->
 <section class="sec sec-light" id="s-cases">
-  <div class="s-lbl">// CASES</div>
+  <div class="s-lbl">CASES</div>
   <h2 class="s-h2">What working together often looks like.</h2>
   <p class="s-desc">Model cases, drawn from the work that small businesses in Japan most often bring to me. None of it is a promise.</p>
   <div class="cases-grid" role="list" aria-label="Model cases">
@@ -1037,7 +1037,7 @@
 
 <!-- ── Across Borders ── -->
 <section class="sec sec-light" id="s-borders">
-  <div class="s-lbl">// ACROSS BORDERS</div>
+  <div class="s-lbl">ACROSS BORDERS</div>
   <h2 class="s-h2">Working together, from wherever you are.</h2>
   <p class="s-desc">This work has always happened over a call and a shared document. Distance was never the hard part.</p>
   <div class="phi-grid">
@@ -1071,7 +1071,7 @@
 
 <!-- ── Philosophy ── -->
 <section class="sec sec-light" id="s-philosophy">
-  <div class="s-lbl">// PHILOSOPHY</div>
+  <div class="s-lbl">PHILOSOPHY</div>
   <h2 class="s-h2">Efficiency is a doorway, not the destination.</h2>
   <p class="s-desc">Three ideas at the root of how Fugasha works.</p>
   <div class="phi-grid">
@@ -1099,7 +1099,7 @@
 
 <!-- ── FAQ ── -->
 <section class="sec sec-white" id="s-faq">
-  <div class="s-lbl">// FAQ</div>
+  <div class="s-lbl">FAQ</div>
   <h2 class="s-h2">Questions, answered first.</h2>
   <p class="s-desc">The things people ask before writing in.</p>
   <div class="faq-list">
@@ -1179,7 +1179,7 @@
 
 <!-- ── Contact ── -->
 <section class="sec sec-light" id="contact">
-  <div class="s-lbl">// CONTACT</div>
+  <div class="s-lbl">CONTACT</div>
   <h2 class="s-h2">Write to me.</h2>
   <p class="s-desc">Three fields, no funnel. I reply within 1–2 business days, in English — and if it makes sense to talk, we’ll find a time that fits your day. The first thirty minutes are free.</p>
   <form class="cform" id="contactForm" novalidate>
