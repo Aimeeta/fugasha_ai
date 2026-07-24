@@ -1,15 +1,5 @@
 {
   "urls": {
-    "https://openai.com/index/why-teens-deserve-access-safe-ai": "2026-07-16T22:53:30.306Z",
-    "https://www.theverge.com/ai-artificial-intelligence/966293/xai-grok-user-lawsuit-csam": "2026-07-16T22:53:30.306Z",
-    "https://openai.com/index/cars24": "2026-07-16T22:53:30.306Z",
-    "https://www.theverge.com/ai-artificial-intelligence/965901/openai-hardware-codex-micro-launch": "2026-07-16T22:53:30.306Z",
-    "https://www.theverge.com/entertainment/965616/ash-koosha-odysseus-the-fall-foundtain-zero-tilly-norwood": "2026-07-16T22:53:30.306Z",
-    "https://openai.com/index/a-scorecard-for-the-ai-age": "2026-07-17T22:42:39.973Z",
-    "https://www.theverge.com/tech/966442/1password-anthropic-claude-browser-integration": "2026-07-17T22:42:39.973Z",
-    "https://www.theverge.com/podcast/967244/apple-openai-lawsuit-vergecast": "2026-07-17T22:42:39.973Z",
-    "https://www.theverge.com/policy/966438/eu-google-android-ai-interoperability-search-data-dma": "2026-07-17T22:42:39.973Z",
-    "https://www.theverge.com/tech/966112/google-gemini-notebook-notebooklm": "2026-07-17T22:42:39.973Z",
     "https://www.theverge.com/tech/967486/tiktok-ai-likeness-detection-tool": "2026-07-18T22:42:37.817Z",
     "https://www.theverge.com/ai-artificial-intelligence/967630/dave-eggers-openai-chatgpt-silencing-an-entire-generation": "2026-07-18T22:42:37.817Z",
     "https://huggingface.co/blog/nvidia/scale-diffusers-finetuning-nemo-automodel": "2026-07-18T22:42:37.817Z",
@@ -32,6 +22,11 @@
     "https://www.theverge.com/ai-artificial-intelligence/969939/lawmakers-ai-kill-switch-proposal": "2026-07-23T22:51:29.540Z",
     "https://www.theverge.com/tech/970211/patreon-layoffs-ai": "2026-07-23T22:51:29.540Z",
     "https://www.theverge.com/ai-artificial-intelligence/970065/anthropic-voice-mode-claude-opus-sonnet-haiku-ai": "2026-07-23T22:51:29.540Z",
-    "https://github.blog/ai-and-ml/github-copilot/copilot-vs-raw-api-access-what-are-you-actually-paying-for": "2026-07-23T22:51:29.540Z"
+    "https://github.blog/ai-and-ml/github-copilot/copilot-vs-raw-api-access-what-are-you-actually-paying-for": "2026-07-23T22:51:29.540Z",
+    "https://www.theverge.com/podcast/970735/google-zero-reddit-ai-publishers-vergecast": "2026-07-24T22:57:05.940Z",
+    "https://www.theverge.com/ai-artificial-intelligence/970105/claude-opus-5-announced-anthropic-ai-model-release": "2026-07-24T22:57:05.940Z",
+    "https://www.theverge.com/tech/970570/meta-ai-chatbot-productivity-update": "2026-07-24T22:57:05.940Z",
+    "https://www.theverge.com/science/970534/genesis-mission-ai-science-funding-trump-grants": "2026-07-24T22:57:05.940Z",
+    "https://openai.com/index/health-in-chatgpt": "2026-07-24T22:57:05.940Z"
   }
 }
