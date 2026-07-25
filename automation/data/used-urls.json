@@ -1,8 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/tech/967486/tiktok-ai-likeness-detection-tool": "2026-07-18T22:42:37.817Z",
-    "https://www.theverge.com/ai-artificial-intelligence/967630/dave-eggers-openai-chatgpt-silencing-an-entire-generation": "2026-07-18T22:42:37.817Z",
-    "https://huggingface.co/blog/nvidia/scale-diffusers-finetuning-nemo-automodel": "2026-07-18T22:42:37.817Z",
     "https://www.theverge.com/ai-artificial-intelligence/967781/chinese-ai-models-open-source-moonshot-kimi-k3-alibaba-qwen": "2026-07-20T22:53:32.936Z",
     "https://www.theverge.com/tech/968375/sony-udio-lawsuit-songs-ai-copyright": "2026-07-20T22:53:32.936Z",
     "https://www.technologyreview.com/2026/07/20/1140655/ai-biases-hiring-humans": "2026-07-20T22:53:32.936Z",
@@ -27,6 +24,9 @@
     "https://www.theverge.com/ai-artificial-intelligence/970105/claude-opus-5-announced-anthropic-ai-model-release": "2026-07-24T22:57:05.940Z",
     "https://www.theverge.com/tech/970570/meta-ai-chatbot-productivity-update": "2026-07-24T22:57:05.940Z",
     "https://www.theverge.com/science/970534/genesis-mission-ai-science-funding-trump-grants": "2026-07-24T22:57:05.940Z",
-    "https://openai.com/index/health-in-chatgpt": "2026-07-24T22:57:05.940Z"
+    "https://openai.com/index/health-in-chatgpt": "2026-07-24T22:57:05.940Z",
+    "https://www.theverge.com/ai-artificial-intelligence/970115/openai-chatgpt-health-launch-claims": "2026-07-25T22:47:26.430Z",
+    "https://www.theverge.com/ai-artificial-intelligence/970894/midjourney-co-star-acquisition": "2026-07-25T22:47:26.430Z",
+    "https://www.theverge.com/tech/970399/amazon-alexa-plus-ai-update-smart-home-devices": "2026-07-25T22:47:26.430Z"
   }
 }
