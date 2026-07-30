@@ -1,15 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/ai-artificial-intelligence/969285/amd-anthropic-ai-infrastructure-deal": "2026-07-22T22:56:47.137Z",
-    "https://www.theverge.com/ai-artificial-intelligence/968988/openai-hugging-face-hack-ai": "2026-07-22T22:56:47.138Z",
-    "https://openai.com/index/introducing-openai-presence": "2026-07-22T22:56:47.138Z",
-    "https://www.theverge.com/ai-artificial-intelligence/969137/us-utility-ai-electricty-data-center-rate-pledge-trump": "2026-07-22T22:56:47.138Z",
-    "https://www.theverge.com/tech/968680/meta-ai-detection-labeling-content-seal-watermarks-synthid": "2026-07-22T22:56:47.138Z",
-    "https://openai.com/index/ntt-data": "2026-07-23T22:51:29.540Z",
-    "https://www.theverge.com/ai-artificial-intelligence/969939/lawmakers-ai-kill-switch-proposal": "2026-07-23T22:51:29.540Z",
-    "https://www.theverge.com/tech/970211/patreon-layoffs-ai": "2026-07-23T22:51:29.540Z",
-    "https://www.theverge.com/ai-artificial-intelligence/970065/anthropic-voice-mode-claude-opus-sonnet-haiku-ai": "2026-07-23T22:51:29.540Z",
-    "https://github.blog/ai-and-ml/github-copilot/copilot-vs-raw-api-access-what-are-you-actually-paying-for": "2026-07-23T22:51:29.540Z",
     "https://www.theverge.com/podcast/970735/google-zero-reddit-ai-publishers-vergecast": "2026-07-24T22:57:05.940Z",
     "https://www.theverge.com/ai-artificial-intelligence/970105/claude-opus-5-announced-anthropic-ai-model-release": "2026-07-24T22:57:05.940Z",
     "https://www.theverge.com/tech/970570/meta-ai-chatbot-productivity-update": "2026-07-24T22:57:05.940Z",
@@ -31,6 +21,11 @@
     "https://www.theverge.com/tech/972294/meta-q2-2026-earnings-mark-zuckerberg-personal-ai-agents": "2026-07-29T22:56:03.053Z",
     "https://openai.com/index/gpt-5-6-frontier-intelligence-efficiency": "2026-07-29T22:56:03.053Z",
     "https://www.theverge.com/ai-artificial-intelligence/972441/openai-rogue-ai-agent-hacked-more-than-hugging-face": "2026-07-29T22:56:03.053Z",
-    "https://www.theverge.com/ai-artificial-intelligence/971059/ai-artists-lawsuit-google-meta-anthropic": "2026-07-29T22:56:03.053Z"
+    "https://www.theverge.com/ai-artificial-intelligence/971059/ai-artists-lawsuit-google-meta-anthropic": "2026-07-29T22:56:03.053Z",
+    "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6": "2026-07-30T22:59:23.461Z",
+    "https://www.technologyreview.com/2026/07/30/1140927/a-fundamental-flaw-leaves-llms-vulnerable-to-attack": "2026-07-30T22:59:23.461Z",
+    "https://www.theverge.com/ai-artificial-intelligence/972380/open-ai-hugging-face-hack-ai-safety-warning": "2026-07-30T22:59:23.461Z",
+    "https://www.theverge.com/ai-artificial-intelligence/972709/openai-hardware-greg-brockman-interview": "2026-07-30T22:59:23.461Z",
+    "https://openai.com/index/chatgpt-for-academic-researchers": "2026-07-30T22:59:23.461Z"
   }
 }
