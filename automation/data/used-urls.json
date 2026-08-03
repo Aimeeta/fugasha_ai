@@ -1,9 +1,5 @@
 {
   "urls": {
-    "https://www.technologyreview.com/2026/07/27/1140836/openai-hugging-face-attack-precedent": "2026-07-27T22:55:44.830Z",
-    "https://www.theverge.com/ai-artificial-intelligence/971281/nvidia-open-secure-ai-alliance-cybersecurity": "2026-07-27T22:55:44.830Z",
-    "https://www.theverge.com/ai-artificial-intelligence/971444/how-chinese-open-weight-ai-models-impact-us-companies": "2026-07-27T22:55:44.830Z",
-    "https://openai.com/index/how-ai-is-expanding-what-people-do-at-work": "2026-07-27T22:55:44.830Z",
     "https://www.theverge.com/ai-artificial-intelligence/972161/ai-leaders-us-government-openai-anthropic-google-meta": "2026-07-28T22:54:55.226Z",
     "https://www.theverge.com/ai-artificial-intelligence/972119/ai-stock-fall-google-capex": "2026-07-28T22:54:55.226Z",
     "https://www.theverge.com/ai-artificial-intelligence/971723/hugging-face-nudify-deepfake-undress-women-children": "2026-07-28T22:54:55.226Z",
@@ -27,6 +23,11 @@
     "https://www.theverge.com/podcast/973668/ai-safety-openai-hugging-face-vergecast": "2026-07-31T22:55:36.153Z",
     "https://www.theverge.com/ai-artificial-intelligence/973764/google-earth-ai-satellite-images": "2026-08-01T22:48:19.802Z",
     "https://openai.com/index/advancing-responsible-ai-across-europe": "2026-08-01T22:48:19.802Z",
-    "https://openai.com/index/unive": "2026-08-01T22:48:19.802Z"
+    "https://openai.com/index/unive": "2026-08-01T22:48:19.802Z",
+    "https://www.theverge.com/ai-artificial-intelligence/974571/eu-ai-act-transparency-labels-rules-deepfakes": "2026-08-03T22:55:57.202Z",
+    "https://www.theverge.com/ai-artificial-intelligence/974342/alibaba-qwen-max-open-weight-ai": "2026-08-03T22:55:57.202Z",
+    "https://www.technologyreview.com/2026/08/03/1141009/heres-why-ai-agents-lie-and-cheat-to-reach-their-goals": "2026-08-03T22:55:57.202Z",
+    "https://openai.com/index/continuous-voice-interaction-with-gpt-live": "2026-08-03T22:55:57.202Z",
+    "https://www.technologyreview.com/2026/08/03/1141056/trumps-ai-protectionism-has-come-for-robotics": "2026-08-03T22:55:57.202Z"
   }
 }
