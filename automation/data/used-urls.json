@@ -1,10 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/ai-artificial-intelligence/972161/ai-leaders-us-government-openai-anthropic-google-meta": "2026-07-28T22:54:55.226Z",
-    "https://www.theverge.com/ai-artificial-intelligence/972119/ai-stock-fall-google-capex": "2026-07-28T22:54:55.226Z",
-    "https://www.theverge.com/ai-artificial-intelligence/971723/hugging-face-nudify-deepfake-undress-women-children": "2026-07-28T22:54:55.226Z",
-    "https://www.theverge.com/ai-artificial-intelligence/971750/perplexity-personal-computer-windows-ai-agents": "2026-07-28T22:54:55.226Z",
-    "https://www.technologyreview.com/2026/07/28/1140853/samsung-chip-workers-exodus-sk-hynix": "2026-07-28T22:54:55.226Z",
     "https://www.theverge.com/tech/972927/microsoft-copilot-super-app-confirmed": "2026-07-29T22:56:03.053Z",
     "https://www.theverge.com/tech/972294/meta-q2-2026-earnings-mark-zuckerberg-personal-ai-agents": "2026-07-29T22:56:03.053Z",
     "https://openai.com/index/gpt-5-6-frontier-intelligence-efficiency": "2026-07-29T22:56:03.053Z",
@@ -28,6 +23,11 @@
     "https://www.theverge.com/ai-artificial-intelligence/974342/alibaba-qwen-max-open-weight-ai": "2026-08-03T22:55:57.202Z",
     "https://www.technologyreview.com/2026/08/03/1141009/heres-why-ai-agents-lie-and-cheat-to-reach-their-goals": "2026-08-03T22:55:57.202Z",
     "https://openai.com/index/continuous-voice-interaction-with-gpt-live": "2026-08-03T22:55:57.202Z",
-    "https://www.technologyreview.com/2026/08/03/1141056/trumps-ai-protectionism-has-come-for-robotics": "2026-08-03T22:55:57.202Z"
+    "https://www.technologyreview.com/2026/08/03/1141056/trumps-ai-protectionism-has-come-for-robotics": "2026-08-03T22:55:57.202Z",
+    "https://openai.com/index/circles": "2026-08-04T22:57:01.888Z",
+    "https://www.theverge.com/tech/975381/amd-q2-2026-earnings-ai-gaming-ryzen": "2026-08-04T22:57:01.888Z",
+    "https://www.theverge.com/ai-artificial-intelligence/974914/openai-blog-response-apple-lawsuit-messages": "2026-08-04T22:57:01.888Z",
+    "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows": "2026-08-04T22:57:01.888Z",
+    "https://www.theverge.com/ai-artificial-intelligence/973098/reddit-ai-search-seo-marketing-brands-spam": "2026-08-04T22:57:01.888Z"
   }
 }
