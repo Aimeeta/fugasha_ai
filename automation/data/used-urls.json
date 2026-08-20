@@ -1,11 +1,5 @@
 {
   "urls": {
-    "https://openai.com/index/how-enterprises-put-ai-to-work": "2026-08-12T22:34:32.003Z",
-    "https://www.theverge.com/ai-artificial-intelligence/978666/spacexai-grok-bot-ai-agent-beta-launch": "2026-08-12T22:34:32.003Z",
-    "https://www.theverge.com/tech/977921/apple-reference-image-iphone-metadata": "2026-08-12T22:34:32.003Z",
-    "https://www.theverge.com/ai-artificial-intelligence/978982/daddario-guitar-ai-music-suno": "2026-08-12T22:34:32.003Z",
-    "https://www.theverge.com/tech/979112/twitch-streamers-can-now-opt-out-from-training-amazons-ai": "2026-08-12T22:34:32.003Z",
-    "https://openai.com/index/ringcentral": "2026-08-12T22:34:32.003Z",
     "https://www.theverge.com/tech/979466/microsoft-copilot-365-app-unified-experience": "2026-08-13T22:35:13.112Z",
     "https://openai.com/index/builders-guide-to-gpt-5-6": "2026-08-13T22:35:13.112Z",
     "https://openai.com/index/previewing-ultrafast": "2026-08-13T22:35:13.112Z",
@@ -33,6 +27,12 @@
     "https://openai.com/index/chatgpt-ads-expands-across-europe": "2026-08-19T22:18:29.416Z",
     "https://www.theverge.com/tech/982270/meta-ai-mac-app": "2026-08-19T22:18:29.416Z",
     "https://www.theverge.com/ai-artificial-intelligence/982425/google-gemini-student-hub": "2026-08-19T22:18:29.416Z",
-    "https://openai.com/index/offering-zero-data-retention-for-frontier-models": "2026-08-19T22:18:29.416Z"
+    "https://openai.com/index/offering-zero-data-retention-for-frontier-models": "2026-08-19T22:18:29.416Z",
+    "https://www.theverge.com/ai-artificial-intelligence/982323/openai-hit-brakes-voluntary-pacing-ai": "2026-08-20T22:20:43.048Z",
+    "https://www.theverge.com/ai-artificial-intelligence/981668/nvidias-goldman-blackrock-gpu-compute-asset": "2026-08-20T22:20:43.048Z",
+    "https://www.theverge.com/ai-artificial-intelligence/982774/greg-brockman-openai-role-expansion": "2026-08-20T22:20:43.048Z",
+    "https://www.theverge.com/tech/982628/slack-code-vibe-coding-channels-launch": "2026-08-20T22:20:43.048Z",
+    "https://openai.com/index/introducing-ai-futures": "2026-08-20T22:20:43.048Z",
+    "https://openai.com/index/stampli": "2026-08-20T22:20:43.048Z"
   }
 }
