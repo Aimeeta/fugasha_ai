@@ -568,4 +568,25 @@
     <priority>0.5</priority>
   </url>
 
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-08-25-gpt-5-6-kiro-price-performance/</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-08-25-smarter-ai-use-classroom/</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-08-25/</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
 </urlset>
