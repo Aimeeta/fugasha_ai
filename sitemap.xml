@@ -631,4 +631,25 @@
     <priority>0.5</priority>
   </url>
 
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-08-30-anthropic-copyright-lawsuit-sme/</loc>
+    <lastmod>2026-08-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-08-30-hugging-face-asr-leaderboard-global-south/</loc>
+    <lastmod>2026-08-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-08-30/</loc>
+    <lastmod>2026-08-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
 </urlset>
