@@ -1,8 +1,5 @@
 {
   "urls": {
-    "https://openai.com/index/gpt-5-6-in-kiro": "2026-08-24T22:19:49.224Z",
-    "https://www.technologyreview.com/2026/08/24/1141740/kids-machines-language-learning": "2026-08-24T22:19:49.224Z",
-    "https://www.technologyreview.com/2026/08/24/1142630/ai-school-classroom-policies": "2026-08-24T22:19:49.224Z",
     "https://openai.com/index/jalapeno-first-results": "2026-08-25T22:20:28.790Z",
     "https://www.theverge.com/ai-artificial-intelligence/984239/alabama-attorney-general-subpoena-openai-hugging-face-hack": "2026-08-25T22:20:28.790Z",
     "https://openai.com/index/introducing-admin-plugin": "2026-08-25T22:20:28.790Z",
@@ -28,6 +25,11 @@
     "https://www.theverge.com/ai-artificial-intelligence/986438/sony-music-warner-chappell-anthropic-lawsuit-copyright": "2026-08-29T23:49:31.525Z",
     "https://www.theverge.com/entertainment/985866/h4rris-nihil-young-edm-suno-ai": "2026-08-29T23:49:31.525Z",
     "https://www.theverge.com/ai-artificial-intelligence/986176/data-center-pollution-epa-rule-change-air-permit": "2026-08-29T23:49:31.525Z",
-    "https://huggingface.co/blog/open-asr-leaderboard-global-south": "2026-08-29T23:49:31.525Z"
+    "https://huggingface.co/blog/open-asr-leaderboard-global-south": "2026-08-29T23:49:31.525Z",
+    "https://openai.com/index/polimill": "2026-09-01T00:57:04.723Z",
+    "https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa": "2026-09-01T00:57:04.723Z",
+    "https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads": "2026-09-01T00:57:04.723Z",
+    "https://www.theverge.com/tech/986593/instagram-addresses-fake-ai-profile-slop": "2026-09-01T00:57:04.723Z",
+    "https://www.technologyreview.com/2026/08/31/1143180/hugging-face-hack-could-indicate-cultural-issues-at-openai": "2026-09-01T00:57:04.723Z"
   }
 }
