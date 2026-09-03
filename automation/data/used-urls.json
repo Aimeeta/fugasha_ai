@@ -1,12 +1,5 @@
 {
   "urls": {
-    "https://www.technologyreview.com/2026/08/26/1143013/the-inside-story-on-why-openai-agents-hacked-hugging-face": "2026-08-27T02:47:23.538Z",
-    "https://www.theverge.com/tech/985387/nvidia-hundred-billion-dollar-quarterly-revenue": "2026-08-27T02:47:23.538Z",
-    "https://www.technologyreview.com/2026/08/26/1142946/bill-gates-ai-danger-threshold": "2026-08-27T02:47:23.538Z",
-    "https://www.theverge.com/ai-artificial-intelligence/984290/openai-jalapeno-ai-chip-benchmarks": "2026-08-27T02:47:23.538Z",
-    "https://www.theverge.com/tech/985186/google-gemini-3-5-transcribe-audio-ai": "2026-08-27T02:47:23.538Z",
-    "https://openai.com/index/hugging-face-incident-and-the-road-ahead": "2026-08-27T02:47:23.538Z",
-    "https://www.theverge.com/ai-artificial-intelligence/985385/openais-rogue-ai-model-hugging-face-cybersecurity-incident-reports-metr": "2026-08-27T02:47:23.538Z",
     "https://www.theverge.com/ai-artificial-intelligence/985597/jensen-huang-says-nvidia-achieved-senseless-agi": "2026-08-28T05:54:51.699Z",
     "https://www.theverge.com/ai-artificial-intelligence/984923/bill-gates-is-deeply-worried-about-ai-and-hes-no-longer-staying-quiet": "2026-08-28T05:54:51.699Z",
     "https://openai.com/index/bringing-chatgpt-for-teachers-to-more-us-school-districts": "2026-08-28T05:54:51.699Z",
@@ -35,6 +28,15 @@
     "https://www.theverge.com/ai-artificial-intelligence/988742/google-gemini-3-8-flash": "2026-09-02T23:46:07.894Z",
     "https://www.theverge.com/policy/988228/nyc-ai-restrictions-in-schools-chatbot-ban": "2026-09-02T23:46:07.894Z",
     "https://www.theverge.com/tech/988518/amazon-alexa-for-shopping-verify-emails": "2026-09-02T23:46:07.894Z",
-    "https://openai.com/index/atv-big-air-tour": "2026-09-02T23:46:07.894Z"
+    "https://openai.com/index/atv-big-air-tour": "2026-09-02T23:46:07.894Z",
+    "https://www.theverge.com/ai-artificial-intelligence/989601/openai-gpt-6-astra-release": "2026-09-03T23:45:43.820Z",
+    "https://www.theverge.com/tech/985474/nvidia-buying-hugging-face-deal": "2026-09-03T23:45:43.820Z",
+    "https://www.theverge.com/ai-artificial-intelligence/989503/chatgpt-grok-claude-outage-down": "2026-09-03T23:45:43.820Z",
+    "https://www.theverge.com/ai-artificial-intelligence/989435/nvidia-pair-personal-ai-router-home-local-llm-compute-tool-rtx-macbook": "2026-09-03T23:45:43.820Z",
+    "https://www.theverge.com/tech/989508/google-gmail-docs-keep-live-voice-modes-gemini": "2026-09-03T23:45:43.820Z",
+    "https://openai.com/index/safety-overview-gpt-6-astra": "2026-09-03T23:45:43.820Z",
+    "https://openai.com/index/legora-financial-statement-review-with-astra": "2026-09-03T23:45:43.820Z",
+    "https://openai.com/index/playco-game-prototyping-with-astra": "2026-09-03T23:45:43.820Z",
+    "https://www.theverge.com/ai-artificial-intelligence/988334/openai-astra-ai-monitoring-safety": "2026-09-03T23:45:43.820Z"
   }
 }
