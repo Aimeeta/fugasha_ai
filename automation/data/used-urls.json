@@ -1,10 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/tech/985567/google-gemini-notebook-expert-sources-books": "2026-08-29T03:27:54.323Z",
-    "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex": "2026-08-29T03:27:54.323Z",
-    "https://www.theverge.com/ai-artificial-intelligence/985947/anthropic-supply-chain-risk-lawsuit-judge-ruling": "2026-08-29T03:27:54.323Z",
-    "https://www.theverge.com/podcast/985332/openai-greg-brockman-sam-altman-leader-executive-exodus": "2026-08-29T03:27:54.323Z",
-    "https://openai.com/index/what-students-gain-from-chatgpt-critical-thinking-training": "2026-08-29T03:27:54.323Z",
     "https://www.theverge.com/ai-artificial-intelligence/986438/sony-music-warner-chappell-anthropic-lawsuit-copyright": "2026-08-29T23:49:31.525Z",
     "https://www.theverge.com/entertainment/985866/h4rris-nihil-young-edm-suno-ai": "2026-08-29T23:49:31.525Z",
     "https://www.theverge.com/ai-artificial-intelligence/986176/data-center-pollution-epa-rule-change-air-permit": "2026-08-29T23:49:31.525Z",
@@ -37,6 +32,11 @@
     "https://www.theverge.com/ai-artificial-intelligence/990149/openai-rogue-agents-german-wiki": "2026-09-04T23:38:06.831Z",
     "https://openai.com/index/daybreak-for-frontline-defenders": "2026-09-04T23:38:06.831Z",
     "https://www.theverge.com/policy/990267/microsoft-openai-new-york-times-authors-lawsuit": "2026-09-04T23:38:06.831Z",
-    "https://www.theverge.com/ai-artificial-intelligence/989376/ai-generated-food-why-does-it-look-like-that": "2026-09-04T23:38:06.831Z"
+    "https://www.theverge.com/ai-artificial-intelligence/989376/ai-generated-food-why-does-it-look-like-that": "2026-09-04T23:38:06.831Z",
+    "https://www.theverge.com/ai-artificial-intelligence/990773/openai-german-wiki-incident": "2026-09-05T23:30:32.428Z",
+    "https://github.blog/ai-and-ml/github-copilot/project-hydrafusion-frontier-quality-via-multi-model-orchestration": "2026-09-05T23:30:32.428Z",
+    "https://www.theverge.com/ai-artificial-intelligence/989617/instagram-ai-content-label-confusion": "2026-09-05T23:30:32.428Z",
+    "https://www.theverge.com/ai-artificial-intelligence/990197/roland-ai-music-melody-flip": "2026-09-05T23:30:32.428Z",
+    "https://www.theverge.com/news/990051/microsoft-project-zenith-windows-developers": "2026-09-05T23:30:32.428Z"
   }
 }
