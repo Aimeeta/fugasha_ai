@@ -1,15 +1,5 @@
 {
   "urls": {
-    "https://openai.com/index/polimill": "2026-09-01T00:57:04.723Z",
-    "https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa": "2026-09-01T00:57:04.723Z",
-    "https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads": "2026-09-01T00:57:04.723Z",
-    "https://www.theverge.com/tech/986593/instagram-addresses-fake-ai-profile-slop": "2026-09-01T00:57:04.723Z",
-    "https://www.technologyreview.com/2026/08/31/1143180/hugging-face-hack-could-indicate-cultural-issues-at-openai": "2026-09-01T00:57:04.723Z",
-    "https://www.theverge.com/ai-artificial-intelligence/987695/openai-astra-unreleased-model-cybersecurity-delay": "2026-09-01T23:44:21.768Z",
-    "https://www.theverge.com/ai-artificial-intelligence/987830/anthropic-claude-fable-mythos-5-1": "2026-09-01T23:44:21.768Z",
-    "https://www.theverge.com/tech/987575/apple-openai-destroying-evidence-trade-secrets-lawsuit": "2026-09-01T23:44:21.768Z",
-    "https://www.theverge.com/ai-artificial-intelligence/987486/john-deere-jd-ai-chatbot": "2026-09-01T23:44:21.768Z",
-    "https://www.theverge.com/tech/987423/google-pics-ai-image-editor-generator": "2026-09-01T23:44:21.768Z",
     "https://openai.com/index/path-to-astra": "2026-09-02T23:46:07.894Z",
     "https://www.theverge.com/ai-artificial-intelligence/988742/google-gemini-3-8-flash": "2026-09-02T23:46:07.894Z",
     "https://www.theverge.com/policy/988228/nyc-ai-restrictions-in-schools-chatbot-ban": "2026-09-02T23:46:07.894Z",
@@ -36,6 +26,12 @@
     "https://www.theverge.com/news/990051/microsoft-project-zenith-windows-developers": "2026-09-05T23:30:32.428Z",
     "https://openai.com/index/an-alien-mind": "2026-09-06T23:24:11.934Z",
     "https://openai.com/index/research-acceleration-view-inside-openai": "2026-09-06T23:24:11.934Z",
-    "https://www.theverge.com/tech/990006/this-nas-company-wants-to-run-your-local-smart-home": "2026-09-06T23:24:11.934Z"
+    "https://www.theverge.com/tech/990006/this-nas-company-wants-to-run-your-local-smart-home": "2026-09-06T23:24:11.934Z",
+    "https://openai.com/index/navier-stokes-solution": "2026-09-08T23:48:16.897Z",
+    "https://www.theverge.com/ai-artificial-intelligence/991216/meta-bets-on-ai-agent-muse-to-catch-up-in-ai-race": "2026-09-08T23:48:16.897Z",
+    "https://www.theverge.com/tech/991133/adobe-is-trying-to-make-its-ai-generators-idiot-proof-in-premiere": "2026-09-08T23:48:16.897Z",
+    "https://openai.com/index/1password": "2026-09-08T23:48:16.897Z",
+    "https://openai.com/index/introducing-chatgpt-images-2-5": "2026-09-08T23:48:16.897Z",
+    "https://openai.com/index/the-work-now-within-reach": "2026-09-08T23:48:16.897Z"
   }
 }
