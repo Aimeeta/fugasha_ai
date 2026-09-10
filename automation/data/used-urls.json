@@ -1,10 +1,5 @@
 {
   "urls": {
-    "https://openai.com/index/path-to-astra": "2026-09-02T23:46:07.894Z",
-    "https://www.theverge.com/ai-artificial-intelligence/988742/google-gemini-3-8-flash": "2026-09-02T23:46:07.894Z",
-    "https://www.theverge.com/policy/988228/nyc-ai-restrictions-in-schools-chatbot-ban": "2026-09-02T23:46:07.894Z",
-    "https://www.theverge.com/tech/988518/amazon-alexa-for-shopping-verify-emails": "2026-09-02T23:46:07.894Z",
-    "https://openai.com/index/atv-big-air-tour": "2026-09-02T23:46:07.894Z",
     "https://www.theverge.com/ai-artificial-intelligence/989601/openai-gpt-6-astra-release": "2026-09-03T23:45:43.820Z",
     "https://www.theverge.com/tech/985474/nvidia-buying-hugging-face-deal": "2026-09-03T23:45:43.820Z",
     "https://www.theverge.com/ai-artificial-intelligence/989503/chatgpt-grok-claude-outage-down": "2026-09-03T23:45:43.820Z",
@@ -37,6 +32,11 @@
     "https://www.theverge.com/ai-artificial-intelligence/991927/anthropic-ai-kill-all-humans": "2026-09-09T23:45:14.545Z",
     "https://www.theverge.com/ai-artificial-intelligence/990313/anthropic-class-action-lawsuit-pricing-subscription-plans": "2026-09-09T23:45:14.545Z",
     "https://www.theverge.com/ai-artificial-intelligence/991710/openai-navier-stokes-solution": "2026-09-09T23:45:14.545Z",
-    "https://www.theverge.com/tech/992766/apple-iphone-18-pro-reference-image": "2026-09-09T23:45:14.545Z"
+    "https://www.theverge.com/tech/992766/apple-iphone-18-pro-reference-image": "2026-09-09T23:45:14.545Z",
+    "https://openai.com/index/put-data-to-work": "2026-09-10T23:37:42.744Z",
+    "https://openai.com/index/introducing-the-agents-api": "2026-09-10T23:37:42.744Z",
+    "https://www.theverge.com/tech/989853/slackforce-surfaces-launch": "2026-09-10T23:37:42.744Z",
+    "https://openai.com/index/introducing-chatgpt-financial-services": "2026-09-10T23:37:42.744Z",
+    "https://openai.com/index/introducing-gpt-live-1-in-the-api": "2026-09-10T23:37:42.744Z"
   }
 }
