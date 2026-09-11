@@ -1,19 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/ai-artificial-intelligence/989601/openai-gpt-6-astra-release": "2026-09-03T23:45:43.820Z",
-    "https://www.theverge.com/tech/985474/nvidia-buying-hugging-face-deal": "2026-09-03T23:45:43.820Z",
-    "https://www.theverge.com/ai-artificial-intelligence/989503/chatgpt-grok-claude-outage-down": "2026-09-03T23:45:43.820Z",
-    "https://www.theverge.com/ai-artificial-intelligence/989435/nvidia-pair-personal-ai-router-home-local-llm-compute-tool-rtx-macbook": "2026-09-03T23:45:43.820Z",
-    "https://www.theverge.com/tech/989508/google-gmail-docs-keep-live-voice-modes-gemini": "2026-09-03T23:45:43.820Z",
-    "https://openai.com/index/safety-overview-gpt-6-astra": "2026-09-03T23:45:43.820Z",
-    "https://openai.com/index/legora-financial-statement-review-with-astra": "2026-09-03T23:45:43.820Z",
-    "https://openai.com/index/playco-game-prototyping-with-astra": "2026-09-03T23:45:43.820Z",
-    "https://www.theverge.com/ai-artificial-intelligence/988334/openai-astra-ai-monitoring-safety": "2026-09-03T23:45:43.820Z",
-    "https://www.theverge.com/ai-artificial-intelligence/990060/altman-apologizes-messy-astra-rollout": "2026-09-04T23:38:06.831Z",
-    "https://www.theverge.com/ai-artificial-intelligence/990149/openai-rogue-agents-german-wiki": "2026-09-04T23:38:06.831Z",
-    "https://openai.com/index/daybreak-for-frontline-defenders": "2026-09-04T23:38:06.831Z",
-    "https://www.theverge.com/policy/990267/microsoft-openai-new-york-times-authors-lawsuit": "2026-09-04T23:38:06.831Z",
-    "https://www.theverge.com/ai-artificial-intelligence/989376/ai-generated-food-why-does-it-look-like-that": "2026-09-04T23:38:06.831Z",
     "https://www.theverge.com/ai-artificial-intelligence/990773/openai-german-wiki-incident": "2026-09-05T23:30:32.428Z",
     "https://github.blog/ai-and-ml/github-copilot/project-hydrafusion-frontier-quality-via-multi-model-orchestration": "2026-09-05T23:30:32.428Z",
     "https://www.theverge.com/ai-artificial-intelligence/989617/instagram-ai-content-label-confusion": "2026-09-05T23:30:32.428Z",
@@ -37,6 +23,11 @@
     "https://openai.com/index/introducing-the-agents-api": "2026-09-10T23:37:42.744Z",
     "https://www.theverge.com/tech/989853/slackforce-surfaces-launch": "2026-09-10T23:37:42.744Z",
     "https://openai.com/index/introducing-chatgpt-financial-services": "2026-09-10T23:37:42.744Z",
-    "https://openai.com/index/introducing-gpt-live-1-in-the-api": "2026-09-10T23:37:42.744Z"
+    "https://openai.com/index/introducing-gpt-live-1-in-the-api": "2026-09-10T23:37:42.744Z",
+    "https://www.theverge.com/ai-artificial-intelligence/994064/anthropic-spent-this-week-in-hot-water-over-cybersecurity": "2026-09-11T23:46:53.061Z",
+    "https://www.theverge.com/ai-artificial-intelligence/994207/chatgpt-new-mexico-lawyer-fined-murder-appeal": "2026-09-11T23:46:53.061Z",
+    "https://www.theverge.com/tech/993974/meta-ai-prompt-invasive-suggestions": "2026-09-11T23:46:53.061Z",
+    "https://www.theverge.com/ai-artificial-intelligence/993465/universal-music-elevenlabs-ai": "2026-09-11T23:46:53.061Z",
+    "https://www.theverge.com/tech/993391/meta-muse-ai-hands-on": "2026-09-11T23:46:53.061Z"
   }
 }
