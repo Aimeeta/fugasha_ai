@@ -1,10 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/ai-artificial-intelligence/994064/anthropic-spent-this-week-in-hot-water-over-cybersecurity": "2026-09-11T23:46:53.061Z",
-    "https://www.theverge.com/ai-artificial-intelligence/994207/chatgpt-new-mexico-lawyer-fined-murder-appeal": "2026-09-11T23:46:53.061Z",
-    "https://www.theverge.com/tech/993974/meta-ai-prompt-invasive-suggestions": "2026-09-11T23:46:53.061Z",
-    "https://www.theverge.com/ai-artificial-intelligence/993465/universal-music-elevenlabs-ai": "2026-09-11T23:46:53.061Z",
-    "https://www.theverge.com/tech/993391/meta-muse-ai-hands-on": "2026-09-11T23:46:53.061Z",
     "https://www.theverge.com/ai-artificial-intelligence/994337/anthropic-ceo-slow-down-ai-development": "2026-09-12T23:39:38.040Z",
     "https://openai.com/index/perplexity-improving-accuracy-with-astra": "2026-09-12T23:39:38.040Z",
     "https://openai.com/index/cognition-devin-testing-with-astra": "2026-09-12T23:39:38.040Z",
@@ -31,6 +26,11 @@
     "https://www.theverge.com/ai-artificial-intelligence/997134/anthropic-claude-code-projects": "2026-09-17T23:51:34.011Z",
     "https://openai.com/index/astra-for-law": "2026-09-17T23:51:34.011Z",
     "https://openai.com/index/model-misalignment-reporting-framework": "2026-09-17T23:51:34.011Z",
-    "https://www.theverge.com/ai-artificial-intelligence/996775/ai-is-feared-globally-as-the-destroyer-of-jobs": "2026-09-17T23:51:34.011Z"
+    "https://www.theverge.com/ai-artificial-intelligence/996775/ai-is-feared-globally-as-the-destroyer-of-jobs": "2026-09-17T23:51:34.011Z",
+    "https://www.theverge.com/policy/997516/california-governor-newsom-ai-kill-switch": "2026-09-18T23:48:36.649Z",
+    "https://www.theverge.com/policy/997573/virginia-governor-spanberger-data-center-ai-task-force": "2026-09-18T23:48:36.649Z",
+    "https://www.theverge.com/ai-artificial-intelligence/997444/openai-hack-claude-heif-heist": "2026-09-18T23:48:36.649Z",
+    "https://www.theverge.com/ai-artificial-intelligence/996923/ai-safety-slow-openai-anthropic": "2026-09-18T23:48:36.649Z",
+    "https://openai.com/index/cooley-gopublic": "2026-09-18T23:48:36.649Z"
   }
 }
