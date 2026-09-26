@@ -1,10 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/policy/997516/california-governor-newsom-ai-kill-switch": "2026-09-18T23:48:36.649Z",
-    "https://www.theverge.com/policy/997573/virginia-governor-spanberger-data-center-ai-task-force": "2026-09-18T23:48:36.649Z",
-    "https://www.theverge.com/ai-artificial-intelligence/997444/openai-hack-claude-heif-heist": "2026-09-18T23:48:36.649Z",
-    "https://www.theverge.com/ai-artificial-intelligence/996923/ai-safety-slow-openai-anthropic": "2026-09-18T23:48:36.649Z",
-    "https://openai.com/index/cooley-gopublic": "2026-09-18T23:48:36.649Z",
     "https://www.theverge.com/ai-artificial-intelligence/997795/google-gemini-rogue-ai-hack": "2026-09-19T23:51:10.588Z",
     "https://www.theverge.com/ai-artificial-intelligence/997633/openai-microsoft-chatgpt-ai-new-york-times-doom-loop-theft-google-zero": "2026-09-19T23:51:10.588Z",
     "https://www.theverge.com/ai-artificial-intelligence/997706/the-ai-regulation-smackdown-isnt-over": "2026-09-19T23:51:10.588Z",
@@ -24,6 +19,11 @@
     "https://www.theverge.com/ai-artificial-intelligence/1000222/meta-muse-ai-filesystem": "2026-09-25T00:12:34.340Z",
     "https://www.theverge.com/tech/1000328/google-gemini-ai-live-avatar-face": "2026-09-25T00:12:34.340Z",
     "https://www.theverge.com/games/999972/meta-horizon-create-studio-ai-games": "2026-09-25T00:12:34.340Z",
-    "https://openai.com/index/invideo-builds-with-gpt-6-astra": "2026-09-25T00:12:34.340Z"
+    "https://openai.com/index/invideo-builds-with-gpt-6-astra": "2026-09-25T00:12:34.340Z",
+    "https://www.theverge.com/news/1000532/microsoft-copilot-super-app-chat-coding-autopilot": "2026-09-26T00:19:45.399Z",
+    "https://openai.com/index/proaction": "2026-09-26T00:19:45.399Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1000644/irregular-rogue-ai-cyberattacks-hacking-openai-meta-anthropic-google": "2026-09-26T00:19:45.399Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1000758/suno-sony-umg-lawsuit-ai-music": "2026-09-26T00:19:45.399Z",
+    "https://github.blog/ai-and-ml/github-copilot/github-copilot-app-for-beginners-how-to-build-custom-workflows-with-canvases": "2026-09-26T00:19:45.399Z"
   }
 }
