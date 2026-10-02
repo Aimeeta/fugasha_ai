@@ -1,10 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/ai-artificial-intelligence/1000116/google-gemini-business-phone-calls": "2026-09-25T00:12:34.340Z",
-    "https://www.theverge.com/ai-artificial-intelligence/1000222/meta-muse-ai-filesystem": "2026-09-25T00:12:34.340Z",
-    "https://www.theverge.com/tech/1000328/google-gemini-ai-live-avatar-face": "2026-09-25T00:12:34.340Z",
-    "https://www.theverge.com/games/999972/meta-horizon-create-studio-ai-games": "2026-09-25T00:12:34.340Z",
-    "https://openai.com/index/invideo-builds-with-gpt-6-astra": "2026-09-25T00:12:34.340Z",
     "https://www.theverge.com/news/1000532/microsoft-copilot-super-app-chat-coding-autopilot": "2026-09-26T00:19:45.399Z",
     "https://openai.com/index/proaction": "2026-09-26T00:19:45.399Z",
     "https://www.theverge.com/ai-artificial-intelligence/1000644/irregular-rogue-ai-cyberattacks-hacking-openai-meta-anthropic-google": "2026-09-26T00:19:45.399Z",
@@ -28,6 +23,12 @@
     "https://openai.com/index/helping-small-businesses-put-ai-to-work": "2026-10-01T00:59:49.944Z",
     "https://www.theverge.com/ai-artificial-intelligence/1002584/trump-us-ai-safety-deal-self-regulation-tech-execs": "2026-10-01T00:59:49.944Z",
     "https://www.technologyreview.com/2026/09/30/1145339/were-not-going-to-shoot-ourselves-in-the-foot-over-hugging-face-says-openais-chief-research-officer": "2026-10-01T00:59:49.944Z",
-    "https://www.theverge.com/tech/1002665/google-paying-publishers-ai-search-features": "2026-10-01T00:59:49.944Z"
+    "https://www.theverge.com/tech/1002665/google-paying-publishers-ai-search-features": "2026-10-01T00:59:49.944Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1003399/meta-openai-ai-agents-muse-dots-battle": "2026-10-02T01:15:12.695Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1002636/ai-execs-trump-self-policing-deal-comments": "2026-10-02T01:15:12.695Z",
+    "https://openai.com/index/disrupting-a-coordinated-model-distillation-campaign": "2026-10-02T01:15:12.695Z",
+    "https://www.theverge.com/tech/1003589/google-ai-overviews-chegg-penske-lawsuits-dismissed": "2026-10-02T01:15:12.695Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1003756/google-gemini-live-guided-vision": "2026-10-02T01:15:12.695Z",
+    "https://openai.com/index/the-den-family-social": "2026-10-02T01:15:12.695Z"
   }
 }
