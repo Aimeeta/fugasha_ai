@@ -1,10 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/tech/1002980/google-gemini-4-argon": "2026-10-01T00:59:49.944Z",
-    "https://openai.com/index/helping-small-businesses-put-ai-to-work": "2026-10-01T00:59:49.944Z",
-    "https://www.theverge.com/ai-artificial-intelligence/1002584/trump-us-ai-safety-deal-self-regulation-tech-execs": "2026-10-01T00:59:49.944Z",
-    "https://www.technologyreview.com/2026/09/30/1145339/were-not-going-to-shoot-ourselves-in-the-foot-over-hugging-face-says-openais-chief-research-officer": "2026-10-01T00:59:49.944Z",
-    "https://www.theverge.com/tech/1002665/google-paying-publishers-ai-search-features": "2026-10-01T00:59:49.944Z",
     "https://www.theverge.com/ai-artificial-intelligence/1003399/meta-openai-ai-agents-muse-dots-battle": "2026-10-02T01:15:12.695Z",
     "https://www.theverge.com/ai-artificial-intelligence/1002636/ai-execs-trump-self-policing-deal-comments": "2026-10-02T01:15:12.695Z",
     "https://openai.com/index/disrupting-a-coordinated-model-distillation-campaign": "2026-10-02T01:15:12.695Z",
@@ -34,6 +29,12 @@
     "https://openai.com/index/atlassian-partnership": "2026-10-07T01:10:59.671Z",
     "https://openai.com/index/new-chatgpt-ads-format-and-measurement": "2026-10-07T01:10:59.671Z",
     "https://openai.com/index/advancing-computer-use-with-ironclad": "2026-10-07T01:10:59.671Z",
-    "https://openai.com/index/eu-text-provenance": "2026-10-07T01:10:59.671Z"
+    "https://openai.com/index/eu-text-provenance": "2026-10-07T01:10:59.671Z",
+    "https://openai.com/index/gpt-6-for-everyone": "2026-10-08T01:29:20.566Z",
+    "https://www.theverge.com/tech/1007113/microsoft-windows-copilot-ai-control-search-hybrid-intelligence": "2026-10-08T01:29:20.566Z",
+    "https://openai.com/index/sharing-ai-progress-in-mathematics": "2026-10-08T01:29:20.566Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1005726/doordash-ai-agentic-food-delivery-bites": "2026-10-08T01:29:20.566Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1006355/openai-chatgpt-for-teens-common-sense-media": "2026-10-08T01:29:20.566Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1007276/openai-chatgpt-intelligent-ui-gpt-6": "2026-10-08T01:29:20.566Z"
   }
 }
