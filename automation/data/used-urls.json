@@ -1,10 +1,5 @@
 {
   "urls": {
-    "https://openai.com/index/practical-guide-building-gpt-6": "2026-10-03T00:52:48.398Z",
-    "https://www.theverge.com/tech/1004295/apple-limit-mac-disk-access-ai-agents": "2026-10-03T00:52:48.398Z",
-    "https://www.theverge.com/report/1002963/ai-hallucinations-customer-service-jobs-agents": "2026-10-03T00:52:48.398Z",
-    "https://www.theverge.com/ai-artificial-intelligence/1003925/suno-speech-ai-voice-feature-beta-availability": "2026-10-03T00:52:48.398Z",
-    "https://www.technologyreview.com/2026/10/02/1145639/dont-be-fooled-llms-dont-reason": "2026-10-03T00:52:48.398Z",
     "https://www.theverge.com/ai-artificial-intelligence/1004408/openai-safety-quits-sounding-the-alarm": "2026-10-04T00:18:01.588Z",
     "https://www.technologyreview.com/2026/10/02/1143774/redefining-enterprise-intelligence-with-autonomous-ai": "2026-10-04T00:18:01.588Z",
     "https://www.theverge.com/ai-artificial-intelligence/1004096/openai-chatgpt-dots-hands-on-agent": "2026-10-04T00:18:01.588Z",
@@ -34,6 +29,14 @@
     "https://www.theverge.com/tech/1007985/google-ai-notetaking-app-transcribe-offline": "2026-10-09T01:37:52.572Z",
     "https://www.theverge.com/ai-artificial-intelligence/1008198/usa-today-openai-copyright-lawsuit": "2026-10-09T01:37:52.572Z",
     "https://www.theverge.com/ai-artificial-intelligence/1008521/anthropic-open-source-oss-scanner": "2026-10-09T01:37:52.572Z",
-    "https://www.technologyreview.com/2026/10/08/1144020/building-a-safer-path-to-autonomous-industrial-ai": "2026-10-09T01:37:52.572Z"
+    "https://www.technologyreview.com/2026/10/08/1144020/building-a-safer-path-to-autonomous-industrial-ai": "2026-10-09T01:37:52.572Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1008726/openai-mathematics-solutions-chaos": "2026-10-10T01:27:03.784Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1009090/anthropic-fake-homicide-information-philadelphia-pd-tip": "2026-10-10T01:27:03.784Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1008604/openai-defends-decision-fire-safety-researchers": "2026-10-10T01:27:03.784Z",
+    "https://openai.com/index/sophos": "2026-10-10T01:27:03.784Z",
+    "https://www.technologyreview.com/2026/10/08/1145923/ai-breakthroughs-in-robotics-wont-change-your-life-any-time-soon": "2026-10-10T01:27:03.784Z",
+    "https://openai.com/index/legalon-halves-codex-costs": "2026-10-10T01:27:03.784Z",
+    "https://openai.com/index/asana-browser-agent": "2026-10-10T01:27:03.784Z",
+    "https://openai.com/index/oracle": "2026-10-10T01:27:03.784Z"
   }
 }

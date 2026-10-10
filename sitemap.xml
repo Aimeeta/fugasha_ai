@@ -1086,4 +1086,25 @@
     <priority>0.5</priority>
   </url>
 
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-10-10-legalon-codex-cost-model-selection/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-10-10-anthropic-ai-false-tip-police-lesson/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-10-10/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
 </urlset>
