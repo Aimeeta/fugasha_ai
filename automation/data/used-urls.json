@@ -1,10 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/tech/1007904/google-gemini-ai-agent-enterprise": "2026-10-09T01:37:52.572Z",
-    "https://www.theverge.com/tech/1007985/google-ai-notetaking-app-transcribe-offline": "2026-10-09T01:37:52.572Z",
-    "https://www.theverge.com/ai-artificial-intelligence/1008198/usa-today-openai-copyright-lawsuit": "2026-10-09T01:37:52.572Z",
-    "https://www.theverge.com/ai-artificial-intelligence/1008521/anthropic-open-source-oss-scanner": "2026-10-09T01:37:52.572Z",
-    "https://www.technologyreview.com/2026/10/08/1144020/building-a-safer-path-to-autonomous-industrial-ai": "2026-10-09T01:37:52.572Z",
     "https://www.theverge.com/ai-artificial-intelligence/1008726/openai-mathematics-solutions-chaos": "2026-10-10T01:27:03.784Z",
     "https://www.theverge.com/ai-artificial-intelligence/1009090/anthropic-fake-homicide-information-philadelphia-pd-tip": "2026-10-10T01:27:03.784Z",
     "https://www.theverge.com/ai-artificial-intelligence/1008604/openai-defends-decision-fire-safety-researchers": "2026-10-10T01:27:03.784Z",
@@ -35,6 +30,11 @@
     "https://openai.com/index/sentinelone": "2026-10-16T00:01:18.746Z",
     "https://www.theverge.com/news/1012293/meta-apple-muse-spark-open-ai-model-mlx": "2026-10-16T00:01:18.746Z",
     "https://www.theverge.com/report/1011927/instagram-celebrity-ai-slop-likeness-taylor-swift-mia-goth": "2026-10-16T00:01:18.746Z",
-    "https://openai.com/index/block-ai-powered-security": "2026-10-16T00:01:18.746Z"
+    "https://openai.com/index/block-ai-powered-security": "2026-10-16T00:01:18.746Z",
+    "https://www.theverge.com/tech/1012846/meta-business-terms-scrape-news-publishers": "2026-10-17T00:06:35.619Z",
+    "https://openai.com/index/stack-overflow-chatgpt-plugin": "2026-10-17T00:06:35.619Z",
+    "https://huggingface.co/blog/reflection-beam": "2026-10-17T00:06:35.619Z",
+    "https://www.theverge.com/tech/1011938/muse-ai-data-friends-consent": "2026-10-17T00:06:35.619Z",
+    "https://openai.com/index/itau-generative-ai": "2026-10-17T00:06:35.619Z"
   }
 }
