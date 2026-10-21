@@ -1198,4 +1198,25 @@
     <priority>0.5</priority>
   </url>
 
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-10-21-chatgpt-work-franchise-cash-reconciliation/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-10-21-enterprise-ai-economics-efficiency/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-10-21/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
 </urlset>
