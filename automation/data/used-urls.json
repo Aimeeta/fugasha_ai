@@ -1,10 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/tech/1012846/meta-business-terms-scrape-news-publishers": "2026-10-17T00:06:35.619Z",
-    "https://openai.com/index/stack-overflow-chatgpt-plugin": "2026-10-17T00:06:35.619Z",
-    "https://huggingface.co/blog/reflection-beam": "2026-10-17T00:06:35.619Z",
-    "https://www.theverge.com/tech/1011938/muse-ai-data-friends-consent": "2026-10-17T00:06:35.619Z",
-    "https://openai.com/index/itau-generative-ai": "2026-10-17T00:06:35.619Z",
     "https://www.theverge.com/ai-artificial-intelligence/1013195/ai-agents-blocked-web": "2026-10-17T23:42:38.696Z",
     "https://www.theverge.com/tech/1013409/meta-removes-language-that-may-have-allowed-it-to-scrape-news-sites": "2026-10-17T23:42:38.696Z",
     "https://openai.com/index/benefit-street-partners": "2026-10-17T23:42:38.696Z",
@@ -29,6 +24,12 @@
     "https://openai.com/index/uber-chatgpt-work-rollout": "2026-10-23T00:20:45.003Z",
     "https://www.theverge.com/ai-artificial-intelligence/1017151/canva-craft-in-house-ai-model": "2026-10-23T00:20:45.003Z",
     "https://www.theverge.com/tech/1017066/meta-muse-sharing-back-on-artifiacts": "2026-10-23T00:20:45.003Z",
-    "https://www.theverge.com/policy/1016585/openai-anthropic-nvidia-lobbying-records": "2026-10-23T00:20:45.003Z"
+    "https://www.theverge.com/policy/1016585/openai-anthropic-nvidia-lobbying-records": "2026-10-23T00:20:45.003Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1018021/openai-training-top-ai-models-no-internet": "2026-10-24T00:12:01.516Z",
+    "https://www.theverge.com/tech/1017600/google-personal-intelligence-privacy-policy-ads-update": "2026-10-24T00:12:01.516Z",
+    "https://www.theverge.com/tech/1017082/meta-terms-update-ai-training-concerns": "2026-10-24T00:12:01.516Z",
+    "https://openai.com/index/decisions-api": "2026-10-24T00:12:01.516Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1017906/jack-dorsey-block-dessa-ai-voice-speech": "2026-10-24T00:12:01.516Z",
+    "https://www.technologyreview.com/2026/10/22/1146948/ais-hidden-storage-bill-what-inference-leaves-behind": "2026-10-24T00:12:01.516Z"
   }
 }
