@@ -1282,4 +1282,25 @@
     <priority>0.5</priority>
   </url>
 
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-10-26-google-ai-search-publishing-impact/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-10-26-opensource-community-ai-ban/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://aimeeta.github.io/fugasha_ai/blog/ai-daily/2026-10-26/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
 </urlset>
