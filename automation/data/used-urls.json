@@ -1,11 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/ai-artificial-intelligence/1018021/openai-training-top-ai-models-no-internet": "2026-10-24T00:12:01.516Z",
-    "https://www.theverge.com/tech/1017600/google-personal-intelligence-privacy-policy-ads-update": "2026-10-24T00:12:01.516Z",
-    "https://www.theverge.com/tech/1017082/meta-terms-update-ai-training-concerns": "2026-10-24T00:12:01.516Z",
-    "https://openai.com/index/decisions-api": "2026-10-24T00:12:01.516Z",
-    "https://www.theverge.com/ai-artificial-intelligence/1017906/jack-dorsey-block-dessa-ai-voice-speech": "2026-10-24T00:12:01.516Z",
-    "https://www.technologyreview.com/2026/10/22/1146948/ais-hidden-storage-bill-what-inference-leaves-behind": "2026-10-24T00:12:01.516Z",
     "https://www.theverge.com/ai-artificial-intelligence/1018187/pennsylvania-ai-deceptive-advertising-act": "2026-10-24T23:56:25.524Z",
     "https://www.theverge.com/tech/1017450/meta-business-terms-delayed-ai-scraping": "2026-10-24T23:56:25.524Z",
     "https://openai.com/index/scaling-storage-one-billion-users-part-two": "2026-10-24T23:56:25.524Z",
@@ -33,6 +27,11 @@
     "https://www.theverge.com/podcast/1021322/anthropic-ipo-filing-s-1-claude-semianalysis-joey-brookhart-interview": "2026-10-30T01:30:07.231Z",
     "https://www.theverge.com/ai-artificial-intelligence/1022519/google-gemini-file-editing-documents-pdfs": "2026-10-30T01:30:07.231Z",
     "https://www.technologyreview.com/2026/10/29/1147824/monitor-ai-agents-actions-real-time": "2026-10-30T01:30:07.231Z",
-    "https://huggingface.co/blog/mistral-large4": "2026-10-30T01:30:07.231Z"
+    "https://huggingface.co/blog/mistral-large4": "2026-10-30T01:30:07.231Z",
+    "https://www.theverge.com/tech/1023763/openai-google-microsoft-ai-scraping-standard-opt-out": "2026-10-31T01:20:43.129Z",
+    "https://www.theverge.com/policy/1022880/wikipedia-openai-new-york-times-copyright": "2026-10-31T01:20:43.129Z",
+    "https://www.theverge.com/ai-artificial-intelligence/1023440/starbucks-ai-personalized-menu-drive-thru": "2026-10-31T01:20:43.129Z",
+    "https://openai.com/index/ropes-gray-ai-diligence": "2026-10-31T01:20:43.129Z",
+    "https://openai.com/index/community-safety-report-and-new-protections-for-teens": "2026-10-31T01:20:43.129Z"
   }
 }
