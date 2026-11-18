@@ -1,11 +1,5 @@
 {
   "urls": {
-    "https://www.theverge.com/ai-artificial-intelligence/1030787/google-gemini-4-carbon-public-rollout": "2026-11-11T01:39:21.044Z",
-    "https://www.theverge.com/ai-artificial-intelligence/1030703/anthropic-ipo-1-4-trillion": "2026-11-11T01:39:21.044Z",
-    "https://openai.com/index/introducing-businesses-chatgpt": "2026-11-11T01:39:21.044Z",
-    "https://www.theverge.com/tech/1030593/adobe-max-ai-agents-mcp-firefly-assistant-updates": "2026-11-11T01:39:21.044Z",
-    "https://openai.com/index/ai-effect-on-freelance-work": "2026-11-11T01:39:21.044Z",
-    "https://www.theverge.com/ai-artificial-intelligence/1030552/openai-chatgpt-business-agents-hub": "2026-11-11T01:39:21.044Z",
     "https://www.theverge.com/ai-artificial-intelligence/1030709/anthropic-has-its-own-ai-powered-office-suite-now": "2026-11-12T02:39:56.377Z",
     "https://www.theverge.com/tech/1030838/ebay-ai-agents-meta-muse-agentic-shopping": "2026-11-12T02:39:56.377Z",
     "https://www.theverge.com/ai-artificial-intelligence/1031623/united-unauthorized-ai-agents": "2026-11-12T02:39:56.377Z",
@@ -26,6 +20,11 @@
     "https://www.theverge.com/ai-artificial-intelligence/1034668/data-centers-electricity-climate-pollution-study-harvard": "2026-11-17T04:17:03.689Z",
     "https://www.technologyreview.com/2026/11/16/1146070/building-ai-that-can-work-across-the-enterprise": "2026-11-17T04:17:03.689Z",
     "https://openai.com/index/more-ways-to-move-care-forward-with-chatgpt-for-healthcare": "2026-11-17T04:17:03.689Z",
-    "https://www.technologyreview.com/2026/11/16/1148565/building-trustworthy-ai-by-fencing-it-in-not-predicting-it": "2026-11-17T04:17:03.689Z"
+    "https://www.technologyreview.com/2026/11/16/1148565/building-trustworthy-ai-by-fencing-it-in-not-predicting-it": "2026-11-17T04:17:03.689Z",
+    "https://openai.com/index/introducing-gpt-6-2-astra-sol": "2026-11-18T03:16:42.497Z",
+    "https://openai.com/index/introducing-chatgpt-for-sales": "2026-11-18T03:16:42.497Z",
+    "https://www.theverge.com/tech/1035756/google-spark-ai-tasks-free": "2026-11-18T03:16:42.497Z",
+    "https://openai.com/business/customer-stories/revolut": "2026-11-18T03:16:42.497Z",
+    "https://www.theverge.com/tech/1035420/jensen-huang-nvidia-return-as-ceo-statement": "2026-11-18T03:16:42.497Z"
   }
 }
